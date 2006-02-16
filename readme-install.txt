@@ -8,7 +8,7 @@ pagenavi.php
 ------------------------------------------------------------------
 
 
-// Activate the pagenavi plugin
+// Activate WP-PageNavi plugin
 
 
 // Open wp-content/themes/<YOUR THEME NAME>/footer.php
