@@ -3,7 +3,7 @@
 Plugin Name: WP-PageNavi
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Adds a more advanced page navigation to Wordpress.
-Version: 2.0
+Version: 2.01
 Author: GaMerZ
 Author URI: http://www.lesterchan.net
 */
@@ -42,25 +42,27 @@ function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&r
 		if(empty($paged)) {
 			$paged = 1;
 		}
-		echo "$before Pages ($max_page): <b>";
-		if ($paged >= 4) {
-			echo '<a href="'.get_pagenum_link().'">&laquo; First</a> ... ';
-		}
-		previous_posts_link($prelabel);
-		for($i = $paged - 2 ; $i  <= $paged +2; $i++) {
-			if ($i >= 1 && $i <= $max_page) {
-				if($i == $paged) {
-					echo "[$i]";
-				} else {
-					echo ' <a href="'.get_pagenum_link($i).'">'.$i.'</a> ';
+		if($max_page > 1) {
+			echo "$before Pages ($max_page): <b>";
+			if ($paged >= 4) {
+				echo '<a href="'.get_pagenum_link().'">&laquo; First</a> ... ';
+			}
+			previous_posts_link($prelabel);
+			for($i = $paged - 2 ; $i  <= $paged +2; $i++) {
+				if ($i >= 1 && $i <= $max_page) {
+					if($i == $paged) {
+						echo "[$i]";
+					} else {
+						echo ' <a href="'.get_pagenum_link($i).'">'.$i.'</a> ';
+					}
 				}
 			}
+			next_posts_link($nxtlabel, $max_page);
+			if (($paged+2) < ($max_page)) {
+				echo ' ... <a href="'.get_pagenum_link($max_page).'">Last &raquo;</a>';
+			}
+			echo "$after</b>";
 		}
-		next_posts_link($nxtlabel, $max_page);
-		if (($paged+2) < ($max_page)) {
-			echo ' ... <a href="'.get_pagenum_link($max_page).'">Last &raquo;</a>';
-		}
-		echo "$after</b>";
 	}
 }
 ?>
