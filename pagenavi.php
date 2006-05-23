@@ -27,7 +27,7 @@ Author URI: http://www.lesterchan.net
 */
 
 
-### Function: Page Navigation
+### Function: Page Navigation: Normal Paging
 function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&raquo;') {
 	global $request, $posts_per_page, $wpdb, $paged;
 	if (!is_single()) {
@@ -63,6 +63,34 @@ function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&r
 			}
 			echo "$after</b>";
 		}
+	}
+}
+
+
+### Function: Page Navigation: Drop Down Menu
+function wp_pagenavi_dropdown() {
+	global $request, $posts_per_page, $wpdb, $paged;
+	if (!is_single()) {
+		if (get_query_var('what_to_show') == 'posts') {
+			preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);
+			$fromwhere = $matches[1];
+			$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
+			$max_page = ceil($numposts /$posts_per_page);
+		} else {
+			$max_page = 999999;
+		}
+		if(empty($paged)) {
+			$paged = 1;
+		}
+		echo '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">."\n";
+		for($i = 1 ; $i  <= $max_page; $i++) {
+			if($i == $paged) {
+				echo "<option value=\"".get_pagenum_link($i)."\" selected=\"selected\">Page: $i</option>\n";
+			} else {
+				echo "<option value=\"".get_pagenum_link($i)."\">Page: $i</option>\n";
+			}
+		}
+		echo "</select>\n";
 	}
 }
 ?>
