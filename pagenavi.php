@@ -3,13 +3,13 @@
 Plugin Name: WP-PageNavi
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Adds a more advanced page navigation to Wordpress.
-Version: 2.01
+Version: 2.02
 Author: GaMerZ
 Author URI: http://www.lesterchan.net
 */
 
 
-/*  Copyright 2005  Lester Chan  (email : gamerz84@hotmail.com)
+/*  Copyright 2006  Lester Chan  (email : gamerz84@hotmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,8 @@ Author URI: http://www.lesterchan.net
 ### Function: Page Navigation: Normal Paging
 function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&raquo;') {
 	global $request, $posts_per_page, $wpdb, $paged;
+	$pages_to_show = 5;
+	$half_pages_to_show = round($pages_to_show/2);
 	if (!is_single()) {
 		if (get_query_var('what_to_show') == 'posts') {
 			preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);
@@ -41,14 +43,14 @@ function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&r
 		}
 		if(empty($paged)) {
 			$paged = 1;
-		}
+		}		
 		if($max_page > 1) {
 			echo "$before Pages ($max_page): <b>";
-			if ($paged >= 4) {
+			if ($paged >= ($pages_to_show-1)) {
 				echo '<a href="'.get_pagenum_link().'">&laquo; First</a> ... ';
 			}
 			previous_posts_link($prelabel);
-			for($i = $paged - 2 ; $i  <= $paged +2; $i++) {
+			for($i = $paged - $half_pages_to_show; $i  <= $paged + $half_pages_to_show; $i++) {
 				if ($i >= 1 && $i <= $max_page) {
 					if($i == $paged) {
 						echo "[$i]";
@@ -58,7 +60,7 @@ function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&r
 				}
 			}
 			next_posts_link($nxtlabel, $max_page);
-			if (($paged+2) < ($max_page)) {
+			if (($paged+$half_pages_to_show) < ($max_page)) {
 				echo ' ... <a href="'.get_pagenum_link($max_page).'">Last &raquo;</a>';
 			}
 			echo "$after</b>";
@@ -82,8 +84,9 @@ function wp_pagenavi_dropdown() {
 		if(empty($paged)) {
 			$paged = 1;
 		}
-		echo '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">."\n";
-		for($i = 1 ; $i  <= $max_page; $i++) {
+		echo '<form action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="get">'."\n";
+		echo '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">'."\n";
+		for($i = 1; $i  <= $max_page; $i++) {
 			if($i == $paged) {
 				echo "<option value=\"".get_pagenum_link($i)."\" selected=\"selected\">Page: $i</option>\n";
 			} else {
@@ -91,6 +94,7 @@ function wp_pagenavi_dropdown() {
 			}
 		}
 		echo "</select>\n";
+		echo "</form>\n";
 	}
 }
 ?>
