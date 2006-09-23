@@ -45,7 +45,7 @@ function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&r
 			$paged = 1;
 		}		
 		if($max_page > 1) {
-			echo "$before Pages ($max_page): <b>";
+			echo "$before Pages ($max_page): <strong>";
 			if ($paged >= ($pages_to_show-1)) {
 				echo '<a href="'.get_pagenum_link().'">&laquo; First</a> ... ';
 			}
@@ -63,7 +63,7 @@ function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&r
 			if (($paged+$half_pages_to_show) < ($max_page)) {
 				echo ' ... <a href="'.get_pagenum_link($max_page).'">Last &raquo;</a>';
 			}
-			echo "$after</b>";
+			echo "$after</strong>";
 		}
 	}
 }
