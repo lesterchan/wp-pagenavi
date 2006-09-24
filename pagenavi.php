@@ -34,8 +34,8 @@ function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&r
 	$half_pages_to_show = round($pages_to_show/2);
 	if (!is_single()) {
 		if (get_query_var('what_to_show') == 'posts') {
-			//preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);
-			preg_match('#FROM\s(.*)\sORDER BY#siU', $request, $matches);
+			preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);
+			//preg_match('#FROM\s(.*)\sORDER BY#siU', $request, $matches);
 			$fromwhere = $matches[1];
 			$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
 			$max_page = ceil($numposts /$posts_per_page);
@@ -75,8 +75,8 @@ function wp_pagenavi_dropdown() {
 	global $request, $posts_per_page, $wpdb, $paged;
 	if (!is_single()) {
 		if (get_query_var('what_to_show') == 'posts') {
-			//preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);
-			preg_match('#FROM\s(.*)\sORDER BY#siU', $request, $matches);
+			preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);
+			//preg_match('#FROM\s(.*)\sORDER BY#siU', $request, $matches);
 			$fromwhere = $matches[1];
 			$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
 			$max_page = ceil($numposts /$posts_per_page);
