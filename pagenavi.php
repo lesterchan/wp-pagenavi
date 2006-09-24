@@ -34,6 +34,7 @@ function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&r
 	$half_pages_to_show = round($pages_to_show/2);
 	if (!is_single()) {
 		if (get_query_var('what_to_show') == 'posts') {
+			//preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);
 			preg_match('#FROM\s(.*)\sORDER BY#siU', $request, $matches);
 			$fromwhere = $matches[1];
 			$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
@@ -43,9 +44,9 @@ function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&r
 		}
 		if(empty($paged)) {
 			$paged = 1;
-		}		
+		}
 		if($max_page > 1) {
-			echo "$before Pages ($max_page): <strong>";
+			echo "$before Pages ($max_page): <b>";
 			if ($paged >= ($pages_to_show-1)) {
 				echo '<a href="'.get_pagenum_link().'">&laquo; First</a> ... ';
 			}
@@ -63,7 +64,7 @@ function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&r
 			if (($paged+$half_pages_to_show) < ($max_page)) {
 				echo ' ... <a href="'.get_pagenum_link($max_page).'">Last &raquo;</a>';
 			}
-			echo "$after</strong>";
+			echo "$after</b>";
 		}
 	}
 }
@@ -74,6 +75,7 @@ function wp_pagenavi_dropdown() {
 	global $request, $posts_per_page, $wpdb, $paged;
 	if (!is_single()) {
 		if (get_query_var('what_to_show') == 'posts') {
+			//preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);
 			preg_match('#FROM\s(.*)\sORDER BY#siU', $request, $matches);
 			$fromwhere = $matches[1];
 			$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
@@ -84,17 +86,23 @@ function wp_pagenavi_dropdown() {
 		if(empty($paged)) {
 			$paged = 1;
 		}
-		echo '<form action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="get">'."\n";
-		echo '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">'."\n";
-		for($i = 1; $i  <= $max_page; $i++) {
-			if($i == $paged) {
-				echo "<option value=\"".get_pagenum_link($i)."\" selected=\"selected\">Page: $i</option>\n";
-			} else {
-				echo "<option value=\"".get_pagenum_link($i)."\">Page: $i</option>\n";
+		if($max_page > 1) {
+			echo '<form action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="get">'."\n";
+			echo '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">'."\n";
+			for($i = 1; $i  <= $max_page; $i++) {
+				$page_num = $i;
+				if($page_num == 1) {
+					$page_num = 0;
+				}
+				if($i == $paged) {
+					echo "<option value=\"".get_pagenum_link($page_num)."\" selected=\"selected\">Page: $i</option>\n";
+				} else {
+					echo "<option value=\"".get_pagenum_link($page_num)."\">Page: $i</option>\n";
+				}
 			}
+			echo "</select>\n";
+			echo "</form>\n";
 		}
-		echo "</select>\n";
-		echo "</form>\n";
 	}
 }
 ?>
