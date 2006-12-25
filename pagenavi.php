@@ -64,7 +64,7 @@ function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&r
 			if (($paged+$half_pages_to_show) < ($max_page)) {
 				echo ' ... <a href="'.get_pagenum_link($max_page).'">Last &raquo;</a>';
 			}
-			echo "$after</b>";
+			echo "</b>$after";
 		}
 	}
 }
