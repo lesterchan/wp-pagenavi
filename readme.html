@@ -2,7 +2,7 @@
 <html>
 <head>	
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>WP-PageNavi 2.03 Readme</title>
+	<title>WP-PageNavi 2.10 Readme</title>
 	<style type="text/css" media="screen">
 		/* Default Style */
 		BODY {
@@ -180,7 +180,7 @@
 <body>
 <div id="Container">
 	<!-- Title -->
-	<div id="Title">WP-PageNavi 2.03&nbsp;&nbsp;&nbsp;<span style="color: #aaaaaa;">Readme</span></div>
+	<div id="Title">WP-PageNavi 2.10&nbsp;&nbsp;&nbsp;<span style="color: #aaaaaa;">Readme</span></div>
 
 	<!-- Tabs -->
 	<ul id="Tabs">
@@ -201,18 +201,26 @@
 				<b>EMail:</b><br /><b>&raquo;</b>
 				<script type="text/javascript">
 					/* <![CDATA[*/
-					document.write(' <a href="mailto:gamerz84@hotmail.com?Subject=WP-PageNavi%202.03%20Support" title="EMail To gamerz84@hotmail.com">gamerz84@hotmail.com</a>');
+					document.write(' <a href="mailto:gamerz84@hotmail.com?Subject=WP-PageNavi%202.10%20Support" title="EMail To gamerz84@hotmail.com">gamerz84@hotmail.com</a>');
 					/* ]]> */
 				</script>
 			</p>
 			<p><b>Website:</b><br /><b>&raquo;</b> <a href="http://www.lesterchan.net/" title="http://www.lesterchan.net/">http://www.lesterchan.net/</a></p>
-			<p><b>Demo:</b><br /><b>&raquo;</b> <a href="http://www.lesterchan.net/blogs" title="http://www.lesterchan.net/blogs">http://www.lesterchan.net/blogs</a></p>
+			<p><b>Demo:</b><br /><b>&raquo;</b> <a href="http://www.lesterchan.net/wordpress" title="http://www.lesterchan.net/wordpress">http://www.lesterchan.net/wordpress</a></p>
 			<p><b>Documentation:</b><br /><b>&raquo;</b> <a href="http://dev.wp-plugins.org/wiki/wp-pagenavi" title="http://dev.wp-plugins.org/wiki/wp-pagenavi">http://dev.wp-plugins.org/wiki/wp-pagenavi</a></p>
 			<p><b>Development:</b><br /><b>&raquo;</b> <a href="http://dev.wp-plugins.org/browser/wp-pagenavi/" title="http://dev.wp-plugins.org/browser/wp-pagenavi/">http://dev.wp-plugins.org/browser/wp-pagenavi/</a></p>
-			<p><b>Support Forums:</b><br /><b>&raquo;</b> <a href="http://forums.lesterchan.net/viewforum.php?f=9" title="http://forums.lesterchan.net/viewforum.php?f=9">http://forums.lesterchan.net/viewforum.php?f=9</a></p>
-			<p><b>Updated:</b><br /><b>&raquo;</b> 1st October 2006</p>
+			<p><b>Support Forums:</b><br /><b>&raquo;</b> <a href="http://forums.lesterchan.net/index.php?board=14.0" title="http://forums.lesterchan.net/index.php?board=14.0">http://forums.lesterchan.net/index.php?board=14.0</a></p>
+			<p><b>Updated:</b><br /><b>&raquo;</b> 1st February 2007</p>
+			<p><b>Note:</b><br /><b>&raquo;</b> The <b>Installation</b>, <b>Upgrade</b>, <b>Usage</b> Tab at the top of the page.</p>
 			<div class="SubSubTitle">Changelog</div>
 			<ul>
+				<li>
+					<b>Version 2.10 (01-02-2007)</b>
+					<ul>
+						<li>NEW: Works For WordPress 2.1 Only</li>
+						<li>NEW: Move pagenavi.php To pagenavi Folder</li>
+					</ul>
+				</li>
 				<li>
 					<b>Version 2.03 (01-10-2006)</b>
 					<ul>
@@ -250,7 +258,7 @@
 				</li>
 				<li>
 					Put:
-					<blockquote>File: pagenavi.php</blockquote>
+					<blockquote>Folder: pagenavi</blockquote>
 				</li>
 				<li>
 					<b>Activate</b> WP-PageNavi Plugin
@@ -264,14 +272,27 @@
 		<!-- Upgrade Instructions -->	
 		<div id="Upgrade" style="display: none;">
 			<div class="SubTitle">&raquo; Upgrade Instructions</div>
-			<div class="SubSubTitle">From v1.0x To v2.03</div>
+			<div class="SubSubTitle">From v1.0x To v2.10</div>
 			<ol>
+				<li>
+					<b>Deactivate</b> WP-PageNavi Plugin
+				</li>
 				<li>
 					Open <b>wp-content/plugins</b> Folder
 				</li>
 				<li>
-					Overwrite:
+					Put/Overwrite:
+					<blockquote>Folder: pagenavi</blockquote>
+				</li>
+				<li>
+					Delete:
 					<blockquote>File: pagenavi.php</blockquote>
+				</li>
+				<li>
+					<b>Activate</b> WP-PageNavi Plugin
+				</li>
+				<li>
+					Refer To <b>Usage</b> For Further Instructions
 				</li>
 			</ol>
 		</div>
@@ -289,12 +310,21 @@
 					<blockquote>
 						&lt;?php if(function_exists('wp_pagenavi')) { wp_pagenavi(); } ?&gt;
 					</blockquote>
+					<p>Default: wp_pagenavi('', '', '', '', 5, false);</p>
+					<p>
+						The first value: The text to appear before the navigation<br />
+						The second value: The text to appear after the navigation.<br />
+						The third value: The label for previous page.<br />
+						The fourth value: The label for next page.<br />
+						The fiveth value: Is the number of page numbers to be shown.<br />
+						The sixth value: Always show the navigation bar even it contains 1 and only 1 page.<br />
+					</p>					
 					<p>If you want a drop down menu style of page navigation, just replace <b>wp_pagenavi()</b> with <b>wp_pagenavi_dropdown()</b>.</p>
 				</li>
 			</ol>
 		</div>
 	</div>
 </div>
-<p id="Copyright">WP-PageNavi 2.03<br />Copyright &copy; 2006 Lester 'GaMerZ' Chan. All Rights Reserved.</p>
+<p id="Copyright">WP-PageNavi 2.10<br />Copyright &copy; 2007 Lester 'GaMerZ' Chan. All Rights Reserved.</p>
 </body>
 </html>

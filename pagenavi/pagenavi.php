@@ -3,7 +3,7 @@
 Plugin Name: WP-PageNavi
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Adds a more advanced page navigation to Wordpress.
-Version: 2.03
+Version: 2.10
 Author: GaMerZ
 Author URI: http://www.lesterchan.net
 */
@@ -28,24 +28,28 @@ Author URI: http://www.lesterchan.net
 
 
 ### Function: Page Navigation: Normal Paging
-function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&raquo;') {
+function wp_pagenavi($before = '', $after = '', $prelabel = '', $nxtlabel = '', $pages_to_show = 5, $always_show = false) {
 	global $request, $posts_per_page, $wpdb, $paged;
-	$pages_to_show = 5;
+	if(empty($prelabel)) {
+		$prelabel  = '&laquo;';
+	}
+	if(empty($nxtlabel)) {
+		$nxtlabel = '&raquo;';
+	}
 	$half_pages_to_show = round($pages_to_show/2);
 	if (!is_single()) {
-		if (get_query_var('what_to_show') == 'posts') {
-			preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);
-			//preg_match('#FROM\s(.*)\sORDER BY#siU', $request, $matches);
-			$fromwhere = $matches[1];
-			$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
-			$max_page = ceil($numposts /$posts_per_page);
+		if(!is_category()) {
+			preg_match('#FROM\s(.*)\sORDER BY#siU', $request, $matches);		
 		} else {
-			$max_page = 999999;
+			preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);		
 		}
+		$fromwhere = $matches[1];
+		$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
+		$max_page = ceil($numposts /$posts_per_page);
 		if(empty($paged)) {
 			$paged = 1;
 		}
-		if($max_page > 1) {
+		if($max_page > 1 || $always_show) {
 			echo "$before Pages ($max_page): <b>";
 			if ($paged >= ($pages_to_show-1)) {
 				echo '<a href="'.get_pagenum_link().'">&laquo; First</a> ... ';
@@ -74,15 +78,14 @@ function wp_pagenavi($before=' ', $after=' ', $prelabel='&laquo;', $nxtlabel='&r
 function wp_pagenavi_dropdown() {
 	global $request, $posts_per_page, $wpdb, $paged;
 	if (!is_single()) {
-		if (get_query_var('what_to_show') == 'posts') {
-			preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);
-			//preg_match('#FROM\s(.*)\sORDER BY#siU', $request, $matches);
-			$fromwhere = $matches[1];
-			$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
-			$max_page = ceil($numposts /$posts_per_page);
+		if(!is_category()) {
+			preg_match('#FROM\s(.*)\sORDER BY#siU', $request, $matches);		
 		} else {
-			$max_page = 999999;
+			preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);		
 		}
+		$fromwhere = $matches[1];
+		$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
+		$max_page = ceil($numposts /$posts_per_page);
 		if(empty($paged)) {
 			$paged = 1;
 		}
