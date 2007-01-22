@@ -121,16 +121,33 @@
 		}
 	</style>
 	<script type="text/javascript">
+	/* <![CDATA[*/
 		// Index Page
 		function index() {
 			// Tab
 			document.getElementById('IndexTab').className = 'SelectedTab';
+			document.getElementById('ChangelogTab').className = 'Tab';
 			document.getElementById('InstallTab').className = 'Tab';
 			document.getElementById('UpgradeTab').className = 'Tab';
 			document.getElementById('UsageTab').className = 'Tab';
 			// Page
 			document.getElementById('Index').style.display= 'block';
-			document.getElementById('IndexTab').className = 'SelectedTab';
+			document.getElementById('Changelog').style.display = 'none';
+			document.getElementById('Install').style.display = 'none';
+			document.getElementById('Upgrade').style.display = 'none';
+			document.getElementById('Usage').style.display = 'none';
+		}
+		// Changelog Page
+		function changelog() {
+			// Tab
+			document.getElementById('IndexTab').className = 'Tab';
+			document.getElementById('ChangelogTab').className = 'SelectedTab';
+			document.getElementById('InstallTab').className = 'Tab';
+			document.getElementById('UpgradeTab').className = 'Tab';
+			document.getElementById('UsageTab').className = 'Tab';
+			// Page
+			document.getElementById('Index').style.display = 'none';
+			document.getElementById('Changelog').style.display = 'block';
 			document.getElementById('Install').style.display = 'none';
 			document.getElementById('Upgrade').style.display = 'none';
 			document.getElementById('Usage').style.display = 'none';
@@ -139,11 +156,13 @@
 		function install() {
 			// Tab
 			document.getElementById('IndexTab').className = 'Tab';
+			document.getElementById('ChangelogTab').className = 'Tab';
 			document.getElementById('InstallTab').className = 'SelectedTab';
 			document.getElementById('UpgradeTab').className = 'Tab';
 			document.getElementById('UsageTab').className = 'Tab';
 			// Page
 			document.getElementById('Index').style.display= 'none';
+			document.getElementById('Changelog').style.display = 'none';
 			document.getElementById('Install').style.display = 'block';
 			document.getElementById('Upgrade').style.display = 'none';
 			document.getElementById('Usage').style.display = 'none';
@@ -152,12 +171,13 @@
 		function upgrade() {
 			// Tab
 			document.getElementById('IndexTab').className = 'Tab';
+			document.getElementById('ChangelogTab').className = 'Tab';
 			document.getElementById('InstallTab').className = 'Tab';
 			document.getElementById('UpgradeTab').className = 'SelectedTab';
-			document.getElementById('UpgradeTab').href = 'Tab';
 			document.getElementById('UsageTab').className = 'Tab';
 			// Page
 			document.getElementById('Index').style.display= 'none';
+			document.getElementById('Changelog').style.display = 'none';
 			document.getElementById('Install').style.display = 'none';
 			document.getElementById('Upgrade').style.display = 'block';
 			document.getElementById('Usage').style.display = 'none';
@@ -166,16 +186,19 @@
 		function usage() {
 			// Tab
 			document.getElementById('IndexTab').className = 'Tab';
+			document.getElementById('ChangelogTab').className = 'Tab';
 			document.getElementById('InstallTab').className = 'Tab';
 			document.getElementById('UpgradeTab').className = 'Tab';
 			document.getElementById('UsageTab').className = 'SelectedTab';
 			// Page
-			document.getElementById('Index').style.display= 'none';		
+			document.getElementById('Index').style.display= 'none';
+			document.getElementById('Changelog').style.display = 'none';
 			document.getElementById('Install').style.display = 'none';
 			document.getElementById('Upgrade').style.display = 'none';
 			document.getElementById('Usage').style.display = 'block';
 		}
-</script>
+	/* ]]> */
+	</script>
 </head>
 <body>
 <div id="Container">
@@ -187,6 +210,7 @@
 		<li id="UsageTab" class="Tab"><a href="#Usage" onclick="usage(); return false;" title="Usage Instructions">Usage</a></li>
 		<li id="UpgradeTab" class="Tab"><a href="#Upgrade" onclick="upgrade(); return false;" title="Upgrade Instructions">Upgrade</a></li>
 		<li id="InstallTab" class="Tab"><a href="#Installation" onclick="install(); return false;" title="Installation Instructions">Installation</a></li>
+		<li id="ChangelogTab" class="Tab"><a href="#Changelog" onclick="changelog(); return false;" title="Changelog">Changelog</a></li>
 		<li id="IndexTab" class="SelectedTab"><a href="#Index" onclick="index(); return false;" title="Index Instructions">Index</a></li>
 	</ul>
 
@@ -196,23 +220,70 @@
 		<div id="Index">
 			<div class="SubTitle">&raquo; Index</div>
 			<div class="SubSubTitle">Plugin Information</div>
-			<p><b>Author</b><br /><b>&raquo;</b> Lester 'GaMerZ' Chan</p>
 			<p>
-				<b>EMail:</b><br /><b>&raquo;</b>
+				<b>Author:</b><br />
+				<b>&raquo;</b> Lester 'GaMerZ' Chan
+			</p>
+			<p>
+				<b>EMail:</b><br />
+				<b>&raquo;</b>
 				<script type="text/javascript">
 					/* <![CDATA[*/
 					document.write(' <a href="mailto:gamerz84@hotmail.com?Subject=WP-PageNavi%202.10%20Support" title="EMail To gamerz84@hotmail.com">gamerz84@hotmail.com</a>');
 					/* ]]> */
 				</script>
 			</p>
-			<p><b>Website:</b><br /><b>&raquo;</b> <a href="http://www.lesterchan.net/" title="http://www.lesterchan.net/">http://www.lesterchan.net/</a></p>
-			<p><b>Demo:</b><br /><b>&raquo;</b> <a href="http://www.lesterchan.net/wordpress" title="http://www.lesterchan.net/wordpress">http://www.lesterchan.net/wordpress</a></p>
-			<p><b>Documentation:</b><br /><b>&raquo;</b> <a href="http://dev.wp-plugins.org/wiki/wp-pagenavi" title="http://dev.wp-plugins.org/wiki/wp-pagenavi">http://dev.wp-plugins.org/wiki/wp-pagenavi</a></p>
-			<p><b>Development:</b><br /><b>&raquo;</b> <a href="http://dev.wp-plugins.org/browser/wp-pagenavi/" title="http://dev.wp-plugins.org/browser/wp-pagenavi/">http://dev.wp-plugins.org/browser/wp-pagenavi/</a></p>
-			<p><b>Support Forums:</b><br /><b>&raquo;</b> <a href="http://forums.lesterchan.net/index.php?board=14.0" title="http://forums.lesterchan.net/index.php?board=14.0">http://forums.lesterchan.net/index.php?board=14.0</a></p>
-			<p><b>Updated:</b><br /><b>&raquo;</b> 1st February 2007</p>
-			<p><b>Note:</b><br /><b>&raquo;</b> The <b>Installation</b>, <b>Upgrade</b>, <b>Usage</b> Tab at the top of the page.</p>
-			<div class="SubSubTitle">Changelog</div>
+			<p>
+				<b>Website:</b><br />
+				<b>&raquo;</b> <a href="http://www.lesterchan.net/" title="http://www.lesterchan.net/">http://www.lesterchan.net/</a>
+			</p>
+			<p>
+				<b>Features:</b><br />
+				<b>&raquo;</b> Adds a more advanced paging navigation your WordPress blog.<br /><b>&raquo;</b> Example: <b>Pages (17): [1] 2 3 4 &raquo; ... Last &raquo;</b>
+			</p>
+			<p>
+				<b>Download:</b><br />
+				<b>&raquo;</b> <a href="http://www.lesterchan.net/others/downloads.php?id=11" title="http://www.lesterchan.net/others/downloads.php?id=11">WP-PageNavi 2.10 For WordPress 2.1.x</a><br />
+				<b>&raquo;</b> <a href="http://www.lesterchan.net/others/downloads/wp-pagenavi203.zip" title="http://www.lesterchan.net/others/downloads/wp-pagenavi203.zip">WP-PageNavi 2.03 For WordPress 2.0.x</a><br />
+				<b>&raquo;</b> <a href="http://www.lesterchan.net/others/downloads/wp-pagenavi.zip" title="http://www.lesterchan.net/others/downloads/wp-pagenavi.zip">WP-PageNavi 1.00 For WordPress 1.5.2</a>
+			</p>
+			<p>
+				<b>Demo:</b><br />
+				<b>&raquo;</b> <a href="http://www.lesterchan.net/wordpress/" title="http://www.lesterchan.net/wordpress/">http://www.lesterchan.net/wordpress/</a>
+			</p>
+			<p>
+				<b>Development:</b><br />
+				<b>&raquo;</b> <a href="http://dev.wp-plugins.org/browser/wp-pagenavi/" title="http://dev.wp-plugins.org/browser/wp-pagenavi/">http://dev.wp-plugins.org/browser/wp-pagenavi/</a>
+			</p>
+			<p>
+				<b>Translations:</b><br />
+				<b>&raquo;</b> <a href="http://dev.wp-plugins.org/browser/wp-pagenavi/i18n/" title="http://dev.wp-plugins.org/browser/wp-pagenavi/i18n/">http://dev.wp-plugins.org/browser/wp-pagenavi/i18n/</a>
+			</p>
+				<p><b>Support Forums:</b><br />
+				<b>&raquo;</b> <a href="http://forums.lesterchan.net/index.php?board=14.0" title="http://forums.lesterchan.net/index.php?board=14.0">http://forums.lesterchan.net/index.php?board=14.0</a>
+			</p>
+			<p>
+				<b>Updated:</b><br />
+				<b>&raquo;</b> 1st February 2007
+			</p>
+			<p>
+				<b>Note:</b><br />
+				<b>&raquo;</b> The <b>Changelog</b>, <b>Installation</b>, <b>Upgrade</b>, <b>Usage</b> Tab at the top of the page.
+			</p>
+			<p>
+				<b>Donations:</b><br />
+				<b>&raquo;</b> I spent most of my free time creating, updating, maintaining and supporting these plugins, if you really love my plugins and could spare me a couple of bucks as my school allowance, I will really appericiate it. If not feel free to use it without any obligations. Thank You. My Paypal account is 
+				<script type="text/javascript">
+					/* <![CDATA[*/
+					document.write(' <b>gamerz84@hotmail.com</b>.');
+					/* ]]> */
+				</script>
+			</p>
+		</div>
+
+		<!-- Changelog -->
+		<div id="Changelog" style="display: none;">
+			<div class="SubTitle">&raquo; Changelog</div>
 			<ul>
 				<li>
 					<b>Version 2.10 (01-02-2007)</b>
