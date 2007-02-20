@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP-PageNavi
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
-Description: Adds a more advanced paging navigation your WordPress blog.
+Description: Adds a more advanced paging navigation to your WordPress blog.
 Version: 2.10
 Author: GaMerZ
 Author URI: http://www.lesterchan.net
@@ -38,13 +38,17 @@ function wp_pagenavi($before = '', $after = '', $prelabel = '', $nxtlabel = '', 
 	}
 	$half_pages_to_show = round($pages_to_show/2);
 	if (!is_single()) {
-		if(!is_category()) {
-			preg_match('#FROM\s(.*)\sORDER BY#siU', $request, $matches);		
+		$numposts = 0;
+		if(strpos(get_query_var('tag'), " ")) {
+		    preg_match('#^(.*)\sLIMIT#siU', $request, $matches);
+		    $fromwhere = $matches[1];
+		    $results = $wpdb->get_results($fromwhere);
+		    $numposts = count($results);
 		} else {
-			preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);		
+			preg_match('#FROM\s*+(.+?)\s+(GROUP BY|ORDER BY)#si', $request, $matches);
+			$fromwhere = $matches[1];
+			$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
 		}
-		$fromwhere = $matches[1];
-		$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
 		$max_page = ceil($numposts /$posts_per_page);
 		if(empty($paged)) {
 			$paged = 1;
@@ -78,13 +82,17 @@ function wp_pagenavi($before = '', $after = '', $prelabel = '', $nxtlabel = '', 
 function wp_pagenavi_dropdown() {
 	global $request, $posts_per_page, $wpdb, $paged;
 	if (!is_single()) {
-		if(!is_category()) {
-			preg_match('#FROM\s(.*)\sORDER BY#siU', $request, $matches);		
+		$numposts = 0;
+		if(strpos(get_query_var('tag'), " ")) {
+		    preg_match('#^(.*)\sLIMIT#siU', $request, $matches);
+		    $fromwhere = $matches[1];
+		    $results = $wpdb->get_results($fromwhere);
+		    $numposts = count($results);
 		} else {
-			preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);		
+			preg_match('#FROM\s*+(.+?)\s+(GROUP BY|ORDER BY)#si', $request, $matches);
+			$fromwhere = $matches[1];
+			$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
 		}
-		$fromwhere = $matches[1];
-		$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
 		$max_page = ceil($numposts /$posts_per_page);
 		if(empty($paged)) {
 			$paged = 1;
