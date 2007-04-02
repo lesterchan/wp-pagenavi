@@ -32,6 +32,15 @@ Author URI: http://www.lesterchan.net
 load_plugin_textdomain('wp-pagenavi', 'wp-content/plugins/pagenavi');
 
 
+### Function: Page Navigation Option Menu
+add_action('admin_menu', 'pagenavi_menu');
+function pagenavi_menu() {
+	if (function_exists('add_options_page')) {
+		add_options_page(__('PageNavi', 'wp-pagenavi'), __('PageNavi', 'wp-pagenavi'), 'manage_options', 'pagenavi/pagenavi-options.php') ;
+	}
+}
+
+
 ### Function: Page Navigation CSS
 add_action('wp_head', 'pagenavi_css');
 function pagenavi_css() {
@@ -42,15 +51,10 @@ function pagenavi_css() {
 
 
 ### Function: Page Navigation: Boxed Style Paging
-function wp_pagenavi($before = '', $after = '', $prelabel = '', $nxtlabel = '', $pages_to_show = 5, $always_show = false) {
+function wp_pagenavi() {
 	global $request, $posts_per_page, $wpdb, $paged;
-	if(empty($prelabel)) {
-		$prelabel  = '&laquo;';
-	}
-	if(empty($nxtlabel)) {
-		$nxtlabel = '&raquo;';
-	}
 	if (!is_single()) {
+		$pagenavi_options = get_option('pagenavi_options');
 		$numposts = 0;
 		if(strpos(get_query_var('tag'), " ")) {
 		    preg_match('#^(.*)\sLIMIT#siU', $request, $matches);
@@ -66,6 +70,7 @@ function wp_pagenavi($before = '', $after = '', $prelabel = '', $nxtlabel = '', 
 		if(empty($paged)) {
 			$paged = 1;
 		}
+		$pages_to_show = intval($pagenavi_options['num_pages']);
 		$pages_to_show_minus_1 = $pages_to_show-1;
 		$half_page_start = floor($pages_to_show_minus_1/2);
 		$half_page_end = ceil($pages_to_show_minus_1/2);
@@ -81,25 +86,56 @@ function wp_pagenavi($before = '', $after = '', $prelabel = '', $nxtlabel = '', 
 			$start_page = $max_page - $pages_to_show_minus_1;
 			$end_page = $max_page;
 		}
-		if($max_page > 1 || $always_show) {
+		if($max_page > 1 || intval($pagenavi_options['always_show']) == 1) {
+			$pages_text = str_replace("%CURRENT_PAGE%", $paged, $pagenavi_options['pages_text']);
+			$pages_text = str_replace("%TOTAL_PAGES%", $max_page, $pages_text);
 			echo '<div class="wp-pagenavi">'."\n";
-			echo '<span class="pages">'.sprintf(__('Page %s of %s', 'wp-pagenavi'), $paged, $max_page).'</span>';
-			if ($paged >= $pages_to_show_minus_1) {
-				echo '<a href="'.get_pagenum_link().'">&laquo; First</a>';
-				//echo '<span class="extend">...</span>';
-			}
-			previous_posts_link($prelabel);
-			for($i = $start_page; $i  <= $end_page; $i++) {
-				if($i == $paged) {
-					echo '<span class="current">'.$i.'</span>';
-				} else {
-					echo '<a href="'.get_pagenum_link($i).'">'.$i.'</a>';
-				}
-			}
-			next_posts_link($nxtlabel, $max_page);
-			if ($end_page < $max_page) {
-				//echo '<span class="extend">...</span>';
-				echo '<a href="'.get_pagenum_link($max_page).'">Last &raquo;</a>';
+			switch(intval($pagenavi_options['style'])) {
+				case 1:
+					echo '<span class="pages">'.$pages_text.'</span>';
+					if ($paged >= $pages_to_show_minus_1) {
+						echo '<a href="'.get_pagenum_link().'" title="'.$pagenavi_options['first_text'].'">'.$pagenavi_options['first_text'].'</a>';
+						if(!empty($pagenavi_options['dotleft_text'])) {
+							echo '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
+						}
+					}
+					previous_posts_link($pagenavi_options['prev_text']);
+					for($i = $start_page; $i  <= $end_page; $i++) {						
+						if($i == $paged) {
+							$current_page_text = str_replace("%PAGE_NUMBER%", $i, $pagenavi_options['current_text']);
+							echo '<span class="current">'.$current_page_text.'</span>';
+						} else {
+							$page_text = str_replace("%PAGE_NUMBER%", $i, $pagenavi_options['page_text']);
+							echo '<a href="'.get_pagenum_link($i).'" title="'.$page_text.'">'.$page_text.'</a>';
+						}
+					}
+					next_posts_link($pagenavi_options['next_text'], $max_page);
+					if ($end_page < $max_page) {
+						if(!empty($pagenavi_options['dotright_text'])) {
+							echo '<span class="extend">'.$pagenavi_options['dotright_text'].'</span>';
+						}
+						echo '<a href="'.get_pagenum_link($max_page).'" title="'.$pagenavi_options['last_text'].'">'.$pagenavi_options['last_text'].'</a>';
+					}
+					break;
+				case 2;
+					echo '<form action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="get">'."\n";
+					echo '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">'."\n";
+					for($i = 1; $i  <= $max_page; $i++) {
+						$page_num = $i;
+						if($page_num == 1) {
+							$page_num = 0;
+						}
+						if($i == $paged) {
+							$current_page_text = str_replace("%PAGE_NUMBER%", $i, $pagenavi_options['current_text']);
+							echo '<option value="'.get_pagenum_link($page_num).'" selected="selected" class="current">'.$current_page_text."</option>\n";
+						} else {
+							$page_text = str_replace("%PAGE_NUMBER%", $i, $pagenavi_options['page_text']);
+							echo '<option value="'.get_pagenum_link($page_num).'">'.$page_text."</option>\n";
+						}
+					}
+					echo "</select>\n";
+					echo "</form>\n";
+					break;
 			}
 			echo '</div>'."\n";
 		}
@@ -107,93 +143,31 @@ function wp_pagenavi($before = '', $after = '', $prelabel = '', $nxtlabel = '', 
 }
 
 
-### Function: Page Navigation: Simple Paging
-function wp_pagenavi_simple($before = '', $after = '', $prelabel = '', $nxtlabel = '', $pages_to_show = 5, $always_show = false) {
-	global $request, $posts_per_page, $wpdb, $paged;
-	if(empty($prelabel)) {
-		$prelabel  = '&laquo;';
-	}
-	if(empty($nxtlabel)) {
-		$nxtlabel = '&raquo;';
-	}
-	$half_pages_to_show = round($pages_to_show/2);
-	if (!is_single()) {
-		$numposts = 0;
-		if(strpos(get_query_var('tag'), " ")) {
-		    preg_match('#^(.*)\sLIMIT#siU', $request, $matches);
-		    $fromwhere = $matches[1];
-		    $results = $wpdb->get_results($fromwhere);
-		    $numposts = count($results);
-		} else {
-			preg_match('#FROM\s*+(.+?)\s+(GROUP BY|ORDER BY)#si', $request, $matches);
-			$fromwhere = $matches[1];
-			$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
-		}
-		$max_page = ceil($numposts / $posts_per_page);
-		if(empty($paged)) {
-			$paged = 1;
-		}
-		if($max_page > 1 || $always_show) {
-			echo $before.sprintf(__('Pages (%s): ', 'wp-pagenavi'), $max_page).'<strong>';
-			if ($paged >= ($pages_to_show-1)) {
-				echo '<a href="'.get_pagenum_link().'">'.__('&laquo; First', 'wp-pagenavi').'</a> '.__('...', 'wp-pagenavi').' ';
-			}
-			previous_posts_link($prelabel);
-			for($i = $paged - $half_pages_to_show; $i  <= $paged + $half_pages_to_show; $i++) {
-				if ($i >= 1 && $i <= $max_page) {
-					if($i == $paged) {
-						echo "[$i]";
-					} else {
-						echo ' <a href="'.get_pagenum_link($i).'">'.$i.'</a> ';
-					}
-				}
-			}
-			next_posts_link($nxtlabel, $max_page);
-			if (($paged+$half_pages_to_show) < ($max_page)) {
-				echo ' '.__('...', 'wp-pagenavi').' <a href="'.get_pagenum_link($max_page).'">'.__('Last &raquo;', 'wp-pagenavi').'</a>';
-			}
-			echo "</strong>$after";
-		}
-	}
+### Function: Page Navigation: Drop Down Menu (Deprecated)
+function wp_pagenavi_dropdown() { 
+	wp_pagenavi(); 
 }
 
 
-### Function: Page Navigation: Drop Down Menu
-function wp_pagenavi_dropdown() {
-	global $request, $posts_per_page, $wpdb, $paged;
-	if (!is_single()) {
-		$numposts = 0;
-		if(strpos(get_query_var('tag'), " ")) {
-		    preg_match('#^(.*)\sLIMIT#siU', $request, $matches);
-		    $fromwhere = $matches[1];
-		    $results = $wpdb->get_results($fromwhere);
-		    $numposts = count($results);
-		} else {
-			preg_match('#FROM\s*+(.+?)\s+(GROUP BY|ORDER BY)#si', $request, $matches);
-			$fromwhere = $matches[1];
-			$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
-		}
-		$max_page = ceil($numposts / $posts_per_page);
-		if(empty($paged)) {
-			$paged = 1;
-		}
-		if($max_page > 1) {
-			echo '<form action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="get">'."\n";
-			echo '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">'."\n";
-			for($i = 1; $i  <= $max_page; $i++) {
-				$page_num = $i;
-				if($page_num == 1) {
-					$page_num = 0;
-				}
-				if($i == $paged) {
-					echo '<option value="'.get_pagenum_link($page_num).'" selected="selected">'.sprintf(__('Page: %s', 'wp-pagenavi'), $i)."</option>\n";
-				} else {
-					echo '<option value="'.get_pagenum_link($page_num).'">'.sprintf(__('Page: %s', 'wp-pagenavi'), $i)."</option>\n";
-				}
-			}
-			echo "</select>\n";
-			echo "</form>\n";
-		}
-	}
+### Function: Page Navigation Options
+add_action('activate_pagenavi/pagenavi.php', 'pagenavi_init');
+function pagenavi_init() {
+	// Delete Options First
+	delete_option('pagenavi_options');
+	// Add Options
+	$pagenavi_options = array();
+	$pagenavi_options['pages_text'] = __('Page %CURRENT_PAGE% of %TOTAL_PAGES%','wp-pagenavi');
+	$pagenavi_options['current_text'] = '%PAGE_NUMBER%';
+	$pagenavi_options['page_text'] = '%PAGE_NUMBER%';
+	$pagenavi_options['first_text'] = __('&laquo; First','wp-pagenavi');
+	$pagenavi_options['last_text'] = __('Last &raquo;','wp-pagenavi');
+	$pagenavi_options['next_text'] = __('&raquo;','wp-pagenavi');
+	$pagenavi_options['prev_text'] = __('&laquo;','wp-pagenavi');
+	$pagenavi_options['dotright_text'] = __('...','wp-pagenavi');
+	$pagenavi_options['dotleft_text'] = __('...','wp-pagenavi');
+	$pagenavi_options['style'] = 1;
+	$pagenavi_options['num_pages'] = 5;
+	$pagenavi_options['always_show'] = 0;
+	add_option('pagenavi_options', $pagenavi_options, 'PageNavi Options');
 }
 ?>

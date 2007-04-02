@@ -288,6 +288,7 @@
 				<li>
 					<b>Version 2.11 (01-05-2007)</b>
 					<ul>
+						<li>NEW: Page Navigation Now Is Customizable Via <b>'WP-Admin -> Options -> PageNavi'</b> And pagenavi-css.css</li>
 						<li>NEW: Default Style Navigation Is Now Boxed Navigation (Similar To <a href="http://www.digg.com/">Digg.com</a>)</li>
 						<li>FIXED: Fix For Ultimate Tag Warrior By Oliver Kastler & Stephan (<a href="http://www.netconcepts.com">Netconcepts</a>)</li>
 					</ul>
@@ -388,16 +389,15 @@
 					<blockquote>
 						&lt;?php if(function_exists('wp_pagenavi')) { wp_pagenavi(); } ?&gt;
 					</blockquote>
-					<p>Default: wp_pagenavi('', '', '', '', 5, false);</p>
-					<p>
-						The first value: The text to appear before the navigation<br />
-						The second value: The text to appear after the navigation.<br />
-						The third value: The label for previous page.<br />
-						The fourth value: The label for next page.<br />
-						The fiveth value: Is the number of page numbers to be shown.<br />
-						The sixth value: Always show the navigation bar even it contains 1 and only 1 page.<br />
-					</p>					
-					<p>If you want a drop down menu style of page navigation, just replace <b>wp_pagenavi()</b> with <b>wp_pagenavi_dropdown()</b>.</p>
+				</li>
+				<li>
+					Go to <b>'WP-Admin -> Options -> PageNavi'</b> to configure WP-PageNavi.
+				</li>
+				<li>
+					If you need to configure the CSS style of WP-PageNavi, open and edit:
+					<blockquote>
+					/wp-content/plugins/pagenavi/pagenavi-css.css
+					</blockquote>
 				</li>
 			</ol>
 		</div>
