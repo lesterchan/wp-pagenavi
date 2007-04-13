@@ -86,6 +86,9 @@ function wp_pagenavi() {
 			$start_page = $max_page - $pages_to_show_minus_1;
 			$end_page = $max_page;
 		}
+		if($start_page < 0) {
+			$start_page = 1;
+		}
 		if($max_page > 1 || intval($pagenavi_options['always_show']) == 1) {
 			$pages_text = str_replace("%CURRENT_PAGE%", $paged, $pagenavi_options['pages_text']);
 			$pages_text = str_replace("%TOTAL_PAGES%", $max_page, $pages_text);
