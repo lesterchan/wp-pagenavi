@@ -3,7 +3,7 @@ Contributors: GamerZ
 Donate link: http://www.lesterchan.net/wordpress
 Tags: pagenavi, navi, navigation, wp-pagenavi, page
 Requires at least: 2.1.0
-Stable tag: 2.10
+Stable tag: 2.11
 
 Adds a more advanced paging navigation your WordPress blog.
 
