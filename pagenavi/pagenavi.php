@@ -86,7 +86,7 @@ function wp_pagenavi() {
 			$start_page = $max_page - $pages_to_show_minus_1;
 			$end_page = $max_page;
 		}
-		if($start_page < 0) {
+		if($start_page <= 0) {
 			$start_page = 1;
 		}
 		if($max_page > 1 || intval($pagenavi_options['always_show']) == 1) {
