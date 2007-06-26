@@ -3,7 +3,7 @@
 Plugin Name: WP-PageNavi
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Adds a more advanced paging navigation to your WordPress blog.
-Version: 2.11
+Version: 2.20
 Author: Lester 'GaMerZ' Chan
 Author URI: http://www.lesterchan.net
 */
@@ -155,8 +155,6 @@ function wp_pagenavi_dropdown() {
 ### Function: Page Navigation Options
 add_action('activate_pagenavi/pagenavi.php', 'pagenavi_init');
 function pagenavi_init() {
-	// Delete Options First
-	delete_option('pagenavi_options');
 	// Add Options
 	$pagenavi_options = array();
 	$pagenavi_options['pages_text'] = __('Page %CURRENT_PAGE% of %TOTAL_PAGES%','wp-pagenavi');
