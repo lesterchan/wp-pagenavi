@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-PageNavi 2.20\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-06-26 15:35+0800\n"
+"PO-Revision-Date: 2007-07-17 03:14+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -176,28 +176,28 @@ msgstr ""
 msgid "PageNavi"
 msgstr ""
 
-#: pagenavi.php:160
+#: pagenavi.php:167
 msgid "Page %CURRENT_PAGE% of %TOTAL_PAGES%"
 msgstr ""
 
-#: pagenavi.php:163
+#: pagenavi.php:170
 msgid "&laquo; First"
 msgstr ""
 
-#: pagenavi.php:164
+#: pagenavi.php:171
 msgid "Last &raquo;"
 msgstr ""
 
-#: pagenavi.php:165
+#: pagenavi.php:172
 msgid "&raquo;"
 msgstr ""
 
-#: pagenavi.php:166
+#: pagenavi.php:173
 msgid "&laquo;"
 msgstr ""
 
-#: pagenavi.php:167
-#: pagenavi.php:168
+#: pagenavi.php:174
+#: pagenavi.php:175
 msgid "..."
 msgstr ""
 
