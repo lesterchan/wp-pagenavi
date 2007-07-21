@@ -22,8 +22,8 @@ It is the exact same readme.html is included in the zip package.
 
 == Screenshots ==
 
-[GaMerZ WordPress Plugins Screenshots](http://www.lesterchan.net/wordpress/screenshots/ "GaMerZ WordPress Plugins Screenshots")
+[WP-PageNavi Screenshots](http://www.lesterchan.net/wordpress/screenshots/browse/wp-pagenavi/ "WP-PageNavi Screenshots")
 
 == Frequently Asked Questions ==
 
-You will need [GaMerZ WordPress Plugins Support Forums](http://forums.lesterchan.net/ "GaMerZ WordPress Plugins Support Forums")
+[WP-PageNavi Support Forums](http://forums.lesterchan.net/index.php?board=14.0 "WP-PageNavi Support Forums")
