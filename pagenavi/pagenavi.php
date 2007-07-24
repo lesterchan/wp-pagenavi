@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: WP-PageNavi
-Plugin URI: http://www.lesterchan.net/portfolio/programming.php
+Plugin URI: http://lesterchan.net/portfolio/programming.php
 Description: Adds a more advanced paging navigation to your WordPress blog.
 Version: 2.20
 Author: Lester 'GaMerZ' Chan
-Author URI: http://www.lesterchan.net
+Author URI: http://lesterchan.net
 */
 
 

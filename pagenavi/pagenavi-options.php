@@ -7,7 +7,7 @@
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
-|	- http://www.lesterchan.net													|
+|	- http://lesterchan.net															|
 |																							|
 |	File Information:																	|
 |	- Page Navigation Options Page												|
