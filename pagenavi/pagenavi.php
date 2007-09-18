@@ -29,7 +29,10 @@ Author URI: http://lesterchan.net
 
 
 ### Create Text Domain For Translations
-load_plugin_textdomain('wp-pagenavi', 'wp-content/plugins/pagenavi');
+add_action('init', 'pagenavi_textdomain');
+function pagenavi_textdomain() {
+	load_plugin_textdomain('wp-pagenavi', 'wp-content/plugins/pagenavi');
+}
 
 
 ### Function: Page Navigation Option Menu
