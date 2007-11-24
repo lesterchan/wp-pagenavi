@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-PageNavi 2.30\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-10-21 19:54+0800\n"
+"PO-Revision-Date: 2007-11-24 22:12+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -124,7 +124,7 @@ msgid "Drop Down List"
 msgstr ""
 
 #: pagenavi-options.php:187
-msgid "Number Of Many Pages To Show?"
+msgid "Number Of Pages To Show?"
 msgstr ""
 
 #: pagenavi-options.php:193
@@ -172,28 +172,28 @@ msgstr ""
 msgid "PageNavi"
 msgstr ""
 
-#: wp-pagenavi.php:170
+#: wp-pagenavi.php:172
 msgid "Page %CURRENT_PAGE% of %TOTAL_PAGES%"
 msgstr ""
 
-#: wp-pagenavi.php:173
+#: wp-pagenavi.php:175
 msgid "&laquo; First"
 msgstr ""
 
-#: wp-pagenavi.php:174
+#: wp-pagenavi.php:176
 msgid "Last &raquo;"
 msgstr ""
 
-#: wp-pagenavi.php:175
+#: wp-pagenavi.php:177
 msgid "&raquo;"
 msgstr ""
 
-#: wp-pagenavi.php:176
+#: wp-pagenavi.php:178
 msgid "&laquo;"
 msgstr ""
 
-#: wp-pagenavi.php:177
-#: wp-pagenavi.php:178
+#: wp-pagenavi.php:179
+#: wp-pagenavi.php:180
 msgid "..."
 msgstr ""
 

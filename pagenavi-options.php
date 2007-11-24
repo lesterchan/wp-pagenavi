@@ -184,7 +184,7 @@ switch($mode) {
 				</td> 
 			</tr>
 			 <tr valign="top">
-				<th align="left" width="30%"><?php _e('Number Of Many Pages To Show?', 'wp-pagenavi'); ?></th>
+				<th align="left" width="30%"><?php _e('Number Of Pages To Show?', 'wp-pagenavi'); ?></th>
 				<td align="left">
 					<input type="text" name="pagenavi_num_pages" value="<?php echo stripslashes($pagenavi_options['num_pages']); ?>" size="4" />
 				</td>

@@ -105,7 +105,9 @@ function wp_pagenavi() {
 			echo '<div class="wp-pagenavi">'."\n";
 			switch(intval($pagenavi_options['style'])) {
 				case 1:
-					echo '<span class="pages">'.$pages_text.'</span>';
+					if(!empty($pages_text)) {
+						echo '<span class="pages">'.$pages_text.'</span>';
+					}					
 					if ($paged >= $pages_to_show_minus_1 && $pages_to_show < $max_page) {
 						echo '<a href="'.get_pagenum_link().'" title="'.$pagenavi_options['first_text'].'">'.$pagenavi_options['first_text'].'</a>';
 						if(!empty($pagenavi_options['dotleft_text'])) {
