@@ -108,8 +108,9 @@ function wp_pagenavi() {
 					if(!empty($pages_text)) {
 						echo '<span class="pages">'.$pages_text.'</span>';
 					}					
-					if ($paged >= $pages_to_show_minus_1 && $pages_to_show < $max_page) {
-						echo '<a href="'.get_pagenum_link().'" title="'.$pagenavi_options['first_text'].'">'.$pagenavi_options['first_text'].'</a>';
+					if ($start_page >= 2 && $pages_to_show < $max_page) {
+						$first_page_text = str_replace("%TOTAL_PAGES%", $max_page, $pagenavi_options['first_text']);
+						echo '<a href="'.get_pagenum_link().'" title="'.$first_page_text.'">'.$first_page_text.'</a>';
 						if(!empty($pagenavi_options['dotleft_text'])) {
 							echo '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
 						}
@@ -129,7 +130,8 @@ function wp_pagenavi() {
 						if(!empty($pagenavi_options['dotright_text'])) {
 							echo '<span class="extend">'.$pagenavi_options['dotright_text'].'</span>';
 						}
-						echo '<a href="'.get_pagenum_link($max_page).'" title="'.$pagenavi_options['last_text'].'">'.$pagenavi_options['last_text'].'</a>';
+						$last_page_text = str_replace("%TOTAL_PAGES%", $max_page, $pagenavi_options['last_text']);
+						echo '<a href="'.get_pagenum_link($max_page).'" title="'.$last_page_text.'">'.$last_page_text.'</a>';
 					}
 					break;
 				case 2;

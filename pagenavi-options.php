@@ -136,13 +136,15 @@ switch($mode) {
 			<tr valign="top">
 				<th align="left" width="30%"><?php _e('Text For First Post', 'wp-pagenavi'); ?></th>
 				<td align="left">
-					<input type="text" name="pagenavi_first_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['first_text'])); ?>" size="30" />
+					<input type="text" name="pagenavi_first_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['first_text'])); ?>" size="30" /><br />
+					%TOTAL_PAGES% - <?php _e('The total number of pages.', 'wp-pagenavi'); ?>
 				</td>
 			</tr>
 			<tr valign="top">
 				<th align="left" width="30%"><?php _e('Text For Last Post', 'wp-pagenavi'); ?></th>
 				<td align="left">
-					<input type="text" name="pagenavi_last_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['last_text'])); ?>" size="30" />
+					<input type="text" name="pagenavi_last_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['last_text'])); ?>" size="30" /><br />
+					%TOTAL_PAGES% - <?php _e('The total number of pages.', 'wp-pagenavi'); ?>
 				</td>
 			</tr>
 			<tr valign="top">

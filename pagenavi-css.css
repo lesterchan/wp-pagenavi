@@ -16,7 +16,15 @@
 */
 
 
-.wp-pagenavi a, .wp-pagenavi a:link, .wp-pagenavi a:active {
+.wp-pagenavi a, .wp-pagenavi a:link {
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	border: 1px solid #0066cc;
+	color: #0066cc;
+	background-color: #FFFFFF;	
+}
+.wp-pagenavi a:visited {
 	padding: 2px 4px 2px 4px; 
 	margin: 2px;
 	text-decoration: none;
@@ -25,9 +33,17 @@
 	background-color: #FFFFFF;	
 }
 .wp-pagenavi a:hover {	
-	border: 1px solid #114477;
-	color: #114477;
+	border: 1px solid #000000;
+	color: #000000;
 	background-color: #FFFFFF;
+}
+.wp-pagenavi a:active {
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	border: 1px solid #0066cc;
+	color: #0066cc;
+	background-color: #FFFFFF;	
 }
 .wp-pagenavi span.pages {
 	padding: 2px 4px 2px 4px; 
