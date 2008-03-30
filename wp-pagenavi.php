@@ -10,7 +10,7 @@ Author URI: http://lesterchan.net
 
 
 /*  
-	Copyright 2007  Lester Chan  (email : gamerz84@hotmail.com)
+	Copyright 2008  Lester Chan  (email : lesterchan@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ function pagenavi_css() {
 
 
 ### Function: Page Navigation: Boxed Style Paging
-function wp_pagenavi() {
+function wp_pagenavi($before = '', $after = '') {
 	global $wpdb, $wp_query;
 	if (!is_single()) {
 		$request = $wp_query->request;
@@ -102,7 +102,7 @@ function wp_pagenavi() {
 		if($max_page > 1 || intval($pagenavi_options['always_show']) == 1) {
 			$pages_text = str_replace("%CURRENT_PAGE%", $paged, $pagenavi_options['pages_text']);
 			$pages_text = str_replace("%TOTAL_PAGES%", $max_page, $pages_text);
-			echo '<div class="wp-pagenavi">'."\n";
+			echo $before.'<div class="wp-pagenavi">'."\n";
 			switch(intval($pagenavi_options['style'])) {
 				case 1:
 					if(!empty($pages_text)) {
@@ -154,7 +154,7 @@ function wp_pagenavi() {
 					echo "</form>\n";
 					break;
 			}
-			echo '</div>'."\n";
+			echo '</div>'.$after."\n";
 		}
 	}
 }

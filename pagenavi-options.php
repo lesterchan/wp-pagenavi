@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-PageNavi 2.30									|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
+|	WordPress 2.5 Plugin: WP-PageNavi 2.30									|
+|	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
