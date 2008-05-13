@@ -114,7 +114,7 @@ function wp_pagenavi($before = '', $after = '') {
 					}					
 					if ($start_page >= 2 && $pages_to_show < $max_page) {
 						$first_page_text = str_replace("%TOTAL_PAGES%", $max_page, $pagenavi_options['first_text']);
-						echo '<a href="'.get_pagenum_link().'" title="'.$first_page_text.'">'.$first_page_text.'</a>';
+						echo '<a href="'.clean_url(get_pagenum_link()).'" title="'.$first_page_text.'">'.$first_page_text.'</a>';
 						if(!empty($pagenavi_options['dotleft_text'])) {
 							echo '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
 						}
@@ -126,7 +126,7 @@ function wp_pagenavi($before = '', $after = '') {
 							echo '<span class="current">'.$current_page_text.'</span>';
 						} else {
 							$page_text = str_replace("%PAGE_NUMBER%", $i, $pagenavi_options['page_text']);
-							echo '<a href="'.get_pagenum_link($i).'" title="'.$page_text.'">'.$page_text.'</a>';
+							echo '<a href="'.clean_url(get_pagenum_link($i)).'" title="'.$page_text.'">'.$page_text.'</a>';
 						}
 					}
 					next_posts_link($pagenavi_options['next_text'], $max_page);
@@ -135,7 +135,7 @@ function wp_pagenavi($before = '', $after = '') {
 							echo '<span class="extend">'.$pagenavi_options['dotright_text'].'</span>';
 						}
 						$last_page_text = str_replace("%TOTAL_PAGES%", $max_page, $pagenavi_options['last_text']);
-						echo '<a href="'.get_pagenum_link($max_page).'" title="'.$last_page_text.'">'.$last_page_text.'</a>';
+						echo '<a href="'.clean_url(get_pagenum_link($max_page)).'" title="'.$last_page_text.'">'.$last_page_text.'</a>';
 					}
 					break;
 				case 2;
@@ -148,10 +148,10 @@ function wp_pagenavi($before = '', $after = '') {
 						}
 						if($i == $paged) {
 							$current_page_text = str_replace("%PAGE_NUMBER%", $i, $pagenavi_options['current_text']);
-							echo '<option value="'.get_pagenum_link($page_num).'" selected="selected" class="current">'.$current_page_text."</option>\n";
+							echo '<option value="'.clean_url(get_pagenum_link($page_num)).'" selected="selected" class="current">'.$current_page_text."</option>\n";
 						} else {
 							$page_text = str_replace("%PAGE_NUMBER%", $i, $pagenavi_options['page_text']);
-							echo '<option value="'.get_pagenum_link($page_num).'">'.$page_text."</option>\n";
+							echo '<option value="'.clean_url(get_pagenum_link($page_num)).'">'.$page_text."</option>\n";
 						}
 					}
 					echo "</select>\n";
