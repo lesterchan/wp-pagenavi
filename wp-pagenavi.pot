@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-PageNavi 2.30\n"
+"Project-Id-Version: WP-PageNavi 2.31\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-13 01:18+0800\n"
-"PO-Revision-Date: 2008-05-13 01:18+0800\n"
+"POT-Creation-Date: 2008-07-03 02:24+0800\n"
+"PO-Revision-Date: 2008-07-03 02:24+0800\n"
 "Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
 "Language-Team: Lester Chan <lesterchan@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -170,32 +170,32 @@ msgid ""
 " Choose [Cancel] To Stop, [OK] To Uninstall."
 msgstr ""
 
-#: wp-pagenavi.php:42
+#: wp-pagenavi.php:61
 msgid "PageNavi"
 msgstr ""
 
-#: wp-pagenavi.php:178
+#: wp-pagenavi.php:197
 msgid "Page %CURRENT_PAGE% of %TOTAL_PAGES%"
 msgstr ""
 
-#: wp-pagenavi.php:181
+#: wp-pagenavi.php:200
 msgid "&laquo; First"
 msgstr ""
 
-#: wp-pagenavi.php:182
+#: wp-pagenavi.php:201
 msgid "Last &raquo;"
 msgstr ""
 
-#: wp-pagenavi.php:183
+#: wp-pagenavi.php:202
 msgid "&raquo;"
 msgstr ""
 
-#: wp-pagenavi.php:184
+#: wp-pagenavi.php:203
 msgid "&laquo;"
 msgstr ""
 
-#: wp-pagenavi.php:185
-#: wp-pagenavi.php:186
+#: wp-pagenavi.php:204
+#: wp-pagenavi.php:205
 msgid "..."
 msgstr ""
 
