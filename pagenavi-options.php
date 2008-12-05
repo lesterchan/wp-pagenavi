@@ -103,7 +103,8 @@ switch($mode) {
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
-<div class="wrap"> 
+<div class="wrap">
+	<?php screen_icon(); ?>
 	<h2><?php _e('Page Navigation Options', 'wp-pagenavi'); ?></h2>
 	<h3><?php _e('Page Navigation Text', 'wp-pagenavi'); ?></h3>
 	<table class="form-table">
@@ -205,7 +206,7 @@ switch($mode) {
 <!-- Uninstall WP-PageNavi -->
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
 <div class="wrap"> 
-	<h2><?php _e('Uninstall WP-PageNavi', 'wp-pagenavi'); ?></h2>
+	<h3><?php _e('Uninstall WP-PageNavi', 'wp-pagenavi'); ?></h3>
 	<p>
 		<?php _e('Deactivating WP-PageNavi plugin does not remove any data that may have been created, such as the page navigation options. To completely remove this plugin, you can uninstall it here.', 'wp-pagenavi'); ?>
 	</p>

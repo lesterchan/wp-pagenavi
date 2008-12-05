@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-PageNavi 2.40\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-21 16:54+0800\n"
-"PO-Revision-Date: 2008-09-21 16:54+0800\n"
+"POT-Creation-Date: 2008-12-05 13:20+0800\n"
+"PO-Revision-Date: 2008-12-05 13:20+0800\n"
 "Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
 "Language-Team: Lester Chan <lesterchan@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -11,13 +11,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: SINGAPORE\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2\n"
 "X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: pagenavi-options.php:46
-#: pagenavi-options.php:107
-#: pagenavi-options.php:171
+#: pagenavi-options.php:108
+#: pagenavi-options.php:172
 msgid "Page Navigation Options"
 msgstr ""
 
@@ -30,7 +31,7 @@ msgid "No Page Navigation Option Updated"
 msgstr ""
 
 #: pagenavi-options.php:62
-#: pagenavi-options.php:240
+#: pagenavi-options.php:241
 msgid "UNINSTALL WP-PageNavi"
 msgstr ""
 
@@ -45,7 +46,7 @@ msgid "Error deleting Setting Key '%s'."
 msgstr ""
 
 #: pagenavi-options.php:96
-#: pagenavi-options.php:208
+#: pagenavi-options.php:209
 msgid "Uninstall WP-PageNavi"
 msgstr ""
 
@@ -54,115 +55,115 @@ msgstr ""
 msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-PageNavi Will Be Deactivated Automatically."
 msgstr ""
 
-#: pagenavi-options.php:108
+#: pagenavi-options.php:109
 msgid "Page Navigation Text"
 msgstr ""
 
-#: pagenavi-options.php:111
+#: pagenavi-options.php:112
 msgid "Text For Number Of Pages"
 msgstr ""
 
-#: pagenavi-options.php:114
+#: pagenavi-options.php:115
 msgid "The current page number."
 msgstr ""
 
-#: pagenavi-options.php:115
-#: pagenavi-options.php:136
-#: pagenavi-options.php:143
+#: pagenavi-options.php:116
+#: pagenavi-options.php:137
+#: pagenavi-options.php:144
 msgid "The total number of pages."
 msgstr ""
 
-#: pagenavi-options.php:119
+#: pagenavi-options.php:120
 msgid "Text For Current Page"
 msgstr ""
 
-#: pagenavi-options.php:122
-#: pagenavi-options.php:129
+#: pagenavi-options.php:123
+#: pagenavi-options.php:130
 msgid "The page number."
 msgstr ""
 
-#: pagenavi-options.php:126
+#: pagenavi-options.php:127
 msgid "Text For Page"
 msgstr ""
 
-#: pagenavi-options.php:133
+#: pagenavi-options.php:134
 msgid "Text For First Post"
 msgstr ""
 
-#: pagenavi-options.php:140
+#: pagenavi-options.php:141
 msgid "Text For Last Post"
 msgstr ""
 
-#: pagenavi-options.php:147
+#: pagenavi-options.php:148
 msgid "Text For Next Post"
 msgstr ""
 
-#: pagenavi-options.php:153
+#: pagenavi-options.php:154
 msgid "Text For Previous Post"
 msgstr ""
 
-#: pagenavi-options.php:159
+#: pagenavi-options.php:160
 msgid "Text For Next ..."
 msgstr ""
 
-#: pagenavi-options.php:165
+#: pagenavi-options.php:166
 msgid "Text For Previous ..."
 msgstr ""
 
-#: pagenavi-options.php:174
+#: pagenavi-options.php:175
 msgid "Page Navigation Style"
 msgstr ""
 
-#: pagenavi-options.php:177
+#: pagenavi-options.php:178
 msgid "Normal"
 msgstr ""
 
-#: pagenavi-options.php:178
+#: pagenavi-options.php:179
 msgid "Drop Down List"
 msgstr ""
 
-#: pagenavi-options.php:183
+#: pagenavi-options.php:184
 msgid "Number Of Pages To Show?"
 msgstr ""
 
-#: pagenavi-options.php:189
+#: pagenavi-options.php:190
 msgid "Always Show Page Navigation?"
 msgstr ""
 
-#: pagenavi-options.php:192
-#: pagenavi-options.php:239
+#: pagenavi-options.php:193
+#: pagenavi-options.php:240
 msgid "Yes"
 msgstr ""
 
-#: pagenavi-options.php:193
+#: pagenavi-options.php:194
 msgid "No"
 msgstr ""
 
-#: pagenavi-options.php:199
+#: pagenavi-options.php:200
 msgid "Save Changes"
 msgstr ""
 
-#: pagenavi-options.php:210
+#: pagenavi-options.php:211
 msgid "Deactivating WP-PageNavi plugin does not remove any data that may have been created, such as the page navigation options. To completely remove this plugin, you can uninstall it here."
 msgstr ""
 
-#: pagenavi-options.php:213
+#: pagenavi-options.php:214
 msgid "WARNING:"
 msgstr ""
 
-#: pagenavi-options.php:214
+#: pagenavi-options.php:215
 msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
 msgstr ""
 
-#: pagenavi-options.php:217
+#: pagenavi-options.php:218
 msgid "The following WordPress Options will be DELETED:"
 msgstr ""
 
-#: pagenavi-options.php:222
+#: pagenavi-options.php:223
 msgid "WordPress Options"
 msgstr ""
 
-#: pagenavi-options.php:240
+#: pagenavi-options.php:241
 msgid ""
 "You Are About To Uninstall WP-PageNavi From WordPress.\\n"
 "This Action Is Not Reversible.\\n"
