@@ -102,7 +102,7 @@ switch($mode) {
 		$pagenavi_options = get_option('pagenavi_options');
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
-<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>">
 <div class="wrap">
 	<?php screen_icon(); ?>
 	<h2><?php _e('Page Navigation Options', 'wp-pagenavi'); ?></h2>
@@ -204,7 +204,7 @@ switch($mode) {
 <p>&nbsp;</p>
 
 <!-- Uninstall WP-PageNavi -->
-<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>">
 <div class="wrap"> 
 	<h3><?php _e('Uninstall WP-PageNavi', 'wp-pagenavi'); ?></h3>
 	<p>
