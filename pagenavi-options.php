@@ -40,6 +40,8 @@ if(!empty($_POST['Submit'])) {
 	$pagenavi_options['style'] = intval(trim($_POST['pagenavi_style']));
 	$pagenavi_options['num_pages'] = intval(trim($_POST['pagenavi_num_pages']));
 	$pagenavi_options['always_show'] = intval(trim($_POST['pagenavi_always_show']));
+	$pagenavi_options['num_larger_page_numbers'] = intval(trim($_POST['pagenavi_num_larger_page_numbers']));
+	$pagenavi_options['larger_page_numbers_multiple'] = intval(trim($_POST['pagenavi_larger_page_numbers_multiple']));
 	$update_pagenavi_queries = array();
 	$update_pagenavi_text = array();
 	$update_pagenavi_queries[] = update_option('pagenavi_options', $pagenavi_options);
@@ -194,6 +196,28 @@ switch($mode) {
 					<option value="0"<?php selected('0', $pagenavi_options['always_show']); ?>><?php _e('No', 'wp-pagenavi'); ?></option>
 				</select>
 			</td> 
+		</tr>
+		<tr>
+			<th scope="row" valign="top"><?php _e('Number Of Larger Page Numbers To Show?', 'wp-pagenavi'); ?></th>
+			<td>
+				<input type="text" name="pagenavi_num_larger_page_numbers" value="<?php echo stripslashes($pagenavi_options['num_larger_page_numbers']); ?>" size="4" />
+				<br />
+				<?php _e('Larger page numbers are in additional to the default page numbers. It is useful for authors who is paginating through many posts.', 'wp-pagenavi'); ?>	
+				<br />
+				<?php _e('For example, WP-PageNavi will display: Pages 1, 2, 3, 4, 5, 10, 20, 30, 40, 50', 'wp-pagenavi'); ?>	
+				<br />
+				<?php _e('Enter 0 to disable.', 'wp-pagenavi'); ?>	
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" valign="top"><?php _e('Show  Larger Page Numbers In Multiples Of:', 'wp-pagenavi'); ?></th>
+			<td>
+				<input type="text" name="pagenavi_larger_page_numbers_multiple" value="<?php echo stripslashes($pagenavi_options['larger_page_numbers_multiple']); ?>" size="4" />
+				<br />
+				<?php _e('If mutiple is in 5, it will show: 5, 10, 15, 20, 25', 'wp-pagenavi'); ?>	
+				<br />				
+				<?php _e('If mutiple is in 10, it will show: 10, 20, 30, 40, 50', 'wp-pagenavi'); ?>	
+			</td>
 		</tr>
 	</table>
 	<p class="submit">

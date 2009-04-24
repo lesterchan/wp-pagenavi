@@ -69,7 +69,9 @@ function wp_pagenavi($before = '', $after = '') {
 			$paged = 1;
 		}
 		$pages_to_show = intval($pagenavi_options['num_pages']);
-		$pages_to_show_minus_1 = $pages_to_show-1;
+		$larger_page_to_show = intval($pagenavi_options['num_larger_page_numbers']);
+		$larger_page_multiple = intval($pagenavi_options['larger_page_numbers_multiple']);
+		$pages_to_show_minus_1 = $pages_to_show - 1;
 		$half_page_start = floor($pages_to_show_minus_1/2);
 		$half_page_end = ceil($pages_to_show_minus_1/2);
 		$start_page = $paged - $half_page_start;
@@ -87,6 +89,24 @@ function wp_pagenavi($before = '', $after = '') {
 		if($start_page <= 0) {
 			$start_page = 1;
 		}
+		$larger_per_page = $larger_page_to_show*$larger_page_multiple;
+		$larger_start_page_start = (n_round($start_page, 10) + $larger_page_multiple) - $larger_per_page;
+		$larger_start_page_end = n_round($start_page, 10) + $larger_page_multiple;
+		$larger_end_page_start = n_round($end_page, 10) + $larger_page_multiple;
+		$larger_end_page_end = n_round($end_page, 10) + ($larger_per_page);
+		if($larger_start_page_end - $larger_page_multiple == $start_page) {
+			$larger_start_page_start = $larger_start_page_start - $larger_page_multiple;
+			$larger_start_page_end = $larger_start_page_end - $larger_page_multiple;
+		}
+		if($larger_start_page_start <= 0) {
+			$larger_start_page_start = $larger_page_multiple;
+		}
+		if($larger_start_page_end > $max_page) {
+			$larger_start_page_end = $max_page;
+		}
+		if($larger_end_page_end > $max_page) {
+			$larger_end_page_end = $max_page;
+		}
 		if($max_page > 1 || intval($pagenavi_options['always_show']) == 1) {
 			$pages_text = str_replace("%CURRENT_PAGE%", number_format_i18n($paged), $pagenavi_options['pages_text']);
 			$pages_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pages_text);
@@ -95,12 +115,18 @@ function wp_pagenavi($before = '', $after = '') {
 				case 1:
 					if(!empty($pages_text)) {
 						echo '<span class="pages">'.$pages_text.'</span>';
-					}					
+					}
 					if ($start_page >= 2 && $pages_to_show < $max_page) {
 						$first_page_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pagenavi_options['first_text']);
 						echo '<a href="'.clean_url(get_pagenum_link()).'" class="first" title="'.$first_page_text.'">'.$first_page_text.'</a>';
 						if(!empty($pagenavi_options['dotleft_text'])) {
 							echo '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
+						}
+					}
+					if($larger_page_to_show > 0 && $larger_start_page_start > 0 && $larger_start_page_end <= $max_page) {
+						for($i = $larger_start_page_start; $i < $larger_start_page_end; $i+=$larger_page_multiple) {
+							$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['page_text']);
+							echo '<a href="'.clean_url(get_pagenum_link($i)).'" class="page" title="'.$page_text.'">'.$page_text.'</a>';
 						}
 					}
 					previous_posts_link($pagenavi_options['prev_text']);
@@ -114,6 +140,12 @@ function wp_pagenavi($before = '', $after = '') {
 						}
 					}
 					next_posts_link($pagenavi_options['next_text'], $max_page);
+					if($larger_page_to_show > 0 && $larger_end_page_start < $max_page) {
+						for($i = $larger_end_page_start; $i <= $larger_end_page_end; $i+=$larger_page_multiple) {
+							$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['page_text']);
+							echo '<a href="'.clean_url(get_pagenum_link($i)).'" class="page" title="'.$page_text.'">'.$page_text.'</a>';
+						}
+					}
 					if ($end_page < $max_page) {
 						if(!empty($pagenavi_options['dotright_text'])) {
 							echo '<span class="extend">'.$pagenavi_options['dotright_text'].'</span>';
@@ -154,6 +186,12 @@ function wp_pagenavi_dropdown() {
 }
 
 
+### Function: Round To The Nearest Value
+function n_round($num, $tonearest) {
+   return floor($num/$tonearest)*$tonearest;
+}
+
+
 ### Function: Page Navigation Options
 add_action('activate_wp-pagenavi/wp-pagenavi.php', 'pagenavi_init');
 function pagenavi_init() {
@@ -172,6 +210,8 @@ function pagenavi_init() {
 	$pagenavi_options['style'] = 1;
 	$pagenavi_options['num_pages'] = 5;
 	$pagenavi_options['always_show'] = 0;
+	$pagenavi_options['num_larger_page_numbers'] = 3;
+	$pagenavi_options['larger_page_numbers_multiple'] = 10;
 	add_option('pagenavi_options', $pagenavi_options, 'PageNavi Options');
 }
 ?>
