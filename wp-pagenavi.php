@@ -3,7 +3,7 @@
 Plugin Name: WP-PageNavi
 Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Adds a more advanced paging navigation to your WordPress blog.
-Version: 2.50
+Version: 2.60
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -47,11 +47,16 @@ function pagenavi_menu() {
 ### Function: Enqueue PageNavi Stylesheets
 add_action('wp_print_styles', 'pagenavi_stylesheets');
 function pagenavi_stylesheets() {
-	if(@file_exists(TEMPLATEPATH.'/pagenavi-css.css')) {
-		wp_enqueue_style('wp-pagenavi', get_stylesheet_directory_uri().'/pagenavi-css.css', false, '2.50', 'all');
-	} else {
-		wp_enqueue_style('wp-pagenavi', plugins_url('wp-pagenavi/pagenavi-css.css'), false, '2.50', 'all');
-	}	
+	$pagenavi_options = get_option('pagenavi_options');
+	if(intval($pagenavi_options['use_pagenavi_css']) == 1 || !isset($pagenavi_options['use_pagenavi_css'])) {
+		if(@file_exists(STYLESHEETPATH.'/pagenavi-css.css')) {
+			wp_enqueue_style('wp-pagenavi', get_stylesheet_directory_uri().'/pagenavi-css.css', false, '2.60', 'all');
+		} else if(@file_exists(TEMPLATEPATH.'/pagenavi-css.css')) {
+			wp_enqueue_style('wp-pagenavi', get_template_directory_uri().'/pagenavi-css.css', false, '2.60', 'all');
+		} else {
+			wp_enqueue_style('wp-pagenavi', plugins_url('wp-pagenavi/pagenavi-css.css'), false, '2.60', 'all');
+		}   
+	}
 }
 
 
@@ -212,6 +217,7 @@ function pagenavi_init() {
 	$pagenavi_options['always_show'] = 0;
 	$pagenavi_options['num_larger_page_numbers'] = 3;
 	$pagenavi_options['larger_page_numbers_multiple'] = 10;
+	$pagenavi_options['use_pagenavi_css'] = 1;
 	add_option('pagenavi_options', $pagenavi_options, 'PageNavi Options');
 }
 ?>

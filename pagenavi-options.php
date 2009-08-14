@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.8 Plugin: WP-PageNavi 2.50									|
+|	WordPress 2.8 Plugin: WP-PageNavi 2.60									|
 |	Copyright (c) 2009 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -42,6 +42,7 @@ if(!empty($_POST['Submit'])) {
 	$pagenavi_options['always_show'] = intval(trim($_POST['pagenavi_always_show']));
 	$pagenavi_options['num_larger_page_numbers'] = intval(trim($_POST['pagenavi_num_larger_page_numbers']));
 	$pagenavi_options['larger_page_numbers_multiple'] = intval(trim($_POST['pagenavi_larger_page_numbers_multiple']));
+	$pagenavi_options['use_pagenavi_css'] = intval(trim($_POST['use_pagenavi_css']));
 	$update_pagenavi_queries = array();
 	$update_pagenavi_text = array();
 	$update_pagenavi_queries[] = update_option('pagenavi_options', $pagenavi_options);
@@ -104,7 +105,7 @@ switch($mode) {
 		$pagenavi_options = get_option('pagenavi_options');
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
-<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>">
+<form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>">
 <div class="wrap">
 	<?php screen_icon(); ?>
 	<h2><?php _e('Page Navigation Options', 'wp-pagenavi'); ?></h2>
@@ -174,6 +175,15 @@ switch($mode) {
 	<h3><?php _e('Page Navigation Options', 'wp-pagenavi'); ?></h3>
 	<table class="form-table">
 		<tr>
+			<th scope="row" valign="top"><?php _e('Use pagenavi.css?', 'wp-pagenavi'); ?></th>
+			<td>
+				<select name="use_pagenavi_css" size="1">
+					<option value="0"<?php selected('0', $pagenavi_options['use_pagenavi_css']); ?>><?php _e('No', 'wp-pagenavi'); ?></option>
+					<option value="1"<?php selected('1', $pagenavi_options['use_pagenavi_css']); ?>><?php _e('Yes', 'wp-pagenavi'); ?></option>
+				</select>
+			</td> 
+		</tr>
+		<tr>
 			<th scope="row" valign="top"><?php _e('Page Navigation Style', 'wp-pagenavi'); ?></th>
 			<td>
 				<select name="pagenavi_style" size="1">
@@ -228,7 +238,7 @@ switch($mode) {
 <p>&nbsp;</p>
 
 <!-- Uninstall WP-PageNavi -->
-<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>">
+<form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>">
 <div class="wrap"> 
 	<h3><?php _e('Uninstall WP-PageNavi', 'wp-pagenavi'); ?></h3>
 	<p>
