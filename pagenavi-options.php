@@ -168,7 +168,7 @@ switch($mode) {
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Previous ...', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_dotleft_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['dotright_text'])); ?>" size="30" />
+				<input type="text" name="pagenavi_dotleft_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['dotleft_text'])); ?>" size="30" />
 			</td>
 		</tr>
 	</table>
