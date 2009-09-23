@@ -94,23 +94,9 @@ function wp_pagenavi($before = '', $after = '') {
 		if($start_page <= 0) {
 			$start_page = 1;
 		}
-		$larger_per_page = $larger_page_to_show*$larger_page_multiple;
-		$larger_start_page_start = (n_round($start_page, 10) + $larger_page_multiple) - $larger_per_page;
-		$larger_start_page_end = n_round($start_page, 10) + $larger_page_multiple;
-		$larger_end_page_start = n_round($end_page, 10) + $larger_page_multiple;
-		$larger_end_page_end = n_round($end_page, 10) + ($larger_per_page);
-		if($larger_start_page_end - $larger_page_multiple == $start_page) {
-			$larger_start_page_start = $larger_start_page_start - $larger_page_multiple;
-			$larger_start_page_end = $larger_start_page_end - $larger_page_multiple;
-		}
-		if($larger_start_page_start <= 0) {
-			$larger_start_page_start = $larger_page_multiple;
-		}
-		if($larger_start_page_end > $max_page) {
-			$larger_start_page_end = $max_page;
-		}
-		if($larger_end_page_end > $max_page) {
-			$larger_end_page_end = $max_page;
+		$larger_pages_array = array();
+		for($i = $larger_page_multiple; $i <= $max_page; $i+=$larger_page_multiple) {
+			$larger_pages_array[] = $i;
 		}
 		if($max_page > 1 || intval($pagenavi_options['always_show']) == 1) {
 			$pages_text = str_replace("%CURRENT_PAGE%", number_format_i18n($paged), $pagenavi_options['pages_text']);
@@ -128,10 +114,12 @@ function wp_pagenavi($before = '', $after = '') {
 							echo '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
 						}
 					}
-					if($larger_page_to_show > 0 && $larger_start_page_start > 0 && $larger_start_page_end <= $max_page) {
-						for($i = $larger_start_page_start; $i < $larger_start_page_end; $i+=$larger_page_multiple) {
-							$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['page_text']);
-							echo '<a href="'.clean_url(get_pagenum_link($i)).'" class="page" title="'.$page_text.'">'.$page_text.'</a>';
+					$larger_page_start = 0;
+					foreach($larger_pages_array as $larger_page) {
+						if($larger_page < $start_page && $larger_page_start < $larger_page_to_show) {
+							$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($larger_page), $pagenavi_options['page_text']);
+							echo '<a href="'.clean_url(get_pagenum_link($larger_page)).'" class="page" title="'.$page_text.'">'.$page_text.'</a>';
+							$larger_page_start++;
 						}
 					}
 					previous_posts_link($pagenavi_options['prev_text']);
@@ -145,10 +133,12 @@ function wp_pagenavi($before = '', $after = '') {
 						}
 					}
 					next_posts_link($pagenavi_options['next_text'], $max_page);
-					if($larger_page_to_show > 0 && $larger_end_page_start < $max_page) {
-						for($i = $larger_end_page_start; $i <= $larger_end_page_end; $i+=$larger_page_multiple) {
-							$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['page_text']);
-							echo '<a href="'.clean_url(get_pagenum_link($i)).'" class="page" title="'.$page_text.'">'.$page_text.'</a>';
+					$larger_page_end = 0;
+					foreach($larger_pages_array as $larger_page) {
+						if($larger_page > $end_page && $larger_page_end < $larger_page_to_show) {
+							$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($larger_page), $pagenavi_options['page_text']);
+							echo '<a href="'.clean_url(get_pagenum_link($larger_page)).'" class="page" title="'.$page_text.'">'.$page_text.'</a>';
+							$larger_page_end++;
 						}
 					}
 					if ($end_page < $max_page) {
