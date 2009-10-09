@@ -187,6 +187,17 @@ function n_round($num, $tonearest) {
 }
 
 
+### Function: Filters for Previous and Next Posts Link CSS Class
+add_filter('previous_posts_link_attributes','previous_posts_link_class');
+function previous_posts_link_class() {
+	return 'class="previouspostslink"';
+}
+add_filter('next_posts_link_attributes','next_posts_link_class');
+function next_posts_link_class() {
+	return 'class="nextpostslink"';
+}
+
+
 ### Function: Page Navigation Options
 add_action('activate_wp-pagenavi/wp-pagenavi.php', 'pagenavi_init');
 function pagenavi_init() {
