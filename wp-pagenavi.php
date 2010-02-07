@@ -120,10 +120,9 @@ function wp_pagenavi($before = '', $after = '') {
 				}
 			}
 
-			if ( $larger_page_multiple <= $max_page )
-				$larger_pages_array = range($larger_page_multiple, $max_page, $larger_page_multiple);
-			else
-				$larger_pages_array = array();
+			$larger_pages_array = array();
+			for ( $i = $larger_page_multiple, $i <= $max_page, $i += $larger_page_multiple )
+				$larger_pages_array[] = $i;
 
 			$larger_page_start = 0;
 			foreach ( $larger_pages_array as $larger_page ) {
