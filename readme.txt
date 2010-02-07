@@ -101,6 +101,7 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 = 2.20 (2007-10-01) =
 * NEW: Supports query_posts(); Variables
 * NEW: Ability To Uninstall WP-PageNavi
+
 = 2.11 (2007-06-01) =
 * NEW: Page Navigation Now Is Customizable Via 'WP-Admin -> Options -> PageNavi' And pagenavi-css.css
 * NEW: Default Style Navigation Is Now Boxed Navigation (Similar To Digg.com) =
