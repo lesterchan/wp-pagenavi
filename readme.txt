@@ -1,5 +1,5 @@
 === WP-PageNavi ===
-Contributors: GamerZ
+Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/wordpress
 Tags: pagenavi, navi, navigation, wp-pagenavi, page
 Requires at least: 2.8
@@ -12,7 +12,7 @@ Adds a more advanced paging navigation your WordPress blog.
 
 Adds a more advanced paging navigation your WordPress site.
 
-Example: 
+Example:
 
 	Pages (17): [1] 2 3 4 » ... Last »
 
@@ -45,7 +45,7 @@ You can either install it automatically from the WordPress admin, or do it manua
 
 If you need to configure the CSS style of WP-PageNavi, you can copy the `pagenavi-css.css` file from the plugin directory to your theme's directory and make your modifications there. This way, you won't lose your changes when you update the plugin.
 
-Copy the file from:
+1. Copy the file from:
 
 `/wp-content/plugins/wp-pagenavi/pagenavi-css.css`
 
@@ -53,8 +53,7 @@ to:
 
 `/wp-content/themes/<YOUR THEME NAME>/pagenavi-css.css`
 
-Make your modifications to the new file.
-
+2. Make your modifications to the new file.
 
 Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings page and add the styles to your theme's style.css file directly.
 
@@ -73,6 +72,7 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 * NEW: Added "previouspostslink" and "nextpostslink" CSS classes for styling next/previous posts link by Joost de Valk
 * NEW: Added option to include pagenavi-css.css In WP-Admin -> Settings -> PageNavi
 * FIXED: check for pagenavi-css.css in the child theme, first
+* FIXED: cleaner options page
 
 = 2.50 (2009-06-01) =
 * NEW: Compatible With WordPress 2.8
