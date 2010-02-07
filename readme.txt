@@ -72,6 +72,7 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 == Changelog ==
 
 = 2.60 (2010-02-07) =
+* NEW: Compatible With WordPress 2.9
 * NEW: Added "previouspostslink" and "nextpostslink" CSS classes for styling next/previous posts link by Joost de Valk
 * NEW: Added option to include pagenavi-css.css In WP-Admin -> Settings -> PageNavi
 * FIXED: check for pagenavi-css.css in the child theme, first
