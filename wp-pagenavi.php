@@ -115,13 +115,13 @@ function wp_pagenavi($before = '', $after = '') {
 			if ( $start_page >= 2 && $pages_to_show < $max_page ) {
 				$first_page_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pagenavi_options['first_text']);
 				echo '<a href="'.clean_url(get_pagenum_link()).'" class="first" title="'.$first_page_text.'">'.$first_page_text.'</a>';
-				if ( !empty($pagenavi_options['dotleft_text']) ) {
+
+				if ( !empty($pagenavi_options['dotleft_text']) )
 					echo '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
-				}
 			}
 
 			$larger_pages_array = array();
-			for ( $i = $larger_page_multiple, $i <= $max_page, $i += $larger_page_multiple )
+			for ( $i = $larger_page_multiple; $i <= $max_page; $i += $larger_page_multiple )
 				$larger_pages_array[] = $i;
 
 			$larger_page_start = 0;
