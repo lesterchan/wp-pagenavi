@@ -1,20 +1,16 @@
 <?php
-/*
-+----------------------------------------------------------------+
-|																							|
-|	WordPress 2.8 Plugin: WP-PageNavi 2.60									|
-|	Copyright (c) 2009 Lester "GaMerZ" Chan									|
-|																							|
-|	File Written By:																	|
-|	- Lester "GaMerZ" Chan															|
-|	- http://lesterchan.net															|
-|																							|
-|	File Information:																	|
-|	- Page Navigation Options Page												|
-|	- wp-content/plugins/wp-pagenavi/pagenavi-options.php			|
-|																							|
-+----------------------------------------------------------------+
-*/
+/*----------------------------------------------------------------*
+	WordPress 2.8 Plugin: WP-PageNavi 2.60									
+	Copyright (c) 2009 Lester "GaMerZ" Chan									
+																							
+	File Written By:																	
+	- Lester "GaMerZ" Chan															
+	- http://lesterchan.net
+																							
+	File Information:																	
+	- Page Navigation Options Page
+	- wp-content/plugins/wp-pagenavi/pagenavi-options.php
+ *----------------------------------------------------------------*/
 
 
 ### Variables Variables Variables
@@ -24,7 +20,7 @@ $mode = trim(@$_GET['mode']);
 $pagenavi_settings = array('pagenavi_options');
 
 
-### Form Processing 
+### Form Processing
 // Update Options
 if(!empty($_POST['Submit'])) {
 
@@ -81,7 +77,7 @@ if(!empty($_POST['do'])) {
 				}
 			}
 			echo '</p>';
-			echo '</div>'; 
+			echo '</div>';
 			$mode = 'end-UNINSTALL';
 			break;
 	}
@@ -93,9 +89,7 @@ switch($mode) {
 		//  Deactivating WP-PageNavi
 		case 'end-UNINSTALL':
 			$deactivate_url = 'plugins.php?action=deactivate&amp;plugin=wp-pagenavi/wp-pagenavi.php';
-			if(function_exists('wp_nonce_url')) { 
-				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_wp-pagenavi/wp-pagenavi.php');
-			}
+			$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_wp-pagenavi/wp-pagenavi.php');
 			echo '<div class="wrap">';
 			echo '<h2>'.__('Uninstall WP-PageNavi', 'wp-pagenavi').'</h2>';
 			echo '<p><strong>'.sprintf(__('<a href="%s">Click Here</a> To Finish The Uninstallation And WP-PageNavi Will Be Deactivated Automatically.', 'wp-pagenavi'), $deactivate_url).'</strong></p>';
@@ -188,7 +182,7 @@ switch($mode) {
 					<option value="1"<?php selected('1', $pagenavi_options['style']); ?>><?php _e('Normal', 'wp-pagenavi'); ?></option>
 					<option value="2"<?php selected('2', $pagenavi_options['style']); ?>><?php _e('Drop Down List', 'wp-pagenavi'); ?></option>
 				</select>
-			</td> 
+			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Number Of Pages To Show?', 'wp-pagenavi'); ?></th>
@@ -231,12 +225,12 @@ switch($mode) {
 		<input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'wp-pagenavi'); ?>" />
 	</p>
 </div>
-</form> 
+</form>
 <p>&nbsp;</p>
 
 <!-- Uninstall WP-PageNavi -->
 <form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>">
-<div class="wrap"> 
+<div class="wrap">
 	<h3><?php _e('Uninstall WP-PageNavi', 'wp-pagenavi'); ?></h3>
 	<p>
 		<?php _e('Deactivating WP-PageNavi plugin does not remove any data that may have been created, such as the page navigation options. To completely remove this plugin, you can uninstall it here.', 'wp-pagenavi'); ?>
@@ -270,7 +264,7 @@ switch($mode) {
 	<p style="text-align: center;">
 		<input type="submit" name="do" value="<?php _e('UNINSTALL WP-PageNavi', 'wp-pagenavi'); ?>" class="button" onclick="return confirm('<?php _e('You Are About To Uninstall WP-PageNavi From WordPress.\nThis Action Is Not Reversible.\n\n Choose [Cancel] To Stop, [OK] To Uninstall.', 'wp-pagenavi'); ?>')" />
 	</p>
-</div> 
+</div>
 </form>
 <?php
 } // End switch($mode)

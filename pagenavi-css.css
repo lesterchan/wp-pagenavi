@@ -1,23 +1,19 @@
-/*
-+----------------------------------------------------------------+
-|																							|
-|	WordPress 2.8 Plugin: WP-PageNavi 2.60									|
-|	Copyright (c) 2009 Lester "GaMerZ" Chan									|
-|																							|
-|	File Written By:																	|
-|	- Lester "GaMerZ" Chan															|
-|	- http://lesterchan.net															|
-|																							|
-|	File Information:																	|
-|	- Page Navigation CSS Style													|
-|	- wp-content/plugins/wp-pagenavi/pagenavi-css.css					|
-|																							|
-+----------------------------------------------------------------+
-*/
+/*----------------------------------------------------------------*																				
+	WordPress 2.8 Plugin: WP-PageNavi 2.60									
+	Copyright (c) 2009 Lester "GaMerZ" Chan											
+
+	File Written By:																
+	- Lester "GaMerZ" Chan															
+	- http://lesterchan.net
+														
+	File Information:																
+	- Page Navigation CSS Style														
+	- wp-content/plugins/wp-pagenavi/pagenavi-css.css								
+ *----------------------------------------------------------------*/
 
 
 .wp-pagenavi a, .wp-pagenavi a:link {
-	padding: 2px 4px 2px 4px; 
+	padding: 2px 4px 2px 4px;
 	margin: 2px;
 	text-decoration: none;
 	border: 1px solid #0066cc;
@@ -25,7 +21,7 @@
 	background-color: #FFFFFF;	
 }
 .wp-pagenavi a:visited {
-	padding: 2px 4px 2px 4px; 
+	padding: 2px 4px 2px 4px;
 	margin: 2px;
 	text-decoration: none;
 	border: 1px solid #0066cc;
@@ -38,7 +34,7 @@
 	background-color: #FFFFFF;
 }
 .wp-pagenavi a:active {
-	padding: 2px 4px 2px 4px; 
+	padding: 2px 4px 2px 4px;
 	margin: 2px;
 	text-decoration: none;
 	border: 1px solid #0066cc;
@@ -46,14 +42,14 @@
 	background-color: #FFFFFF;	
 }
 .wp-pagenavi span.pages {
-	padding: 2px 4px 2px 4px; 
+	padding: 2px 4px 2px 4px;
 	margin: 2px 2px 2px 2px;
 	color: #000000;
 	border: 1px solid #000000;
 	background-color: #FFFFFF;
 }
 .wp-pagenavi span.current {
-	padding: 2px 4px 2px 4px; 
+	padding: 2px 4px 2px 4px;
 	margin: 2px;
 	font-weight: bold;
 	border: 1px solid #000000;
@@ -61,7 +57,7 @@
 	background-color: #FFFFFF;
 }
 .wp-pagenavi span.extend {
-	padding: 2px 4px 2px 4px; 
+	padding: 2px 4px 2px 4px;
 	margin: 2px;	
 	border: 1px solid #000000;
 	color: #000000;
