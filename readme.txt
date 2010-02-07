@@ -47,16 +47,6 @@ You can either install it automatically from the WordPress admin, or do it manua
 
 If you need to configure the CSS style of WP-PageNavi, you can copy the `pagenavi-css.css` file from the plugin directory to your theme's directory and make your modifications there. This way, you won't lose your changes when you update the plugin.
 
-1. Copy the file from:
-
-`/wp-content/plugins/wp-pagenavi/pagenavi-css.css`
-
-to:
-
-`/wp-content/themes/<YOUR THEME NAME>/pagenavi-css.css`
-
-2. Make your modifications to the new file.
-
 Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings page and add the styles to your theme's style.css file directly.
 
 
