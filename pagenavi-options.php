@@ -27,22 +27,24 @@ $pagenavi_settings = array('pagenavi_options');
 ### Form Processing 
 // Update Options
 if(!empty($_POST['Submit'])) {
+
 	$pagenavi_options = array();
-	$pagenavi_options['pages_text'] = addslashes($_POST['pagenavi_pages_text']);
-	$pagenavi_options['current_text'] = addslashes($_POST['pagenavi_current_text']);
-	$pagenavi_options['page_text'] = addslashes($_POST['pagenavi_page_text']);
-	$pagenavi_options['first_text'] = addslashes($_POST['pagenavi_first_text']);
-	$pagenavi_options['last_text'] = addslashes($_POST['pagenavi_last_text']);
-	$pagenavi_options['next_text'] = addslashes($_POST['pagenavi_next_text']);
-	$pagenavi_options['prev_text'] = addslashes($_POST['pagenavi_prev_text']);
-	$pagenavi_options['dotright_text'] = addslashes($_POST['pagenavi_dotright_text']);
-	$pagenavi_options['dotleft_text'] = addslashes($_POST['pagenavi_dotleft_text']);
-	$pagenavi_options['style'] = intval(trim($_POST['pagenavi_style']));
-	$pagenavi_options['num_pages'] = intval(trim($_POST['pagenavi_num_pages']));
-	$pagenavi_options['always_show'] = intval(trim($_POST['pagenavi_always_show']));
-	$pagenavi_options['num_larger_page_numbers'] = intval(trim($_POST['pagenavi_num_larger_page_numbers']));
-	$pagenavi_options['larger_page_numbers_multiple'] = intval(trim($_POST['pagenavi_larger_page_numbers_multiple']));
-	$pagenavi_options['use_pagenavi_css'] = intval(trim($_POST['use_pagenavi_css']));
+	$pagenavi_options['pages_text'] = addslashes(@$_POST['pagenavi_pages_text']);
+	$pagenavi_options['current_text'] = addslashes(@$_POST['pagenavi_current_text']);
+	$pagenavi_options['page_text'] = addslashes(@$_POST['pagenavi_page_text']);
+	$pagenavi_options['first_text'] = addslashes(@$_POST['pagenavi_first_text']);
+	$pagenavi_options['last_text'] = addslashes(@$_POST['pagenavi_last_text']);
+	$pagenavi_options['next_text'] = addslashes(@$_POST['pagenavi_next_text']);
+	$pagenavi_options['prev_text'] = addslashes(@$_POST['pagenavi_prev_text']);
+	$pagenavi_options['dotright_text'] = addslashes(@$_POST['pagenavi_dotright_text']);
+	$pagenavi_options['dotleft_text'] = addslashes(@$_POST['pagenavi_dotleft_text']);
+	$pagenavi_options['style'] = intval(@$_POST['pagenavi_style']);
+	$pagenavi_options['num_pages'] = intval(@$_POST['pagenavi_num_pages']);
+	$pagenavi_options['always_show'] = (bool) @$_POST['pagenavi_always_show'];
+	$pagenavi_options['num_larger_page_numbers'] = intval(@$_POST['pagenavi_num_larger_page_numbers']);
+	$pagenavi_options['larger_page_numbers_multiple'] = intval(@$_POST['pagenavi_larger_page_numbers_multiple']);
+	$pagenavi_options['use_pagenavi_css'] = (bool) @$_POST['use_pagenavi_css'];
+
 	$update_pagenavi_queries = array();
 	$update_pagenavi_text = array();
 	$update_pagenavi_queries[] = update_option('pagenavi_options', $pagenavi_options);
@@ -59,29 +61,28 @@ if(!empty($_POST['Submit'])) {
 		$text = '<font color="red">'.__('No Page Navigation Option Updated', 'wp-pagenavi').'</font>';
 	}
 }
+
 // Uninstall WP-PageNavi
 if(!empty($_POST['do'])) {
 	switch($_POST['do']) {		
 		case __('UNINSTALL WP-PageNavi', 'wp-pagenavi') :
-			if(trim($_POST['uninstall_pagenavi_yes']) == 'yes') {
-				echo '<div id="message" class="updated fade">';
-				echo '<p>';
-				foreach($pagenavi_settings as $setting) {
-					$delete_setting = delete_option($setting);
-					if($delete_setting) {
-						echo '<font color="green">';
-						printf(__('Setting Key \'%s\' has been deleted.', 'wp-pagenavi'), "<strong><em>{$setting}</em></strong>");
-						echo '</font><br />';
-					} else {
-						echo '<font color="red">';
-						printf(__('Error deleting Setting Key \'%s\'.', 'wp-pagenavi'), "<strong><em>{$setting}</em></strong>");
-						echo '</font><br />';
-					}
+			echo '<div id="message" class="updated fade">';
+			echo '<p>';
+			foreach($pagenavi_settings as $setting) {
+				$delete_setting = delete_option($setting);
+				if($delete_setting) {
+					echo '<font color="green">';
+					printf(__('Setting Key \'%s\' has been deleted.', 'wp-pagenavi'), "<strong><em>{$setting}</em></strong>");
+					echo '</font><br />';
+				} else {
+					echo '<font color="red">';
+					printf(__('Error deleting Setting Key \'%s\'.', 'wp-pagenavi'), "<strong><em>{$setting}</em></strong>");
+					echo '</font><br />';
 				}
-				echo '</p>';
-				echo '</div>'; 
-				$mode = 'end-UNINSTALL';
 			}
+			echo '</p>';
+			echo '</div>'; 
+			$mode = 'end-UNINSTALL';
 			break;
 	}
 }
@@ -177,11 +178,8 @@ switch($mode) {
 		<tr>
 			<th scope="row" valign="top"><?php _e('Use pagenavi.css?', 'wp-pagenavi'); ?></th>
 			<td>
-				<select name="use_pagenavi_css" size="1">
-					<option value="0"<?php selected('0', $pagenavi_options['use_pagenavi_css']); ?>><?php _e('No', 'wp-pagenavi'); ?></option>
-					<option value="1"<?php selected('1', $pagenavi_options['use_pagenavi_css']); ?>><?php _e('Yes', 'wp-pagenavi'); ?></option>
-				</select>
-			</td> 
+				<input type="checkbox" name="use_pagenavi_css" value="1" <?php checked($pagenavi_options['use_pagenavi_css']); ?>>
+			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Page Navigation Style', 'wp-pagenavi'); ?></th>
@@ -201,11 +199,10 @@ switch($mode) {
 		<tr>
 			<th scope="row" valign="top"><?php _e('Always Show Page Navigation?', 'wp-pagenavi'); ?></th>
 			<td>
-				<select name="pagenavi_always_show" size="1">
-					<option value="1"<?php selected('1', $pagenavi_options['always_show']); ?>><?php _e('Yes', 'wp-pagenavi'); ?></option>
-					<option value="0"<?php selected('0', $pagenavi_options['always_show']); ?>><?php _e('No', 'wp-pagenavi'); ?></option>
-				</select>
-			</td> 
+				<input type="checkbox" name="pagenavi_always_show" value="1" <?php checked($pagenavi_options['always_show']); ?>>
+				<br />
+				<?php _e("Show navigation even if there's only one page", 'wp-pagenavi'); ?>
+			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Number Of Larger Page Numbers To Show?', 'wp-pagenavi'); ?></th>
@@ -271,7 +268,6 @@ switch($mode) {
 	</table>
 	<p>&nbsp;</p>
 	<p style="text-align: center;">
-		<input type="checkbox" name="uninstall_pagenavi_yes" value="yes" />&nbsp;<?php _e('Yes', 'wp-pagenavi'); ?><br /><br />
 		<input type="submit" name="do" value="<?php _e('UNINSTALL WP-PageNavi', 'wp-pagenavi'); ?>" class="button" onclick="return confirm('<?php _e('You Are About To Uninstall WP-PageNavi From WordPress.\nThis Action Is Not Reversible.\n\n Choose [Cancel] To Stop, [OK] To Uninstall.', 'wp-pagenavi'); ?>')" />
 	</p>
 </div> 

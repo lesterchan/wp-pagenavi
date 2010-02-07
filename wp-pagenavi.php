@@ -38,25 +38,26 @@ function pagenavi_textdomain() {
 ### Function: Page Navigation Option Menu
 add_action('admin_menu', 'pagenavi_menu');
 function pagenavi_menu() {
-	if (function_exists('add_options_page')) {
-		add_options_page(__('PageNavi', 'wp-pagenavi'), __('PageNavi', 'wp-pagenavi'), 'manage_options', 'wp-pagenavi/pagenavi-options.php') ;
-	}
+	add_options_page(__('PageNavi', 'wp-pagenavi'), __('PageNavi', 'wp-pagenavi'), 'manage_options', 'wp-pagenavi/pagenavi-options.php') ;
 }
-
 
 ### Function: Enqueue PageNavi Stylesheets
 add_action('wp_print_styles', 'pagenavi_stylesheets');
 function pagenavi_stylesheets() {
 	$pagenavi_options = get_option('pagenavi_options');
-	if (intval($pagenavi_options['use_pagenavi_css']) == 1 || !isset($pagenavi_options['use_pagenavi_css'])) {
-		if (@file_exists(STYLESHEETPATH.'/pagenavi-css.css')) {
-			wp_enqueue_style('wp-pagenavi', get_stylesheet_directory_uri().'/pagenavi-css.css', false, '2.60', 'all');
-		} else if (@file_exists(TEMPLATEPATH.'/pagenavi-css.css')) {
-			wp_enqueue_style('wp-pagenavi', get_template_directory_uri().'/pagenavi-css.css', false, '2.60', 'all');
-		} else {
-			wp_enqueue_style('wp-pagenavi', plugins_url('wp-pagenavi/pagenavi-css.css'), false, '2.60', 'all');
-		}   
+
+	if ( isset($pagenavi_options['use_pagenavi_css']) && !intval($pagenavi_options['use_pagenavi_css']) )
+		return;
+
+	if (@file_exists(STYLESHEETPATH.'/pagenavi-css.css')) {
+		$css_file = get_stylesheet_directory_uri() . '/pagenavi-css.css';
+	} elseif (@file_exists(TEMPLATEPATH.'/pagenavi-css.css')) {
+		$css_file = get_template_directory_uri() . '/pagenavi-css.css';
+	} else {
+		$css_file = plugins_url('pagenavi-css.css', __FILE__);
 	}
+
+	wp_enqueue_style('wp-pagenavi', $css_file, false, '2.60', 'all');
 }
 
 
@@ -75,9 +76,8 @@ function wp_pagenavi($before = '', $after = '') {
 	$numposts = $wp_query->found_posts;
 	$max_page = $wp_query->max_num_pages;
 
-	if (empty($paged) || $paged == 0) {
+	if (empty($paged) || $paged == 0)
 		$paged = 1;
-	}
 
 	$pages_to_show = intval($pagenavi_options['num_pages']);
 	$larger_page_to_show = intval($pagenavi_options['num_larger_page_numbers']);
@@ -86,25 +86,28 @@ function wp_pagenavi($before = '', $after = '') {
 	$half_page_start = floor($pages_to_show_minus_1/2);
 	$half_page_end = ceil($pages_to_show_minus_1/2);
 	$start_page = $paged - $half_page_start;
-	if ($start_page <= 0) {
+
+	if ($start_page <= 0)
 		$start_page = 1;
-	}
+
 	$end_page = $paged + $half_page_end;
 	if (($end_page - $start_page) != $pages_to_show_minus_1) {
 		$end_page = $start_page + $pages_to_show_minus_1;
 	}
+
 	if ($end_page > $max_page) {
 		$start_page = $max_page - $pages_to_show_minus_1;
 		$end_page = $max_page;
 	}
-	if ($start_page <= 0) {
+
+	if ($start_page <= 0)
 		$start_page = 1;
-	}
+
 	$larger_pages_array = array();
-	for($i = $larger_page_multiple; $i <= $max_page; $i+=$larger_page_multiple) {
+	for($i = $larger_page_multiple; $i <= $max_page; $i+=$larger_page_multiple)
 		$larger_pages_array[] = $i;
-	}
-	if ($max_page > 1 || intval($pagenavi_options['always_show']) == 1) {
+
+	if ($max_page > 1 || intval($pagenavi_options['always_show'])) {
 		$pages_text = str_replace("%CURRENT_PAGE%", number_format_i18n($paged), $pagenavi_options['pages_text']);
 		$pages_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pages_text);
 		echo $before.'<div class="wp-pagenavi">'."\n";
