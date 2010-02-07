@@ -27,3 +27,4 @@ It is the exact same readme.html is included in the zip package.
 == Frequently Asked Questions ==
 
 [WP-PageNavi Support Forums](http://forums.lesterchan.net/index.php?board=14.0 "WP-PageNavi Support Forums")
+
