@@ -49,9 +49,9 @@ function pagenavi_stylesheets() {
 	if ( isset($pagenavi_options['use_pagenavi_css']) && !intval($pagenavi_options['use_pagenavi_css']) )
 		return;
 
-	if (@file_exists(STYLESHEETPATH.'/pagenavi-css.css')) {
+	if ( @file_exists(STYLESHEETPATH.'/pagenavi-css.css') ) {
 		$css_file = get_stylesheet_directory_uri() . '/pagenavi-css.css';
-	} elseif (@file_exists(TEMPLATEPATH.'/pagenavi-css.css')) {
+	} elseif ( @file_exists(TEMPLATEPATH.'/pagenavi-css.css') ) {
 		$css_file = get_template_directory_uri() . '/pagenavi-css.css';
 	} else {
 		$css_file = plugins_url('pagenavi-css.css', __FILE__);
@@ -103,11 +103,6 @@ function wp_pagenavi($before = '', $after = '') {
 	if ( $start_page <= 0 )
 		$start_page = 1;
 
-	if ( $larger_page_multiple < $max_page )
-		$larger_pages_array = range($larger_page_multiple, $max_page, $larger_page_multiple);
-	else
-		$larger_pages_array = array();
-
 	$pages_text = str_replace("%CURRENT_PAGE%", number_format_i18n($paged), $pagenavi_options['pages_text']);
 	$pages_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pages_text);
 	echo $before.'<div class="wp-pagenavi">'."\n";
@@ -117,13 +112,18 @@ function wp_pagenavi($before = '', $after = '') {
 			if ( !empty($pages_text) )
 				echo '<span class="pages">'.$pages_text.'</span>';
 
-			if ($start_page >= 2 && $pages_to_show < $max_page) {
+			if ( $start_page >= 2 && $pages_to_show < $max_page ) {
 				$first_page_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pagenavi_options['first_text']);
 				echo '<a href="'.clean_url(get_pagenum_link()).'" class="first" title="'.$first_page_text.'">'.$first_page_text.'</a>';
-				if (!empty($pagenavi_options['dotleft_text'])) {
+				if ( !empty($pagenavi_options['dotleft_text']) ) {
 					echo '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
 				}
 			}
+
+			if ( $larger_page_multiple <= $max_page )
+				$larger_pages_array = range($larger_page_multiple, $max_page, $larger_page_multiple);
+			else
+				$larger_pages_array = array();
 
 			$larger_page_start = 0;
 			foreach ( $larger_pages_array as $larger_page ) {
@@ -147,16 +147,16 @@ function wp_pagenavi($before = '', $after = '') {
 			next_posts_link($pagenavi_options['next_text'], $max_page);
 
 			$larger_page_end = 0;
-			foreach($larger_pages_array as $larger_page) {
-				if ($larger_page > $end_page && $larger_page_end < $larger_page_to_show) {
+			foreach ( $larger_pages_array as $larger_page ) {
+				if ( $larger_page > $end_page && $larger_page_end < $larger_page_to_show ) {
 					$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($larger_page), $pagenavi_options['page_text']);
 					echo '<a href="'.clean_url(get_pagenum_link($larger_page)).'" class="page" title="'.$page_text.'">'.$page_text.'</a>';
 					$larger_page_end++;
 				}
 			}
 
-			if ($end_page < $max_page) {
-				if (!empty($pagenavi_options['dotright_text']))
+			if ( $end_page < $max_page ) {
+				if ( !empty($pagenavi_options['dotright_text']) )
 					echo '<span class="extend">'.$pagenavi_options['dotright_text'].'</span>';
 
 				$last_page_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pagenavi_options['last_text']);
@@ -169,12 +169,12 @@ function wp_pagenavi($before = '', $after = '') {
 			echo '<form action="" method="get">'."\n";
 			echo '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">'."\n";
 
-			for($i = 1; $i  <= $max_page; $i++) {
+			for ( $i = 1; $i  <= $max_page; $i++ ) {
 				$page_num = $i;
-				if ($page_num == 1)
+				if ( $page_num == 1 )
 					$page_num = 0;
 
-				if ($i == $paged) {
+				if ( $i == $paged ) {
 					$current_page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['current_text']);
 					echo '<option value="'.clean_url(get_pagenum_link($page_num)).'" selected="selected" class="current">'.$current_page_text."</option>\n";
 				} else {
@@ -233,4 +233,8 @@ function pagenavi_init() {
 	add_option('pagenavi_options', $pagenavi_options, 'PageNavi Options');
 }
 
+register_uninstall_hook(__FILE__, 'pagenavi_uninstall');
+function pagenavi_uninstall() {
+	delete_option('pagenavi_options');
+}
 

@@ -16,14 +16,12 @@
 ### Variables Variables Variables
 $base_name = plugin_basename('wp-pagenavi/pagenavi-options.php');
 $base_page = 'admin.php?page='.$base_name;
-$mode = trim(@$_GET['mode']);
 $pagenavi_settings = array('pagenavi_options');
 
 
 ### Form Processing
 // Update Options
-if (!empty($_POST['Submit'])) {
-
+if ( !empty($_POST['Submit']) ) {
 	$pagenavi_options = array();
 	$pagenavi_options['pages_text'] = addslashes(@$_POST['pagenavi_pages_text']);
 	$pagenavi_options['current_text'] = addslashes(@$_POST['pagenavi_current_text']);
@@ -48,58 +46,20 @@ if (!empty($_POST['Submit'])) {
 	$i=0;
 	$text = '';
 	foreach ($update_pagenavi_queries as $update_pagenavi_query) {
-		if ($update_pagenavi_query) {
+		if ( $update_pagenavi_query ) {
 			$text .= '<font color="green">'.$update_pagenavi_text[$i].' '.__('Updated', 'wp-pagenavi').'</font><br />';
 		}
 		$i++;
 	}
-	if (empty($text)) {
+	if ( empty($text) ) {
 		$text = '<font color="red">'.__('No Page Navigation Option Updated', 'wp-pagenavi').'</font>';
 	}
 }
 
-// Uninstall WP-PageNavi
-if (!empty($_POST['do'])) {
-	switch($_POST['do']) {		
-		case __('UNINSTALL WP-PageNavi', 'wp-pagenavi') :
-			echo '<div id="message" class="updated fade">';
-			echo '<p>';
-			foreach ($pagenavi_settings as $setting) {
-				$delete_setting = delete_option($setting);
-				if ($delete_setting) {
-					echo '<font color="green">';
-					printf(__('Setting Key \'%s\' has been deleted.', 'wp-pagenavi'), "<strong><em>{$setting}</em></strong>");
-					echo '</font><br />';
-				} else {
-					echo '<font color="red">';
-					printf(__('Error deleting Setting Key \'%s\'.', 'wp-pagenavi'), "<strong><em>{$setting}</em></strong>");
-					echo '</font><br />';
-				}
-			}
-			echo '</p>';
-			echo '</div>';
-			$mode = 'end-UNINSTALL';
-			break;
-	}
-}
-
-
-### Determines Which Mode It Is
-switch($mode) {
-	//  Deactivating WP-PageNavi
-	case 'end-UNINSTALL':
-		$deactivate_url = 'plugins.php?action=deactivate&amp;plugin=wp-pagenavi/wp-pagenavi.php';
-		$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_wp-pagenavi/wp-pagenavi.php');
-		echo '<div class="wrap">';
-		echo '<h2>'.__('Uninstall WP-PageNavi', 'wp-pagenavi').'</h2>';
-		echo '<p><strong>'.sprintf(__('<a href="%s">Click Here</a> To Finish The Uninstallation And WP-PageNavi Will Be Deactivated Automatically.', 'wp-pagenavi'), $deactivate_url).'</strong></p>';
-		echo '</div>';
-		break;
-	// Main Page
-	default:
-		$pagenavi_options = get_option('pagenavi_options');
+// Main Page
+$pagenavi_options = get_option('pagenavi_options');
 ?>
-<?php if (!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
+<?php if ( !empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>">
 <div class="wrap">
 	<?php screen_icon(); ?>
@@ -225,46 +185,4 @@ switch($mode) {
 	</p>
 </div>
 </form>
-<p>&nbsp;</p>
 
-<!-- Uninstall WP-PageNavi -->
-<form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>">
-<div class="wrap">
-	<h3><?php _e('Uninstall WP-PageNavi', 'wp-pagenavi'); ?></h3>
-	<p>
-		<?php _e('Deactivating WP-PageNavi plugin does not remove any data that may have been created, such as the page navigation options. To completely remove this plugin, you can uninstall it here.', 'wp-pagenavi'); ?>
-	</p>
-	<p style="color: red">
-		<strong><?php _e('WARNING:', 'wp-pagenavi'); ?></strong><br />
-		<?php _e('Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first.', 'wp-pagenavi'); ?>
-	</p>
-	<p style="color: red">
-		<strong><?php _e('The following WordPress Options will be DELETED:', 'wp-pagenavi'); ?></strong><br />
-	</p>
-	<table class="widefat">
-		<thead>
-			<tr>
-				<th><?php _e('WordPress Options', 'wp-pagenavi'); ?></th>
-			</tr>
-		</thead>
-		<tr>
-			<td valign="top">
-				<ol>
-				<?php
-					foreach ($pagenavi_settings as $settings) {
-						echo '<li>'.$settings.'</li>'."\n";
-					}
-				?>
-				</ol>
-			</td>
-		</tr>
-	</table>
-	<p>&nbsp;</p>
-	<p style="text-align: center;">
-		<input type="submit" name="do" value="<?php _e('UNINSTALL WP-PageNavi', 'wp-pagenavi'); ?>" class="button" onclick="return confirm('<?php _e('You Are About To Uninstall WP-PageNavi From WordPress.\nThis Action Is Not Reversible.\n\n Choose [Cancel] To Stop, [OK] To Uninstall.', 'wp-pagenavi'); ?>')" />
-	</p>
-</div>
-</form>
-<?php
-} // End switch($mode)
-?>
