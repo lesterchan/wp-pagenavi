@@ -6,11 +6,11 @@ Requires at least: 2.8
 Tested up to: 2.9.1
 Stable tag: 2.60
 
-Adds a more advanced paging navigation your WordPress blog.
+Adds a more advanced paging navigation to your WordPress site.
 
 == Description ==
 
-Adds a more advanced paging navigation your WordPress site.
+Adds a more advanced paging navigation to your WordPress site.
 
 Example:
 
