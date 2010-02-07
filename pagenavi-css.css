@@ -18,7 +18,7 @@
 	text-decoration: none;
 	border: 1px solid #0066cc;
 	color: #0066cc;
-	background-color: #FFFFFF;	
+	background-color: #FFFFFF;
 }
 .wp-pagenavi a:visited {
 	padding: 2px 4px 2px 4px;
@@ -28,7 +28,7 @@
 	color: #0066cc;
 	background-color: #FFFFFF;	
 }
-.wp-pagenavi a:hover {	
+.wp-pagenavi a:hover {
 	border: 1px solid #000000;
 	color: #000000;
 	background-color: #FFFFFF;
