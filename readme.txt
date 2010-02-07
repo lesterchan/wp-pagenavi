@@ -62,7 +62,8 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 
 == Screenshots ==
 
-[WP-PageNavi Screenshots](http://lesterchan.net/wordpress/screenshots/browse/wp-pagenavi/ "WP-PageNavi Screenshots")
+1. Default appearance
+2. Options page
 
 == Frequently Asked Questions ==
 
