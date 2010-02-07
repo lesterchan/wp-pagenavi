@@ -71,6 +71,10 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 
 == Changelog ==
 
+= 2.70 (2010-X-X) =
+* optimized CSS
+* let WordPress handle uninstallation
+
 = 2.60 (2010-02-07) =
 * NEW: Compatible With WordPress 2.9
 * NEW: Added "previouspostslink" and "nextpostslink" CSS classes for styling next/previous posts link by Joost de Valk

@@ -39,27 +39,15 @@ if ( !empty($_POST['Submit']) ) {
 	$pagenavi_options['larger_page_numbers_multiple'] = intval(@$_POST['pagenavi_larger_page_numbers_multiple']);
 	$pagenavi_options['use_pagenavi_css'] = (bool) @$_POST['use_pagenavi_css'];
 
-	$update_pagenavi_queries = array();
-	$update_pagenavi_text = array();
-	$update_pagenavi_queries[] = update_option('pagenavi_options', $pagenavi_options);
-	$update_pagenavi_text[] = __('Page Navigation Options', 'wp-pagenavi');
-	$i=0;
-	$text = '';
-	foreach ($update_pagenavi_queries as $update_pagenavi_query) {
-		if ( $update_pagenavi_query ) {
-			$text .= '<font color="green">'.$update_pagenavi_text[$i].' '.__('Updated', 'wp-pagenavi').'</font><br />';
-		}
-		$i++;
-	}
-	if ( empty($text) ) {
-		$text = '<font color="red">'.__('No Page Navigation Option Updated', 'wp-pagenavi').'</font>';
-	}
+	if ( update_option('pagenavi_options', $pagenavi_options) )
+		echo '<div class="updated fade"><p>' . __('Settings updated.') . '</p></div>';
+	else
+		echo '<div class="error"><p>' . __('Settings not updated.') . '</p></div>';
 }
 
 // Main Page
 $pagenavi_options = get_option('pagenavi_options');
 ?>
-<?php if ( !empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>">
 <div class="wrap">
 	<?php screen_icon(); ?>
