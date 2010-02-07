@@ -57,7 +57,7 @@ function pagenavi_stylesheets() {
 		$css_file = plugins_url('pagenavi-css.css', __FILE__);
 	}
 
-	wp_enqueue_style('wp-pagenavi', $css_file, false, '2.60', 'all');
+	wp_enqueue_style('wp-pagenavi', $css_file, false, '2.70', 'all');
 }
 
 
