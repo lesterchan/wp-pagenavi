@@ -121,8 +121,9 @@ function wp_pagenavi($before = '', $after = '') {
 			}
 
 			$larger_pages_array = array();
-			for ( $i = $larger_page_multiple; $i <= $max_page; $i += $larger_page_multiple )
-				$larger_pages_array[] = $i;
+			if ( $larger_page_multiple )
+				for ( $i = $larger_page_multiple; $i <= $max_page; $i += $larger_page_multiple )
+					$larger_pages_array[] = $i;
 
 			$larger_page_start = 0;
 			foreach ( $larger_pages_array as $larger_page ) {

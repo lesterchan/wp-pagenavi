@@ -75,7 +75,8 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 * optimized CSS
 * let WordPress handle uninstallation
 
-= 2.60 (2010-02-07) =
+= 2.61 (2010-02-07) =
+* FIXED: memory limit error
 * NEW: Compatible With WordPress 2.9
 * NEW: Added "previouspostslink" and "nextpostslink" CSS classes for styling next/previous posts link by Joost de Valk
 * NEW: Added option to include pagenavi-css.css In WP-Admin -> Settings -> PageNavi
