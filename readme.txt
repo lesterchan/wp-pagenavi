@@ -16,6 +16,8 @@ Example:
 
 	Pages (17): [1] 2 3 4 » ... Last »
 
+
+<br>
 [Demo](http://lesterchan.net/wordpress/) | [Translations](http://dev.wp-plugins.org/browser/wp-pagenavi/i18n/) | [Support Forums](http://forums.lesterchan.net/index.php?board=14.0)
 
 = Credits =
