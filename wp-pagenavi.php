@@ -73,7 +73,7 @@ function wp_pagenavi($before = '', $after = '') {
 	$numposts = $wp_query->found_posts;
 	$max_page = $wp_query->max_num_pages;
 
-	if ( is_singular() || ($max_page <= 1 && !intval($pagenavi_options['always_show'])) )
+	if ( $max_page <= 1 && !intval($pagenavi_options['always_show']) )
 		return;
 
 	if ( empty($paged) )
