@@ -103,7 +103,7 @@ function wp_pagenavi($before = '', $after = '') {
 	if ( $start_page <= 0 )
 		$start_page = 1;
 
-	if ( $larger_page_multiple >= $max_page )
+	if ( $larger_page_multiple < $max_page )
 		$larger_pages_array = range($larger_page_multiple, $max_page, $larger_page_multiple);
 	else
 		$larger_pages_array = array();
