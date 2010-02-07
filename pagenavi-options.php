@@ -1,6 +1,6 @@
 <?php
 /*----------------------------------------------------------------*
-	WordPress 2.8 Plugin: WP-PageNavi 2.60									
+	WordPress 2.9 Plugin: WP-PageNavi 2.60									
 	Copyright (c) 2009 Lester "GaMerZ" Chan									
 																							
 	File Written By:																	
