@@ -57,6 +57,7 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 
 = 2.70 (2010-X-X) =
 * optimized CSS
+* fixed issue with slashed quotes in settings
 * let WordPress handle uninstallation
 
 = 2.61 (2010-02-07) =
