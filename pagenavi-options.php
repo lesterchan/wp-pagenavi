@@ -14,7 +14,7 @@
 
 
 ### Variables Variables Variables
-$base_name = plugin_basename('wp-pagenavi/pagenavi-options.php');
+$base_name = plugin_basename(__FILE__);
 $base_page = 'admin.php?page='.$base_name;
 $pagenavi_settings = array('pagenavi_options');
 
@@ -23,15 +23,15 @@ $pagenavi_settings = array('pagenavi_options');
 // Update Options
 if ( !empty($_POST['Submit']) ) {
 	$pagenavi_options = array();
-	$pagenavi_options['pages_text'] = addslashes(@$_POST['pagenavi_pages_text']);
-	$pagenavi_options['current_text'] = addslashes(@$_POST['pagenavi_current_text']);
-	$pagenavi_options['page_text'] = addslashes(@$_POST['pagenavi_page_text']);
-	$pagenavi_options['first_text'] = addslashes(@$_POST['pagenavi_first_text']);
-	$pagenavi_options['last_text'] = addslashes(@$_POST['pagenavi_last_text']);
-	$pagenavi_options['next_text'] = addslashes(@$_POST['pagenavi_next_text']);
-	$pagenavi_options['prev_text'] = addslashes(@$_POST['pagenavi_prev_text']);
-	$pagenavi_options['dotright_text'] = addslashes(@$_POST['pagenavi_dotright_text']);
-	$pagenavi_options['dotleft_text'] = addslashes(@$_POST['pagenavi_dotleft_text']);
+	$pagenavi_options['pages_text'] = stripslashes(@$_POST['pagenavi_pages_text']);
+	$pagenavi_options['current_text'] = stripslashes(@$_POST['pagenavi_current_text']);
+	$pagenavi_options['page_text'] = stripslashes(@$_POST['pagenavi_page_text']);
+	$pagenavi_options['first_text'] = stripslashes(@$_POST['pagenavi_first_text']);
+	$pagenavi_options['last_text'] = stripslashes(@$_POST['pagenavi_last_text']);
+	$pagenavi_options['next_text'] = stripslashes(@$_POST['pagenavi_next_text']);
+	$pagenavi_options['prev_text'] = stripslashes(@$_POST['pagenavi_prev_text']);
+	$pagenavi_options['dotright_text'] = stripslashes(@$_POST['pagenavi_dotright_text']);
+	$pagenavi_options['dotleft_text'] = stripslashes(@$_POST['pagenavi_dotleft_text']);
 	$pagenavi_options['style'] = intval(@$_POST['pagenavi_style']);
 	$pagenavi_options['num_pages'] = intval(@$_POST['pagenavi_num_pages']);
 	$pagenavi_options['always_show'] = (bool) @$_POST['pagenavi_always_show'];
@@ -48,7 +48,7 @@ if ( !empty($_POST['Submit']) ) {
 // Main Page
 $pagenavi_options = get_option('pagenavi_options');
 ?>
-<form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>">
+<form method="post" action="">
 <div class="wrap">
 	<?php screen_icon(); ?>
 	<h2><?php _e('Page Navigation Options', 'wp-pagenavi'); ?></h2>
@@ -57,7 +57,7 @@ $pagenavi_options = get_option('pagenavi_options');
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Number Of Pages', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_pages_text" value="<?php echo stripslashes($pagenavi_options['pages_text']); ?>" size="50" /><br />
+				<input type="text" name="pagenavi_pages_text" value="<?php echo htmlspecialchars($pagenavi_options['pages_text']); ?>" size="50" /><br />
 				%CURRENT_PAGE% - <?php _e('The current page number.', 'wp-pagenavi'); ?><br />
 				%TOTAL_PAGES% - <?php _e('The total number of pages.', 'wp-pagenavi'); ?>
 			</td>
@@ -65,53 +65,53 @@ $pagenavi_options = get_option('pagenavi_options');
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Current Page', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_current_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['current_text'])); ?>" size="30" /><br />
+				<input type="text" name="pagenavi_current_text" value="<?php echo htmlspecialchars($pagenavi_options['current_text']); ?>" size="30" /><br />
 				%PAGE_NUMBER% - <?php _e('The page number.', 'wp-pagenavi'); ?><br />
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Page', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_page_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['page_text'])); ?>" size="30" /><br />
+				<input type="text" name="pagenavi_page_text" value="<?php echo htmlspecialchars($pagenavi_options['page_text']); ?>" size="30" /><br />
 				%PAGE_NUMBER% - <?php _e('The page number.', 'wp-pagenavi'); ?><br />
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For First Page', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_first_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['first_text'])); ?>" size="30" /><br />
+				<input type="text" name="pagenavi_first_text" value="<?php echo htmlspecialchars($pagenavi_options['first_text']); ?>" size="30" /><br />
 				%TOTAL_PAGES% - <?php _e('The total number of pages.', 'wp-pagenavi'); ?>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Last Page', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_last_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['last_text'])); ?>" size="30" /><br />
+				<input type="text" name="pagenavi_last_text" value="<?php echo htmlspecialchars($pagenavi_options['last_text']); ?>" size="30" /><br />
 				%TOTAL_PAGES% - <?php _e('The total number of pages.', 'wp-pagenavi'); ?>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Next Page', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_next_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['next_text'])); ?>" size="30" />
+				<input type="text" name="pagenavi_next_text" value="<?php echo htmlspecialchars($pagenavi_options['next_text']); ?>" size="30" />
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Previous Page', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_prev_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['prev_text'])); ?>" size="30" />
+				<input type="text" name="pagenavi_prev_text" value="<?php echo htmlspecialchars($pagenavi_options['prev_text']); ?>" size="30" />
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Next ...', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_dotright_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['dotright_text'])); ?>" size="30" />
+				<input type="text" name="pagenavi_dotright_text" value="<?php echo htmlspecialchars($pagenavi_options['dotright_text']); ?>" size="30" />
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Previous ...', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_dotleft_text" value="<?php echo stripslashes(htmlspecialchars($pagenavi_options['dotleft_text'])); ?>" size="30" />
+				<input type="text" name="pagenavi_dotleft_text" value="<?php echo htmlspecialchars($pagenavi_options['dotleft_text']); ?>" size="30" />
 			</td>
 		</tr>
 	</table>
@@ -135,7 +135,7 @@ $pagenavi_options = get_option('pagenavi_options');
 		<tr>
 			<th scope="row" valign="top"><?php _e('Number Of Pages To Show?', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_num_pages" value="<?php echo stripslashes($pagenavi_options['num_pages']); ?>" size="4" />
+				<input type="text" name="pagenavi_num_pages" value="<?php echo htmlspecialchars($pagenavi_options['num_pages']); ?>" size="4" />
 			</td>
 		</tr>
 		<tr>
@@ -148,7 +148,7 @@ $pagenavi_options = get_option('pagenavi_options');
 		<tr>
 			<th scope="row" valign="top"><?php _e('Number Of Larger Page Numbers To Show?', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_num_larger_page_numbers" value="<?php echo stripslashes($pagenavi_options['num_larger_page_numbers']); ?>" size="4" />
+				<input type="text" name="pagenavi_num_larger_page_numbers" value="<?php echo htmlspecialchars($pagenavi_options['num_larger_page_numbers']); ?>" size="4" />
 				<br />
 				<?php _e('Larger page numbers are in additional to the default page numbers. It is useful for authors who is paginating through many posts.', 'wp-pagenavi'); ?>	
 				<br />
@@ -160,7 +160,7 @@ $pagenavi_options = get_option('pagenavi_options');
 		<tr>
 			<th scope="row" valign="top"><?php _e('Show  Larger Page Numbers In Multiples Of:', 'wp-pagenavi'); ?></th>
 			<td>
-				<input type="text" name="pagenavi_larger_page_numbers_multiple" value="<?php echo stripslashes($pagenavi_options['larger_page_numbers_multiple']); ?>" size="4" />
+				<input type="text" name="pagenavi_larger_page_numbers_multiple" value="<?php echo htmlspecialchars($pagenavi_options['larger_page_numbers_multiple']); ?>" size="4" />
 				<br />
 				<?php _e('If mutiple is in 5, it will show: 5, 10, 15, 20, 25', 'wp-pagenavi'); ?>	
 				<br />				
