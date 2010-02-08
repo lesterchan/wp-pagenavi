@@ -27,7 +27,6 @@ Author URI: http://lesterchan.net
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 ### Create Text Domain For Translations
 add_action('init', 'pagenavi_textdomain');
 function pagenavi_textdomain() {
@@ -91,9 +90,8 @@ function wp_pagenavi($before = '', $after = '') {
 		$start_page = 1;
 
 	$end_page = $paged + $half_page_end;
-	if ( ($end_page - $start_page) != $pages_to_show_minus_1 ) {
+	if ( ($end_page - $start_page) != $pages_to_show_minus_1 )
 		$end_page = $start_page + $pages_to_show_minus_1;
-	}
 
 	if ( $end_page > $max_page ) {
 		$start_page = $max_page - $pages_to_show_minus_1;
@@ -165,7 +163,7 @@ function wp_pagenavi($before = '', $after = '') {
 			break;
 
 		// Dropdown
-		case 2;
+		case 2:
 			echo '<form action="" method="get">'."\n";
 			echo '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">'."\n";
 

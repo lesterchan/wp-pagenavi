@@ -1,16 +1,4 @@
 <?php
-/*----------------------------------------------------------------*
-	WordPress 2.9 Plugin: WP-PageNavi 2.60
-	Copyright (c) 2009 Lester "GaMerZ" Chan
-
-	File Written By:
-	- Lester "GaMerZ" Chan
-	- http://lesterchan.net
-
-	File Information:
-	- Page Navigation Options Page
-	- wp-content/plugins/wp-pagenavi/pagenavi-options.php
- *----------------------------------------------------------------*/
 
 ### Form Processing
 // Update Options
