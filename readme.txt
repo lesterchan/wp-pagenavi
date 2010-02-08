@@ -34,10 +34,7 @@ You can either install it automatically from the WordPress admin, or do it manua
 = Usage =
 
 1. Open `wp-content/themes/<YOUR THEME NAME>/footer.php`
-2. Add Anywhere:
-
-`<?php if(function_exists('wp_pagenavi')) { wp_pagenavi(); } ?>`
-
+2. Add Anywhere: `<?php if(function_exists('wp_pagenavi')) { wp_pagenavi(); } ?>`
 3. Go to *WP-Admin -> Settings -> PageNavi* to configure WP-PageNavi.
 
 = Changing the CSS =
@@ -119,4 +116,3 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 = 2.00 (2006-01-01) =
 * NEW: Compatible With WordPress 2.0
 * FIXED: Space Issues
-
