@@ -12,13 +12,6 @@
 	- wp-content/plugins/wp-pagenavi/pagenavi-options.php
  *----------------------------------------------------------------*/
 
-
-### Variables Variables Variables
-$base_name = plugin_basename(__FILE__);
-$base_page = 'admin.php?page='.$base_name;
-$pagenavi_settings = array('pagenavi_options');
-
-
 ### Form Processing
 // Update Options
 if ( !empty($_POST['Submit']) ) {
