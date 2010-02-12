@@ -61,59 +61,61 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 * let WordPress handle uninstallation
 
 = 2.61 (2010-02-07) =
-* FIXED: memory limit error
-* NEW: Compatible With WordPress 2.9
-* NEW: Added "previouspostslink" and "nextpostslink" CSS classes for styling next/previous posts link by Joost de Valk
-* NEW: Added option to include pagenavi-css.css In WP-Admin -> Settings -> PageNavi
-* FIXED: check for pagenavi-css.css in the child theme, first
-* FIXED: cleaner options page
+* fixed: memory limit error
+
+= 2.60 (2010-02-07) =
+* new: Compatible With WordPress 2.9
+* new: Added "previouspostslink" and "nextpostslink" CSS classes for styling next/previous posts link by Joost de Valk
+* new: Added option to include pagenavi-css.css In WP-Admin -> Settings -> PageNavi
+* fixed: check for pagenavi-css.css in the child theme, first
+* fixed: cleaner options page
 
 = 2.50 (2009-06-01) =
-* NEW: Compatible With WordPress 2.8
-* NEW: Added Larger Page Number Pagination
-* NEW: Added "first", "page" and "last" CSS Name To Link
-* FIXED: Removed "&#8201;" Entity
-* FIXED: Uses $_SERVER['PHP_SELF'] With plugin_basename(__FILE__) Instead Of Just $_SERVER['REQUEST_URI']
+* new: Compatible With WordPress 2.8
+* new: Added Larger Page Number Pagination
+* new: Added "first", "page" and "last" CSS Name To Link
+* fixed: Removed "&#8201;" Entity
+* fixed: Uses $_SERVER['PHP_SELF'] With plugin_basename(__FILE__) Instead Of Just $_SERVER['REQUEST_URI']
 
 = 2.40 (2008-12-12) =
-* NEW: Compatible With WordPress 2.7 Only
-* NEW: Right To Left Language Support by Kambiz R. Khojasteh
-* NEW: Called pagenavi_textdomain() In pagenavi_init() by Kambiz R. Khojasteh
+* new: Compatible With WordPress 2.7 Only
+* new: Right To Left Language Support by Kambiz R. Khojasteh
+* new: Called pagenavi_textdomain() In pagenavi_init() by Kambiz R. Khojasteh
 
 = 2.31 (2008-07-16) =
-* NEW: Compatible With WordPress 2.6
+* new: Compatible With WordPress 2.6
 
 = 2.30 (2008-06-01) =
-* NEW: WP-PageNavi Will Load 'pagenavi-css.css' Inside Your Theme Directory If It Exists. If Not, It Will Just Load The Default 'pagenavi-css.css' By WP-PageNavi
-* NEW: Uses /wp-pagenavi/ Folder Instead Of /pagenavi/
-* NEW: Uses wp-pagenavi.php Instead Of pagenavi.php
-* NEW: Added "wp-pagenavi a:visited" Style In pagenavi-css.css
-* NEW: Added $before And $after Function Arguments To wp_pagenavi();
-* FIXED: Rearranged CSS Classes In pagenavi-css.css
-* FIXED: "First" Text Does Not Always Appear If Page 1 Is Not Shown
+* new: WP-PageNavi Will Load 'pagenavi-css.css' Inside Your Theme Directory If It Exists. If Not, It Will Just Load The Default 'pagenavi-css.css' By WP-PageNavi
+* new: Uses /wp-pagenavi/ Folder Instead Of /pagenavi/
+* new: Uses wp-pagenavi.php Instead Of pagenavi.php
+* new: Added "wp-pagenavi a:visited" Style In pagenavi-css.css
+* new: Added $before And $after Function Arguments To wp_pagenavi();
+* fixed: Rearranged CSS Classes In pagenavi-css.css
+* fixed: "First" Text Does Not Always Appear If Page 1 Is Not Shown
 
 = 2.20 (2007-10-01) =
-* NEW: Supports query_posts(); Variables
-* NEW: Ability To Uninstall WP-PageNavi
+* new: Supports query_posts(); Variables
+* new: Ability To Uninstall WP-PageNavi
 
 = 2.11 (2007-06-01) =
-* NEW: Page Navigation Now Is Customizable Via 'WP-Admin -> Options -> PageNavi' And pagenavi-css.css
-* NEW: Default Style Navigation Is Now Boxed Navigation (Similar To Digg.com) =
-* FIXED: Fix For Ultimate Tag Warrior By Oliver Kastler & Stephan (Netconcepts)
+* new: Page Navigation Now Is Customizable Via 'WP-Admin -> Options -> PageNavi' And pagenavi-css.css
+* new: Default Style Navigation Is Now Boxed Navigation (Similar To Digg.com) =
+* fixed: Fix For Ultimate Tag Warrior By Oliver Kastler & Stephan (Netconcepts)
 
 = 2.10 (2007-02-01) =
-* NEW: Compatible With WordPress 2.1 Only
-* NEW: Move pagenavi.php To pagenavi Folder
+* new: Compatible With WordPress 2.1 Only
+* new: Move pagenavi.php To pagenavi Folder
 
 = 2.03 (2006-10-01) =
-* FIXED: Now Compatible With WordPress 2.1
+* fixed: Now Compatible With WordPress 2.1
 
 = 2.02 (2006-06-01) =
-* NEW: Added Drop Down Menu Style Of Page Navigation
+* new: Added Drop Down Menu Style Of Page Navigation
 
 = 2.01 (2006-03-01) =
-* FIXED: Paging Show If There Is Only 1 Page
+* fixed: Paging Show If There Is Only 1 Page
 
 = 2.00 (2006-01-01) =
-* NEW: Compatible With WordPress 2.0
-* FIXED: Space Issues
+* new: Compatible With WordPress 2.0
+* fixed: Space Issues
