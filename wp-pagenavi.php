@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP-PageNavi
-Plugin URI: http://lesterchan.net/portfolio/programming/php/
+Plugin URI: http://wordpress.org/extend/plugins/wp-pagenavi/
 Description: Adds a more advanced paging navigation to your WordPress blog.
 Version: 2.70a
 Author: Lester 'GaMerZ' Chan
