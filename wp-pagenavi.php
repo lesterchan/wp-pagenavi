@@ -112,7 +112,7 @@ function wp_pagenavi($before = '', $after = '') {
 
 			if ( $start_page >= 2 && $pages_to_show < $max_page ) {
 				$first_page_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pagenavi_options['first_text']);
-				echo '<a href="'.clean_url(get_pagenum_link()).'" class="first">'.$first_page_text.'</a>';
+				echo '<a href="'.esc_url(get_pagenum_link()).'" class="first">'.$first_page_text.'</a>';
 
 				if ( !empty($pagenavi_options['dotleft_text']) )
 					echo '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
@@ -127,7 +127,7 @@ function wp_pagenavi($before = '', $after = '') {
 			foreach ( $larger_pages_array as $larger_page ) {
 				if ( $larger_page < $start_page && $larger_page_start < $larger_page_to_show ) {
 					$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($larger_page), $pagenavi_options['page_text']);
-					echo '<a href="'.clean_url(get_pagenum_link($larger_page)).'" class="page">'.$page_text.'</a>';
+					echo '<a href="'.esc_url(get_pagenum_link($larger_page)).'" class="page">'.$page_text.'</a>';
 					$larger_page_start++;
 				}
 			}
@@ -139,7 +139,7 @@ function wp_pagenavi($before = '', $after = '') {
 					echo '<span class="current">'.$current_page_text.'</span>';
 				} else {
 					$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['page_text']);
-					echo '<a href="'.clean_url(get_pagenum_link($i)).'" class="page">'.$page_text.'</a>';
+					echo '<a href="'.esc_url(get_pagenum_link($i)).'" class="page">'.$page_text.'</a>';
 				}
 			}
 			next_posts_link($pagenavi_options['next_text'], $max_page);
@@ -148,7 +148,7 @@ function wp_pagenavi($before = '', $after = '') {
 			foreach ( $larger_pages_array as $larger_page ) {
 				if ( $larger_page > $end_page && $larger_page_end < $larger_page_to_show ) {
 					$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($larger_page), $pagenavi_options['page_text']);
-					echo '<a href="'.clean_url(get_pagenum_link($larger_page)).'" class="page">'.$page_text.'</a>';
+					echo '<a href="'.esc_url(get_pagenum_link($larger_page)).'" class="page">'.$page_text.'</a>';
 					$larger_page_end++;
 				}
 			}
@@ -158,7 +158,7 @@ function wp_pagenavi($before = '', $after = '') {
 					echo '<span class="extend">'.$pagenavi_options['dotright_text'].'</span>';
 
 				$last_page_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pagenavi_options['last_text']);
-				echo '<a href="'.clean_url(get_pagenum_link($max_page)).'" class="last">'.$last_page_text.'</a>';
+				echo '<a href="'.esc_url(get_pagenum_link($max_page)).'" class="last">'.$last_page_text.'</a>';
 			}
 			break;
 
@@ -174,10 +174,10 @@ function wp_pagenavi($before = '', $after = '') {
 
 				if ( $i == $paged ) {
 					$current_page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['current_text']);
-					echo '<option value="'.clean_url(get_pagenum_link($page_num)).'" selected="selected" class="current">'.$current_page_text."</option>\n";
+					echo '<option value="'.esc_url(get_pagenum_link($page_num)).'" selected="selected" class="current">'.$current_page_text."</option>\n";
 				} else {
 					$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['page_text']);
-					echo '<option value="'.clean_url(get_pagenum_link($page_num)).'">'.$page_text."</option>\n";
+					echo '<option value="'.esc_url(get_pagenum_link($page_num)).'">'.$page_text."</option>\n";
 				}
 			}
 
