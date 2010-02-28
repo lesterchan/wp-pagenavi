@@ -6,10 +6,8 @@ Description: Adds a more advanced paging navigation to your WordPress blog.
 Version: 2.70a
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
-*/
 
 
-/*
 	Copyright 2009  Lester Chan  (email : lesterchan@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
@@ -27,48 +25,16 @@ Author URI: http://lesterchan.net
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-### Create Text Domain For Translations
-add_action('init', 'pagenavi_textdomain');
-function pagenavi_textdomain() {
-	load_plugin_textdomain('wp-pagenavi', false, 'wp-pagenavi');
-}
-
-
-### Function: Page Navigation Option Menu
-add_action('admin_menu', 'pagenavi_menu');
-function pagenavi_menu() {
-	add_options_page(__('PageNavi', 'wp-pagenavi'), __('PageNavi', 'wp-pagenavi'), 'manage_options', 'wp-pagenavi/pagenavi-options.php') ;
-}
-
-### Function: Enqueue PageNavi Stylesheets
-add_action('wp_print_styles', 'pagenavi_stylesheets');
-function pagenavi_stylesheets() {
-	$pagenavi_options = get_option('pagenavi_options');
-
-	if ( isset($pagenavi_options['use_pagenavi_css']) && !intval($pagenavi_options['use_pagenavi_css']) )
-		return;
-
-	if ( @file_exists(STYLESHEETPATH.'/pagenavi-css.css') ) {
-		$css_file = get_stylesheet_directory_uri() . '/pagenavi-css.css';
-	} elseif ( @file_exists(TEMPLATEPATH.'/pagenavi-css.css') ) {
-		$css_file = get_template_directory_uri() . '/pagenavi-css.css';
-	} else {
-		$css_file = plugins_url('pagenavi-css.css', __FILE__);
-	}
-
-	wp_enqueue_style('wp-pagenavi', $css_file, false, '2.70', 'all');
-}
-
-
 ### Function: Page Navigation: Boxed Style Paging
 function wp_pagenavi($before = '', $after = '') {
-	global $wpdb, $wp_query;
+	global $wp_query;
 
-	$pagenavi_options = get_option('pagenavi_options');
+	$pagenavi_options = PageNavi_Core::$options->get();
 
-	$request = $wp_query->request;
 	$posts_per_page = intval(get_query_var('posts_per_page'));
 	$paged = intval(get_query_var('paged'));
+
+	$request = $wp_query->request;
 	$numposts = $wp_query->found_posts;
 	$max_page = $wp_query->max_num_pages;
 
@@ -90,6 +56,7 @@ function wp_pagenavi($before = '', $after = '') {
 		$start_page = 1;
 
 	$end_page = $paged + $half_page_end;
+
 	if ( ($end_page - $start_page) != $pages_to_show_minus_1 )
 		$end_page = $start_page + $pages_to_show_minus_1;
 
@@ -103,8 +70,9 @@ function wp_pagenavi($before = '', $after = '') {
 
 	$pages_text = str_replace("%CURRENT_PAGE%", number_format_i18n($paged), $pagenavi_options['pages_text']);
 	$pages_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pages_text);
+
 	echo $before.'<div class="wp-pagenavi">'."\n";
-	switch(intval($pagenavi_options['style'])) {
+	switch ( intval($pagenavi_options['style']) ) {
 		// Normal
 		case 1:
 			if ( !empty($pages_text) )
@@ -167,7 +135,7 @@ function wp_pagenavi($before = '', $after = '') {
 			echo '<form action="" method="get">'."\n";
 			echo '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">'."\n";
 
-			for ( $i = 1; $i  <= $max_page; $i++ ) {
+			for ( $i = 1; $i <= $max_page; $i++ ) {
 				$page_num = $i;
 				if ( $page_num == 1 )
 					$page_num = 0;
@@ -195,24 +163,51 @@ function wp_pagenavi_dropdown() {
 }
 
 
-### Function: Filters for Previous and Next Posts Link CSS Class
-add_filter('previous_posts_link_attributes','previous_posts_link_class');
-function previous_posts_link_class() {
-	return 'class="previouspostslink"';
-}
-add_filter('next_posts_link_attributes','next_posts_link_class');
-function next_posts_link_class() {
-	return 'class="nextpostslink"';
+class PageNavi_Core {
+	static $options;
+
+	function init($options) {
+		self::$options = $options;
+	
+		add_action('wp_print_styles', array(__CLASS__, 'stylesheets'));
+		add_filter('previous_posts_link_attributes', array(__CLASS__, 'previous_posts_link_attributes'));
+		add_filter('next_posts_link_attributes', array(__CLASS__, 'next_posts_link_attributes'));
+	}
+
+	function pagenavi_stylesheets() {
+		$pagenavi_options = PageNavi_Core::$options->get();
+
+		if ( isset($pagenavi_options['use_pagenavi_css']) && !intval($pagenavi_options['use_pagenavi_css']) )
+			return;
+
+		if ( @file_exists(STYLESHEETPATH.'/pagenavi-css.css') ) {
+			$css_file = get_stylesheet_directory_uri() . '/pagenavi-css.css';
+		} elseif ( @file_exists(TEMPLATEPATH.'/pagenavi-css.css') ) {
+			$css_file = get_template_directory_uri() . '/pagenavi-css.css';
+		} else {
+			$css_file = plugins_url('pagenavi-css.css', __FILE__);
+		}
+
+		wp_enqueue_style('wp-pagenavi', $css_file, false, '2.70', 'all');
+	}
+
+	function previous_posts_link_attributes() {
+		return 'class="previouspostslink"';
+	}
+
+	function next_posts_link_attributes() {
+		return 'class="nextpostslink"';
+	}
 }
 
 
-### Function: Page Navigation Options
-register_activation_hook(__FILE__, 'pagenavi_init');
-function pagenavi_init() {
-	pagenavi_textdomain();
-	// Add Options
-	$pagenavi_options = array(
-		'pages_text' => __('Page %CURRENT_PAGE% of %TOTAL_PAGES%','wp-pagenavi'),
+function _pagenavi_init() {
+	load_plugin_textdomain('wp-pagenavi', false, 'wp-pagenavi');
+
+	require_once dirname(__FILE__) . '/scb/load.php';
+
+	$options = new scbOptions('pagenavi_options', __FILE__, array(
+		'pages_text' => __('Page %CURRENT_PAGE% of %TOTAL_PAGES%', 'wp-pagenavi'),
 		'current_text' => '%PAGE_NUMBER%',
 		'page_text' => '%PAGE_NUMBER%',
 		'first_text' => __('&laquo; First','wp-pagenavi'),
@@ -227,12 +222,14 @@ function pagenavi_init() {
 		'num_larger_page_numbers' => 3,
 		'larger_page_numbers_multiple' => 10,
 		'use_pagenavi_css' => 1,
-	);
-	add_option('pagenavi_options', $pagenavi_options, 'PageNavi Options');
-}
+	));
 
-register_uninstall_hook(__FILE__, 'pagenavi_uninstall');
-function pagenavi_uninstall() {
-	delete_option('pagenavi_options');
+	PageNavi_Core::init($options);
+
+	if ( is_admin() ) {
+		require_once dirname(__FILE__) . '/pagenavi-options.php';
+		new PageNavi_Options_Page(__FILE__, $options);
+	}
 }
+_pagenavi_init();
 
