@@ -47,36 +47,36 @@ class PageNavi_Options_Page extends scbAdminPage {
 			<th scope="row" valign="top"><?php _e('Text For Number Of Pages', $this->textdomain); ?></th>
 			<td>
 				<input type="text" name="pagenavi_pages_text" value="<?php echo htmlspecialchars($pagenavi_options['pages_text']); ?>" size="50" /><br />
-				%current_page% - <?php _e('The current page number.', $this->textdomain); ?><br />
-				%total_pages% - <?php _e('The total number of pages.', $this->textdomain); ?>
+				%CURRENT_PAGE% - <?php _e('The current page number.', $this->textdomain); ?><br />
+				%TOTAL_PAGES% - <?php _e('The total number of pages.', $this->textdomain); ?>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Current Page', $this->textdomain); ?></th>
 			<td>
 				<input type="text" name="pagenavi_current_text" value="<?php echo htmlspecialchars($pagenavi_options['current_text']); ?>" class="regular-text" /><br />
-				%page_number% - <?php _e('The page number.', $this->textdomain); ?><br />
+				%PAGE_NUMBER% - <?php _e('The page number.', $this->textdomain); ?><br />
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Page', $this->textdomain); ?></th>
 			<td>
 				<input type="text" name="pagenavi_page_text" value="<?php echo htmlspecialchars($pagenavi_options['page_text']); ?>" class="regular-text" /><br />
-				%page_number% - <?php _e('The page number.', $this->textdomain); ?><br />
+				%PAGE_NUMBER% - <?php _e('The page number.', $this->textdomain); ?><br />
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For First Page', $this->textdomain); ?></th>
 			<td>
 				<input type="text" name="pagenavi_first_text" value="<?php echo htmlspecialchars($pagenavi_options['first_text']); ?>" class="regular-text" /><br />
-				%total_pages% - <?php _e('The total number of pages.', $this->textdomain); ?>
+				%TOTAL_PAGES% - <?php _e('The total number of pages.', $this->textdomain); ?>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Last Page', $this->textdomain); ?></th>
 			<td>
 				<input type="text" name="pagenavi_last_text" value="<?php echo htmlspecialchars($pagenavi_options['last_text']); ?>" class="regular-text" /><br />
-				%total_pages% - <?php _e('The total number of pages.', $this->textdomain); ?>
+				%TOTAL_PAGES% - <?php _e('The total number of pages.', $this->textdomain); ?>
 			</td>
 		</tr>
 		<tr>
