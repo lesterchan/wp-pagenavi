@@ -99,7 +99,7 @@ $pagenavi_options = get_option('pagenavi_options');
 	<h3><?php _e('Page Navigation Options', 'wp-pagenavi'); ?></h3>
 	<table class="form-table">
 		<tr>
-			<th scope="row" valign="top"><?php _e('Use pagenavi.css?', 'wp-pagenavi'); ?></th>
+			<th scope="row" valign="top"><?php _e('Use pagenavi.css', 'wp-pagenavi'); ?></th>
 			<td>
 				<input type="checkbox" name="use_pagenavi_css" value="1" <?php checked($pagenavi_options['use_pagenavi_css']); ?>>
 			</td>
@@ -114,20 +114,20 @@ $pagenavi_options = get_option('pagenavi_options');
 			</td>
 		</tr>
 		<tr>
-			<th scope="row" valign="top"><?php _e('Number Of Pages To Show?', 'wp-pagenavi'); ?></th>
+			<th scope="row" valign="top"><?php _e('Number Of Pages To Show', 'wp-pagenavi'); ?></th>
 			<td>
 				<input type="text" name="pagenavi_num_pages" value="<?php echo htmlspecialchars($pagenavi_options['num_pages']); ?>" size="4" />
 			</td>
 		</tr>
 		<tr>
-			<th scope="row" valign="top"><?php _e('Always Show Page Navigation?', 'wp-pagenavi'); ?></th>
+			<th scope="row" valign="top"><?php _e('Always Show Page Navigation', 'wp-pagenavi'); ?></th>
 			<td>
 				<input type="checkbox" name="pagenavi_always_show" value="1" <?php checked($pagenavi_options['always_show']); ?>>
 				<?php _e("Show navigation even if there's only one page", 'wp-pagenavi'); ?>
 			</td>
 		</tr>
 		<tr>
-			<th scope="row" valign="top"><?php _e('Number Of Larger Page Numbers To Show?', 'wp-pagenavi'); ?></th>
+			<th scope="row" valign="top"><?php _e('Number Of Larger Page Numbers To Show', 'wp-pagenavi'); ?></th>
 			<td>
 				<input type="text" name="pagenavi_num_larger_page_numbers" value="<?php echo htmlspecialchars($pagenavi_options['num_larger_page_numbers']); ?>" size="4" />
 				<br />
