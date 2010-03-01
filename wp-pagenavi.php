@@ -174,7 +174,7 @@ class PageNavi_Core {
 		add_filter('next_posts_link_attributes', array(__CLASS__, 'next_posts_link_attributes'));
 	}
 
-	function pagenavi_stylesheets() {
+	function stylesheets() {
 		$pagenavi_options = PageNavi_Core::$options->get();
 
 		if ( isset($pagenavi_options['use_pagenavi_css']) && !intval($pagenavi_options['use_pagenavi_css']) )

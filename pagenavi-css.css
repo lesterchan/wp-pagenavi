@@ -4,6 +4,10 @@ Default style for WP-PageNavi plugin
 http://wordpress.org/extend/plugins/wp-pagenavi/
 */
 
+.wp-pagenavi {
+	clear: both;
+}
+
 .wp-pagenavi a, .wp-pagenavi span {
 	padding: 2px 4px;
 	margin: 2px;
