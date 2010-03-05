@@ -46,7 +46,7 @@ class PageNavi_Options_Page extends scbAdminPage {
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Number Of Pages', $this->textdomain); ?></th>
 			<td>
-				<input type="text" name="pagenavi_pages_text" value="<?php echo htmlspecialchars($pagenavi_options['pages_text']); ?>" size="50" /><br />
+				<input type="text" name="pagenavi_pages_text" value="<?php echo esc_html($pagenavi_options['pages_text']); ?>" size="50" /><br />
 				%CURRENT_PAGE% - <?php _e('The current page number.', $this->textdomain); ?><br />
 				%TOTAL_PAGES% - <?php _e('The total number of pages.', $this->textdomain); ?>
 			</td>
@@ -54,53 +54,53 @@ class PageNavi_Options_Page extends scbAdminPage {
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Current Page', $this->textdomain); ?></th>
 			<td>
-				<input type="text" name="pagenavi_current_text" value="<?php echo htmlspecialchars($pagenavi_options['current_text']); ?>" class="regular-text" /><br />
+				<input type="text" name="pagenavi_current_text" value="<?php echo esc_html($pagenavi_options['current_text']); ?>" class="regular-text" /><br />
 				%PAGE_NUMBER% - <?php _e('The page number.', $this->textdomain); ?><br />
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Page', $this->textdomain); ?></th>
 			<td>
-				<input type="text" name="pagenavi_page_text" value="<?php echo htmlspecialchars($pagenavi_options['page_text']); ?>" class="regular-text" /><br />
+				<input type="text" name="pagenavi_page_text" value="<?php echo esc_html($pagenavi_options['page_text']); ?>" class="regular-text" /><br />
 				%PAGE_NUMBER% - <?php _e('The page number.', $this->textdomain); ?><br />
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For First Page', $this->textdomain); ?></th>
 			<td>
-				<input type="text" name="pagenavi_first_text" value="<?php echo htmlspecialchars($pagenavi_options['first_text']); ?>" class="regular-text" /><br />
+				<input type="text" name="pagenavi_first_text" value="<?php echo esc_html($pagenavi_options['first_text']); ?>" class="regular-text" /><br />
 				%TOTAL_PAGES% - <?php _e('The total number of pages.', $this->textdomain); ?>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Last Page', $this->textdomain); ?></th>
 			<td>
-				<input type="text" name="pagenavi_last_text" value="<?php echo htmlspecialchars($pagenavi_options['last_text']); ?>" class="regular-text" /><br />
+				<input type="text" name="pagenavi_last_text" value="<?php echo esc_html($pagenavi_options['last_text']); ?>" class="regular-text" /><br />
 				%TOTAL_PAGES% - <?php _e('The total number of pages.', $this->textdomain); ?>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Next Page', $this->textdomain); ?></th>
 			<td>
-				<input type="text" name="pagenavi_next_text" value="<?php echo htmlspecialchars($pagenavi_options['next_text']); ?>" class="regular-text" />
+				<input type="text" name="pagenavi_next_text" value="<?php echo esc_html($pagenavi_options['next_text']); ?>" class="regular-text" />
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Previous Page', $this->textdomain); ?></th>
 			<td>
-				<input type="text" name="pagenavi_prev_text" value="<?php echo htmlspecialchars($pagenavi_options['prev_text']); ?>" class="regular-text" />
+				<input type="text" name="pagenavi_prev_text" value="<?php echo esc_html($pagenavi_options['prev_text']); ?>" class="regular-text" />
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Next ...', $this->textdomain); ?></th>
 			<td>
-				<input type="text" name="pagenavi_dotright_text" value="<?php echo htmlspecialchars($pagenavi_options['dotright_text']); ?>" class="regular-text" />
+				<input type="text" name="pagenavi_dotright_text" value="<?php echo esc_html($pagenavi_options['dotright_text']); ?>" class="regular-text" />
 			</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><?php _e('Text For Previous ...', $this->textdomain); ?></th>
 			<td>
-				<input type="text" name="pagenavi_dotleft_text" value="<?php echo htmlspecialchars($pagenavi_options['dotleft_text']); ?>" class="regular-text" />
+				<input type="text" name="pagenavi_dotleft_text" value="<?php echo esc_html($pagenavi_options['dotleft_text']); ?>" class="regular-text" />
 			</td>
 		</tr>
 	</table>
@@ -125,7 +125,7 @@ class PageNavi_Options_Page extends scbAdminPage {
 		<tr>
 			<th scope="row" valign="top"><?php _e('Number Of Pages To Show', $this->textdomain); ?></th>
 			<td>
-				<input type="text" name="pagenavi_num_pages" value="<?php echo htmlspecialchars($pagenavi_options['num_pages']); ?>" class="small-text" />
+				<input type="text" name="pagenavi_num_pages" value="<?php echo esc_html($pagenavi_options['num_pages']); ?>" class="small-text" />
 			</td>
 		</tr>
 		<tr>
@@ -138,7 +138,7 @@ class PageNavi_Options_Page extends scbAdminPage {
 		<tr>
 			<th scope="row" valign="top"><?php _e('Number Of Larger Page Numbers To Show', $this->textdomain); ?></th>
 			<td>
-				<input type="text" name="pagenavi_num_larger_page_numbers" value="<?php echo htmlspecialchars($pagenavi_options['num_larger_page_numbers']); ?>" class="small-text" />
+				<input type="text" name="pagenavi_num_larger_page_numbers" value="<?php echo esc_html($pagenavi_options['num_larger_page_numbers']); ?>" class="small-text" />
 				<br />
 				<?php _e('Larger page numbers are in additional to the default page numbers. It is useful for authors who is paginating through many posts.', $this->textdomain); ?>	
 				<br />
@@ -150,7 +150,7 @@ class PageNavi_Options_Page extends scbAdminPage {
 		<tr>
 			<th scope="row" valign="top"><?php _e('Show  Larger Page Numbers In Multiples Of:', $this->textdomain); ?></th>
 			<td>
-				<input type="text" name="pagenavi_larger_page_numbers_multiple" value="<?php echo htmlspecialchars($pagenavi_options['larger_page_numbers_multiple']); ?>" class="small-text" />
+				<input type="text" name="pagenavi_larger_page_numbers_multiple" value="<?php echo esc_html($pagenavi_options['larger_page_numbers_multiple']); ?>" class="small-text" />
 				<br />
 				<?php _e('If mutiple is in 5, it will show: 5, 10, 15, 20, 25', $this->textdomain); ?>	
 				<br />				

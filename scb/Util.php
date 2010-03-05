@@ -13,6 +13,8 @@ class scbUtil {
 
 	// Force style enqueue
 	static function do_styles($handles) {
+		self::do_scripts('jquery');
+
 		global $wp_styles;
 
 		if ( ! is_a($wp_styles, 'WP_Styles') )
@@ -126,9 +128,22 @@ function __return_false() {
 }
 endif;
 
+// WP < ?
 if ( ! function_exists('__return_true') ) :
 function __return_true() {
 	return true;
+}
+endif;
+
+// WP < ?
+if ( ! function_exists('set_post_field') ) :
+function set_post_field($field, $value, $post_id) {
+	global $wpdb;
+
+	$post_id = absint($post_id);
+	$value = sanitize_post_field($field, $value, $post_id, 'db');
+
+	return $wpdb->update($wpdb->posts, array($field => $value), array('ID' => $post_id));
 }
 endif;
 
