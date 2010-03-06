@@ -18,7 +18,7 @@ Example:
 
 
 <br>
-[Demo](http://lesterchan.net/wordpress/) | [Translations](http://dev.wp-plugins.org/browser/wp-pagenavi/i18n/) | [Support Forums](http://forums.lesterchan.net/index.php?board=14.0)
+[Demo](http://lesterchan.net/wordpress/) | [Translations](http://dev.wp-plugins.org/browser/wp-pagenavi/i18n/)
 
 = Credits =
 * Right-to-left language support by [Kambiz R. Khojasteh](http://persian-programming.com/)
