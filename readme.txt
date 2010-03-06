@@ -51,7 +51,11 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 
 == Frequently Asked Questions ==
 
-[WP-PageNavi Support Forums](http://forums.lesterchan.net/index.php?board=14.0 "WP-PageNavi Support Forums")
+= "Parse error: syntax error, unexpected..." Help! =
+
+Make sure your host is running PHP 5. Add this line to wp-config.php to check:
+
+`var_dump(PHP_VERSION);`
 
 == Changelog ==
 
