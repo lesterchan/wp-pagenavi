@@ -71,19 +71,20 @@ function wp_pagenavi($before = '', $after = '') {
 	$pages_text = str_replace("%CURRENT_PAGE%", number_format_i18n($paged), $pagenavi_options['pages_text']);
 	$pages_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pages_text);
 
-	echo $before.'<div class="wp-pagenavi">'."\n";
+	$out = '';
+	$out .= $before.'<div class="wp-pagenavi">'."\n";
 	switch ( intval($pagenavi_options['style']) ) {
 		// Normal
 		case 1:
 			if ( !empty($pages_text) )
-				echo '<span class="pages">'.$pages_text.'</span>';
+				$out .= '<span class="pages">'.$pages_text.'</span>';
 
 			if ( $start_page >= 2 && $pages_to_show < $max_page ) {
 				$first_page_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pagenavi_options['first_text']);
-				echo '<a href="'.esc_url(get_pagenum_link()).'" class="first">'.$first_page_text.'</a>';
+				$out .= '<a href="'.esc_url(get_pagenum_link()).'" class="first">'.$first_page_text.'</a>';
 
 				if ( !empty($pagenavi_options['dotleft_text']) )
-					echo '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
+					$out .= '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
 			}
 
 			$larger_pages_array = array();
@@ -95,7 +96,7 @@ function wp_pagenavi($before = '', $after = '') {
 			foreach ( $larger_pages_array as $larger_page ) {
 				if ( $larger_page < $start_page && $larger_page_start < $larger_page_to_show ) {
 					$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($larger_page), $pagenavi_options['page_text']);
-					echo '<a href="'.esc_url(get_pagenum_link($larger_page)).'" class="page">'.$page_text.'</a>';
+					$out .= '<a href="'.esc_url(get_pagenum_link($larger_page)).'" class="page">'.$page_text.'</a>';
 					$larger_page_start++;
 				}
 			}
@@ -104,10 +105,10 @@ function wp_pagenavi($before = '', $after = '') {
 			for ( $i = $start_page; $i <= $end_page; $i++) {
 				if ( $i == $paged ) {
 					$current_page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['current_text']);
-					echo '<span class="current">'.$current_page_text.'</span>';
+					$out .= '<span class="current">'.$current_page_text.'</span>';
 				} else {
 					$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['page_text']);
-					echo '<a href="'.esc_url(get_pagenum_link($i)).'" class="page">'.$page_text.'</a>';
+					$out .= '<a href="'.esc_url(get_pagenum_link($i)).'" class="page">'.$page_text.'</a>';
 				}
 			}
 			next_posts_link($pagenavi_options['next_text'], $max_page);
@@ -116,24 +117,24 @@ function wp_pagenavi($before = '', $after = '') {
 			foreach ( $larger_pages_array as $larger_page ) {
 				if ( $larger_page > $end_page && $larger_page_end < $larger_page_to_show ) {
 					$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($larger_page), $pagenavi_options['page_text']);
-					echo '<a href="'.esc_url(get_pagenum_link($larger_page)).'" class="page">'.$page_text.'</a>';
+					$out .= '<a href="'.esc_url(get_pagenum_link($larger_page)).'" class="page">'.$page_text.'</a>';
 					$larger_page_end++;
 				}
 			}
 
 			if ( $end_page < $max_page ) {
 				if ( !empty($pagenavi_options['dotright_text']) )
-					echo '<span class="extend">'.$pagenavi_options['dotright_text'].'</span>';
+					$out .= '<span class="extend">'.$pagenavi_options['dotright_text'].'</span>';
 
 				$last_page_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pagenavi_options['last_text']);
-				echo '<a href="'.esc_url(get_pagenum_link($max_page)).'" class="last">'.$last_page_text.'</a>';
+				$out .= '<a href="'.esc_url(get_pagenum_link($max_page)).'" class="last">'.$last_page_text.'</a>';
 			}
 			break;
 
 		// Dropdown
 		case 2:
-			echo '<form action="" method="get">'."\n";
-			echo '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">'."\n";
+			$out .= '<form action="" method="get">'."\n";
+			$out .= '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">'."\n";
 
 			for ( $i = 1; $i <= $max_page; $i++ ) {
 				$page_num = $i;
@@ -142,18 +143,20 @@ function wp_pagenavi($before = '', $after = '') {
 
 				if ( $i == $paged ) {
 					$current_page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['current_text']);
-					echo '<option value="'.esc_url(get_pagenum_link($page_num)).'" selected="selected" class="current">'.$current_page_text."</option>\n";
+					$out .= '<option value="'.esc_url(get_pagenum_link($page_num)).'" selected="selected" class="current">'.$current_page_text."</option>\n";
 				} else {
 					$page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['page_text']);
-					echo '<option value="'.esc_url(get_pagenum_link($page_num)).'">'.$page_text."</option>\n";
+					$out .= '<option value="'.esc_url(get_pagenum_link($page_num)).'">'.$page_text."</option>\n";
 				}
 			}
 
-			echo "</select>\n";
-			echo "</form>\n";
+			$out .= "</select>\n";
+			$out .= "</form>\n";
 			break;
 	}
-	echo '</div>'.$after."\n";
+	$out .= '</div>'.$after."\n";
+
+	echo apply_filters('wp_pagenavi', $out);
 }
 
 
