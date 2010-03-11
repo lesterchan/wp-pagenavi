@@ -1,5 +1,5 @@
 === WP-PageNavi ===
-Contributors: GamerZ, scribu, aaroncampbell
+Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/wordpress
 Tags: pagenavi, navi, navigation, wp-pagenavi, page
 Requires at least: 2.8
