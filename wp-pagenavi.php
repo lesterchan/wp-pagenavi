@@ -231,7 +231,7 @@ function _pagenavi_init() {
 
 	if ( is_admin() ) {
 		require_once dirname(__FILE__) . '/pagenavi-options.php';
-		new PageNavi_Options_Page(__FILE__, $options);
+		scbAdminPage::register('PageNavi_Options_Page', __FILE__, $options);
 	}
 }
 _pagenavi_init();
