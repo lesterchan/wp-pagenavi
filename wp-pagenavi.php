@@ -100,7 +100,7 @@ function wp_pagenavi($before = '', $after = '') {
 					$larger_page_start++;
 				}
 			}
-			previous_posts_link($pagenavi_options['prev_text']);
+			$out .= get_previous_posts_link($pagenavi_options['prev_text']);
 
 			for ( $i = $start_page; $i <= $end_page; $i++) {
 				if ( $i == $paged ) {
@@ -111,7 +111,7 @@ function wp_pagenavi($before = '', $after = '') {
 					$out .= '<a href="'.esc_url(get_pagenum_link($i)).'" class="page">'.$page_text.'</a>';
 				}
 			}
-			next_posts_link($pagenavi_options['next_text'], $max_page);
+			$out .= get_next_posts_link($pagenavi_options['next_text'], $max_page);
 
 			$larger_page_end = 0;
 			foreach ( $larger_pages_array as $larger_page ) {
