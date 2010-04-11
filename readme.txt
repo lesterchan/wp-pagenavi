@@ -63,6 +63,10 @@ Make sure your host is running PHP 5. Add this line to wp-config.php to check:
 
 Read [The Right Way To Use query_posts()](http://scribu.net/wordpress/right-way-to-use-query_posts.html)
 
+== Upgrade Notice ==
+
+Read before upgrading: http://scribu.net/wordpress/wp-pagenavi/wp-2-70.html
+
 == Changelog ==
 
 = 2.70 (2010-04-11) =
