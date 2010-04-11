@@ -23,8 +23,8 @@ Example:
 [Demo](http://lesterchan.net/wordpress/) | [Translations](http://dev.wp-plugins.org/browser/wp-pagenavi/i18n/)
 
 = Credits =
+* Continued development by [scribu](http://scribu.net)
 * Right-to-left language support by [Kambiz R. Khojasteh](http://persian-programming.com/)
-* Maintenance by [scribu](http://scribu.net)
 
 == Installation ==
 
