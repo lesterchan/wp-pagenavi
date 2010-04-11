@@ -10,6 +10,8 @@ Adds a more advanced paging navigation to your WordPress site.
 
 == Description ==
 
+[PHP5 is required since version 2.70](http://scribu.net/wordpress/wp-pagenavi/wpn-2-70.html)
+
 Adds a more advanced paging navigation to your WordPress site.
 
 Example:
@@ -63,7 +65,7 @@ Read [The Right Way To Use query_posts()](http://scribu.net/wordpress/right-way-
 
 == Changelog ==
 
-= 2.70 (2010-X-X) =
+= 2.70 (2010-04-11) =
 * better default CSS
 * fixed issue with slashed quotes in settings
 * let WordPress handle uninstallation

@@ -3,7 +3,7 @@
 Plugin Name: WP-PageNavi
 Plugin URI: http://wordpress.org/extend/plugins/wp-pagenavi/
 Description: Adds a more advanced paging navigation to your WordPress blog.
-Version: 2.70a
+Version: 2.70
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 
@@ -240,7 +240,7 @@ function _pagenavi_init() {
 
 	if ( is_admin() ) {
 		require_once dirname(__FILE__) . '/admin.php';
-		scbAdminPage::register('PageNavi_Options_Page', __FILE__, $options);
+		new PageNavi_Options_Page(__FILE__, $options);
 	}
 }
 _pagenavi_init();
