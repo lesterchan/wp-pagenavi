@@ -92,7 +92,7 @@ class PageNavi_Options_Page extends scbAdminPage {
 
 		$out =
 		 html('h3', __('Page Navigation Text', $this->textdomain))
-		.html('p', __('Leaving a field blank will hide that section.', $this->textdomain))
+		.html('p', __('Leaving a field blank will hide that part of the navigation.', $this->textdomain))
 		.$this->table($rows);
 
 

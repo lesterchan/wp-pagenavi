@@ -104,7 +104,7 @@ function wp_pagenavi($before = '', $after = '') {
 				$out .= get_previous_posts_link($options['prev_text']);
 
 			for ( $i = $start_page; $i <= $end_page; $i++) {
-				if ( $i == $paged ) {
+				if ( $i == $paged && !empty($options['current_text']) ) {
 					$current_page_text = str_replace('%PAGE_NUMBER%', number_format_i18n($i), $options['current_text']);
 					$out .= "<span class='current'>$current_page_text</span>";
 				} else {

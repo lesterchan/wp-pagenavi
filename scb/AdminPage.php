@@ -140,8 +140,9 @@ abstract class scbAdminPage {
 
 		check_admin_referer($this->nonce);
 
+		$new_data = array();
 		foreach ( array_keys($this->formdata) as $key )
-			$new_data = @$_POST[$key];
+			$new_data[$key] = @$_POST[$key];
 
 		$new_data = stripslashes_deep($new_data);
 
