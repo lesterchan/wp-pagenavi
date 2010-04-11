@@ -64,7 +64,7 @@ Read [The Right Way To Use query_posts()](http://scribu.net/wordpress/right-way-
 == Changelog ==
 
 = 2.70 (2010-X-X) =
-* optimized CSS
+* better default CSS
 * fixed issue with slashed quotes in settings
 * let WordPress handle uninstallation
 
