@@ -13,10 +13,10 @@ class PageNavi_Options_Page extends scbAdminPage {
 
 	function validate($options) {
 		foreach ( array('style', 'num_pages', 'num_larger_page_numbers', 'larger_page_numbers_multiple') as $key )
-			$options[$key] = absint($options[$key]);
+			$options[$key] = absint(@$options[$key]);
 
 		foreach ( array('use_pagenavi_css', 'always_show') as $key )
-			$options[$key] = (bool) $options[$key];
+			$options[$key] = (bool) @$options[$key];
 
 		return $options;
 	}
@@ -90,7 +90,10 @@ class PageNavi_Options_Page extends scbAdminPage {
 			),
 		);
 
-		$out = html('h3', __('Page Navigation Text', $this->textdomain)) . $this->table($rows);
+		$out =
+		 html('h3', __('Page Navigation Text', $this->textdomain))
+		.html('p', __('Leaving a field blank will hide that section.', $this->textdomain))
+		.$this->table($rows);
 
 
 		$rows = array(
@@ -143,7 +146,9 @@ class PageNavi_Options_Page extends scbAdminPage {
 			),
 		);
 
-		$out .= html('h3', __('Page Navigation Options', $this->textdomain)) . $this->table($rows);
+		$out .=
+		 html('h3', __('Page Navigation Options', $this->textdomain)) 
+		.$this->table($rows);
 
 		echo $this->form_wrap($out);
 	}

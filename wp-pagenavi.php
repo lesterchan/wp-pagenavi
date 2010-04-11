@@ -100,7 +100,8 @@ function wp_pagenavi($before = '', $after = '') {
 				}
 			}
 
-			$out .= get_previous_posts_link($options['prev_text']);
+			if ( !empty($options['prev_text']) )
+				$out .= get_previous_posts_link($options['prev_text']);
 
 			for ( $i = $start_page; $i <= $end_page; $i++) {
 				if ( $i == $paged ) {
@@ -111,7 +112,8 @@ function wp_pagenavi($before = '', $after = '') {
 				}
 			}
 
-			$out .= get_next_posts_link($options['next_text'], $max_page);
+			if ( !empty($options['next_text']) )
+				$out .= get_next_posts_link($options['next_text'], $max_page);
 
 			$larger_page_end = 0;
 			foreach ( $larger_pages_array as $larger_page ) {
@@ -158,6 +160,9 @@ function wp_pagenavi($before = '', $after = '') {
 }
 
 function _wp_pagenavi_single($page, $class, $raw_text, $format = '%PAGE_NUMBER%') {
+	if ( empty($raw_text) )
+		return '';
+
 	$text = str_replace($format, number_format_i18n($page), $raw_text);
 
 	return "<a href='" . esc_url(get_pagenum_link($page)) . "' class='$class'>$text</a>";

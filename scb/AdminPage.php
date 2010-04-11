@@ -140,7 +140,9 @@ abstract class scbAdminPage {
 
 		check_admin_referer($this->nonce);
 
-		$new_data = scbUtil::array_extract($_POST, array_keys($this->formdata));
+		foreach ( array_keys($this->formdata) as $key )
+			$new_data = @$_POST[$key];
+
 		$new_data = stripslashes_deep($new_data);
 
 		$this->formdata = $this->validate($new_data, $this->formdata);
