@@ -17,5 +17,8 @@ http://wordpress.org/extend/plugins/wp-pagenavi/
 
 .wp-pagenavi a:hover, .wp-pagenavi span.current {
 	border-color: #000;
-	color: #000;
+}
+
+.wp-pagenavi span.current {
+	font-weight: bold;
 }

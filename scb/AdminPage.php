@@ -140,8 +140,8 @@ abstract class scbAdminPage {
 
 		check_admin_referer($this->nonce);
 
-		foreach ( $this->formdata as $name => $value )
-			$new_data[$name] = @$_POST[$name];
+		$new_data = scbUtil::array_extract($_POST, array_keys($this->formdata));
+		$new_data = stripslashes_deep($new_data);
 
 		$this->formdata = $this->validate($new_data, $this->formdata);
 
@@ -415,7 +415,8 @@ jQuery(document).ready(function($){
 
 	function _action_link($links) {
 		$url = add_query_arg('page', $this->args['page_slug'], admin_url($this->args['parent']));
-		$links[] = "<a href='$url'>" . $this->args['action_link'] . "</a>";
+
+		$links[] = html_link($url, $this->args['action_link']);
 
 		return $links;
 	}

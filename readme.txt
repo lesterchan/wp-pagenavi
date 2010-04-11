@@ -1,9 +1,9 @@
 === WP-PageNavi ===
 Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/wordpress
-Tags: pagenavi, navi, navigation, wp-pagenavi, page
+Tags: navigation, pagination, paging, pages
 Requires at least: 2.8
-Tested up to: 2.9.1
+Tested up to: 3.0
 Stable tag: 2.61
 
 Adds a more advanced paging navigation to your WordPress site.
@@ -11,11 +11,6 @@ Adds a more advanced paging navigation to your WordPress site.
 == Description ==
 
 Adds a more advanced paging navigation to your WordPress site.
-
-Example:
-
-	Pages (17): [1] 2 3 4 » ... Last »
-
 
 <br>
 [Demo](http://lesterchan.net/wordpress/) | [Translations](http://dev.wp-plugins.org/browser/wp-pagenavi/i18n/)
@@ -67,6 +62,7 @@ Read [The Right Way To Use query_posts()](http://scribu.net/wordpress/right-way-
 * better default CSS
 * fixed issue with slashed quotes in settings
 * let WordPress handle uninstallation
+* [more info](http://scribu.net/wordpress/wp-pagenavi/wpn-2-70.html)
 
 = 2.61 (2010-02-07) =
 * fixed: memory limit error
