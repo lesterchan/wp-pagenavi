@@ -57,6 +57,10 @@ Make sure your host is running PHP 5. Add this line to wp-config.php to check:
 
 `var_dump(PHP_VERSION);`
 
+= Doesn't work with query_posts() =
+
+Read [The Right Way To Use query_posts()](http://scribu.net/wordpress/right-way-to-use-query_posts.html)
+
 == Changelog ==
 
 = 2.70 (2010-X-X) =
