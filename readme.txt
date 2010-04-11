@@ -12,6 +12,11 @@ Adds a more advanced paging navigation to your WordPress site.
 
 Adds a more advanced paging navigation to your WordPress site.
 
+Example:
+
+	Pages (17): [1] 2 3 4 » ... Last »
+
+
 <br>
 [Demo](http://lesterchan.net/wordpress/) | [Translations](http://dev.wp-plugins.org/browser/wp-pagenavi/i18n/)
 

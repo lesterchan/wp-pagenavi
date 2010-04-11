@@ -68,7 +68,7 @@ function wp_pagenavi($before = '', $after = '') {
 	if ( $start_page <= 0 )
 		$start_page = 1;
 
-	$out = "$before<div class='wp-pagenavi'>\n";
+	$out = '';
 	switch ( intval($options['style']) ) {
 		// Normal
 		case 1:
@@ -110,6 +110,7 @@ function wp_pagenavi($before = '', $after = '') {
 					$out .= _wp_pagenavi_single($i, 'page', $options['page_text']);
 				}
 			}
+
 			$out .= get_next_posts_link($options['next_text'], $max_page);
 
 			$larger_page_end = 0;
@@ -151,7 +152,7 @@ function wp_pagenavi($before = '', $after = '') {
 			$out .= "</form>\n";
 			break;
 	}
-	$out .= '</div>'.$after."\n";
+	$out = $before . "<div class='wp-pagenavi'>\n$out\n</div>" . $after;
 
 	echo apply_filters('wp_pagenavi', $out);
 }
