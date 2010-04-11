@@ -173,25 +173,24 @@ class PageNavi_Core {
 		self::$options = $options;
 	
 		add_action('wp_print_styles', array(__CLASS__, 'stylesheets'));
+
 		add_filter('previous_posts_link_attributes', array(__CLASS__, 'previous_posts_link_attributes'));
 		add_filter('next_posts_link_attributes', array(__CLASS__, 'next_posts_link_attributes'));
 	}
 
 	function stylesheets() {
-		$pagenavi_options = PageNavi_Core::$options->get();
-
-		if ( isset($pagenavi_options['use_pagenavi_css']) && !intval($pagenavi_options['use_pagenavi_css']) )
+		if ( !self::$options->use_pagenavi_css )
 			return;
 
-		if ( @file_exists(STYLESHEETPATH.'/pagenavi-css.css') ) {
+		if ( @file_exists(STYLESHEETPATH . '/pagenavi-css.css') ) {
 			$css_file = get_stylesheet_directory_uri() . '/pagenavi-css.css';
-		} elseif ( @file_exists(TEMPLATEPATH.'/pagenavi-css.css') ) {
+		} elseif ( @file_exists(TEMPLATEPATH . '/pagenavi-css.css') ) {
 			$css_file = get_template_directory_uri() . '/pagenavi-css.css';
 		} else {
 			$css_file = plugins_url('pagenavi-css.css', __FILE__);
 		}
 
-		wp_enqueue_style('wp-pagenavi', $css_file, false, '2.70', 'all');
+		wp_enqueue_style('wp-pagenavi', $css_file, false, '2.70');
 	}
 
 	function previous_posts_link_attributes() {
@@ -231,7 +230,7 @@ function _pagenavi_init() {
 	PageNavi_Core::init($options);
 
 	if ( is_admin() ) {
-		require_once dirname(__FILE__) . '/pagenavi-options.php';
+		require_once dirname(__FILE__) . '/admin.php';
 		scbAdminPage::register('PageNavi_Options_Page', __FILE__, $options);
 	}
 }
