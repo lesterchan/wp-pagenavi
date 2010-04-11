@@ -25,9 +25,6 @@ Author URI: http://lesterchan.net
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// Load scbFramework
-require dirname(__FILE__) . '/scb/load.php';
-
 ### Function: Page Navigation: Boxed Style Paging
 function wp_pagenavi($before = '', $after = '') {
 	global $wp_query;
@@ -208,6 +205,9 @@ class PageNavi_Core {
 
 
 function _pagenavi_init() {
+	// Load scbFramework
+	require dirname(__FILE__) . '/scb/load.php';
+
 	load_plugin_textdomain('wp-pagenavi', false, 'wp-pagenavi');
 
 	$options = new scbOptions('pagenavi_options', __FILE__, array(

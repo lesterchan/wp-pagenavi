@@ -9,20 +9,20 @@ http://wordpress.org/extend/plugins/wp-pagenavi/
 }
 
 .wp-pagenavi a, .wp-pagenavi span {
-	padding: 2px 4px;
-	margin: 2px;
+	border: 1px solid #BFBFBF;
+	padding: 3px 5px;
+	margin: 0 2px;
+}
+.wp-pagenavi span {
+	color: #BFBFBF;
 }
 .wp-pagenavi a, .wp-pagenavi a:link, .wp-pagenavi a:visited, .wp-pagenavi a:active {
 	text-decoration: none;
-	border: 1px solid #06c;
-	color: #06c;
 	background-color: #FFF;
+	color: #06C;
 }
-.wp-pagenavi a:hover, .wp-pagenavi span {
+.wp-pagenavi a:hover, .wp-pagenavi span.current {
 	border: 1px solid #000;
 	color: #000;
 	background-color: #FFF;
-}
-.wp-pagenavi span.current {
-	font-weight: bold;
 }
