@@ -3,7 +3,7 @@
 Plugin Name: WP-PageNavi
 Plugin URI: http://wordpress.org/extend/plugins/wp-pagenavi/
 Description: Adds a more advanced paging navigation to your WordPress blog.
-Version: 2.70
+Version: 2.71a
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 
@@ -84,7 +84,7 @@ function wp_pagenavi($before = '', $after = '') {
 				$out .= _wp_pagenavi_single(1, 'first', $options['first_text'], '%TOTAL_PAGES%');
 
 				if ( !empty($options['dotleft_text']) )
-					$out .= "<span class='extend left'>{$options['dotleft_text']}</span>";
+					$out .= "<span class='extend'>{$options['dotleft_text']}</span>";
 			}
 
 			$larger_pages_array = array();
@@ -125,7 +125,7 @@ function wp_pagenavi($before = '', $after = '') {
 
 			if ( $end_page < $max_page ) {
 				if ( !empty($options['dotright_text']) )
-					$out .= "<span class='extend right'>{$options['dotright_text']}</span>";
+					$out .= "<span class='extend'>{$options['dotright_text']}</span>";
 
 				$out .= _wp_pagenavi_single($max_page, 'last', $options['last_text'], '%TOTAL_PAGES%');
 			}

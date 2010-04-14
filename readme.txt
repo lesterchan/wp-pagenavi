@@ -69,6 +69,9 @@ Read before upgrading: http://scribu.net/wordpress/wp-pagenavi/wp-2-70.html
 
 == Changelog ==
 
+= 2.71 (2010-X-X) =
+* remove conflicting .left and .right from .extend elements
+
 = 2.70 (2010-04-11) =
 * better default CSS
 * fixed issue with slashed quotes in settings
