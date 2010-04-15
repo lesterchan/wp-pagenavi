@@ -72,5 +72,6 @@ endif;
 scbLoad3::init(7, __FILE__, array(
 	'scbOptions', 'scbForms', 'scbAdminPage', 'scbBoxesPage',
 	'scbWidget', 'scbCron', 'scbTable', 'scbUtil', 'scbRewrite',
+	'scbDebug'
 ));
 
