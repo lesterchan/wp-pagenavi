@@ -80,6 +80,19 @@ class scbUtil {
 
 		add_action('uninstall_' . plugin_basename($plugin), $callback);
 	}
+
+	// Example: split_at('</', '<a></a>') => array('<a>', '</a>')
+	static function split_at($delim, $str) {
+		$i = strpos($str, $delim);
+
+		if ( false === $i )
+			return false;
+
+		$start = substr($str, 0, $i);
+		$finish = substr($str, $i);
+
+		return array($start, $finish);
+	}
 }
 
 

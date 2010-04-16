@@ -98,7 +98,7 @@ class PageNavi_Options_Page extends scbAdminPage {
 
 		$rows = array(
 			array(
-				'title' => __('Use pagenavi.css', $this->textdomain),
+				'title' => __('Use pagenavi-css.css', $this->textdomain),
 				'type' => 'checkbox',
 				'name' => 'use_pagenavi_css',
 			),
