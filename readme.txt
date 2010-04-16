@@ -22,10 +22,6 @@ Example:
 <br>
 [Demo](http://lesterchan.net/wordpress/) | [Translations](http://dev.wp-plugins.org/browser/wp-pagenavi/i18n/)
 
-= Credits =
-* Continued development by [scribu](http://scribu.net)
-* Right-to-left language support by [Kambiz R. Khojasteh](http://persian-programming.com/)
-
 == Installation ==
 
 You can either install it automatically from the WordPress admin, or do it manually:
