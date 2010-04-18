@@ -65,8 +65,9 @@ Read before upgrading: http://scribu.net/wordpress/wp-pagenavi/wp-2-70.html
 
 == Changelog ==
 
-= 2.71 (2010-X-X) =
+= 2.71 (2010-04-18) =
 * remove conflicting .left and .right from .extend elements
+* bundle language files
 
 = 2.70 (2010-04-11) =
 * better default CSS
