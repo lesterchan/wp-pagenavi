@@ -1,27 +1,29 @@
 <?php
 /*
 Plugin Name: WP-PageNavi
-Plugin URI: http://wordpress.org/extend/plugins/wp-pagenavi/
-Description: Adds a more advanced paging navigation to your WordPress blog.
 Version: 2.71a
+Description: Adds a more advanced paging navigation to your WordPress blog
 Author: Lester 'GaMerZ' Chan & scribu
+Plugin URI: http://wordpress.org/extend/plugins/wp-pagenavi/
+Text Domain: wp-pagenavi
+Domain Path: /lang
 
 
-	Copyright 2009  Lester Chan  (email : lesterchan@gmail.com)
+Copyright 2009  Lester Chan  (email : lesterchan@gmail.com)
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 ### Function: Page Navigation: Boxed Style Paging
@@ -215,7 +217,7 @@ function _pagenavi_init() {
 	// Load scbFramework
 	require dirname(__FILE__) . '/scb/load.php';
 
-	load_plugin_textdomain('wp-pagenavi', false, 'wp-pagenavi');
+	load_plugin_textdomain('wp-pagenavi', false, basename(dirname(__FILE__)) . '/lang');
 
 	$options = new scbOptions('pagenavi_options', __FILE__, array(
 		'pages_text'    => __('Page %CURRENT_PAGE% of %TOTAL_PAGES%', 'wp-pagenavi'),

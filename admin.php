@@ -107,7 +107,7 @@ class PageNavi_Options_Page extends scbAdminPage {
 				'title' => __('Page Navigation Style', $this->textdomain),
 				'type' => 'select',
 				'name' => 'style',
-				'values' => array(1 => __('Normal', $this->textdomain), 2 => __('Drop Down List', $this->textdomain)),
+				'values' => array(1 => __('Normal', $this->textdomain), 2 => __('Drop-down List', $this->textdomain)),
 				'text' => false
 			),
 
@@ -115,7 +115,7 @@ class PageNavi_Options_Page extends scbAdminPage {
 				'title' => __('Always Show Page Navigation', $this->textdomain),
 				'type' => 'checkbox',
 				'name' => 'always_show',
-				'desc' => __("Show navigation even if there's only one page", $this->textdomain)
+				'desc' => __("Show navigation even if there's only one page.", $this->textdomain)
 			),
 
 			array(
@@ -132,7 +132,7 @@ class PageNavi_Options_Page extends scbAdminPage {
 				'extra' => 'class="small-text"',
 				'desc' => 
 				'<br />' . __('Larger page numbers are in addition to the normal page numbers. They are useful when there are many pages of posts.', $this->textdomain) .
-				'<br />' . __('For example, WP-PageNavi will display: Pages 1, 2, 3, 4, 5, 10, 20, 30, 40, 50', $this->textdomain) .
+				'<br />' . __('For example, WP-PageNavi will display: Pages 1, 2, 3, 4, 5, 10, 20, 30, 40, 50.', $this->textdomain) .
 				'<br />' . __('Enter 0 to disable.', $this->textdomain)
 			),
 

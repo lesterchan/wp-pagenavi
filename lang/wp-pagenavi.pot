@@ -1,14 +1,14 @@
-# Translation of the WordPress plugin WP-PageNavi 2.70 by Lester 'GaMerZ' Chan.
-# Copyright (C) 2010 Lester 'GaMerZ' Chan
+# Translation of the WordPress plugin WP-PageNavi 2.71a by Lester 'GaMerZ' Chan & scribu.
+# Copyright (C) 2010 Lester 'GaMerZ' Chan & scribu
 # This file is distributed under the same license as the WP-PageNavi package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-PageNavi 2.70\n"
+"Project-Id-Version: WP-PageNavi 2.71a\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-pagenavi\n"
-"POT-Creation-Date: 2010-04-11 15:18+0000\n"
+"POT-Creation-Date: 2010-04-18 11:47+0300\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,7 +81,7 @@ msgid "Leaving a field blank will hide that part of the navigation."
 msgstr ""
 
 #: admin.php:101
-msgid "Use pagenavi.css"
+msgid "Use pagenavi-css.css"
 msgstr ""
 
 #: admin.php:107
@@ -93,7 +93,7 @@ msgid "Normal"
 msgstr ""
 
 #: admin.php:110
-msgid "Drop Down List"
+msgid "Drop-down List"
 msgstr ""
 
 #: admin.php:115
@@ -101,7 +101,7 @@ msgid "Always Show Page Navigation"
 msgstr ""
 
 #: admin.php:118
-msgid "Show navigation even if there's only one page"
+msgid "Show navigation even if there's only one page."
 msgstr ""
 
 #: admin.php:122
@@ -121,7 +121,7 @@ msgstr ""
 #: admin.php:135
 msgid ""
 "For example, WP-PageNavi will display: Pages 1, 2, 3, 4, 5, 10, 20, 30, 40, "
-"50"
+"50."
 msgstr ""
 
 #: admin.php:136
@@ -152,27 +152,27 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: wp-pagenavi.php:222
+#: wp-pagenavi.php:223
 msgid "Page %CURRENT_PAGE% of %TOTAL_PAGES%"
 msgstr ""
 
-#: wp-pagenavi.php:225
+#: wp-pagenavi.php:226
 msgid "&laquo; First"
 msgstr ""
 
-#: wp-pagenavi.php:226
+#: wp-pagenavi.php:227
 msgid "Last &raquo;"
 msgstr ""
 
-#: wp-pagenavi.php:227
+#: wp-pagenavi.php:228
 msgid "&laquo;"
 msgstr ""
 
-#: wp-pagenavi.php:228
+#: wp-pagenavi.php:229
 msgid "&raquo;"
 msgstr ""
 
-#: wp-pagenavi.php:229 wp-pagenavi.php:230
+#: wp-pagenavi.php:230 wp-pagenavi.php:231
 msgid "..."
 msgstr ""
 
@@ -185,13 +185,9 @@ msgid "http://wordpress.org/extend/plugins/wp-pagenavi/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "Adds a more advanced paging navigation to your WordPress blog."
+msgid "Adds a more advanced paging navigation to your WordPress blog"
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "Lester 'GaMerZ' Chan"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "http://lesterchan.net"
+msgid "Lester 'GaMerZ' Chan & scribu"
 msgstr ""
