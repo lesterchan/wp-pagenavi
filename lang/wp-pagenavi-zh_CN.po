@@ -1,0 +1,285 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-PageNavi v2.50\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2009-08-02 07:28+0800\n"
+"Last-Translator: Sparanoid <info@sparanoid.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: PEOPLE'S REPUBLIC OF CHINA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:48
+#: pagenavi-options.php:110
+#: pagenavi-options.php:174
+msgid "Page Navigation Options"
+msgstr "页面导航选项"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:53
+msgid "Updated"
+msgstr "已更新"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:58
+msgid "No Page Navigation Option Updated"
+msgstr "无选项更新"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:64
+#: pagenavi-options.php:265
+msgid "UNINSTALL WP-PageNavi"
+msgstr "删除 WP-PageNavi"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:72
+#, php-format
+msgid "Setting Key '%s' has been deleted."
+msgstr "设置键值“%s”已被删除。"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:76
+#, php-format
+msgid "Error deleting Setting Key '%s'."
+msgstr "无法删除设置键值“%s”。"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:98
+#: pagenavi-options.php:233
+msgid "Uninstall WP-PageNavi"
+msgstr "删除 WP-PageNavi"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:99
+#, php-format
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-PageNavi Will Be Deactivated Automatically."
+msgstr "<a href=\"%s\">点击此处</a> 来完成卸载，稍后 WP-PageNavi 会自动禁用。"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:111
+msgid "Page Navigation Text"
+msgstr "页面导航文字"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:114
+msgid "Text For Number Of Pages"
+msgstr "“页数”文字设置"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:117
+msgid "The current page number."
+msgstr "当前页数"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:118
+#: pagenavi-options.php:139
+#: pagenavi-options.php:146
+msgid "The total number of pages."
+msgstr "所有页数"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:122
+msgid "Text For Current Page"
+msgstr "“当前页数”文字设置"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:125
+#: pagenavi-options.php:132
+msgid "The page number."
+msgstr "页数"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:129
+msgid "Text For Page"
+msgstr "“页数”文字设置"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:136
+msgid "Text For First Post"
+msgstr "“首页”文字设置"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:143
+msgid "Text For Last Post"
+msgstr "“最后一页”文字设置"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:150
+msgid "Text For Next Post"
+msgstr "“上一页”文字设置"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:156
+msgid "Text For Previous Post"
+msgstr "“下一页”文字设置"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:162
+msgid "Text For Next ..."
+msgstr "“上一页”省略文字设置"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:168
+msgid "Text For Previous ..."
+msgstr "“下一页”省略文字设置"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:177
+msgid "Page Navigation Style"
+msgstr "页面导航选项"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:180
+msgid "Normal"
+msgstr "正常"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:181
+msgid "Drop Down List"
+msgstr "下拉列表"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:186
+msgid "Number Of Pages To Show?"
+msgstr "显示多少页数？"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:192
+msgid "Always Show Page Navigation?"
+msgstr "总是显示页面导航？"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:195
+#: pagenavi-options.php:264
+msgid "Yes"
+msgstr "是"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:196
+msgid "No"
+msgstr "否"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:201
+msgid "Number Of Larger Page Numbers To Show?"
+msgstr "显示较大页面页数"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:205
+msgid "Larger page numbers are in additional to the default page numbers. It is useful for authors who is paginating through many posts."
+msgstr "显示较大页面的页数，通常针对于文章非常多的站点。"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:207
+msgid "For example, WP-PageNavi will display: Pages 1, 2, 3, 4, 5, 10, 20, 30, 40, 50"
+msgstr "例如，WP-PageNavi 会显示为：页面 1, 2, 3, 4, 5, 10, 20, 30, 40, 50"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:209
+msgid "Enter 0 to disable."
+msgstr "输入 0 可以禁用此功能。"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:213
+msgid "Show  Larger Page Numbers In Multiples Of:"
+msgstr "大页面页数的显示倍数："
+
+#@ wp-pagenavi
+#: pagenavi-options.php:217
+msgid "If mutiple is in 5, it will show: 5, 10, 15, 20, 25"
+msgstr "如果倍数设置为 5，将会显示为：5, 10, 15, 20, 25"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:219
+msgid "If mutiple is in 10, it will show: 10, 20, 30, 40, 50"
+msgstr "如果倍数设置为 10，将会显示为：10, 20, 30, 40, 50"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:224
+msgid "Save Changes"
+msgstr "保存更改"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:235
+msgid "Deactivating WP-PageNavi plugin does not remove any data that may have been created, such as the page navigation options. To completely remove this plugin, you can uninstall it here."
+msgstr "禁用 WP-PageNavi 插件并不会删除此插件曾经创建过的数据，例如页面导航的选项。如果您想完整删除插件的相关内容，您可以选择卸载它"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:238
+msgid "WARNING:"
+msgstr "注意："
+
+#@ wp-pagenavi
+#: pagenavi-options.php:239
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "一旦您卸载此插件，此操作就不可撤销，在您删除插件之前建议您使用数据库备份插件备份好数据库。"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:242
+msgid "The following WordPress Options will be DELETED:"
+msgstr "下列 WordPress 选项将被删除："
+
+#@ wp-pagenavi
+#: pagenavi-options.php:247
+msgid "WordPress Options"
+msgstr "WordPress 选项（表）"
+
+#@ wp-pagenavi
+#: pagenavi-options.php:265
+msgid ""
+"You Are About To Uninstall WP-PageNavi From WordPress.\n"
+"This Action Is Not Reversible.\n"
+"\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"您即将从 WordPress 中卸载 WP-PageNavi。\n"
+"此动作不可撤销。\n"
+"\n"
+" 点击 [取消] 停止此操作，[确定] 继续卸载。"
+
+#@ wp-pagenavi
+#: wp-pagenavi.php:42
+msgid "PageNavi"
+msgstr "页面导航"
+
+#@ wp-pagenavi
+#: wp-pagenavi.php:201
+#, php-format
+msgid "Page %CURRENT_PAGE% of %TOTAL_PAGES%"
+msgstr "第 %CURRENT_PAGE% 页，共 %TOTAL_PAGES% 页"
+
+#@ wp-pagenavi
+#: wp-pagenavi.php:204
+msgid "&laquo; First"
+msgstr "&laquo; 最新"
+
+#@ wp-pagenavi
+#: wp-pagenavi.php:205
+msgid "Last &raquo;"
+msgstr "最旧 &raquo;"
+
+#@ wp-pagenavi
+#: wp-pagenavi.php:206
+msgid "&raquo;"
+msgstr "&raquo;"
+
+#@ wp-pagenavi
+#: wp-pagenavi.php:207
+msgid "&laquo;"
+msgstr "&laquo;"
+
+#@ wp-pagenavi
+#: wp-pagenavi.php:208
+#: wp-pagenavi.php:209
+msgid "..."
+msgstr "..."
+

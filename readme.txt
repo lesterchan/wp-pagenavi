@@ -20,7 +20,7 @@ Example:
 
 
 <br>
-[Demo](http://lesterchan.net/wordpress/) | [Translations](http://dev.wp-plugins.org/browser/wp-pagenavi/i18n/)
+[Demo](http://lesterchan.net/wordpress/) | [Translations](http://dev.wp-plugins.org/browser/wp-pagenavi/trunk/lang/)
 
 == Installation ==
 
