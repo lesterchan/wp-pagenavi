@@ -82,7 +82,7 @@ function wp_pagenavi($before = '', $after = '') {
 			}
 
 			if ( $start_page >= 2 && $pages_to_show < $max_page ) {
-				$out .= _wp_pagenavi_single(1, 'first', $options['first_text'], '%TOTAL_PAGES%');
+				$out .= _wp_pagenavi_single($max_page, 'first', $options['first_text'], '%TOTAL_PAGES%');
 
 				if ( !empty($options['dotleft_text']) )
 					$out .= "<span class='extend'>{$options['dotleft_text']}</span>";
