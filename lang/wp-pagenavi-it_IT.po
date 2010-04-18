@@ -1,260 +1,251 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-PageNavi 2.40\n"
+"Project-Id-Version: WP PageNavi\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-pagenavi\n"
-"POT-Creation-Date: 2010-02-07 16:16+0000\n"
-"PO-Revision-Date: 2010-02-10 22:46+0100\n"
-"Last-Translator: Diego Pierotto <ita.translations@tiscali.it>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2010-04-18 11:47+0300\n"
+"PO-Revision-Date: 2010-04-18 12:00+0100\n"
+"Last-Translator: Aldo Latino <aldolat@gmail.com>\n"
+"Language-Team: Aldo Latino <aldolat@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Italian\n"
 "X-Poedit-Country: ITALY\n"
-"X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-Basepath: .\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: pagenavi-options.php:47
-#: pagenavi-options.php:106
-#: pagenavi-options.php:170
-msgid "Page Navigation Options"
-msgstr "Opzioni Pagine di Navigazione"
+#: admin.php:9
+msgid "PageNavi Settings"
+msgstr "Opzioni di PageNavi"
 
-#: pagenavi-options.php:52
-msgid "Updated"
-msgstr "Aggiornato"
+#: admin.php:10
+msgid "PageNavi"
+msgstr "PageNavi"
 
-#: pagenavi-options.php:57
-msgid "No Page Navigation Option Updated"
-msgstr "Le opzioni di Pagine di Navigazione non sono state aggiornate"
-
-#: pagenavi-options.php:64
-#: pagenavi-options.php:264
-msgid "UNINSTALL WP-PageNavi"
-msgstr "DISINSTALLA WP-PageNavi"
-
-#: pagenavi-options.php:71
-#, php-format
-msgid "Setting Key '%s' has been deleted."
-msgstr "Il tasto di impostazione '%s' è stato eliminato."
-
-#: pagenavi-options.php:75
-#, php-format
-msgid "Error deleting Setting Key '%s'."
-msgstr "Errore eliminazione tasto di impostazione '%s'."
-
-#: pagenavi-options.php:94
-#: pagenavi-options.php:233
-msgid "Uninstall WP-PageNavi"
-msgstr "Disinstalla WP-PageNavi"
-
-#: pagenavi-options.php:95
-#, php-format
-msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-PageNavi Will Be Deactivated Automatically."
-msgstr "<a href=\"%s\">Fai click qui</a> per completare la disinstallazione e WP-PageNavi sarà disattivato automaticamente."
-
-#: pagenavi-options.php:107
-msgid "Page Navigation Text"
-msgstr "Testi di Pagine di Navigazione"
-
-#: pagenavi-options.php:110
+#: admin.php:27
 msgid "Text For Number Of Pages"
 msgstr "Testo per il numero di pagina"
 
-#: pagenavi-options.php:113
+#: admin.php:32
 msgid "The current page number."
 msgstr "Il numero di pagina corrente."
 
-#: pagenavi-options.php:114
-#: pagenavi-options.php:135
-#: pagenavi-options.php:142
+#: admin.php:33
+#: admin.php:57
+#: admin.php:65
 msgid "The total number of pages."
 msgstr "Il numero totale di pagine."
 
-#: pagenavi-options.php:118
+#: admin.php:37
 msgid "Text For Current Page"
 msgstr "Testo per la pagina corrente"
 
-#: pagenavi-options.php:121
-#: pagenavi-options.php:128
+#: admin.php:41
+#: admin.php:49
 msgid "The page number."
 msgstr "Il numero di pagina."
 
-#: pagenavi-options.php:125
+#: admin.php:45
 msgid "Text For Page"
 msgstr "Testo per la pagina"
 
-#: pagenavi-options.php:132
+#: admin.php:53
 msgid "Text For First Page"
 msgstr "Testo per la prima pagina"
 
-#: pagenavi-options.php:139
+#: admin.php:61
 msgid "Text For Last Page"
 msgstr "Testo per l'ultima pagina"
 
-#: pagenavi-options.php:146
-msgid "Text For Next Page"
-msgstr "Testo per la pagina successiva"
-
-#: pagenavi-options.php:152
+#: admin.php:69
 msgid "Text For Previous Page"
 msgstr "Testo per la pagina precedente"
 
-#: pagenavi-options.php:158
-msgid "Text For Next ..."
-msgstr "Testo per Successivo ..."
+#: admin.php:75
+msgid "Text For Next Page"
+msgstr "Testo per la pagina successiva"
 
-#: pagenavi-options.php:164
+#: admin.php:81
 msgid "Text For Previous ..."
 msgstr "Testo per Precedente ..."
 
-#: pagenavi-options.php:173
-msgid "Use pagenavi.css?"
-msgstr "Utilizza pagenavi.css?"
+#: admin.php:87
+msgid "Text For Next ..."
+msgstr "Testo per Successiva ..."
 
-#: pagenavi-options.php:179
+#: admin.php:94
+msgid "Page Navigation Text"
+msgstr "Testo per la navigazione delle pagine"
+
+#: admin.php:95
+msgid "Leaving a field blank will hide that part of the navigation."
+msgstr "Se si lascia un campo bianco, quella parte della navigazione sarà nascosta."
+
+#: admin.php:101
+msgid "Use pagenavi-css.css"
+msgstr "Usare pagenavi-css.css?"
+
+#: admin.php:107
 msgid "Page Navigation Style"
-msgstr "Stile delle Pagine di Navigazione"
+msgstr "Stile per la navigazione delle pagine"
 
-#: pagenavi-options.php:182
+#: admin.php:110
 msgid "Normal"
 msgstr "Normale"
 
-#: pagenavi-options.php:183
-msgid "Drop Down List"
-msgstr "Elenco a tendina"
+#: admin.php:110
+msgid "Drop-down List"
+msgstr "Elenco con menu a discesa"
 
-#: pagenavi-options.php:188
-msgid "Number Of Pages To Show?"
-msgstr "Numero di pagine da mostrare?"
+#: admin.php:115
+msgid "Always Show Page Navigation"
+msgstr "Mostrare sempre la navigazione delle pagine?"
 
-#: pagenavi-options.php:194
-msgid "Always Show Page Navigation?"
-msgstr "Mostrare sempre Pagine di Navigazione?"
+#: admin.php:118
+msgid "Show navigation even if there's only one page."
+msgstr "Mostra la navigazione anche se esiste solo una pagina."
 
-#: pagenavi-options.php:197
-msgid "Show navigation even if there's only one page"
-msgstr "Mostra pagine di navigazione anche con una sola pagina"
+#: admin.php:122
+msgid "Number Of Pages To Show"
+msgstr "Numero di pagine da mostrare"
 
-#: pagenavi-options.php:201
-msgid "Number Of Larger Page Numbers To Show?"
-msgstr "Numero maggiore di pagine da mostrare?"
+#: admin.php:129
+msgid "Number Of Larger Page Numbers To Show"
+msgstr "Quanti numeri di pagina raggruppati mostrare?"
 
-#: pagenavi-options.php:205
-msgid "Larger page numbers are in additional to the default page numbers. It is useful for authors who is paginating through many posts."
-msgstr "I numeri di pagine più grandi sono in aggiunta al numero predefinito. Questo è utile per gli autori che si muovono tra molti articoli."
+#: admin.php:134
+msgid "Larger page numbers are in addition to the normal page numbers. They are useful when there are many pages of posts."
+msgstr "I numeri di pagina raggruppati vengono mostrati in aggiunta ai soliti numeri di pagina. Si rivelano utili quando le pagine di articoli sono molte."
 
-#: pagenavi-options.php:207
-msgid "For example, WP-PageNavi will display: Pages 1, 2, 3, 4, 5, 10, 20, 30, 40, 50"
-msgstr "Per esempio, WP-PageNavi mostrerà: Pagine 1, 2, 3, 4, 5, 10, 20, 30, 40, 50"
+#: admin.php:135
+msgid "For example, WP-PageNavi will display: Pages 1, 2, 3, 4, 5, 10, 20, 30, 40, 50."
+msgstr "Per esempio, WP-PageNavi mostrerà: Pagine 1, 2, 3, 4, 5, 10, 20, 30, 40, 50."
 
-#: pagenavi-options.php:209
+#: admin.php:136
 msgid "Enter 0 to disable."
-msgstr "Inserisci 0 per disabilitare."
+msgstr "Inserire 0 per disabilitare"
 
-#: pagenavi-options.php:213
-msgid "Show  Larger Page Numbers In Multiples Of:"
-msgstr "Mostra i numeri maggiori di pagine come multipli di:"
+#: admin.php:140
+msgid "Show Larger Page Numbers In Multiples Of"
+msgstr "Mostra i numeri raggruppati di pagina in multipli di"
 
-#: pagenavi-options.php:217
-msgid "If mutiple is in 5, it will show: 5, 10, 15, 20, 25"
-msgstr "Se multiplo di 5 mostrerà: 5, 10, 15, 20, 25"
+#: admin.php:145
+msgid "For example, if mutiple is 5, it will show: 5, 10, 15, 20, 25"
+msgstr "Per esempio, se il multiplo è 5, mostrerà: 5, 10, 15, 20, 25"
 
-#: pagenavi-options.php:219
-msgid "If mutiple is in 10, it will show: 10, 20, 30, 40, 50"
-msgstr "Se multiplo di 10 mostrerà: 10, 20, 30, 40, 50"
+#: admin.php:150
+msgid "Page Navigation Options"
+msgstr "Opzioni per la navigazione delle pagine"
 
-#: pagenavi-options.php:224
+#: scb/AdminPage.php:165
+#: scb/AdminPage.php:176
 msgid "Save Changes"
-msgstr "Salva le modifiche"
+msgstr "Salva i cambiamenti"
 
-#: pagenavi-options.php:235
-msgid "Deactivating WP-PageNavi plugin does not remove any data that may have been created, such as the page navigation options. To completely remove this plugin, you can uninstall it here."
-msgstr "La disattivazione di WP-PageNavi non rimuove alcun dato creato in precedenza, come le opzioni delle pagine di navigazione. Per rimuovere completamente questo plugin, lo si può disinstallare da qui."
+#: scb/AdminPage.php:279
+msgid "Settings <strong>saved</strong>."
+msgstr "Impostazioni <strong>salvate</strong>."
 
-#: pagenavi-options.php:238
-msgid "WARNING:"
-msgstr "ATTENZIONE:"
+#: scb/AdminPage.php:337
+msgid "Settings"
+msgstr "Impostazioni"
 
-#: pagenavi-options.php:239
-msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
-msgstr "La disinstallazione non può essere annullata. Si dovrebbe prima utilizzare un plugin di backup del database di WordPress per creare un backup di tutti i dati."
-
-#: pagenavi-options.php:242
-msgid "The following WordPress Options will be DELETED:"
-msgstr "Le seguenti opzioni di WordPress saranno ELIMINATE:"
-
-#: pagenavi-options.php:247
-msgid "WordPress Options"
-msgstr "Opzioni di WordPress"
-
-#: pagenavi-options.php:264
-msgid ""
-"You Are About To Uninstall WP-PageNavi From WordPress.\\n"
-"This Action Is Not Reversible.\\n"
-"\\n"
-" Choose [Cancel] To Stop, [OK] To Uninstall."
-msgstr ""
-"Si sta per disinstallare WP-PageNavi da WordPress.\\n"
-"Questa azione è IRRIVERSIBILE.\\n"
-"\\n"
-" Scegli [Annulla] per fermare l'operazione, [OK] per continuare."
-
-#: wp-pagenavi.php:41
-msgid "PageNavi"
-msgstr "Pagine di Navigazione"
-
-#: wp-pagenavi.php:217
+#: wp-pagenavi.php:223
 msgid "Page %CURRENT_PAGE% of %TOTAL_PAGES%"
 msgstr "Pagina %CURRENT_PAGE% di %TOTAL_PAGES%"
 
-#: wp-pagenavi.php:220
+#: wp-pagenavi.php:226
 msgid "&laquo; First"
 msgstr "&laquo; Prima"
 
-#: wp-pagenavi.php:221
+#: wp-pagenavi.php:227
 msgid "Last &raquo;"
 msgstr "Ultima &raquo;"
 
-#: wp-pagenavi.php:222
-msgid "&raquo;"
-msgstr "&raquo;"
-
-#: wp-pagenavi.php:223
+#: wp-pagenavi.php:228
 msgid "&laquo;"
 msgstr "&laquo;"
 
-#: wp-pagenavi.php:224
-#: wp-pagenavi.php:225
+#: wp-pagenavi.php:229
+msgid "&raquo;"
+msgstr "&raquo;"
+
+#: wp-pagenavi.php:230
+#: wp-pagenavi.php:231
 msgid "..."
 msgstr "..."
 
-#. Plugin Name of an extension
+#. Plugin Name of the plugin/theme
 msgid "WP-PageNavi"
 msgstr "WP-PageNavi"
 
-#. Plugin URI of an extension
-msgid "http://lesterchan.net/portfolio/programming/php/"
-msgstr "http://lesterchan.net/portfolio/programming/php/"
+#. Plugin URI of the plugin/theme
+msgid "http://wordpress.org/extend/plugins/wp-pagenavi/"
+msgstr "http://wordpress.org/extend/plugins/wp-pagenavi/"
 
-#. Description of an extension
-msgid "Adds a more advanced paging navigation to your WordPress blog."
-msgstr "Aggiungi un sistema di navigazione delle pagine più avanzato al tuo blog di WordPress."
+#. Description of the plugin/theme
+msgid "Adds a more advanced paging navigation to your WordPress blog"
+msgstr "Aggiunge una navigazione più avanzata al tuo blog WordPress"
 
-#. Author of an extension
-msgid "Lester 'GaMerZ' Chan"
-msgstr "Lester 'GaMerZ' Chan"
+#. Author of the plugin/theme
+msgid "Lester 'GaMerZ' Chan & scribu"
+msgstr "Lester 'GaMerZ' Chan & scribu"
 
-#. Author URI of an extension
-msgid "http://lesterchan.net"
-msgstr "http://lesterchan.net"
-
+#~ msgid "http://lesterchan.net"
+#~ msgstr "http://lesterchan.net"
+#~ msgid "Updated"
+#~ msgstr "Aggiornato"
+#~ msgid "No Page Navigation Option Updated"
+#~ msgstr "Le opzioni di Page Navigation non sono state aggiornate"
+#~ msgid "UNINSTALL WP-PageNavi"
+#~ msgstr "DISINSTALLA WP-PageNavi"
+#~ msgid "Setting Key '%s' has been deleted."
+#~ msgstr "La chiave di impostazione '%s' è stata cancellata."
+#~ msgid "Error deleting Setting Key '%s'."
+#~ msgstr "Errore nel cancellare la chiave di impostazione '%s'."
+#~ msgid "Uninstall WP-PageNavi"
+#~ msgstr "Disinstalla WP-PageNavi"
+#~ msgid ""
+#~ "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-"
+#~ "PageNavi Will Be Deactivated Automatically."
+#~ msgstr ""
+#~ "<a href=\"%s\">Fare clic qui</a> per completare la disinstallazione e WP-"
+#~ "PageNavi sarà disattivato automaticamente."
+#~ msgid "If mutiple is in 10, it will show: 10, 20, 30, 40, 50"
+#~ msgstr "Se il multiplo è in 10, mostrerà: 10, 20, 30, 40, 50"
+#~ msgid ""
+#~ "Deactivating WP-PageNavi plugin does not remove any data that may have "
+#~ "been created, such as the page navigation options. To completely remove "
+#~ "this plugin, you can uninstall it here."
+#~ msgstr ""
+#~ "La disattivazione del plugin WP-PageNavi non rimuove alcun dato che possa "
+#~ "essere stato creato, come le opzioni di Page Navigation. Per rimuovere "
+#~ "completamente questo plugin, lo si può disinstallare da qui."
+#~ msgid "WARNING:"
+#~ msgstr "ATTENZIONE:"
+#~ msgid ""
+#~ "Once uninstalled, this cannot be undone. You should use a Database Backup "
+#~ "plugin of WordPress to back up all the data first."
+#~ msgstr ""
+#~ "La disinstallazione non può essere annullata. Si dovrebbe prima "
+#~ "utilizzare un plugin di WordPress per il backup del database per fare il "
+#~ "backup dei dati."
+#~ msgid "The following WordPress Options will be DELETED:"
+#~ msgstr "Le seguenti opzioni di WordPress saranno CANCELLATE:"
+#~ msgid "WordPress Options"
+#~ msgstr "Opzioni di WordPress"
+#~ msgid ""
+#~ "You Are About To Uninstall WP-PageNavi From WordPress.\\nThis Action Is "
+#~ "Not Reversible.\\n\\n Choose [Cancel] To Stop, [OK] To Uninstall."
+#~ msgstr ""
+#~ "Si sta per disinstallare WP-PageNavi da WordPress.\\nQuesta azione non è "
+#~ "annullabile.\\n\\n Scegliere [Annulla] per fermare l'operazione, [OK] per "
+#~ "proseguire."
+#~ msgid "http://lesterchan.net/portfolio/programming/php/"
+#~ msgstr "http://lesterchan.net/portfolio/programming/php/"
 #~ msgid "Text For Last Post"
-#~ msgstr "Testo per l'ultimo articolo"
+#~ msgstr "Testo per l'ultimo post"
 #~ msgid "Text For Next Post"
-#~ msgstr "Testo per l'articolo successivo"
+#~ msgstr "Testo per il post successivo"
 #~ msgid "Yes"
 #~ msgstr "Sì"
 #~ msgid "No"
