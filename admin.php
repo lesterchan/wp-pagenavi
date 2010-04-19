@@ -8,6 +8,7 @@ class PageNavi_Options_Page extends scbAdminPage {
 		$this->args = array(
 			'page_title' => __('PageNavi Settings', $this->textdomain),
 			'menu_title' => __('PageNavi', $this->textdomain),
+			'page_slug' => 'pagenavi',
 		);
 	}
 
