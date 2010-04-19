@@ -1,4 +1,4 @@
-# Translation of the WordPress plugin WP-PageNavi 2.71a by Lester 'GaMerZ' Chan & scribu.
+# Translation of the WordPress plugin WP-PageNavi 2.72 by Lester 'GaMerZ' Chan & scribu.
 # Copyright (C) 2010 Lester 'GaMerZ' Chan & scribu
 # This file is distributed under the same license as the WP-PageNavi package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-PageNavi 2.71a\n"
+"Project-Id-Version: WP-PageNavi 2.72\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-pagenavi\n"
-"POT-Creation-Date: 2010-04-18 11:47+0300\n"
+"POT-Creation-Date: 2010-04-19 11:25+0300\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -152,27 +152,27 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: wp-pagenavi.php:223
+#: wp-pagenavi.php:224
 msgid "Page %CURRENT_PAGE% of %TOTAL_PAGES%"
 msgstr ""
 
-#: wp-pagenavi.php:226
+#: wp-pagenavi.php:227
 msgid "&laquo; First"
 msgstr ""
 
-#: wp-pagenavi.php:227
+#: wp-pagenavi.php:228
 msgid "Last &raquo;"
 msgstr ""
 
-#: wp-pagenavi.php:228
+#: wp-pagenavi.php:229
 msgid "&laquo;"
 msgstr ""
 
-#: wp-pagenavi.php:229
+#: wp-pagenavi.php:230
 msgid "&raquo;"
 msgstr ""
 
-#: wp-pagenavi.php:230 wp-pagenavi.php:231
+#: wp-pagenavi.php:231 wp-pagenavi.php:232
 msgid "..."
 msgstr ""
 
