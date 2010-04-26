@@ -51,9 +51,10 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 
 = "Parse error: syntax error, unexpected..." Help! =
 
-Make sure your host is running PHP 5. Add this line to wp-config.php to check:
+Add this line to wp-config.php to make sure that your host is running PHP 5:
 
 `var_dump(PHP_VERSION);`
+<br>
 
 = Doesn't work with query_posts() =
 
