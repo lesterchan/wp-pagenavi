@@ -51,7 +51,7 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 
 = "Parse error: syntax error, unexpected..." Help! =
 
-This plugin requires PHP 5. The only foolproof way to make sure that your host is running PHP 5 is to add this line to wp-config.php:
+Make sure your host is running PHP 5. The only foolproof way to do this is to add this line to wp-config.php:
 
 `var_dump(PHP_VERSION);`
 <br>
