@@ -49,7 +49,7 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 
 == Frequently Asked Questions ==
 
-= "Parse error: syntax error, unexpected..." Help! =
+= Error on activation: "Parse error: syntax error, unexpected..." =
 
 Make sure your host is running PHP 5. The only foolproof way to do this is to add this line to wp-config.php:
 
