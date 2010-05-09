@@ -30,6 +30,7 @@ abstract class scbAdminPage {
 	// scbOptions object holder
 	// Normally, it's used for storing formdata
 	protected $options;
+	protected $option_name;
 
 	// l10n
 	protected $textdomain;
@@ -84,7 +85,7 @@ abstract class scbAdminPage {
 
 	// Constructor
 	function __construct($file, $options = NULL) {
-		if ( $options !== NULL ) {
+		if ( NULL !== $options ) {
 			$this->options = $options;
 			$this->formdata = $this->options->get();
 		}
@@ -94,6 +95,12 @@ abstract class scbAdminPage {
 
 		$this->setup();
 		$this->check_args();
+
+		if ( isset($this->option_name) ) {
+			add_action('admin_init', array($this, 'option_init'));
+			if ( function_exists('settings_errors') )
+				add_action('admin_notices', 'settings_errors');
+		}
 
 		add_action('admin_menu', array($this, 'page_init'));
 		add_filter('contextual_help', array($this, '_contextual_help'), 10, 2);
@@ -133,7 +140,7 @@ abstract class scbAdminPage {
 		return $new_data;
 	}
 
-	// A generic form handler
+	// Manually handle option saving (use Settings API instead)
 	function form_handler() {
 		if ( empty($_POST['action']) )
 			return false;
@@ -152,6 +159,14 @@ abstract class scbAdminPage {
 			$this->options->update($this->formdata);
 
 		$this->admin_msg();
+	}
+
+	// Manually generate a standard admin notice (use Settings API instead)
+	function admin_msg($msg = '', $class = "updated") {
+		if ( empty($msg) )
+			$msg = __('Settings <strong>saved</strong>.', $this->textdomain);
+
+		echo "<div class='$class fade'><p>$msg</p></div>\n";
 	}
 
 
@@ -201,8 +216,8 @@ abstract class scbAdminPage {
 
 	// the second argument is sent to submit_button()
 	$this->form_wrap($content, array(
-		'text' => 'Save changes', 
-		'name' => 'action', 
+		'text' => 'Save changes',
+		'name' => 'action',
 		'ajax' => true,
 	));
 	*/
@@ -221,64 +236,90 @@ abstract class scbAdminPage {
 		return scbForms::form_wrap($content, $this->nonce);
 	}
 
-	// See scbForms::input()
-	function input($args, $options = NULL) {
-		if ( $options === NULL )
-			$options = $this->formdata;
-
-		return scbForms::input($args, $options);
-	}
-
 	// See scbForms::form()
-	function form($rows, $options = NULL) {
-		if ( $options === NULL )
-			$options = $this->formdata;
-
-		return scbForms::form($rows, $options, $this->nonce);
+	function form($rows, $formdata = array()) {
+		return scbForms::form($rows, $formdata, $this->nonce);
 	}
 
-	// See scbForms::table()
-	function table($rows, $options = NULL) {
-		if ( $options === NULL )
-			$options = $this->formdata;
+	// Generates a table wrapped in a form
+	function form_table($rows, $formdata = array()) {
+		$output = '';
+		foreach ( $rows as $row )
+			$output .= $this->table_row($row, $formdata);
 
-		return scbForms::table($rows, $options);
+		$output = $this->form_table_wrap($output);
+
+		return $output;
 	}
 
-	// See scbForms::table_row()
-	function table_row($row, $options = NULL) {
-		if ( $options === NULL )
-			$options = $this->formdata;
-
-		return scbForms::table_row($row, $options);
-	}
-
-	// Mimics scbForms::form_table()
-	function form_table($rows, $options = NULL) {
-		$output = $this->table($rows, $options);
-
-		$args = array_slice(func_get_args(), 2);
-		array_unshift($args, $output);
-
-		return call_user_func_array(array($this, 'form_wrap'), $args);
-	}
-	
-	// Mimics scbForms::form_table_wrap()
+	// Wraps the given content in a <form><table>
 	function form_table_wrap($content) {
-		$output = self::table_wrap($content);
+		$output = $this->table_wrap($content);
+		$output = $this->form_wrap($output, $this->nonce);
 
-		$args = array_slice(func_get_args(), 1);
-		array_unshift($args, $output);
-
-		return call_user_func_array(array($this, 'form_wrap'), $args);
+		return $output;
 	}
 
-	// Generates a standard admin notice
-	function admin_msg($msg = '', $class = "updated") {
-		if ( empty($msg) )
-			$msg = __('Settings <strong>saved</strong>.', $this->textdomain);
+	// Generates a form table
+	function table($rows, $formdata = array()) {
+		$output = '';
+		foreach ( $rows as $row )
+			$output .= $this->table_row($row, $formdata);
 
-		echo "<div class='$class fade'><p>$msg</p></div>\n";
+		$output = $this->table_wrap($output);
+
+		return $output;
+	}
+
+	// Generates a table row
+	function table_row($args, $formdata = array()) {
+		return $this->row_wrap($args['title'], $this->input($args, $formdata));
+	}
+
+	// Wraps the given content in a <table>
+	function table_wrap($content) {
+		return
+		html('table class="form-table"', $content);
+	}
+
+	// Wraps the given content in a <tr><td>
+	function row_wrap($title, $content) {
+		return 
+		html('tr', 
+			 html('th scope="row"', $title)
+			.html('td', $content)
+		);
+	}
+
+	function input($args, $formdata = array()) {
+		if ( empty($formdata) )
+			$formdata = $this->formdata;
+
+		if ( isset($args['name_tree']) ) {
+			$tree = (array) $args['name_tree'];
+			unset($args['name_tree']);
+
+			$value = $formdata;
+			$name = $this->option_name;
+			foreach ( $tree as $key ) {
+				$value = $value[$key];
+				$name .= '[' . $key . ']';
+			}
+
+			$args['name'] = $name;
+			unset($args['names']);
+
+			unset($args['values']);
+
+			$formdata = array($name => $value);
+		}
+
+		return scbForms::input($args, $formdata);
+	}
+
+	// Mimic scbForms inheritance
+	function __call($method, $args) {
+		return call_user_func_array(array('scbForms', $method), $args);
 	}
 
 	// Wraps a string in a <script> tag
@@ -293,11 +334,6 @@ abstract class scbAdminPage {
 
 
 //  ____________INTERNAL METHODS____________
-
-
-	function __call($method, $args) {
-		return call_user_func_array(array('scbForms', $method), $args);
-	}
 
 
 	// Registers a page
@@ -320,6 +356,10 @@ abstract class scbAdminPage {
 		}
 
 		add_action('admin_print_styles-' . $this->pagehook, array($this, 'page_head'));
+	}
+
+	function option_init() {
+		register_setting($this->option_name, $this->option_name, array($this, 'validate'));
 	}
 
 	private function check_args() {

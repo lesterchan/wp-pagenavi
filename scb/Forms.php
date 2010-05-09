@@ -1,22 +1,10 @@
 <?php
 
+// Documentation: http://scribu.net/wordpress/scb-framework/scb-forms.html
+
 class scbForms {
+
 	const token = '%input%';
-
-	/* Generates one or more form elements of the same type,
-	   including <select>s and <textarea>s.
-
-		$args =	array (
-			'type' => string  (mandatory)
-			'name' => string | array  (mandatory)
-			'value' => string | array
-			'desc' => string | array | false
-			'desc_pos' => 'before' | 'after' | 'foo %input% bar'  (default: after)
-			'extra' => string  (default: class="regular-text")
-		);
-
-		$formdata = associative array with the formdata with which to fill the elements
-	*/
 
 	protected static $args;
 	protected static $formdata = array();
@@ -34,53 +22,18 @@ class scbForms {
 			}
 		}
 
-		if ( !isset($args['name']) || empty($args['name']) )
-			return trigger_error("Empty name", E_USER_WARNING);
+		if ( empty($args['name']) )
+			return trigger_error('Empty name', E_USER_WARNING);
 
 		self::$args = $args;
 		self::$formdata = self::validate_data($formdata);
 
-		switch ( $args['type'] ) {
-			case 'select':  	return self::_select();
-			case 'textarea':	return self::_textarea();
-			default:			return self::_input();
-		}
+		if ( 'select' == $args['type'] )
+			return self::_select();
+		else
+			return self::_input();
 	}
 
-	// Deprecated
-	static function select($args, $options = array()) {
-		if ( !empty($options) )
-			$args['value'] = $options;
-
-		self::$args = $args;
-
-		return self::_select();
-	}
-
-	// Deprecated
-	static function textarea($args, $content = '') {
-		if ( !empty($content) )
-			$args['value'] = $content;
-
-		self::$args = $args;
-
-		return self::_textarea();
-	}
-
-
-// ____________UTILITIES____________
-
-
-	// Generates a table wrapped in a form
-	static function form_table($rows, $formdata = NULL) {
-		$output = '';
-		foreach ( $rows as $row )
-			$output .= self::table_row($row, $formdata);
-
-		$output = self::form_table_wrap($output);
-
-		return $output;
-	}
 
 	// Generates a form
 	static function form($inputs, $formdata = NULL, $nonce) {
@@ -93,35 +46,7 @@ class scbForms {
 		return $output;
 	}
 
-	// Generates a table
-	static function table($rows, $formdata = NULL) {
-		$output = '';
-		foreach ( $rows as $row )
-			$output .= self::table_row($row, $formdata);
-
-		$output = self::table_wrap($output);
-
-		return $output;
-	}
-
-	// Generates a table row
-	static function table_row($args, $formdata = NULL) {
-		return self::row_wrap($args['title'], self::input($args, $formdata));
-	}
-
-
-// ____________WRAPPERS____________
-
-
-	// Wraps the given content in a <form><table>
-	static function form_table_wrap($content, $nonce = 'update_options') {
-		$output = self::table_wrap($content);
-		$output = self::form_wrap($output, $nonce);
-
-		return $output;
-	}
-
-	// Wraps the given content in a <form>
+	// Wraps the given content in a <form> tag
 	static function form_wrap($content, $nonce = 'update_options') {
 		$output = "\n<form method='post' action=''>\n";
 		$output .= $content;
@@ -131,25 +56,13 @@ class scbForms {
 		return $output;
 	}
 
-	// Wraps the given content in a <table>
-	static function table_wrap($content) {
-		$output = "\n<table class='form-table'>\n" . $content . "\n</table>\n";
-
-		return $output;
-	}
-
-	// Wraps the given content in a <tr><td>
-	static function row_wrap($title, $content) {
-		return "\n<tr>\n\t<th scope='row'>" . $title . "</th>\n\t<td>\n\t\t" . $content . "\t</td>\n\n</tr>";
-	}
-
 
 // ____________PRIVATE METHODS____________
 
 
 	// Recursivly transform empty arrays to ''
 	private static function validate_data($data) {
-		if ( ! is_array($data) )
+		if ( !is_array($data) )
 			return $data;
 
 		if ( empty($data) )
@@ -315,9 +228,14 @@ class scbForms {
 
 		$extra = self::validate_extra($extra, $name);
 
-		$value = esc_attr($value);
-
-		$input = "<input name='{$name}' value='{$value}' type='{$type}'{$extra} /> ";
+		if ( 'textarea' == $type ) {
+			$value = esc_html($value);
+			$input = "<textarea name='{$name}'{$extra}>\n{$value}\n</textarea>\n";
+		}
+		else {
+			$value = esc_attr($value);
+			$input = "<input name='{$name}' value='{$value}' type='{$type}'{$extra} /> ";
+		}
 
 		return self::add_label($input, $desc, $desc_pos);
 	}
@@ -375,22 +293,6 @@ class scbForms {
 		$input =  "<select name='{$name}'$extra>\n{$opts}</select>";
 		
 		return self::add_label($input, $desc, $desc_pos);
-	}
-
-	private static function _textarea() {
-		extract(wp_parse_args(self::$args, array(
-			'name' => '',
-			'extra' => 'class="widefat"',
-			'value' => '',
-			'escaped' => false,
-		)), EXTR_SKIP);
-
-		if ( !$escaped )
-			$value = esc_html($value);
-
-		$extra = self::validate_extra($extra, $name);
-
-		return "<textarea name='{$name}'{$extra}>\n{$value}\n</textarea>\n";
 	}
 
 	private static function add_label($input, $desc, $desc_pos) {
