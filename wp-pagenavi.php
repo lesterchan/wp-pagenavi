@@ -218,7 +218,7 @@ function _pagenavi_init() {
 	// Load scbFramework
 	require dirname(__FILE__) . '/scb/load.php';
 
-	load_plugin_textdomain('wp-pagenavi', false, basename(dirname(__FILE__)) . '/lang');
+	load_plugin_textdomain('wp-pagenavi', '', dirname(plugin_basename(__FILE__)) . '/lang');
 
 	$options = new scbOptions('pagenavi_options', __FILE__, array(
 		'pages_text'    => __('Page %CURRENT_PAGE% of %TOTAL_PAGES%', 'wp-pagenavi'),
