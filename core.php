@@ -7,17 +7,21 @@ function wp_pagenavi($before = '', $after = '') {
 	$options = PageNavi_Core::$options->get();
 
 	$posts_per_page = intval(get_query_var('posts_per_page'));
+
 	$paged = intval(get_query_var('paged'));
+	if ( empty($paged) )
+		$paged = 1;
+
+	$max_page = $wp_query->max_num_pages;
+
+	if ( !$max_page )
+		return;
+
+	if ( 1 == $max_page && !intval($options['always_show']) )
+		return;
 
 	$request = $wp_query->request;
 	$numposts = $wp_query->found_posts;
-	$max_page = $wp_query->max_num_pages;
-
-	if ( $max_page <= 1 && !intval($options['always_show']) )
-		return;
-
-	if ( empty($paged) )
-		$paged = 1;
 
 	$pages_to_show = intval($options['num_pages']);
 	$larger_page_to_show = intval($options['num_larger_page_numbers']);
