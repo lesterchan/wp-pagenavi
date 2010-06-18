@@ -8,24 +8,23 @@ function wp_pagenavi($before = '', $after = '') {
 
 	$posts_per_page = intval(get_query_var('posts_per_page'));
 
-	$paged = intval(get_query_var('paged'));
-	if ( empty($paged) )
+	$paged = absint(get_query_var('paged'));
+	if ( !$paged )
 		$paged = 1;
 
-	$max_page = $wp_query->max_num_pages;
+	$total_pages = absint($wp_query->max_num_pages);
+	if ( !$total_pages )
+		$total_pages = 1;
 
-	if ( !$max_page )
-		return;
-
-	if ( 1 == $max_page && !intval($options['always_show']) )
+	if ( 1 == $total_pages && !$options['always_show'] )
 		return;
 
 	$request = $wp_query->request;
 	$numposts = $wp_query->found_posts;
 
-	$pages_to_show = intval($options['num_pages']);
-	$larger_page_to_show = intval($options['num_larger_page_numbers']);
-	$larger_page_multiple = intval($options['larger_page_numbers_multiple']);
+	$pages_to_show = absint($options['num_pages']);
+	$larger_page_to_show = absint($options['num_larger_page_numbers']);
+	$larger_page_multiple = absint($options['larger_page_numbers_multiple']);
 	$pages_to_show_minus_1 = $pages_to_show - 1;
 	$half_page_start = floor($pages_to_show_minus_1/2);
 	$half_page_end = ceil($pages_to_show_minus_1/2);
@@ -39,9 +38,9 @@ function wp_pagenavi($before = '', $after = '') {
 	if ( ($end_page - $start_page) != $pages_to_show_minus_1 )
 		$end_page = $start_page + $pages_to_show_minus_1;
 
-	if ( $end_page > $max_page ) {
-		$start_page = $max_page - $pages_to_show_minus_1;
-		$end_page = $max_page;
+	if ( $end_page > $total_pages ) {
+		$start_page = $total_pages - $pages_to_show_minus_1;
+		$end_page = $total_pages;
 	}
 
 	if ( $start_page <= 0 )
@@ -54,13 +53,13 @@ function wp_pagenavi($before = '', $after = '') {
 			if ( !empty($options['pages_text']) ) {
 				$pages_text = str_replace(
 					array("%CURRENT_PAGE%", "%TOTAL_PAGES%"),
-					array(number_format_i18n($paged), number_format_i18n($max_page)),
+					array(number_format_i18n($paged), number_format_i18n($total_pages)),
 				$options['pages_text']);
 				$out .= "<span class='pages'>$pages_text</span>";
 			}
 
-			if ( $start_page >= 2 && $pages_to_show < $max_page ) {
-				$first_text = str_replace('%TOTAL_PAGES%', number_format_i18n($max_page), $options['first_text']);
+			if ( $start_page >= 2 && $pages_to_show < $total_pages ) {
+				$first_text = str_replace('%TOTAL_PAGES%', number_format_i18n($total_pages), $options['first_text']);
 				$out .= _wp_pagenavi_single(1, 'first', $first_text, '%TOTAL_PAGES%');
 
 				if ( !empty($options['dotleft_text']) )
@@ -69,7 +68,7 @@ function wp_pagenavi($before = '', $after = '') {
 
 			$larger_pages_array = array();
 			if ( $larger_page_multiple )
-				for ( $i = $larger_page_multiple; $i <= $max_page; $i += $larger_page_multiple )
+				for ( $i = $larger_page_multiple; $i <= $total_pages; $i += $larger_page_multiple )
 					$larger_pages_array[] = $i;
 
 			$larger_page_start = 0;
@@ -93,7 +92,7 @@ function wp_pagenavi($before = '', $after = '') {
 			}
 
 			if ( !empty($options['next_text']) )
-				$out .= get_next_posts_link($options['next_text'], $max_page);
+				$out .= get_next_posts_link($options['next_text'], $total_pages);
 
 			$larger_page_end = 0;
 			foreach ( $larger_pages_array as $larger_page ) {
@@ -103,11 +102,11 @@ function wp_pagenavi($before = '', $after = '') {
 				}
 			}
 
-			if ( $end_page < $max_page ) {
+			if ( $end_page < $total_pages ) {
 				if ( !empty($options['dotright_text']) )
 					$out .= "<span class='extend'>{$options['dotright_text']}</span>";
 
-				$out .= _wp_pagenavi_single($max_page, 'last', $options['last_text'], '%TOTAL_PAGES%');
+				$out .= _wp_pagenavi_single($total_pages, 'last', $options['last_text'], '%TOTAL_PAGES%');
 			}
 			break;
 
@@ -116,7 +115,7 @@ function wp_pagenavi($before = '', $after = '') {
 			$out .= '<form action="" method="get">'."\n";
 			$out .= '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">'."\n";
 
-			for ( $i = 1; $i <= $max_page; $i++ ) {
+			for ( $i = 1; $i <= $total_pages; $i++ ) {
 				$page_num = $i;
 				if ( $page_num == 1 )
 					$page_num = 0;
