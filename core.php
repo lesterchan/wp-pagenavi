@@ -66,10 +66,10 @@ function wp_pagenavi($before = '', $after = '') {
 					$out .= "<span class='extend'>{$options['dotleft_text']}</span>";
 			}
 
-			$larger_pages_array = array();
 			if ( $larger_page_multiple )
-				for ( $i = $larger_page_multiple; $i <= $total_pages; $i += $larger_page_multiple )
-					$larger_pages_array[] = $i;
+				$larger_pages_array = range($larger_page_multiple, $total_pages, $larger_page_multiple);
+			else
+				$larger_pages_array = array();
 
 			$larger_page_start = 0;
 			foreach ( $larger_pages_array as $larger_page ) {
@@ -82,7 +82,7 @@ function wp_pagenavi($before = '', $after = '') {
 			if ( !empty($options['prev_text']) )
 				$out .= get_previous_posts_link($options['prev_text']);
 
-			for ( $i = $start_page; $i <= $end_page; $i++) {
+			foreach ( range($start_page, $end_page) as $i ) {
 				if ( $i == $paged && !empty($options['current_text']) ) {
 					$current_page_text = str_replace('%PAGE_NUMBER%', number_format_i18n($i), $options['current_text']);
 					$out .= "<span class='current'>$current_page_text</span>";
@@ -115,7 +115,7 @@ function wp_pagenavi($before = '', $after = '') {
 			$out .= '<form action="" method="get">'."\n";
 			$out .= '<select size="1" onchange="document.location.href = this.options[this.selectedIndex].value;">'."\n";
 
-			for ( $i = 1; $i <= $total_pages; $i++ ) {
+			foreach ( range(1, $total_pages) as $i ) {
 				$page_num = $i;
 				if ( $page_num == 1 )
 					$page_num = 0;
