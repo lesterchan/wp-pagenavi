@@ -66,10 +66,10 @@ function wp_pagenavi( $before = '', $after = '' ) {
 					$out .= "<span class='extend'>{$options['dotleft_text']}</span>";
 			}
 
+			$larger_pages_array = array();
 			if ( $larger_page_multiple )
-				$larger_pages_array = range( $larger_page_multiple, $total_pages, $larger_page_multiple );
-			else
-				$larger_pages_array = array();
+				for ( $i = $larger_page_multiple; $i <= $total_pages; $i+= $larger_page_multiple )
+					$larger_pages_array[] = $i;
 
 			$larger_page_start = 0;
 			foreach ( $larger_pages_array as $larger_page ) {
