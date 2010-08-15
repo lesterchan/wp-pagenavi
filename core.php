@@ -1,10 +1,10 @@
 <?php
 
 // Template tag: Boxed Style Paging
-function wp_pagenavi( $before = '', $after = '' ) {
+function wp_pagenavi( $before = '', $after = '', $options = array() ) {
 	global $wp_query;
 
-	$options = PageNavi_Core::$options->get();
+	$options = wp_parse_args( $options, PageNavi_Core::$options->get() );
 
 	$posts_per_page = intval( get_query_var( 'posts_per_page' ) );
 
