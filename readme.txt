@@ -66,8 +66,11 @@ Read before upgrading: http://scribu.net/wordpress/wp-pagenavi/wp-2-70.html
 
 == Changelog ==
 
+= 2.73 =
+* added $options arg to wp_pagenavi()
+
 = 2.72 (2010-04-19) =
-* fix first link
+* fixed first link
 
 = 2.71 (2010-04-18) =
 * remove conflicting .left and .right from .extend elements

@@ -1,6 +1,12 @@
 <?php
 
-// Template tag: Boxed Style Paging
+/**
+ * Template tag: Boxed Style Paging
+ *
+ * @arg string $before
+ * @arg string $after
+ * @arg string|array $options Used to overwrite options set in WP-Admin -> Settings -> PageNavi
+ */
 function wp_pagenavi( $before = '', $after = '', $options = array() ) {
 	global $wp_query;
 
