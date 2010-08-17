@@ -1,4 +1,4 @@
-# Translation of the WordPress plugin WP-PageNavi 2.72 by Lester 'GaMerZ' Chan & scribu.
+# Translation of the WordPress plugin WP-PageNavi 2.73 by Lester 'GaMerZ' Chan & scribu.
 # Copyright (C) 2010 Lester 'GaMerZ' Chan & scribu
 # This file is distributed under the same license as the WP-PageNavi package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-PageNavi 2.72\n"
+"Project-Id-Version: WP-PageNavi 2.73\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-pagenavi\n"
-"POT-Creation-Date: 2010-04-19 11:25+0300\n"
+"POT-Creation-Date: 2010-08-17 17:28+0300\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,155 +24,155 @@ msgstr ""
 msgid "PageNavi"
 msgstr ""
 
-#: admin.php:27
+#: admin.php:28
 msgid "Text For Number Of Pages"
 msgstr ""
 
-#: admin.php:32
+#: admin.php:33
 msgid "The current page number."
 msgstr ""
 
-#: admin.php:33 admin.php:57 admin.php:65
+#: admin.php:34 admin.php:58 admin.php:66
 msgid "The total number of pages."
 msgstr ""
 
-#: admin.php:37
+#: admin.php:38
 msgid "Text For Current Page"
 msgstr ""
 
-#: admin.php:41 admin.php:49
+#: admin.php:42 admin.php:50
 msgid "The page number."
 msgstr ""
 
-#: admin.php:45
+#: admin.php:46
 msgid "Text For Page"
 msgstr ""
 
-#: admin.php:53
+#: admin.php:54
 msgid "Text For First Page"
 msgstr ""
 
-#: admin.php:61
+#: admin.php:62
 msgid "Text For Last Page"
 msgstr ""
 
-#: admin.php:69
+#: admin.php:70
 msgid "Text For Previous Page"
 msgstr ""
 
-#: admin.php:75
+#: admin.php:76
 msgid "Text For Next Page"
 msgstr ""
 
-#: admin.php:81
+#: admin.php:82
 msgid "Text For Previous ..."
 msgstr ""
 
-#: admin.php:87
+#: admin.php:88
 msgid "Text For Next ..."
 msgstr ""
 
-#: admin.php:94
+#: admin.php:95
 msgid "Page Navigation Text"
 msgstr ""
 
-#: admin.php:95
+#: admin.php:96
 msgid "Leaving a field blank will hide that part of the navigation."
 msgstr ""
 
-#: admin.php:101
+#: admin.php:102
 msgid "Use pagenavi-css.css"
 msgstr ""
 
-#: admin.php:107
+#: admin.php:108
 msgid "Page Navigation Style"
 msgstr ""
 
-#: admin.php:110
+#: admin.php:111
 msgid "Normal"
 msgstr ""
 
-#: admin.php:110
+#: admin.php:111
 msgid "Drop-down List"
 msgstr ""
 
-#: admin.php:115
+#: admin.php:116
 msgid "Always Show Page Navigation"
 msgstr ""
 
-#: admin.php:118
+#: admin.php:119
 msgid "Show navigation even if there's only one page."
 msgstr ""
 
-#: admin.php:122
+#: admin.php:123
 msgid "Number Of Pages To Show"
 msgstr ""
 
-#: admin.php:129
+#: admin.php:130
 msgid "Number Of Larger Page Numbers To Show"
 msgstr ""
 
-#: admin.php:134
+#: admin.php:135
 msgid ""
 "Larger page numbers are in addition to the normal page numbers. They are "
 "useful when there are many pages of posts."
 msgstr ""
 
-#: admin.php:135
+#: admin.php:136
 msgid ""
 "For example, WP-PageNavi will display: Pages 1, 2, 3, 4, 5, 10, 20, 30, 40, "
 "50."
 msgstr ""
 
-#: admin.php:136
+#: admin.php:137
 msgid "Enter 0 to disable."
 msgstr ""
 
-#: admin.php:140
+#: admin.php:141
 msgid "Show Larger Page Numbers In Multiples Of"
 msgstr ""
 
-#: admin.php:145
+#: admin.php:146
 msgid "For example, if mutiple is 5, it will show: 5, 10, 15, 20, 25"
 msgstr ""
 
-#: admin.php:150
+#: admin.php:151
 msgid "Page Navigation Options"
 msgstr ""
 
-#: scb/AdminPage.php:165 scb/AdminPage.php:176
-msgid "Save Changes"
-msgstr ""
-
-#: scb/AdminPage.php:279
+#: scb/AdminPage.php:167
 msgid "Settings <strong>saved</strong>."
 msgstr ""
 
-#: scb/AdminPage.php:337
+#: scb/AdminPage.php:179 scb/AdminPage.php:189
+msgid "Save Changes"
+msgstr ""
+
+#: scb/AdminPage.php:371
 msgid "Settings"
 msgstr ""
 
-#: wp-pagenavi.php:224
+#: wp-pagenavi.php:37
 msgid "Page %CURRENT_PAGE% of %TOTAL_PAGES%"
 msgstr ""
 
-#: wp-pagenavi.php:227
+#: wp-pagenavi.php:40
 msgid "&laquo; First"
 msgstr ""
 
-#: wp-pagenavi.php:228
+#: wp-pagenavi.php:41
 msgid "Last &raquo;"
 msgstr ""
 
-#: wp-pagenavi.php:229
+#: wp-pagenavi.php:42
 msgid "&laquo;"
 msgstr ""
 
-#: wp-pagenavi.php:230
+#: wp-pagenavi.php:43
 msgid "&raquo;"
 msgstr ""
 
-#: wp-pagenavi.php:231 wp-pagenavi.php:232
+#: wp-pagenavi.php:44 wp-pagenavi.php:45
 msgid "..."
 msgstr ""
 

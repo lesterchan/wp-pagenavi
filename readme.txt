@@ -4,7 +4,7 @@ Donate link: http://lesterchan.net/wordpress
 Tags: navigation, pagination, paging, pages
 Requires at least: 2.8
 Tested up to: 3.0
-Stable tag: 2.72
+Stable tag: 2.73
 
 Adds a more advanced paging navigation to your WordPress site.
 
@@ -66,8 +66,10 @@ Read before upgrading: http://scribu.net/wordpress/wp-pagenavi/wp-2-70.html
 
 == Changelog ==
 
-= 2.73 =
+= 2.73 (2010-08-17) =
 * added $options arg to wp_pagenavi()
+* updated scbFramework
+* 3 new translations: AL, JA, BR
 
 = 2.72 (2010-04-19) =
 * fixed first link
