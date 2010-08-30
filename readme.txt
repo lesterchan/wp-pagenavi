@@ -4,7 +4,7 @@ Donate link: http://lesterchan.net/wordpress
 Tags: navigation, pagination, paging, pages
 Requires at least: 2.8
 Tested up to: 3.0
-Stable tag: 2.73
+Stable tag: trunk
 
 Adds a more advanced paging navigation to your WordPress site.
 
@@ -20,7 +20,7 @@ Example:
 
 
 <br>
-[Demo](http://lesterchan.net/wordpress/) | [Translations](http://scribu.net/wordpress/translating-plugins.html)
+Links: [Demo](http://lesterchan.net/wordpress/) | [Plugin News](http://scribu.net/wordpress/wp-pagenavi/) | [Translating](http://scribu.net/wordpress/translating-plugins.html)
 
 == Installation ==
 
