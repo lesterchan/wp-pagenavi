@@ -31,7 +31,7 @@ require dirname( __FILE__ ) . '/scb/load.php';
 function _pagenavi_init() {
 	load_plugin_textdomain( 'wp-pagenavi', '', dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 
-	require dirname( __FILE__ ) . '/core.php';
+	require_once dirname( __FILE__ ) . '/core.php';
 
 	$options = new scbOptions( 'pagenavi_options', __FILE__, array(
 		'pages_text'    => __( 'Page %CURRENT_PAGE% of %TOTAL_PAGES%', 'wp-pagenavi' ),
