@@ -60,13 +60,18 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 
 Read [The Right Way To Use query_posts()](http://scribu.net/wordpress/right-way-to-use-query_posts.html)
 
-== Upgrade Notice ==
+= How do I ignore the options page? =
 
-Read before upgrading: http://scribu.net/wordpress/wp-pagenavi/wp-2-70.html
+If you are running a multi-language plugin, you will probably want to ignore the strings in the options page.
+
+You can do that like so:
+
+`<?php wp_pagenavi( '', '', PageNavi_Core::$options->get_defaults() ); ?>`
 
 == Changelog ==
 
 = 2.74 (2010-X-X) =
+* added 'smaller' and 'larger' classes
 * added $query arg to wp_pagenavi()
 
 = 2.73 (2010-08-17) =

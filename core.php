@@ -97,12 +97,14 @@ function wp_pagenavi( $args = array() ) {
 			if ( !empty( $options['prev_text'] ) )
 				$out .= get_previous_posts_link( $options['prev_text'] );
 
+			$timeline = 'smaller';
 			foreach ( range( $start_page, $end_page ) as $i ) {
 				if ( $i == $paged && !empty( $options['current_text'] ) ) {
 					$current_page_text = str_replace( '%PAGE_NUMBER%', number_format_i18n( $i ), $options['current_text'] );
 					$out .= "<span class='current'>$current_page_text</span>";
+					$timeline = 'larger';
 				} else {
-					$out .= _wp_pagenavi_single( $i, 'page', $options['page_text'] );
+					$out .= _wp_pagenavi_single( $i, "page $timeline", $options['page_text'] );
 				}
 			}
 
