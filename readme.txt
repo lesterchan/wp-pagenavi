@@ -56,9 +56,9 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 `var_dump(PHP_VERSION);`
 <br>
 
-= Doesn't work with query_posts() =
+= Doesn't work with query_posts() or custom query =
 
-Read [The Right Way To Use query_posts()](http://scribu.net/wordpress/right-way-to-use-query_posts.html)
+Read [this tutorial](http://scribu.net/wordpress/wp-pagenavi/wpn-2-74.html)
 
 = How do I ignore the options page? =
 
@@ -66,7 +66,7 @@ If you are running a multi-language plugin, you will probably want to ignore the
 
 You can do that like so:
 
-`<?php wp_pagenavi( '', '', PageNavi_Core::$options->get_defaults() ); ?>`
+`<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 == Changelog ==
 
