@@ -3,8 +3,8 @@ Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/wordpress
 Tags: navigation, pagination, paging, pages
 Requires at least: 2.8
-Tested up to: 3.0
-Stable tag: 2.73
+Tested up to: 3.1
+Stable tag: 2.74
 
 Adds a more advanced paging navigation to your WordPress site.
 
@@ -70,9 +70,10 @@ You can do that like so:
 
 == Changelog ==
 
-= 2.74 (2010-X-X) =
+= 2.74 (2010-02-17) =
 * added 'smaller' and 'larger' classes
 * added $query arg to wp_pagenavi()
+* updated translations
 
 = 2.73 (2010-08-17) =
 * added $options arg to wp_pagenavi()
