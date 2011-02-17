@@ -74,6 +74,7 @@ You can do that like so:
 * added 'smaller' and 'larger' classes
 * added $query arg to wp_pagenavi()
 * updated translations
+* [more info](http://scribu.net/wordpress/wp-pagenavi/wpn-2-74.html)
 
 = 2.73 (2010-08-17) =
 * added $options arg to wp_pagenavi()
