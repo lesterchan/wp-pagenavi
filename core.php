@@ -10,6 +10,8 @@
  *	'query': (object) A WP_Query instance
  */
 function wp_pagenavi( $args = array() ) {
+	global $wp;
+
 	if ( !is_array( $args ) ) {
 		$argv = func_get_args();
 		list( $before, $after, $options ) = $argv;
@@ -30,6 +32,9 @@ function wp_pagenavi( $args = array() ) {
 	$posts_per_page = intval( $query->get( 'posts_per_page' ) );
 	$paged = max( 1, absint( $query->get( 'paged' ) ) );
 	$total_pages = max( 1, absint( $query->max_num_pages ) );
+
+	if ( isset( $wp->query_vars['paged'] ) && $wp->query_vars['paged'] > 1 && 1 == $paged )
+		echo "<br><strong>Warning:</strong> You forgot to set the 'paged' query var.<br>";
 
 	if ( 1 == $total_pages && !$options['always_show'] )
 		return;

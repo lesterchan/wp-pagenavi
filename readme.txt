@@ -70,6 +70,9 @@ You can do that like so:
 
 == Changelog ==
 
+= 2.75 =
+* added warning when 'paged' is not set
+
 = 2.74 (2010-02-17) =
 * added 'smaller' and 'larger' classes
 * added $query arg to wp_pagenavi()
