@@ -10,8 +10,6 @@
  *	'query': (object) A WP_Query instance
  */
 function wp_pagenavi( $args = array() ) {
-	global $wp;
-
 	if ( !is_array( $args ) ) {
 		$argv = func_get_args();
 		list( $before, $after, $options ) = $argv;
@@ -27,14 +25,13 @@ function wp_pagenavi( $args = array() ) {
 		extract( $args, EXTR_SKIP );
 	}
 
+	$info = _wp_pagenavi_get_args( $query );
+	if ( !$info )
+		return;
+
+	list( $posts_per_page, $paged, $total_pages ) = $info;
+
 	$options = wp_parse_args( $options, PageNavi_Core::$options->get() );
-
-	$posts_per_page = intval( $query->get( 'posts_per_page' ) );
-	$paged = max( 1, absint( $query->get( 'paged' ) ) );
-	$total_pages = max( 1, absint( $query->max_num_pages ) );
-
-	if ( isset( $wp->query_vars['paged'] ) && $wp->query_vars['paged'] > 1 && 1 == $paged )
-		echo "<br><strong>Warning:</strong> You forgot to set the 'paged' query var.<br>";
 
 	if ( 1 == $total_pages && !$options['always_show'] )
 		return;
@@ -99,8 +96,8 @@ function wp_pagenavi( $args = array() ) {
 				}
 			}
 
-			if ( !empty( $options['prev_text'] ) )
-				$out .= get_previous_posts_link( $options['prev_text'] );
+			if ( $paged > 1 && !empty( $options['prev_text'] ) )
+				$out .= _wp_pagenavi_single( $paged - 1, 'previouspostslink', $options['prev_text'] );
 
 			$timeline = 'smaller';
 			foreach ( range( $start_page, $end_page ) as $i ) {
@@ -113,8 +110,8 @@ function wp_pagenavi( $args = array() ) {
 				}
 			}
 
-			if ( !empty( $options['next_text'] ) )
-				$out .= get_next_posts_link( $options['next_text'], $total_pages );
+			if ( $paged < $total_pages && !empty( $options['next_text'] ) )
+				$out .= _wp_pagenavi_single( $paged + 1, 'nextpostslink', $options['next_text'] );
 
 			$larger_page_end = 0;
 			foreach ( $larger_pages_array as $larger_page ) {
@@ -144,10 +141,10 @@ function wp_pagenavi( $args = array() ) {
 
 				if ( $i == $paged ) {
 					$current_page_text = str_replace( '%PAGE_NUMBER%', number_format_i18n( $i ), $options['current_text'] );
-					$out .= '<option value="'.esc_url( get_pagenum_link( $page_num ) ).'" selected="selected" class="current">'.$current_page_text."</option>\n";
+					$out .= '<option value="'.esc_url( _wp_pagenavi_get_url( $page_num ) ).'" selected="selected" class="current">'.$current_page_text."</option>\n";
 				} else {
 					$page_text = str_replace( '%PAGE_NUMBER%', number_format_i18n( $i ), $options['page_text'] );
-					$out .= '<option value="'.esc_url( get_pagenum_link( $page_num ) ).'">'.$page_text."</option>\n";
+					$out .= '<option value="'.esc_url( _wp_pagenavi_get_url( $page_num ) ).'">'.$page_text."</option>\n";
 				}
 			}
 
@@ -160,15 +157,64 @@ function wp_pagenavi( $args = array() ) {
 	echo apply_filters( 'wp_pagenavi', $out );
 }
 
+// This does the messy job of extracting the necessary information from $wp_query
+function _wp_pagenavi_get_args( $query ) {
+	global $wp, $page, $numpages, $multipage;
+
+	if ( $query->is_archive ) {
+		$posts_per_page = intval( $query->get( 'posts_per_page' ) );
+		$paged = max( 1, absint( $query->get( 'paged' ) ) );
+		$total_pages = max( 1, absint( $query->max_num_pages ) );
+
+		if ( isset( $wp->query_vars['paged'] ) && $wp->query_vars['paged'] > 1 && 1 == $paged )
+			echo "<br><strong>Warning:</strong> You forgot to set the 'paged' query var.<br>";
+	} elseif ( $multipage ) {
+		$posts_per_page = 1;
+		$paged = max( 1, absint( $query->get( 'page' ) ) );
+		$total_pages = max( 1, $numpages );
+	} else {
+		return false;
+	}
+
+	return array( $posts_per_page, $paged, $total_pages );
+}
+
+// This outputs a single page link
 function _wp_pagenavi_single( $page, $class, $raw_text, $format = '%PAGE_NUMBER%' ) {
 	if ( empty( $raw_text ) )
 		return '';
 
 	$text = str_replace( $format, number_format_i18n( $page ), $raw_text );
 
-	return "<a href='" . esc_url( get_pagenum_link( $page ) ) . "' class='$class'>$text</a>";
+	return "<a href='" . esc_url( _wp_pagenavi_get_url( $page ) ) . "' class='$class'>$text</a>";
 }
 
+// This gets the correct URL, either for an archive page or a multipage
+function _wp_pagenavi_get_url( $page ) {
+	global $multipage;
+
+	return $multipage ? get_multipage_link( $page ) : get_pagenum_link( $page );
+}
+
+// WP < 3.2
+if ( !function_exists( 'get_multipage_link' ) ) :
+function get_multipage_link( $page = 1 ) {
+	global $post, $wp_rewrite;
+
+	if ( 1 == $page ) {
+		$url = get_permalink();
+	} else {
+		if ( '' == get_option('permalink_structure') || in_array( $post->post_status, array( 'draft', 'pending') ) )
+			$url = add_query_arg( 'page', $page, get_permalink() );
+		elseif ( 'page' == get_option( 'show_on_front' ) && get_option('page_on_front') == $post->ID )
+			$url = trailingslashit( get_permalink() ) . user_trailingslashit( $wp_rewrite->pagination_base . "/$page", 'single_paged' );
+		else
+			$url = trailingslashit( get_permalink() ) . user_trailingslashit( $page, 'single_paged' );
+	}
+
+	return $url;
+}
+endif;
 
 // Template tag: Drop Down Menu ( Deprecated )
 function wp_pagenavi_dropdown() {
@@ -183,9 +229,6 @@ class PageNavi_Core {
 		self::$options = $options;
 
 		add_action( 'wp_print_styles', array( __CLASS__, 'stylesheets' ) );
-
-		add_filter( 'previous_posts_link_attributes', array( __CLASS__, 'previous_posts_link_attributes' ) );
-		add_filter( 'next_posts_link_attributes', array( __CLASS__, 'next_posts_link_attributes' ) );
 	}
 
 	function stylesheets() {
@@ -200,14 +243,6 @@ class PageNavi_Core {
 			$css_file = plugins_url( 'pagenavi-css.css', __FILE__ );
 
 		wp_enqueue_style( 'wp-pagenavi', $css_file, false, '2.70' );
-	}
-
-	function previous_posts_link_attributes() {
-		return 'class="previouspostslink"';
-	}
-
-	function next_posts_link_attributes() {
-		return 'class="nextpostslink"';
 	}
 }
 

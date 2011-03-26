@@ -71,6 +71,7 @@ You can do that like so:
 == Changelog ==
 
 = 2.75 =
+* works with multipages
 * added warning when 'paged' is not set
 
 = 2.74 (2011-02-17) =
