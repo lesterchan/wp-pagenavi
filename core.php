@@ -25,11 +25,7 @@ function wp_pagenavi( $args = array() ) {
 		extract( $args, EXTR_SKIP );
 	}
 
-	$info = _wp_pagenavi_get_args( $query );
-	if ( !$info )
-		return;
-
-	list( $posts_per_page, $paged, $total_pages ) = $info;
+	list( $posts_per_page, $paged, $total_pages ) = _wp_pagenavi_get_args( $query );
 
 	$options = wp_parse_args( $options, PageNavi_Core::$options->get() );
 
@@ -161,19 +157,17 @@ function wp_pagenavi( $args = array() ) {
 function _wp_pagenavi_get_args( $query ) {
 	global $wp, $page, $numpages, $multipage;
 
-	if ( $query->is_archive ) {
+	if ( $multipage ) {
+		$posts_per_page = 1;
+		$paged = max( 1, absint( $query->get( 'page' ) ) );
+		$total_pages = max( 1, $numpages );
+	} else {
 		$posts_per_page = intval( $query->get( 'posts_per_page' ) );
 		$paged = max( 1, absint( $query->get( 'paged' ) ) );
 		$total_pages = max( 1, absint( $query->max_num_pages ) );
 
 		if ( isset( $wp->query_vars['paged'] ) && $wp->query_vars['paged'] > 1 && 1 == $paged )
 			echo "<br><strong>Warning:</strong> You forgot to set the 'paged' query var.<br>";
-	} elseif ( $multipage ) {
-		$posts_per_page = 1;
-		$paged = max( 1, absint( $query->get( 'page' ) ) );
-		$total_pages = max( 1, $numpages );
-	} else {
-		return false;
 	}
 
 	return array( $posts_per_page, $paged, $total_pages );
