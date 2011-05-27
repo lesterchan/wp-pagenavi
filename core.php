@@ -157,10 +157,17 @@ function _wp_pagenavi_get_args( $query ) {
 	global $wp, $page, $numpages, $multipage;
 
 	if ( $multipage ) {
+		// Multipart page
 		$posts_per_page = 1;
 		$paged = max( 1, absint( $query->get( 'page' ) ) );
 		$total_pages = max( 1, $numpages );
+	} elseif ( isset( $query->total_users ) ) {
+		// WP_User_Query
+		$posts_per_page = $query->query_vars['number'];
+		$paged = max( 1, floor( $query->query_vars['offset'] / $posts_per_page ) + 1 );
+		$total_pages = max( 1, ceil( $query->total_users / $posts_per_page ) );
 	} else {
+		// WP_Query
 		$posts_per_page = intval( $query->get( 'posts_per_page' ) );
 		$paged = max( 1, absint( $query->get( 'paged' ) ) );
 		$total_pages = max( 1, absint( $query->max_num_pages ) );
