@@ -32,7 +32,6 @@ function wp_pagenavi( $args = array() ) {
 	if ( 1 == $total_pages && !$options['always_show'] )
 		return;
 
-	$request = $query->request;
 	$numposts = $query->found_posts;
 
 	$pages_to_show = absint( $options['num_pages'] );
