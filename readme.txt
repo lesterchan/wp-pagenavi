@@ -76,6 +76,7 @@ You can do that like so:
 == Changelog ==
 
 = 2.75 =
+* moved prev/next links before/after first/last links
 * works with multipages
 * added warning when 'paged' is not set
 
