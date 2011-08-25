@@ -25,16 +25,16 @@ You can either install it automatically from the WordPress admin, or do it manua
 
 = Usage =
 
-In your theme, replace code like this:
+In your theme, you need to find calls to next_posts_link() and previous_posts_link() and replace them.
+
+In the Twentyten theme, it looks like this:
 
 `
-<div class="navigation">
-	<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentyten' ) ); ?></div>
-	<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?></div>
-</div>
+<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentyten' ) ); ?></div>
+<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?></div>
 `
 
-with this:
+You would replace those two lines with this:
 
 `<?php wp_pagenavi(); ?>`
 
