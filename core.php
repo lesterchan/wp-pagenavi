@@ -230,7 +230,7 @@ function get_multipage_link( $page = 1 ) {
 }
 endif;
 
-// Template tag: Drop Down Menu ( Deprecated )
+// Template tag: Drop Down Menu (Deprecated)
 function wp_pagenavi_dropdown() {
 	wp_pagenavi();
 }
@@ -249,9 +249,9 @@ class PageNavi_Core {
 		if ( !self::$options->use_pagenavi_css )
 			return;
 
-		if ( @file_exists( STYLESHEETPATH . '/pagenavi-css.css' ) )
+		if ( @file_exists( get_stylesheet_directory() . '/pagenavi-css.css' ) )
 			$css_file = get_stylesheet_directory_uri() . '/pagenavi-css.css';
-		elseif ( @file_exists( TEMPLATEPATH . '/pagenavi-css.css' ) )
+		elseif ( @file_exists( get_template_directory() . '/pagenavi-css.css' ) )
 			$css_file = get_template_directory_uri() . '/pagenavi-css.css';
 		else
 			$css_file = plugins_url( 'pagenavi-css.css', __FILE__ );
