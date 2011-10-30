@@ -210,6 +210,26 @@ function _wp_pagenavi_get_url( $page ) {
 	return $multipage ? get_multipage_link( $page ) : get_pagenum_link( $page );
 }
 
+# http://core.trac.wordpress.org/ticket/16973
+if ( !function_exists( 'get_multipage_link' ) ) :
+function get_multipage_link( $page = 1 ) {
+	global $post, $wp_rewrite;
+
+	if ( 1 == $page ) {
+		$url = get_permalink();
+	} else {
+		if ( '' == get_option('permalink_structure') || in_array( $post->post_status, array( 'draft', 'pending') ) )
+			$url = add_query_arg( 'page', $page, get_permalink() );
+		elseif ( 'page' == get_option( 'show_on_front' ) && get_option('page_on_front') == $post->ID )
+			$url = trailingslashit( get_permalink() ) . user_trailingslashit( $wp_rewrite->pagination_base . "/$page", 'single_paged' );
+		else
+			$url = trailingslashit( get_permalink() ) . user_trailingslashit( $page, 'single_paged' );
+	}
+
+	return $url;
+}
+endif;
+
 // Template tag: Drop Down Menu ( Deprecated )
 function wp_pagenavi_dropdown() {
 	wp_pagenavi();
