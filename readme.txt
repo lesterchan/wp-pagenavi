@@ -2,15 +2,13 @@
 Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/site/donation/
 Tags: navigation, pagination, paging, pages
-Requires at least: 2.8
-Tested up to: 3.1
+Requires at least: 3.2
+Tested up to: 3.3
 Stable tag: 2.74
 
 Adds a more advanced paging navigation interface.
 
 == Description ==
-
-[PHP5 is required since version 2.70](http://scribu.net/wordpress/wp-pagenavi/wp-2-70.html)
 
 Replaces the basic *&larr; Older posts | Newer posts &rarr;* links with a more advanced paging navigation interface.
 
