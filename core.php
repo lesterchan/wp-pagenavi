@@ -188,9 +188,6 @@ function _wp_pagenavi_get_args( $query ) {
 		$posts_per_page = intval( $query->get( 'posts_per_page' ) );
 		$paged = max( 1, absint( $query->get( 'paged' ) ) );
 		$total_pages = max( 1, absint( $query->max_num_pages ) );
-
-		if ( isset( $wp->query_vars['paged'] ) && $wp->query_vars['paged'] > 1 && 1 == $paged )
-			echo "<br><strong>Warning:</strong> You forgot to set the 'paged' query var.<br>";
 	}
 
 	return array( $posts_per_page, $paged, $total_pages );
