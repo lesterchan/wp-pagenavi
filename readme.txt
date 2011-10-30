@@ -3,7 +3,7 @@ Contributors: GamerZ, scribu
 Tags: navigation, pagination, paging, pages
 Requires at least: 3.1
 Tested up to: 3.3
-Stable tag: 2.74
+Stable tag: 2.80
 
 Adds a more advanced paging navigation interface.
 
@@ -34,6 +34,14 @@ In the Twentyten theme, it looks like this:
 `
 
 You would replace those two lines with this:
+
+`<?php wp_pagenavi(); ?>`
+
+For multipart pages, you would look for code like this:
+
+`<?php wp_link_pages( ... ); ?>`
+
+and again replace it with this:
 
 `<?php wp_pagenavi(); ?>`
 
@@ -75,8 +83,9 @@ You can do that like so:
 == Changelog ==
 
 = 2.80 =
+* support for multi-part pages and user queries
 * moved prev/next links before/after first/last links
-* works with multi-part pages and user queries
+* [more info](http://scribu.net/wordpress/wp-pagenavi/wpn-2-80.html)
 
 = 2.74 (2011-02-17) =
 * added 'smaller' and 'larger' classes
