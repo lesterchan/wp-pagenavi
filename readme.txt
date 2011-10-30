@@ -1,6 +1,5 @@
 === WP-PageNavi ===
 Contributors: GamerZ, scribu
-Donate link: http://lesterchan.net/site/donation/
 Tags: navigation, pagination, paging, pages
 Requires at least: 3.2
 Tested up to: 3.3
@@ -73,10 +72,9 @@ You can do that like so:
 
 == Changelog ==
 
-= 2.75 =
+= 2.80 =
 * moved prev/next links before/after first/last links
-* works with multipages
-* added warning when 'paged' is not set
+* works with multi-part pages and user queries
 
 = 2.74 (2011-02-17) =
 * added 'smaller' and 'larger' classes

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP-PageNavi
-Version: 2.75-alpha2
+Version: 2.80
 Description: Adds a more advanced paging navigation to your WordPress blog
 Author: Lester 'GaMerZ' Chan & scribu
 Plugin URI: http://wordpress.org/extend/plugins/wp-pagenavi/
@@ -9,7 +9,7 @@ Text Domain: wp-pagenavi
 Domain Path: /lang
 
 
-Copyright 2009  Lester Chan  ( email : lesterchan@gmail.com )
+Copyright 2009 Lester Chan (lesterchan@gmail.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
