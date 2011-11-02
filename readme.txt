@@ -41,9 +41,9 @@ For multipart pages, you would look for code like this:
 
 `<?php wp_link_pages( ... ); ?>`
 
-and again replace it with this:
+and replace it with this:
 
-`<?php wp_pagenavi(); ?>`
+`<?php wp_pagenavi( array( 'type' => 'multipart' ) ); ?>`
 
 Go to *WP-Admin -> Settings -> PageNavi* for configuration.
 
@@ -81,6 +81,9 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 == Changelog ==
+
+= 2.81 =
+* require an explicit type; fixes bugs with multipart pages
 
 = 2.80 =
 * support for multi-part pages and user queries
