@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP-PageNavi
-Version: 2.81-beta
+Version: 2.81
 Description: Adds a more advanced paging navigation to your WordPress blog
 Author: Lester 'GaMerZ' Chan & scribu
 Plugin URI: http://wordpress.org/extend/plugins/wp-pagenavi/

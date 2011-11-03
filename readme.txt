@@ -3,7 +3,7 @@ Contributors: GamerZ, scribu
 Tags: navigation, pagination, paging, pages
 Requires at least: 3.1
 Tested up to: 3.3
-Stable tag: 2.80
+Stable tag: 2.81
 
 Adds a more advanced paging navigation interface.
 
