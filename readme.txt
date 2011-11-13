@@ -68,9 +68,13 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 `var_dump(PHP_VERSION);`
 <br>
 
-= Doesn't work with query_posts() or custom query =
+= When I go to page 2, I see the same posts as on page 1! =
 
-Read [this tutorial](http://scribu.net/wordpress/wp-pagenavi/wpn-2-74.html)
+You're using `query_posts()` wrong. See [The Right Way To use query_posts()](http://scribu.net/wordpress/wp-pagenavi/right-way-to-use-query_posts.html)
+
+= Does PageNavi work with secondary WP_Query instances? =
+
+Yes; read [this tutorial](http://scribu.net/wordpress/wp-pagenavi/wpn-2-74.html)
 
 = How do I ignore the options page? =
 
