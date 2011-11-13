@@ -11,7 +11,9 @@ Adds a more advanced paging navigation interface.
 
 [PHP5 is required since version 2.70](http://scribu.net/wordpress/wp-pagenavi/wp-2-70.html)
 
-Replaces the basic *&larr; Older posts | Newer posts &rarr;* links with a more advanced paging navigation interface.
+Want to replace the old *&larr; Older posts | Newer posts &rarr;* links with some page links?
+
+This plugin provides the `wp_pagenavi()` template tag which generates fancy pagination links. See the [installation instructions](http://wordpress.org/extend/plugins/wp-pagenavi/installation/) for using it in your theme.
 
 Links: [Demo](http://lesterchan.net/wordpress/) | [Plugin News](http://scribu.net/wordpress/wp-pagenavi/) | [Translating](http://scribu.net/wordpress/translating-plugins.html)
 
