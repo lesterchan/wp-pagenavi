@@ -77,11 +77,13 @@ function wp_pagenavi( $args = array() ) {
 				// First
 				$first_text = str_replace( '%TOTAL_PAGES%', number_format_i18n( $total_pages ), $options['first_text'] );
 				$out .= $instance->get_single( 1, 'first', $first_text, '%TOTAL_PAGES%' );
+			}
 
-				// Previous
-				if ( $paged > 1 && !empty( $options['prev_text'] ) )
-					$out .= $instance->get_single( $paged - 1, 'previouspostslink', $options['prev_text'] );
+			// Previous
+			if ( $paged > 1 && !empty( $options['prev_text'] ) )
+				$out .= $instance->get_single( $paged - 1, 'previouspostslink', $options['prev_text'] );
 
+			if ( $start_page >= 2 && $pages_to_show < $total_pages ) {
 				if ( !empty( $options['dotleft_text'] ) )
 					$out .= "<span class='extend'>{$options['dotleft_text']}</span>";
 			}
@@ -133,11 +135,13 @@ function wp_pagenavi( $args = array() ) {
 			if ( $end_page < $total_pages ) {
 				if ( !empty( $options['dotright_text'] ) )
 					$out .= "<span class='extend'>{$options['dotright_text']}</span>";
+			}
 
-				// Next
-				if ( $paged < $total_pages && !empty( $options['next_text'] ) )
-					$out .= $instance->get_single( $paged + 1, 'nextpostslink', $options['next_text'] );
+			// Next
+			if ( $paged < $total_pages && !empty( $options['next_text'] ) )
+				$out .= $instance->get_single( $paged + 1, 'nextpostslink', $options['next_text'] );
 
+			if ( $end_page < $total_pages ) {
 				// Last
 				$out .= $instance->get_single( $total_pages, 'last', $options['last_text'], '%TOTAL_PAGES%' );
 			}
