@@ -3,7 +3,7 @@ Contributors: GamerZ, scribu
 Tags: navigation, pagination, paging, pages
 Requires at least: 3.1
 Tested up to: 3.3
-Stable tag: 2.81
+Stable tag: 2.82
 
 Adds a more advanced paging navigation interface.
 
@@ -87,6 +87,11 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 == Changelog ==
+
+= 2.82 =
+* fixed prev/next links not appearing in some conditions
+* added Hebrew, Georgian and Azeri translations
+* updated scbFramework
 
 = 2.81 =
 * require an explicit type; fixes bugs with multipart pages
