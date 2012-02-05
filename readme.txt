@@ -90,7 +90,7 @@ You can do that like so:
 
 = 2.82 =
 * fixed prev/next links not appearing in some conditions
-* added Hebrew, Georgian and Azeri translations
+* added Hebrew, Georgian and Azerbaijani translations
 * updated scbFramework
 
 = 2.81 =
