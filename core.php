@@ -260,13 +260,13 @@ function wp_pagenavi_dropdown() {
 class PageNavi_Core {
 	static $options;
 
-	function init( $options ) {
+	static function init( $options ) {
 		self::$options = $options;
 
 		add_action( 'wp_print_styles', array( __CLASS__, 'stylesheets' ) );
 	}
 
-	function stylesheets() {
+	static function stylesheets() {
 		if ( !self::$options->use_pagenavi_css )
 			return;
 
