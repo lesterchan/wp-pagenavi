@@ -7,8 +7,6 @@ Author: Lester 'GaMerZ' Chan & scribu
 Plugin URI: http://wordpress.org/extend/plugins/wp-pagenavi/
 Text Domain: wp-pagenavi
 Domain Path: /lang
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 include dirname( __FILE__ ) . '/scb/load.php';
