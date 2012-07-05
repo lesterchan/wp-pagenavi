@@ -90,6 +90,10 @@ You can do that like so:
 
 == Changelog ==
 
+= 2.83 =
+* added 'echo' parameter
+* added Estonian and Bengali translations
+
 = 2.82 =
 * fixed prev/next links not appearing in some conditions
 * added Hebrew, Georgian and Azerbaijani translations
