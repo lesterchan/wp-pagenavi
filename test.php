@@ -16,6 +16,7 @@ query_posts( array( 'post_type' => 'page', 'paged' => get_query_var( 'paged' ) )
 	</ol>
 
 	<?php wp_pagenavi(); ?>
+	<?php echo wp_pagenavi( array( 'echo' => false ) ); ?>
 
 	</div><!-- #content -->
 </div><!-- #primary -->

@@ -22,7 +22,8 @@ function wp_pagenavi( $args = array() ) {
 		'after' => '',
 		'options' => array(),
 		'query' => $GLOBALS['wp_query'],
-		'type' => 'posts'
+		'type' => 'posts',
+		'echo' => true
 	) );
 
 	extract( $args, EXTR_SKIP );
@@ -172,7 +173,12 @@ function wp_pagenavi( $args = array() ) {
 	}
 	$out = $before . "<div class='wp-pagenavi'>\n$out\n</div>" . $after;
 
-	echo apply_filters( 'wp_pagenavi', $out );
+	$out = apply_filters( 'wp_pagenavi', $out );
+
+	if ( !$echo )
+		return $out;
+
+	echo $out;
 }
 
 
