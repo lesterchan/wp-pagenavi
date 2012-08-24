@@ -3,17 +3,17 @@
 
 get_header();
 
-query_posts( array( 'post_type' => 'page', 'paged' => get_query_var( 'paged' ) ) );
+query_posts( array( 'post_type' => 'post', 'paged' => get_query_var( 'paged' ) ) );
 ?>
 
 <div id="primary">
 	<div id="content" role="main">
 
-	<ol>
+	<ul>
 	<?php while ( have_posts() ) : the_post(); ?>
 		<li><?php the_title(); ?>
 	<?php endwhile?>
-	</ol>
+	</ul>
 
 	<?php wp_pagenavi(); ?>
 	<?php echo wp_pagenavi( array( 'echo' => false ) ); ?>
