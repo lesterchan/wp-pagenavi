@@ -10,21 +10,25 @@
  *	'query': (object) A WP_Query instance
  */
 function wp_pagenavi( $args = array() ) {
-	if ( !is_array( $args ) ) {
+
+	if ( ! is_array( $args ) ) {
 		$argv = func_get_args();
 		$args = array();
 		foreach ( array( 'before', 'after', 'options' ) as $i => $key )
 			$args[ $key ] = $argv[ $i ];
 	}
 
-	$args = wp_parse_args( $args, array(
-		'before' => '',
-		'after' => '',
-		'options' => array(),
-		'query' => $GLOBALS['wp_query'],
-		'type' => 'posts',
-		'echo' => true
-	) );
+	$args = wp_parse_args(
+		$args,
+		array(
+			'before' => '',
+			'after' => '',
+			'options' => array(),
+			'query' => $GLOBALS['wp_query'],
+			'type' => 'posts',
+			'echo' => true,
+		)
+	);
 
 	extract( $args, EXTR_SKIP );
 
@@ -41,8 +45,8 @@ function wp_pagenavi( $args = array() ) {
 	$larger_page_to_show = absint( $options['num_larger_page_numbers'] );
 	$larger_page_multiple = absint( $options['larger_page_numbers_multiple'] );
 	$pages_to_show_minus_1 = $pages_to_show - 1;
-	$half_page_start = floor( $pages_to_show_minus_1/2 );
-	$half_page_end = ceil( $pages_to_show_minus_1/2 );
+	$half_page_start = floor( $pages_to_show_minus_1 / 2 );
+	$half_page_end = ceil( $pages_to_show_minus_1 / 2 );
 	$start_page = $paged - $half_page_start;
 
 	if ( $start_page <= 0 )
@@ -68,9 +72,10 @@ function wp_pagenavi( $args = array() ) {
 			// Text
 			if ( !empty( $options['pages_text'] ) ) {
 				$pages_text = str_replace(
-					array( "%CURRENT_PAGE%", "%TOTAL_PAGES%" ),
+					array( '%CURRENT_PAGE%', '%TOTAL_PAGES%' ),
 					array( number_format_i18n( $paged ), number_format_i18n( $total_pages ) ),
-				$options['pages_text'] );
+					$options['pages_text']
+				);
 				$out .= "<span class='pages'>$pages_text</span>";
 			}
 
@@ -92,7 +97,7 @@ function wp_pagenavi( $args = array() ) {
 			// Smaller pages
 			$larger_pages_array = array();
 			if ( $larger_page_multiple )
-				for ( $i = $larger_page_multiple; $i <= $total_pages; $i+= $larger_page_multiple )
+				for ( $i = $larger_page_multiple; $i <= $total_pages; $i += $larger_page_multiple )
 					$larger_pages_array[] = $i;
 
 			$larger_page_start = 0;
@@ -199,25 +204,25 @@ class PageNavi_Call {
 
 		$query = $this->query;
 
-		switch( $this->type ) {
-		case 'multipart':
-			// Multipart page
-			$posts_per_page = 1;
-			$paged = max( 1, absint( get_query_var( 'page' ) ) );
-			$total_pages = max( 1, $numpages );
-			break;
-		case 'users':
-			// WP_User_Query
-			$posts_per_page = $query->query_vars['number'];
-			$paged = max( 1, floor( $query->query_vars['offset'] / $posts_per_page ) + 1 );
-			$total_pages = max( 1, ceil( $query->total_users / $posts_per_page ) );
-			break;
-		default:
-			// WP_Query
-			$posts_per_page = intval( $query->get( 'posts_per_page' ) );
-			$paged = max( 1, absint( $query->get( 'paged' ) ) );
-			$total_pages = max( 1, absint( $query->max_num_pages ) );
-			break;
+		switch ( $this->type ) {
+			case 'multipart':
+				// Multipart page
+				$posts_per_page = 1;
+				$paged = max( 1, absint( get_query_var( 'page' ) ) );
+				$total_pages = max( 1, $numpages );
+				break;
+			case 'users':
+				// WP_User_Query
+				$posts_per_page = $query->query_vars['number'];
+				$paged = max( 1, floor( $query->query_vars['offset'] / $posts_per_page ) + 1 );
+				$total_pages = max( 1, ceil( $query->total_users / $posts_per_page ) );
+				break;
+			default:
+				// WP_Query
+				$posts_per_page = intval( $query->get( 'posts_per_page' ) );
+				$paged = max( 1, absint( $query->get( 'paged' ) ) );
+				$total_pages = max( 1, absint( $query->max_num_pages ) );
+				break;
 		}
 
 		return array( $posts_per_page, $paged, $total_pages );
@@ -238,16 +243,16 @@ class PageNavi_Call {
 }
 
 # http://core.trac.wordpress.org/ticket/16973
-if ( !function_exists( 'get_multipage_link' ) ) :
+if ( ! function_exists( 'get_multipage_link' ) ) :
 function get_multipage_link( $page = 1 ) {
 	global $post, $wp_rewrite;
 
 	if ( 1 == $page ) {
 		$url = get_permalink();
 	} else {
-		if ( '' == get_option('permalink_structure') || in_array( $post->post_status, array( 'draft', 'pending') ) )
+		if ( '' == get_option( 'permalink_structure' ) || in_array( $post->post_status, array( 'draft', 'pending' ) ) )
 			$url = add_query_arg( 'page', $page, get_permalink() );
-		elseif ( 'page' == get_option( 'show_on_front' ) && get_option('page_on_front') == $post->ID )
+		elseif ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) == $post->ID )
 			$url = trailingslashit( get_permalink() ) . user_trailingslashit( $wp_rewrite->pagination_base . "/$page", 'single_paged' );
 		else
 			$url = trailingslashit( get_permalink() ) . user_trailingslashit( $page, 'single_paged' );
