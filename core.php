@@ -119,7 +119,7 @@ function wp_pagenavi( $args = array() ) {
 				if ( $i == $paged && ! empty( $options['current_text'] ) ) {
 					$current_page_text = str_replace( '%PAGE_NUMBER%', number_format_i18n( $i ), $options['current_text'] );
 
-					$instance->set_data( $data, $current_page_text, 'current' );
+					$data['current'] = $current_page_text;
 					$out .= "<span class='current'>$current_page_text</span>";
 					$timeline = 'larger';
 				} else {
@@ -173,7 +173,7 @@ function wp_pagenavi( $args = array() ) {
 
 				$url = esc_url( $instance->get_url( $page_num ) );
 
-				$instance->set_data( $data, $url );
+				$data[] = $url;
 
 				if ( $i == $paged ) {
 					$current_page_text = str_replace( '%PAGE_NUMBER%', number_format_i18n( $i ), $options['current_text'] );
@@ -266,9 +266,9 @@ class PageNavi_Call {
 			);
 			$meta = array_search( $class, $special_links );
 			if ( $meta )
-				$this->set_data( $data, $data_val, $meta );
+				$data[$meta] = $data_val;
 			else
-				$this->set_data( $data, $data_val );
+				$data[] = $data_val;
 		}
 
 		return "<a href='$url' class='$class'>$text</a>";
@@ -281,17 +281,9 @@ class PageNavi_Call {
 	function get_extend( $content, &$data = null ) {
 
 		if ( isset( $data ) )
-			$this->set_data( $data, $content );
+			$data[] = $content;
 
 		return "<span class='extend'>{$content}</span>";
-	}
-
-	function set_data( &$data, $content, $key = null ) {
-
-		if ( isset( $key ) )
-			$data[$key] = $content;
-		else
-			$data[] = $content;
 	}
 }
 
