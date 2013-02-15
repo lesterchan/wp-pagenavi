@@ -12,9 +12,10 @@
 function wp_pagenavi( $args = array() ) {
 	if ( !is_array( $args ) ) {
 		$argv = func_get_args();
+
 		$args = array();
 		foreach ( array( 'before', 'after', 'options' ) as $i => $key )
-			$args[ $key ] = $argv[ $i ];
+			$args[ $key ] = isset( $argv[ $i ]) ? $argv[ $i ] : "";
 	}
 
 	$args = wp_parse_args( $args, array(
