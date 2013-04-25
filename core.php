@@ -152,7 +152,7 @@ function wp_pagenavi( $args = array() ) {
 
 			// Next
 			if ( $paged < $total_pages && !empty( $options['next_text'] ) ) {
-				$out .= $instance->get_single( $paged + 1, '', $options['next_text'], array(
+				$out .= $instance->get_single( $paged + 1, $options['next_text'], array(
 					'class' => 'nextpostslink',
 				) );
 			}
