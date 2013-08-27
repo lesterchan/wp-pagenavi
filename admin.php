@@ -12,7 +12,8 @@ class PageNavi_Options_Page extends scbAdminPage {
 		);
 	}
 
-	function validate( $options ) {
+	function validate( $new_data, $old_data ) {
+		$options = wp_parse_args($new_data, $old_data);
 		foreach ( array( 'style', 'num_pages', 'num_larger_page_numbers', 'larger_page_numbers_multiple' ) as $key )
 			$options[$key] = absint( @$options[$key] );
 
