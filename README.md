@@ -88,6 +88,9 @@ You can do that like so:
 
 ## Changelog
 
+### 2.85
+* FIXED: "Use pagenavi-css.css" & "Always Show Page Navigation" in the options are not being saved
+
 ### 2.84
 * FIXED: Updated scb framework to fix scbAdminPage incompatible error
 
