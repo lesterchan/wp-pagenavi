@@ -3,7 +3,7 @@ Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/site/donation/  
 Tags: navigation, pagination, paging, pages  
 Requires at least: 3.2  
-Tested up to: 3.8  
+Tested up to: 3.9  
 Stable tag: trunk  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
@@ -17,6 +17,9 @@ Want to replace the old *&larr; Older posts | Newer posts &rarr;* links with som
 This plugin provides the `wp_pagenavi()` template tag which generates fancy pagination links. See the [installation instructions](http://wordpress.org/extend/plugins/wp-pagenavi/installation/) for using it in your theme.
 
 Help to translate at <https://translate.foe-services.de/projects/wp-pagenavi>.
+
+### Development
+* [https://github.com/lesterchan/wp-pagenavi](https://github.com/lesterchan/wp-pagenavi "https://github.com/lesterchan/wp-pagenavi")
 
 ## Installation
 
