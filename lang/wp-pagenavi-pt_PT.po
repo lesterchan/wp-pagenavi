@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-PageNavi 2.72\n"
+"Project-Id-Version: WP-PageNavi 2.85\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-pagenavi\n"
 "POT-Creation-Date: 2014-03-03 17:39+0800\n"
-"PO-Revision-Date: 2014-05-27 22:49-0000\n"
+"PO-Revision-Date: 2014-05-28 09:17-0000\n"
 "Last-Translator: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language-Team: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language: pt_PT\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.6.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: admin.php:9
 msgid "PageNavi Settings"
@@ -80,7 +81,7 @@ msgstr "Texto da Paginação"
 
 #: admin.php:97
 msgid "Leaving a field blank will hide that part of the navigation."
-msgstr "Deixar um campo em branco vai esconder esta parte da navegação."
+msgstr "Deixar um campo em branco vai esconder essa parte da navegação."
 
 #: admin.php:103
 msgid "Use pagenavi-css.css"
@@ -104,7 +105,7 @@ msgstr "Normal"
 
 #: admin.php:113
 msgid "Drop-down List"
-msgstr "Lista Drop-down"
+msgstr "Selector"
 
 #: admin.php:118
 msgid "Always Show Page Navigation"
@@ -127,8 +128,8 @@ msgid ""
 "Larger page numbers are in addition to the normal page numbers. They are "
 "useful when there are many pages of posts."
 msgstr ""
-"Numeração de Páginas Distantes são uma adição à numeração normal. São úteis "
-"quando existem muitas páginas de artigos."
+"Serão acrescentados números de Páginas Distantes à numeração normal. São "
+"úteis quando existem muitas páginas de artigos."
 
 #: admin.php:139
 msgid ""
@@ -140,11 +141,11 @@ msgstr ""
 
 #: admin.php:140
 msgid "Enter 0 to disable."
-msgstr "Escreva 0 para desactivar."
+msgstr "Insira 0 para desactivar."
 
 #: admin.php:144
 msgid "Show Larger Page Numbers In Multiples Of"
-msgstr "Mostrar Páginas Distantes em Múltiplos de"
+msgstr "Mostrar Páginas Distantes em múltiplos de"
 
 #: admin.php:149
 msgid "For example, if mutiple is 5, it will show: 5, 10, 15, 20, 25"
