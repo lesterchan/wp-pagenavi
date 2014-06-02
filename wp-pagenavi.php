@@ -9,7 +9,7 @@ Text Domain: wp-pagenavi
 Domain Path: /lang
 */
 
-include dirname( __FILE__ ) . '/scb/load.php';
+require_once dirname( __FILE__ ) . '/scb/load.php';
 
 function _pagenavi_init() {
 	load_plugin_textdomain( 'wp-pagenavi', '', dirname( plugin_basename( __FILE__ ) ) . '/lang' );
