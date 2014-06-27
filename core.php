@@ -288,7 +288,7 @@ class PageNavi_Core {
 	static function init( $options ) {
 		self::$options = $options;
 
-		add_action( 'wp_print_styles', array( __CLASS__, 'stylesheets' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'stylesheets' ) );
 	}
 
 	static function stylesheets() {
