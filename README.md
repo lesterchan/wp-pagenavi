@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/lesterchan/wp-pagenavi.svg?branch=master)](https://travis-ci.org/lesterchan/wp-pagenavi)
 # WP-PageNavi
 Contributors: GamerZ, scribu  
 Donate link: http://lesterchan.net/site/donation/  
