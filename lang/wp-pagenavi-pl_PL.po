@@ -48,7 +48,7 @@ msgstr "Numer strony."
 
 #: admin.php:46
 msgid "Text For Page"
-msgstr "Takst dla strony"
+msgstr "Tekst dla strony"
 
 #: admin.php:54
 msgid "Text For First Page"
@@ -128,7 +128,7 @@ msgstr "Wpisz 0, aby to wyłączyć."
 
 #: admin.php:141
 msgid "Show Larger Page Numbers In Multiples Of"
-msgstr "Pokarz odstępy jako wielokrotności"
+msgstr "Pokaż odstępy jako wielokrotności"
 
 #: admin.php:146
 msgid "For example, if mutiple is 5, it will show: 5, 10, 15, 20, 25"
