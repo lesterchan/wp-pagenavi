@@ -23,6 +23,9 @@ Help to translate at <https://translate.foe-services.de/projects/wp-pagenavi>.
 ### Development
 * [https://github.com/lesterchan/wp-pagenavi](https://github.com/lesterchan/wp-pagenavi "https://github.com/lesterchan/wp-pagenavi")
 
+### Credits
+* Plugin icon by [SimpleIcon](http://www.simpleicon.com) from [Flaticon](http://www.flaticon.com)
+
 ## Installation
 
 You can either install it automatically from the WordPress admin, or do it manually:
