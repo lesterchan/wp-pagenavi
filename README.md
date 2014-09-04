@@ -4,7 +4,7 @@ Donate link: http://lesterchan.net/site/donation/
 Tags: navigation, pagination, paging, pages  
 Requires at least: 3.2  
 Tested up to: 4.0  
-Stable tag: 2.85  
+Stable tag: 2.86  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -95,6 +95,9 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 ## Changelog
+### 2.86
+* NEW: Bump to 4.0
+* NEW: Added rel=next and rel=previous
 
 ### 2.85
 * FIXED: "Use pagenavi-css.css" & "Always Show Page Navigation" in the options are not being saved
