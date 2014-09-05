@@ -66,8 +66,8 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 
 ## Screenshots
 
-1. Default appearance
-2. Options page
+1. With Custom Styling
+2. Admin - Options Page
 
 ## Frequently Asked Questions
 
