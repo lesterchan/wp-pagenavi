@@ -3,8 +3,8 @@ Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/site/donation/  
 Tags: navigation, pagination, paging, pages  
 Requires at least: 3.2  
-Tested up to: 4.0  
-Stable tag: 2.86  
+Tested up to: 4.1  
+Stable tag: 2.87  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -95,6 +95,9 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 ## Changelog
+### 2.87
+* NEW: Uses WordPress native uninstall.php
+
 ### 2.86
 * NEW: Bump to 4.0
 * NEW: Added rel=next and rel=previous
