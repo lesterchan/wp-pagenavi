@@ -123,8 +123,9 @@ function wp_pagenavi( $args = array() ) {
 					$out .= "<span class='current'>$current_page_text</span>";
 					$timeline = 'larger';
 				} else {
+					$selected = $i == $paged ? " selected" : "";
 					$out .= $instance->get_single( $i, $options['page_text'], array(
-						'class' => "page $timeline",
+						'class' => "page $timeline" . $selected,
 					) );
 				}
 			}
