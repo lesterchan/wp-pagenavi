@@ -1,27 +1,33 @@
-# Translation of the WordPress plugin WP-PageNavi 2.72 by Lester 'GaMerZ' Chan & scribu.
+# Translation of the WordPress plugin WP-PageNavi 2.8.7 by Lester 'GaMerZ' Chan & scribu.
 # Copyright (C) 2010 Lester 'GaMerZ' Chan & scribu
 # This file is distributed under the same license as the WP-PageNavi package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-PageNavi 2.85\n"
+"Project-Id-Version: WP-PageNavi 2.8.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-pagenavi\n"
-"POT-Creation-Date: 2014-03-03 17:39+0800\n"
-"PO-Revision-Date: 2014-05-28 09:17-0000\n"
+"POT-Creation-Date: 2015-01-28 15:51-0000\n"
+"PO-Revision-Date: 2015-01-28 15:51-0000\n"
 "Last-Translator: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language-Team: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.7.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
+"esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
 
 #: admin.php:9
 msgid "PageNavi Settings"
-msgstr "Configurações do PageNavi"
+msgstr "Definições do PageNavi"
 
 #: admin.php:10
 msgid "PageNavi"
@@ -29,7 +35,7 @@ msgstr "PageNavi"
 
 #: admin.php:29
 msgid "Text For Number Of Pages"
-msgstr "Texto para Número de Páginas"
+msgstr "Texto para número de páginas"
 
 #: admin.php:34
 msgid "The current page number."
@@ -41,7 +47,7 @@ msgstr "Número total de páginas."
 
 #: admin.php:39
 msgid "Text For Current Page"
-msgstr "Texto para Página Atual"
+msgstr "Texto para página actual"
 
 #: admin.php:43 admin.php:51
 msgid "The page number."
@@ -49,35 +55,35 @@ msgstr "Número da página."
 
 #: admin.php:47
 msgid "Text For Page"
-msgstr "Texto para Página"
+msgstr "Texto para página"
 
 #: admin.php:55
 msgid "Text For First Page"
-msgstr "Texto para Primeira Página"
+msgstr "Texto para primeira página"
 
 #: admin.php:63
 msgid "Text For Last Page"
-msgstr "Texto para Última Página"
+msgstr "Texto para última página"
 
 #: admin.php:71
 msgid "Text For Previous Page"
-msgstr "Texto para Página Anterior"
+msgstr "Texto para página anterior"
 
 #: admin.php:77
 msgid "Text For Next Page"
-msgstr "Texto para Página Seguinte"
+msgstr "Texto para página seguinte"
 
 #: admin.php:83
 msgid "Text For Previous ..."
-msgstr "Texto para Anterior ..."
+msgstr "Texto para anterior ..."
 
 #: admin.php:89
 msgid "Text For Next ..."
-msgstr "Texto para Seguinte ..."
+msgstr "Texto para seguinte ..."
 
 #: admin.php:96
 msgid "Page Navigation Text"
-msgstr "Texto da Paginação"
+msgstr "Texto da paginação"
 
 #: admin.php:97
 msgid "Leaving a field blank will hide that part of the navigation."
@@ -97,7 +103,7 @@ msgstr "Não"
 
 #: admin.php:110
 msgid "Page Navigation Style"
-msgstr "Estilos da Paginação"
+msgstr "Estilos da paginação"
 
 #: admin.php:113
 msgid "Normal"
@@ -109,7 +115,7 @@ msgstr "Selector"
 
 #: admin.php:118
 msgid "Always Show Page Navigation"
-msgstr "Mostrar sempre a Paginação"
+msgstr "Mostrar sempre a paginação"
 
 #: admin.php:122
 msgid "Show navigation even if there's only one page."
@@ -117,18 +123,18 @@ msgstr "Mostrar a navegação mesmo que exista apenas uma página."
 
 #: admin.php:126
 msgid "Number Of Pages To Show"
-msgstr "Quantidade de Páginas a mostrar"
+msgstr "Quantidade de páginas a mostrar"
 
 #: admin.php:133
 msgid "Number Of Larger Page Numbers To Show"
-msgstr "Quantidade de Páginas Distantes a mostrar"
+msgstr "Quantidade de páginas pistantes a mostrar"
 
 #: admin.php:138
 msgid ""
 "Larger page numbers are in addition to the normal page numbers. They are "
 "useful when there are many pages of posts."
 msgstr ""
-"Serão acrescentados números de Páginas Distantes à numeração normal. São "
+"Serão acrescentados números de páginas distantes à numeração normal. São "
 "úteis quando existem muitas páginas de artigos."
 
 #: admin.php:139
@@ -145,7 +151,7 @@ msgstr "Insira 0 para desactivar."
 
 #: admin.php:144
 msgid "Show Larger Page Numbers In Multiples Of"
-msgstr "Mostrar Páginas Distantes em múltiplos de"
+msgstr "Mostrar páginas distantes em múltiplos de"
 
 #: admin.php:149
 msgid "For example, if mutiple is 5, it will show: 5, 10, 15, 20, 25"
@@ -154,37 +160,37 @@ msgstr ""
 
 #: admin.php:154
 msgid "Page Navigation Options"
-msgstr "Opções da Paginação"
+msgstr "Opções da paginação"
 
 #: scb/AdminPage.php:228
 msgid "Settings <strong>saved</strong>."
-msgstr "Configurações <strong>guardadas</strong>."
+msgstr "Definições <strong>guardadas</strong>."
 
 #: scb/AdminPage.php:467
 msgid "Settings"
-msgstr "Configurações"
+msgstr "Definições"
 
-#: wp-pagenavi.php:20
+#: wp-pagenavi.php:21
 msgid "Page %CURRENT_PAGE% of %TOTAL_PAGES%"
 msgstr "Página %CURRENT_PAGE% de %TOTAL_PAGES%"
 
-#: wp-pagenavi.php:23
+#: wp-pagenavi.php:24
 msgid "&laquo; First"
 msgstr "&laquo; Primeira"
 
-#: wp-pagenavi.php:24
+#: wp-pagenavi.php:25
 msgid "Last &raquo;"
 msgstr "Última &raquo;"
 
-#: wp-pagenavi.php:25
+#: wp-pagenavi.php:26
 msgid "&laquo;"
 msgstr "&laquo;"
 
-#: wp-pagenavi.php:26
+#: wp-pagenavi.php:27
 msgid "&raquo;"
 msgstr "&raquo;"
 
-#: wp-pagenavi.php:27 wp-pagenavi.php:28
+#: wp-pagenavi.php:28 wp-pagenavi.php:29
 msgid "..."
 msgstr "..."
 
