@@ -71,7 +71,7 @@ function wp_pagenavi( $args = array() ) {
 				$pages_text = str_replace(
 					array( "%CURRENT_PAGE%", "%TOTAL_PAGES%" ),
 					array( number_format_i18n( $paged ), number_format_i18n( $total_pages ) ),
-				__($options['pages_text']) );
+				__( $options['pages_text'], 'wp-pagenavi' );
 				$out .= "<span class='pages'>$pages_text</span>";
 			}
 
