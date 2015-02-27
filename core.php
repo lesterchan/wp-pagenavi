@@ -71,13 +71,13 @@ function wp_pagenavi( $args = array() ) {
 				$pages_text = str_replace(
 					array( "%CURRENT_PAGE%", "%TOTAL_PAGES%" ),
 					array( number_format_i18n( $paged ), number_format_i18n( $total_pages ) ),
-				__( $options['pages_text']) );
+				__( $options['pages_text'], 'wp-pagenavi' ) );
 				$out .= "<span class='pages'>$pages_text</span>";
 			}
 
 			if ( $start_page >= 2 && $pages_to_show < $total_pages ) {
 				// First
-				$first_text = str_replace( '%TOTAL_PAGES%', number_format_i18n( $total_pages ), __($options['first_text']) );
+				$first_text = str_replace( '%TOTAL_PAGES%', number_format_i18n( $total_pages ), __( $options['first_text'], 'wp-pagenavi' ) );
 				$out .= $instance->get_single( 1, $first_text, array(
 					'class' => 'first'
 				), '%TOTAL_PAGES%' );
@@ -161,7 +161,7 @@ function wp_pagenavi( $args = array() ) {
 
 			if ( $end_page < $total_pages ) {
 				// Last
-				$out .= $instance->get_single( $total_pages, __($options['last_text']), array(
+				$out .= $instance->get_single( $total_pages, __( $options['last_text'], 'wp-pagenavi' ), array(
 					'class' => 'last',
 				), '%TOTAL_PAGES%' );
 			}
