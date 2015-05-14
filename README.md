@@ -66,6 +66,66 @@ If you need to configure the CSS style of WP-PageNavi, you can copy the `pagenav
 
 Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings page and add the styles to your theme's style.css file directly.
 
+### Changing Class Names
+
+There are [filters](http://codex.wordpress.org/Glossary#Filter) that can be used to change the default class names that are assigned to page navigation elements.
+
+#### Filters
+
+* `wp_pagenavi_class_pages`
+* `wp_pagenavi_class_first`
+* `wp_pagenavi_class_previouspostslink`
+* `wp_pagenavi_class_extend`
+* `wp_pagenavi_class_smaller`
+* `wp_pagenavi_class_page`
+* `wp_pagenavi_class_current`
+* `wp_pagenavi_class_larger`
+* `wp_pagenavi_class_nextpostslink`
+* `wp_pagenavi_class_last`
+
+#### Filter Usage
+
+```php
+// Simple Usage - 1 callback per filter
+add_filter('wp_pagenavi_class_previouspostslink', 'theme_pagination_previouspostslink_class');
+add_filter('wp_pagenavi_class_nextpostslink', 'theme_pagination_nextpostslink_class');
+add_filter('wp_pagenavi_class_page', 'theme_pagination_page_class');
+
+function theme_pagination_previouspostslink_class($class_name) {
+  return 'pagination__control-link pagination__control-link--previous';
+}
+
+function theme_pagination_nextpostslink_class($class_name) {
+  return 'pagination__control-link pagination__control-link--next';
+}
+
+function theme_pagination_page_class($class_name) {
+  return 'pagination__current-page';
+}
+
+
+// More Concise Usage - 1 callback for all filters
+add_filter('wp_pagenavi_class_previouspostslink', 'theme_pagination_class');
+add_filter('wp_pagenavi_class_nextpostslink', 'theme_pagination_class');
+add_filter('wp_pagenavi_class_page', 'theme_pagination_class');
+
+function theme_pagination_class($class_name) {
+  switch($class_name) {
+    case 'previouspostslink':
+      $class_name = 'pagination__control-link pagination__control-link--previous';
+      break;
+    case 'nextpostslink':
+      $class_name = 'pagination__control-link pagination__control-link--next';
+      break;
+    case 'page':
+      $class_name = 'pagination__current'
+      break;
+  }
+  return $class_name;
+}
+```
+
+
 
 ## Screenshots
 
