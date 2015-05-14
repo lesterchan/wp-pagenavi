@@ -62,6 +62,20 @@ function wp_pagenavi( $args = array() ) {
 	if ( $start_page < 1 )
 		$start_page = 1;
 
+  // Support for filters to change class names
+  $class_names = array(
+    'pages' => apply_filters( 'wp_pagenavi_class_pages', 'pages'),
+    'first' => apply_filters( 'wp_pagenavi_class_first', 'first' ),
+    'previouspostslink' => apply_filters( 'wp_pagenavi_class_previouspostslink', 'previouspostslink' ),
+    'extend' => apply_filters( 'wp_pagenavi_class_extend', 'extend' ),
+    'smaller' => apply_filters( 'wp_pagenavi_class_smaller', 'smaller' ),
+    'page' => apply_filters( 'wp_pagenavi_class_page', 'page' ),
+    'current' => apply_filters( 'wp_pagenavi_class_current', 'current'),
+    'larger' => apply_filters( 'wp_pagenavi_class_larger', 'larger' ),
+    'nextpostslink' => apply_filters( 'wp_pagenavi_class_nextpostslink', 'nextpostslink'),
+    'last' => apply_filters( 'wp_pagenavi_class_last', 'last'),
+  );
+
 	$out = '';
 	switch ( intval( $options['style'] ) ) {
 		// Normal
@@ -72,28 +86,28 @@ function wp_pagenavi( $args = array() ) {
 					array( "%CURRENT_PAGE%", "%TOTAL_PAGES%" ),
 					array( number_format_i18n( $paged ), number_format_i18n( $total_pages ) ),
 				__( $options['pages_text'], 'wp-pagenavi' ) );
-				$out .= "<span class='pages'>$pages_text</span>";
+				$out .= "<span class='{$class_names['pages']}'>$pages_text</span>";
 			}
 
 			if ( $start_page >= 2 && $pages_to_show < $total_pages ) {
 				// First
 				$first_text = str_replace( '%TOTAL_PAGES%', number_format_i18n( $total_pages ), __( $options['first_text'], 'wp-pagenavi' ) );
 				$out .= $instance->get_single( 1, $first_text, array(
-					'class' => 'first'
+          'class' => $class_names['first']
 				), '%TOTAL_PAGES%' );
 			}
 
 			// Previous
 			if ( $paged > 1 && !empty( $options['prev_text'] ) ) {
 				$out .= $instance->get_single( $paged - 1, $options['prev_text'], array(
-					'class' => 'previouspostslink',
+					'class' => $class_names['previouspostslink'],
 					'rel'	=> 'prev'
 				) );
 			}
 
 			if ( $start_page >= 2 && $pages_to_show < $total_pages ) {
 				if ( !empty( $options['dotleft_text'] ) )
-					$out .= "<span class='extend'>{$options['dotleft_text']}</span>";
+					$out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
 			}
 
 			// Smaller pages
@@ -106,25 +120,25 @@ function wp_pagenavi( $args = array() ) {
 			foreach ( $larger_pages_array as $larger_page ) {
 				if ( $larger_page < ($start_page - $half_page_start) && $larger_page_start < $larger_page_to_show ) {
 					$out .= $instance->get_single( $larger_page, $options['page_text'], array(
-						'class' => 'smaller page',
+						'class' => "{$class_names['smaller']} {$class_names['page']}",
 					) );
 					$larger_page_start++;
 				}
 			}
 
 			if ( $larger_page_start )
-				$out .= "<span class='extend'>{$options['dotleft_text']}</span>";
+				$out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
 
 			// Page numbers
 			$timeline = 'smaller';
 			foreach ( range( $start_page, $end_page ) as $i ) {
 				if ( $i == $paged && !empty( $options['current_text'] ) ) {
 					$current_page_text = str_replace( '%PAGE_NUMBER%', number_format_i18n( $i ), $options['current_text'] );
-					$out .= "<span class='current'>$current_page_text</span>";
+					$out .= "<span class='{$class_names['current']}'>$current_page_text</span>";
 					$timeline = 'larger';
 				} else {
 					$out .= $instance->get_single( $i, $options['page_text'], array(
-						'class' => "page $timeline",
+						'class' => "{$class_names['page']} {$class_names[$timeline]}",
 					) );
 				}
 			}
@@ -135,26 +149,26 @@ function wp_pagenavi( $args = array() ) {
 			foreach ( $larger_pages_array as $larger_page ) {
 				if ( $larger_page > ($end_page + $half_page_end) && $larger_page_end < $larger_page_to_show ) {
 					$larger_page_out .= $instance->get_single( $larger_page, $options['page_text'], array(
-						'class' => 'larger page',
+						'class' => "{$class_names['larger']} {$class_names['page']}",
 					) );
 					$larger_page_end++;
 				}
 			}
 
 			if ( $larger_page_out ) {
-				$out .= "<span class='extend'>{$options['dotright_text']}</span>";
+				$out .= "<span class='{$class_names['extend']}'>{$options['dotright_text']}</span>";
 			}
 			$out .= $larger_page_out;
 
 			if ( $end_page < $total_pages ) {
 				if ( !empty( $options['dotright_text'] ) )
-					$out .= "<span class='extend'>{$options['dotright_text']}</span>";
+					$out .= "<span class='{$class_names['extend']}'>{$options['dotright_text']}</span>";
 			}
 
 			// Next
 			if ( $paged < $total_pages && !empty( $options['next_text'] ) ) {
 				$out .= $instance->get_single( $paged + 1, $options['next_text'], array(
-					'class' => 'nextpostslink',
+					'class' => $class_names['nextpostslink'],
 					'rel'	=> 'next'
 				) );
 			}
@@ -162,7 +176,7 @@ function wp_pagenavi( $args = array() ) {
 			if ( $end_page < $total_pages ) {
 				// Last
 				$out .= $instance->get_single( $total_pages, __( $options['last_text'], 'wp-pagenavi' ), array(
-					'class' => 'last',
+					'class' => $class_names['last'],
 				), '%TOTAL_PAGES%' );
 			}
 			break;
@@ -179,7 +193,7 @@ function wp_pagenavi( $args = array() ) {
 
 				if ( $i == $paged ) {
 					$current_page_text = str_replace( '%PAGE_NUMBER%', number_format_i18n( $i ), $options['current_text'] );
-					$out .= '<option value="'.esc_url( $instance->get_url( $page_num ) ).'" selected="selected" class="current">'.$current_page_text."</option>\n";
+					$out .= '<option value="'.esc_url( $instance->get_url( $page_num ) ).'" selected="selected" class="'.$class_names['current'].'">'.$current_page_text."</option>\n";
 				} else {
 					$page_text = str_replace( '%PAGE_NUMBER%', number_format_i18n( $i ), $options['page_text'] );
 					$out .= '<option value="'.esc_url( $instance->get_url( $page_num ) ).'">'.$page_text."</option>\n";
