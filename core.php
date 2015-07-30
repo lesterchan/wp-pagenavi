@@ -24,7 +24,8 @@ function wp_pagenavi( $args = array() ) {
 		'options' => array(),
 		'query' => $GLOBALS['wp_query'],
 		'type' => 'posts',
-		'echo' => true
+		'echo' => true,
+		'afterlastpage' => ''
 	) );
 
 	extract( $args, EXTR_SKIP );
@@ -179,6 +180,16 @@ function wp_pagenavi( $args = array() ) {
 					'class' => $class_names['last'],
 				), '%TOTAL_PAGES%' );
 			}
+			
+			// Consumer binding with an option do add link "after last page"
+      			if( ($paged == $total_pages) && ($instance->afterlastpage !== '') ) {
+        			$out .= html('a', array(
+         				'class' => 'nextpostslink',
+         				'rel' => 'next',
+        				'href'  =>  $instance->afterlastpage
+        				) );
+      			}
+      			
 			break;
 
 		// Dropdown
