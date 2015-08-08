@@ -3,8 +3,8 @@ Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/site/donation/  
 Tags: navigation, pagination, paging, pages  
 Requires at least: 3.2  
-Tested up to: 4.2  
-Stable tag: 2.87  
+Tested up to: 4.3  
+Stable tag: 2.88  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -158,6 +158,9 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 ## Changelog
+### 2.88
+* NEW: Added filters for altering class names. Props @bookwyrm
+
 ### 2.87
 * NEW: Uses WordPress native uninstall.php
 
