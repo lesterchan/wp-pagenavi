@@ -4,23 +4,25 @@
  * Template tag: Boxed Style Paging
  *
  * @param array $args:
- *	'before': (string)
- *	'after': (string)
- *	'options': (string|array) Used to overwrite options set in WP-Admin -> Settings -> PageNavi
- *	'query': (object) A WP_Query instance
+ *  'before': (string)
+ *  'after': (string)
+ *  'options': (string|array) Used to overwrite options set in WP-Admin -> Settings -> PageNavi
+ *  'query': (object) A WP_Query instance
  */
 function wp_pagenavi( $args = array() ) {
 	if ( !is_array( $args ) ) {
 		$argv = func_get_args();
 
 		$args = array();
-		foreach ( array( 'before', 'after', 'options' ) as $i => $key )
+		foreach ( array( 'before', 'after', 'wrapper_tag', 'wrapper_class', 'options' ) as $i => $key )
 			$args[ $key ] = isset( $argv[ $i ]) ? $argv[ $i ] : "";
 	}
 
 	$args = wp_parse_args( $args, array(
 		'before' => '',
 		'after' => '',
+		'wrapper_tag' => 'div',
+		'wrapper_class' => 'wp-pagenavi',
 		'options' => array(),
 		'query' => $GLOBALS['wp_query'],
 		'type' => 'posts',
@@ -62,19 +64,19 @@ function wp_pagenavi( $args = array() ) {
 	if ( $start_page < 1 )
 		$start_page = 1;
 
-  // Support for filters to change class names
-  $class_names = array(
-    'pages' => apply_filters( 'wp_pagenavi_class_pages', 'pages'),
-    'first' => apply_filters( 'wp_pagenavi_class_first', 'first' ),
-    'previouspostslink' => apply_filters( 'wp_pagenavi_class_previouspostslink', 'previouspostslink' ),
-    'extend' => apply_filters( 'wp_pagenavi_class_extend', 'extend' ),
-    'smaller' => apply_filters( 'wp_pagenavi_class_smaller', 'smaller' ),
-    'page' => apply_filters( 'wp_pagenavi_class_page', 'page' ),
-    'current' => apply_filters( 'wp_pagenavi_class_current', 'current'),
-    'larger' => apply_filters( 'wp_pagenavi_class_larger', 'larger' ),
-    'nextpostslink' => apply_filters( 'wp_pagenavi_class_nextpostslink', 'nextpostslink'),
-    'last' => apply_filters( 'wp_pagenavi_class_last', 'last'),
-  );
+	// Support for filters to change class names
+	$class_names = array(
+		'pages' => apply_filters( 'wp_pagenavi_class_pages', 'pages'),
+		'first' => apply_filters( 'wp_pagenavi_class_first', 'first' ),
+		'previouspostslink' => apply_filters( 'wp_pagenavi_class_previouspostslink', 'previouspostslink' ),
+		'extend' => apply_filters( 'wp_pagenavi_class_extend', 'extend' ),
+		'smaller' => apply_filters( 'wp_pagenavi_class_smaller', 'smaller' ),
+		'page' => apply_filters( 'wp_pagenavi_class_page', 'page' ),
+		'current' => apply_filters( 'wp_pagenavi_class_current', 'current'),
+		'larger' => apply_filters( 'wp_pagenavi_class_larger', 'larger' ),
+		'nextpostslink' => apply_filters( 'wp_pagenavi_class_nextpostslink', 'nextpostslink'),
+		'last' => apply_filters( 'wp_pagenavi_class_last', 'last'),
+	);
 
 	$out = '';
 	switch ( intval( $options['style'] ) ) {
@@ -85,7 +87,7 @@ function wp_pagenavi( $args = array() ) {
 				$pages_text = str_replace(
 					array( "%CURRENT_PAGE%", "%TOTAL_PAGES%" ),
 					array( number_format_i18n( $paged ), number_format_i18n( $total_pages ) ),
-				__( $options['pages_text'], 'wp-pagenavi' ) );
+					__( $options['pages_text'], 'wp-pagenavi' ) );
 				$out .= "<span class='{$class_names['pages']}'>$pages_text</span>";
 			}
 
@@ -93,7 +95,7 @@ function wp_pagenavi( $args = array() ) {
 				// First
 				$first_text = str_replace( '%TOTAL_PAGES%', number_format_i18n( $total_pages ), __( $options['first_text'], 'wp-pagenavi' ) );
 				$out .= $instance->get_single( 1, $first_text, array(
-          'class' => $class_names['first']
+					'class' => $class_names['first']
 				), '%TOTAL_PAGES%' );
 			}
 
@@ -101,7 +103,7 @@ function wp_pagenavi( $args = array() ) {
 			if ( $paged > 1 && !empty( $options['prev_text'] ) ) {
 				$out .= $instance->get_single( $paged - 1, $options['prev_text'], array(
 					'class' => $class_names['previouspostslink'],
-					'rel'	=> 'prev'
+					'rel'   => 'prev'
 				) );
 			}
 
@@ -169,7 +171,7 @@ function wp_pagenavi( $args = array() ) {
 			if ( $paged < $total_pages && !empty( $options['next_text'] ) ) {
 				$out .= $instance->get_single( $paged + 1, $options['next_text'], array(
 					'class' => $class_names['nextpostslink'],
-					'rel'	=> 'next'
+					'rel'   => 'next'
 				) );
 			}
 
@@ -204,7 +206,7 @@ function wp_pagenavi( $args = array() ) {
 			$out .= "</form>\n";
 			break;
 	}
-	$out = $before . "<div class='wp-pagenavi'>\n$out\n</div>" . $after;
+	$out = $before . "<" . $wrapper_tag . "class='" . $wrapper_class . "'>\n$out\n</" . $wrapper_tag . ">" . $after;
 
 	$out = apply_filters( 'wp_pagenavi', $out );
 
@@ -233,24 +235,24 @@ class PageNavi_Call {
 		$query = $this->query;
 
 		switch( $this->type ) {
-		case 'multipart':
-			// Multipart page
-			$posts_per_page = 1;
-			$paged = max( 1, absint( get_query_var( 'page' ) ) );
-			$total_pages = max( 1, $numpages );
-			break;
-		case 'users':
-			// WP_User_Query
-			$posts_per_page = $query->query_vars['number'];
-			$paged = max( 1, floor( $query->query_vars['offset'] / $posts_per_page ) + 1 );
-			$total_pages = max( 1, ceil( $query->total_users / $posts_per_page ) );
-			break;
-		default:
-			// WP_Query
-			$posts_per_page = intval( $query->get( 'posts_per_page' ) );
-			$paged = max( 1, absint( $query->get( 'paged' ) ) );
-			$total_pages = max( 1, absint( $query->max_num_pages ) );
-			break;
+			case 'multipart':
+				// Multipart page
+				$posts_per_page = 1;
+				$paged = max( 1, absint( get_query_var( 'page' ) ) );
+				$total_pages = max( 1, $numpages );
+				break;
+			case 'users':
+				// WP_User_Query
+				$posts_per_page = $query->query_vars['number'];
+				$paged = max( 1, floor( $query->query_vars['offset'] / $posts_per_page ) + 1 );
+				$total_pages = max( 1, ceil( $query->total_users / $posts_per_page ) );
+				break;
+			default:
+				// WP_Query
+				$posts_per_page = intval( $query->get( 'posts_per_page' ) );
+				$paged = max( 1, absint( $query->get( 'paged' ) ) );
+				$total_pages = max( 1, absint( $query->max_num_pages ) );
+				break;
 		}
 
 		return array( $posts_per_page, $paged, $total_pages );
@@ -274,22 +276,22 @@ class PageNavi_Call {
 
 # http://core.trac.wordpress.org/ticket/16973
 if ( !function_exists( 'get_multipage_link' ) ) :
-function get_multipage_link( $page = 1 ) {
-	global $post, $wp_rewrite;
+	function get_multipage_link( $page = 1 ) {
+		global $post, $wp_rewrite;
 
-	if ( 1 == $page ) {
-		$url = get_permalink();
-	} else {
-		if ( '' == get_option('permalink_structure') || in_array( $post->post_status, array( 'draft', 'pending') ) )
-			$url = add_query_arg( 'page', $page, get_permalink() );
-		elseif ( 'page' == get_option( 'show_on_front' ) && get_option('page_on_front') == $post->ID )
-			$url = trailingslashit( get_permalink() ) . user_trailingslashit( $wp_rewrite->pagination_base . "/$page", 'single_paged' );
-		else
-			$url = trailingslashit( get_permalink() ) . user_trailingslashit( $page, 'single_paged' );
+		if ( 1 == $page ) {
+			$url = get_permalink();
+		} else {
+			if ( '' == get_option('permalink_structure') || in_array( $post->post_status, array( 'draft', 'pending') ) )
+				$url = add_query_arg( 'page', $page, get_permalink() );
+			elseif ( 'page' == get_option( 'show_on_front' ) && get_option('page_on_front') == $post->ID )
+				$url = trailingslashit( get_permalink() ) . user_trailingslashit( $wp_rewrite->pagination_base . "/$page", 'single_paged' );
+			else
+				$url = trailingslashit( get_permalink() ) . user_trailingslashit( $page, 'single_paged' );
+		}
+
+		return $url;
 	}
-
-	return $url;
-}
 endif;
 
 // Template tag: Drop Down Menu (Deprecated)
