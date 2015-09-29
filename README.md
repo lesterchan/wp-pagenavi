@@ -3,8 +3,8 @@ Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/site/donation/  
 Tags: navigation, pagination, paging, pages  
 Requires at least: 3.2  
-Tested up to: 4.3  
-Stable tag: 2.88  
+Tested up to: 4.4  
+Stable tag: 2.89  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -85,7 +85,7 @@ There are [filters](http://codex.wordpress.org/Glossary#Filter) that can be used
 
 #### Filter Usage
 
-```php
+`
 // Simple Usage - 1 callback per filter
 add_filter('wp_pagenavi_class_previouspostslink', 'theme_pagination_previouspostslink_class');
 add_filter('wp_pagenavi_class_nextpostslink', 'theme_pagination_nextpostslink_class');
@@ -123,9 +123,7 @@ function theme_pagination_class($class_name) {
   }
   return $class_name;
 }
-```
-
-
+`
 
 ## Screenshots
 
@@ -158,6 +156,9 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 ## Changelog
+### 2.89
+* NEW: wrapper_tag option to allow other HTML tag besides DIV and wrapper_class option to allow other class name besides wp-pagenavi. Props @Mahjouba91.
+
 ### 2.88
 * NEW: Added filters for altering class names. Props @bookwyrm
 
