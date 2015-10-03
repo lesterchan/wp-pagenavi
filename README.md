@@ -64,7 +64,7 @@ You can override the main HTML wrapper and its class by adding two more params t
     'wrapper_tag' => 'div',
     'wrapper_class' => 'wp-pagenavi'
 ); ?>`
-So if you want to have a <ul> or <ol> tag, the function automatically add <li> tags to the <a> links.
+So if you want to have a ul or ol tag, the function automatically add li tags to the a links.
 
 Go to *WP-Admin -> Settings -> PageNavi* for configuration.
 
