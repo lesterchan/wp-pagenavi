@@ -8,6 +8,10 @@
  *  'after': (string)
  *  'options': (string|array) Used to overwrite options set in WP-Admin -> Settings -> PageNavi
  *  'query': (object) A WP_Query instance
+ *  'type': (string)
+ *  'echo': (boolean) Echo the function or not
+ *  'wrapper_tag': (string) Choose the main wrapper tag if you want to replace the default div
+ *  'wrapper_class': (string) Change the wrapper class to allow you a prefered class name
  */
 function wp_pagenavi( $args = array() ) {
 	if ( !is_array( $args ) ) {
