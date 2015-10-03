@@ -158,11 +158,10 @@ function wp_pagenavi( $args = array() ) {
 						) );
 					}
 					$larger_page_start++;
+
+					$out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
 				}
 			}
-
-			if ( $larger_page_start )
-				$out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
 
 			// Page numbers
 			$timeline = 'smaller';
@@ -192,6 +191,9 @@ function wp_pagenavi( $args = array() ) {
 			$larger_page_out = '';
 			foreach ( $larger_pages_array as $larger_page ) {
 				if ( $larger_page > ($end_page + $half_page_end) && $larger_page_end < $larger_page_to_show ) {
+
+					$larger_page_out .= "<span class='{$class_names['extend']}'>{$options['dotright_text']}</span>";
+
 					if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
 						$larger_page_out .= '<li>';
 						$larger_page_out .= $instance->get_single( $larger_page, $options['page_text'], array(
@@ -204,13 +206,11 @@ function wp_pagenavi( $args = array() ) {
 							'class' => "{$class_names['larger']} {$class_names['page']}",
 						) );
 					}
+
 					$larger_page_end++;
 				}
 			}
 
-			if ( $larger_page_out ) {
-				$out .= "<span class='{$class_names['extend']}'>{$options['dotright_text']}</span>";
-			}
 			$out .= $larger_page_out;
 
 			if ( $end_page < $total_pages ) {
