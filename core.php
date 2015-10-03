@@ -74,10 +74,12 @@ function wp_pagenavi( $args = array() ) {
 		'first' => apply_filters( 'wp_pagenavi_class_first', 'first' ),
 		'previouspostslink' => apply_filters( 'wp_pagenavi_class_previouspostslink', 'previouspostslink' ),
 		'extend' => apply_filters( 'wp_pagenavi_class_extend', 'extend' ),
+		'smallest' => apply_filters( 'wp_pagenavi_class_smallest', 'smallest' ),
 		'smaller' => apply_filters( 'wp_pagenavi_class_smaller', 'smaller' ),
 		'page' => apply_filters( 'wp_pagenavi_class_page', 'page' ),
 		'current' => apply_filters( 'wp_pagenavi_class_current', 'current'),
 		'larger' => apply_filters( 'wp_pagenavi_class_larger', 'larger' ),
+		'largest' => apply_filters( 'wp_pagenavi_class_largest', 'largest' ),
 		'nextpostslink' => apply_filters( 'wp_pagenavi_class_nextpostslink', 'nextpostslink'),
 		'last' => apply_filters( 'wp_pagenavi_class_last', 'last'),
 	);
@@ -148,13 +150,13 @@ function wp_pagenavi( $args = array() ) {
 					if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
 						$out .= '<li>';
 						$out .= $instance->get_single( $larger_page, $options['page_text'], array(
-							'class' => "{$class_names['smaller']} {$class_names['page']}",
+							'class' => "{$class_names['page']} {$class_names['smaller']} {$class_names['smallest']}",
 						) );
 						$out .= '</li>';
 					}
 					else {
 						$out .= $instance->get_single( $larger_page, $options['page_text'], array(
-							'class' => "{$class_names['smaller']} {$class_names['page']}",
+							'class' => "{$class_names['page']} {$class_names['smaller']} {$class_names['smallest']}",
 						) );
 					}
 					$larger_page_start++;
@@ -197,13 +199,13 @@ function wp_pagenavi( $args = array() ) {
 					if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
 						$larger_page_out .= '<li>';
 						$larger_page_out .= $instance->get_single( $larger_page, $options['page_text'], array(
-							'class' => "{$class_names['larger']} {$class_names['page']}",
+							'class' => "{$class_names['page']} {$class_names['larger']} {$class_names['largest']}",
 						) );
 						$larger_page_out .= '</li>';
 					}
 					else {
 						$larger_page_out .= $instance->get_single( $larger_page, $options['page_text'], array(
-							'class' => "{$class_names['larger']} {$class_names['page']}",
+							'class' => "{$class_names['page']} {$class_names['larger']} {$class_names['largest']}",
 						) );
 					}
 
