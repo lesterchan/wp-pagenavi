@@ -76,10 +76,12 @@ There are [filters](http://codex.wordpress.org/Glossary#Filter) that can be used
 * `wp_pagenavi_class_first`
 * `wp_pagenavi_class_previouspostslink`
 * `wp_pagenavi_class_extend`
+* `wp_pagenavi_class_smallest`
 * `wp_pagenavi_class_smaller`
 * `wp_pagenavi_class_page`
 * `wp_pagenavi_class_current`
 * `wp_pagenavi_class_larger`
+* `wp_pagenavi_class_largest`
 * `wp_pagenavi_class_nextpostslink`
 * `wp_pagenavi_class_last`
 
