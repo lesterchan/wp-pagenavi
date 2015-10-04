@@ -185,9 +185,9 @@ function wp_pagenavi( $args = array() ) {
 					) );
 
 					if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-						$out .= '<li>'.$largest.'</li>';
+						$larger_page_out .= '<li>'.$largest.'</li>';
 					} else {
-						$out .= $largest;
+						$larger_page_out .= $largest;
 					}
 
 					$larger_page_end++;
