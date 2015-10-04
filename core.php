@@ -99,37 +99,28 @@ function wp_pagenavi( $args = array() ) {
 
 			// Previous
 			if ( $paged > 1 && !empty( $options['prev_text'] ) ) {
+				$prev = $instance->get_single( $paged - 1, $options['prev_text'], array(
+					'class' => $class_names['previouspostslink'],
+					'rel'   => 'prev'
+				) );
 				if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-					$out .= '<li>';
-					$out .= $instance->get_single( $paged - 1, $options['prev_text'], array(
-						'class' => $class_names['previouspostslink'],
-						'rel'   => 'prev'
-					) );
-					$out .= '</li>';
-				}
-				else {
-					$out .= $instance->get_single( $paged - 1, $options['prev_text'], array(
-						'class' => $class_names['previouspostslink'],
-						'rel'   => 'prev'
-					) );
+					$out .= '<li>'.$prev.'</li>';
+				} else {
+					$out .= $prev;
 				}
 			}
 
 			// First
 			if ( $start_page >= 2 && $pages_to_show < $total_pages ) {
 				$first_text = str_replace( '%TOTAL_PAGES%', number_format_i18n( $total_pages ), __( $options['first_text'], 'wp-pagenavi' ) );
+				$first = $instance->get_single( 1, $first_text, array(
+					'class' => $class_names['first']
+				), '%TOTAL_PAGES%' );
 
 				if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-					$out .= '<li>';
-					$out .= $instance->get_single( 1, $first_text, array(
-						'class' => $class_names['first']
-					), '%TOTAL_PAGES%' );
-					$out .= '</li>';
-				}
-				else {
-					$out .= $instance->get_single( 1, $first_text, array(
-						'class' => $class_names['first']
-					), '%TOTAL_PAGES%' );
+					$out .= '<li>'.$first.'</li>';
+				} else {
+					$out .= $first;
 				}
 
 				if ( !empty( $options['dotleft_text'] ) )
@@ -146,18 +137,16 @@ function wp_pagenavi( $args = array() ) {
 			$larger_page_start = 0;
 			foreach ( $larger_pages_array as $larger_page ) {
 				if ( $larger_page < ($start_page - $half_page_start) && $larger_page_start < $larger_page_to_show ) {
+
+					$smallest = $instance->get_single( $larger_page, $options['page_text'], array(
+						'class' => "{$class_names['page']} {$class_names['smaller']} {$class_names['smallest']}",
+					) );
 					if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-						$out .= '<li>';
-						$out .= $instance->get_single( $larger_page, $options['page_text'], array(
-							'class' => "{$class_names['page']} {$class_names['smaller']} {$class_names['smallest']}",
-						) );
-						$out .= '</li>';
+						$out .= '<li>'.$smallest.'</li>';
+					} else {
+						$out .= $smallest;
 					}
-					else {
-						$out .= $instance->get_single( $larger_page, $options['page_text'], array(
-							'class' => "{$class_names['page']} {$class_names['smaller']} {$class_names['smallest']}",
-						) );
-					}
+
 					$larger_page_start++;
 
 					$out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
@@ -172,17 +161,13 @@ function wp_pagenavi( $args = array() ) {
 					$out .= "<span class='{$class_names['current']}'>$current_page_text</span>";
 					$timeline = 'larger';
 				} else {
+					$page = $instance->get_single( $i, $options['page_text'], array(
+						'class' => "{$class_names['page']} {$class_names[$timeline]}",
+					) );
 					if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-						$out .= '<li>';
-						$out .= $instance->get_single( $i, $options['page_text'], array(
-							'class' => "{$class_names['page']} {$class_names[$timeline]}",
-						) );
-						$out .= '</li>';
-					}
-					else {
-						$out .= $instance->get_single( $i, $options['page_text'], array(
-							'class' => "{$class_names['page']} {$class_names[$timeline]}",
-						) );
+						$out .= '<li>'.$page.'</li>';
+					} else {
+						$out .= $page;
 					}
 				}
 			}
@@ -195,17 +180,14 @@ function wp_pagenavi( $args = array() ) {
 
 					$larger_page_out .= "<span class='{$class_names['extend']}'>{$options['dotright_text']}</span>";
 
+					$largest = $instance->get_single( $larger_page, $options['page_text'], array(
+						'class' => "{$class_names['page']} {$class_names['larger']} {$class_names['largest']}",
+					) );
+
 					if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-						$larger_page_out .= '<li>';
-						$larger_page_out .= $instance->get_single( $larger_page, $options['page_text'], array(
-							'class' => "{$class_names['page']} {$class_names['larger']} {$class_names['largest']}",
-						) );
-						$larger_page_out .= '</li>';
-					}
-					else {
-						$larger_page_out .= $instance->get_single( $larger_page, $options['page_text'], array(
-							'class' => "{$class_names['page']} {$class_names['larger']} {$class_names['largest']}",
-						) );
+						$out .= '<li>'.$largest.'</li>';
+					} else {
+						$out .= $largest;
 					}
 
 					$larger_page_end++;
@@ -221,31 +203,27 @@ function wp_pagenavi( $args = array() ) {
 
 			// Last
 			if ( $end_page < $total_pages ) {
+				$last = $instance->get_single( $total_pages, __( $options['last_text'], 'wp-pagenavi' ), array(
+					'class' => $class_names['last'],
+				), '%TOTAL_PAGES%' );
+
 				if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-					$out .= $instance->get_single( $total_pages, __( $options['last_text'], 'wp-pagenavi' ), array(
-						'class' => $class_names['last'],
-					), '%TOTAL_PAGES%' );
-				}
-				else {
-					$out .= $instance->get_single( $total_pages, __( $options['last_text'], 'wp-pagenavi' ), array(
-						'class' => $class_names['last'],
-					), '%TOTAL_PAGES%' );
+					$out .= '<li>'.$last.'</li>';
+				} else {
+					$out .= $last;
 				}
 			}
 
 			// Next
 			if ( $paged < $total_pages && !empty( $options['next_text'] ) ) {
+				$next = $instance->get_single( $paged + 1, $options['next_text'], array(
+					'class' => $class_names['nextpostslink'],
+					'rel'   => 'next'
+				) );
 				if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-					$out .= $instance->get_single( $paged + 1, $options['next_text'], array(
-						'class' => $class_names['nextpostslink'],
-						'rel'   => 'next'
-					) );
-				}
-				else {
-					$out .= $instance->get_single( $paged + 1, $options['next_text'], array(
-						'class' => $class_names['nextpostslink'],
-						'rel'   => 'next'
-					) );
+					$out .= '<li>'.$next.'</li>';
+				} else {
+					$out .= $next;
 				}
 			}
 
