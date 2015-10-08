@@ -71,12 +71,16 @@ class PageNavi_Options_Page extends scbAdminPage {
 				'title' => __( 'Text For Previous Page', $this->textdomain ),
 				'type' => 'text',
 				'name' => 'prev_text',
+				'extra' => 'id="prev_dashicon_pick"',
+				'desc' => '<input type="button" data-target="#prev_dashicon_pick" class="button dashicons-picker" value="' . __( 'Or choose an icon', $this->textdomain ) . '" />'
 			),
 
 			array(
 				'title' => __( 'Text For Next Page', $this->textdomain ),
 				'type' => 'text',
 				'name' => 'next_text',
+				'extra' => 'id="next_dashicon_pick"',
+				'desc' => '<input type="button" data-target="#next_dashicon_pick" class="button dashicons-picker" value="' . __( 'Or choose an icon', $this->textdomain ) . '" />'
 			),
 
 			array(

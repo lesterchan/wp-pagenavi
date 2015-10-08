@@ -99,7 +99,12 @@ function wp_pagenavi( $args = array() ) {
 
 			// Previous
 			if ( $paged > 1 && !empty( $options['prev_text'] ) ) {
-				$prev = $instance->get_single( $paged - 1, $options['prev_text'], array(
+				$prev_text = $options['prev_text'];
+				if ( false !== strstr( $prev_text, 'dashicons' ) ) {
+					$prev_text = '<span class="dashicons '.$prev_text.'"></span>';
+				}
+
+				$prev = $instance->get_single( $paged - 1, $prev_text, array(
 					'class' => $class_names['previouspostslink'],
 					'rel'   => 'prev'
 				) );
@@ -215,8 +220,12 @@ function wp_pagenavi( $args = array() ) {
 			}
 
 			// Next
-			if ( $paged < $total_pages && !empty( $options['next_text'] ) ) {
-				$next = $instance->get_single( $paged + 1, $options['next_text'], array(
+			if ( $paged < $total_pages && ( !empty( $options['next_text'] ) ) ) {
+				$next_text = $options['next_text'];
+				if ( false !== strstr( $next_text, 'dashicons' ) ) {
+					$next_text = '<span class="dashicons '.$next_text.'"></span>';
+				}
+				$next = $instance->get_single( $paged + 1, $next_text, array(
 					'class' => $class_names['nextpostslink'],
 					'rel'   => 'next'
 				) );
@@ -353,6 +362,7 @@ class PageNavi_Core {
 		self::$options = $options;
 
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'stylesheets' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'dashicons_picker' ) );
 	}
 
 	static function stylesheets() {
@@ -368,5 +378,23 @@ class PageNavi_Core {
 
 		wp_enqueue_style( 'wp-pagenavi', $css_file, false, '2.70' );
 	}
+
+	static function dashicons_picker() {
+		if ( !is_admin() ) {
+			return;
+		}
+
+		$screen = get_current_screen();
+		if ( "settings_page_pagenavi" !== $screen->base ) {
+			return;
+		}
+
+		$css = plugin_dir_url( __FILE__ ) . 'vendor/css/dashicons-picker.css';
+		wp_enqueue_style( 'dashicons-picker-css', $css, array( 'dashicons' ), '1.0' );
+
+		$js = plugin_dir_url( __FILE__ ) . 'vendor/js/dashicons-picker.js';
+		wp_enqueue_script( 'dashicons-picker-js', $js, array( 'jquery' ), '1.0' );
+	}
+
 }
 
