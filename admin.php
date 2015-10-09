@@ -158,6 +158,13 @@ class PageNavi_Options_Page extends scbAdminPage {
                 'type' => 'radio',
                 'name' => 'use_extend_between_larger_pages',
                 'choices' => array( 1 => __( 'Yes', $this->textdomain ), 0 => __( 'No', $this->textdomain ) )
+            ),
+
+            array(
+                'title' => __( 'Display previous link before first page and next link after last page', $this->textdomain ),
+                'type' => 'radio',
+                'name' => 'show_prev_next_links_before_after_first_last',
+                'choices' => array( 1 => __( 'Yes', $this->textdomain ), 0 => __( 'No', $this->textdomain ) )
             )
 		);
 

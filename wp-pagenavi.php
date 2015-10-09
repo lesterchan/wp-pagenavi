@@ -33,6 +33,7 @@ function _pagenavi_init() {
 		'always_show' => false,
 		'use_pagenavi_css' => true,
 		'use_extend_between_larger_pages' => false,
+		'show_prev_next_links_before_after_first_last' => false,
 		'style' => 1,
 	) );
 
