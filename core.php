@@ -143,19 +143,25 @@ function wp_pagenavi( $args = array() ) {
 			foreach ( $larger_pages_array as $larger_page ) {
 				if ( $larger_page < ($start_page - $half_page_start) && $larger_page_start < $larger_page_to_show ) {
 
-					$smallest = $instance->get_single( $larger_page, $options['page_text'], array(
+					$smallest = $instance->get_single($larger_page, $options['page_text'], array(
 						'class' => "{$class_names['page']} {$class_names['smaller']} {$class_names['smallest']}",
-					) );
-					if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-						$out .= '<li>'.$smallest.'</li>';
+					));
+					if ('ul' === $wrapper_tag || 'ol' === $wrapper_tag) {
+						$out .= '<li>' . $smallest . '</li>';
 					} else {
 						$out .= $smallest;
 					}
 
 					$larger_page_start++;
 
-					$out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
+					if ( true == $options['use_extend_between_larger_pages'] ) {
+						$out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
+					}
 				}
+			}
+
+			if ( false == $options['use_extend_between_larger_pages'] ) {
+				$out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
 			}
 
 			// Page numbers
@@ -183,7 +189,9 @@ function wp_pagenavi( $args = array() ) {
 			foreach ( $larger_pages_array as $larger_page ) {
 				if ( $larger_page > ($end_page + $half_page_end) && $larger_page_end < $larger_page_to_show ) {
 
-					$larger_page_out .= "<span class='{$class_names['extend']}'>{$options['dotright_text']}</span>";
+					if ( true == $options['use_extend_between_larger_pages'] ) {
+						$larger_page_out .= "<span class='{$class_names['extend']}'>{$options['dotright_text']}</span>";
+					}
 
 					$largest = $instance->get_single( $larger_page, $options['page_text'], array(
 						'class' => "{$class_names['page']} {$class_names['larger']} {$class_names['largest']}",
@@ -197,6 +205,10 @@ function wp_pagenavi( $args = array() ) {
 
 					$larger_page_end++;
 				}
+			}
+
+			if ( false == $options['use_extend_between_larger_pages'] ) {
+				$out .= "<span class='{$class_names['extend']}'>{$options['dotright_text']}</span>";
 			}
 
 			$out .= $larger_page_out;

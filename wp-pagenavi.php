@@ -32,6 +32,7 @@ function _pagenavi_init() {
 		'larger_page_numbers_multiple' => 10,
 		'always_show' => false,
 		'use_pagenavi_css' => true,
+		'use_extend_between_larger_pages' => false,
 		'style' => 1,
 	) );
 
