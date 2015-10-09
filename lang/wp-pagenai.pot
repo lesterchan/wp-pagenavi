@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP-PageNavi\n"
-"POT-Creation-Date: 2015-10-08 23:49+0200\n"
+"POT-Creation-Date: 2015-10-09 19:30+0200\n"
 "PO-Revision-Date: 2014-03-03 17:39+0800\n"
 "Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
 "Language-Team: Lester Chan <lesterchan@gmail.com>\n"
@@ -91,11 +91,11 @@ msgstr ""
 msgid "Use pagenavi-css.css"
 msgstr ""
 
-#: admin.php:110 admin.php:125
+#: admin.php:110 admin.php:125 admin.php:160 admin.php:167
 msgid "Yes"
 msgstr ""
 
-#: admin.php:110 admin.php:125
+#: admin.php:110 admin.php:125 admin.php:160 admin.php:167
 msgid "No"
 msgstr ""
 
@@ -151,16 +151,16 @@ msgstr ""
 msgid "For example, if mutiple is 5, it will show: 5, 10, 15, 20, 25"
 msgstr ""
 
-#: admin.php:158
+#: admin.php:157
+msgid "Use extend text for Larger Pages"
+msgstr ""
+
+#: admin.php:164
+msgid "Display previous link before first page and next link after last page"
+msgstr ""
+
+#: admin.php:172
 msgid "Page Navigation Options"
-msgstr ""
-
-#: scb/AdminPage.php:261
-msgid "Settings <strong>saved</strong>."
-msgstr ""
-
-#: scb/AdminPage.php:519
-msgid "Settings"
 msgstr ""
 
 #: wp-pagenavi.php:21
