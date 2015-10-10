@@ -17,8 +17,9 @@ class PageNavi_Options_Page extends scbAdminPage {
 		foreach ( array( 'style', 'num_pages', 'num_larger_page_numbers', 'larger_page_numbers_multiple' ) as $key )
 			$options[$key] = absint( @$options[$key] );
 
-		foreach ( array( 'use_pagenavi_css', 'always_show' ) as $key )
+		foreach ( array( 'use_pagenavi_css', 'always_show', 'use_extend_between_larger_pages', 'show_prev_next_links_before_after_first_last' ) as $key ) {
 			$options[$key] = intval(@$options[$key]);
+		}
 
 		return $options;
 	}
@@ -71,12 +72,16 @@ class PageNavi_Options_Page extends scbAdminPage {
 				'title' => __( 'Text For Previous Page', $this->textdomain ),
 				'type' => 'text',
 				'name' => 'prev_text',
+				'extra' => 'id="prev_dashicon_pick"',
+				'desc' => '<input type="button" data-target="#prev_dashicon_pick" class="button dashicons-picker" value="' . __( 'Or choose an icon', $this->textdomain ) . '" />'
 			),
 
 			array(
 				'title' => __( 'Text For Next Page', $this->textdomain ),
 				'type' => 'text',
 				'name' => 'next_text',
+				'extra' => 'id="next_dashicon_pick"',
+				'desc' => '<input type="button" data-target="#next_dashicon_pick" class="button dashicons-picker" value="' . __( 'Or choose an icon', $this->textdomain ) . '" />'
 			),
 
 			array(
@@ -147,7 +152,21 @@ class PageNavi_Options_Page extends scbAdminPage {
 				'extra' => 'class="small-text"',
 				'desc' =>
 				'<br />' . __( 'For example, if mutiple is 5, it will show: 5, 10, 15, 20, 25', $this->textdomain )
-			)
+			),
+
+			array(
+                'title' => __( 'Use extend text for Larger Pages', $this->textdomain ),
+                'type' => 'radio',
+                'name' => 'use_extend_between_larger_pages',
+                'choices' => array( 1 => __( 'Yes', $this->textdomain ), 0 => __( 'No', $this->textdomain ) )
+            ),
+
+            array(
+                'title' => __( 'Display previous link before first page and next link after last page', $this->textdomain ),
+                'type' => 'radio',
+                'name' => 'show_prev_next_links_before_after_first_last',
+                'choices' => array( 1 => __( 'Yes', $this->textdomain ), 0 => __( 'No', $this->textdomain ) )
+            )
 		);
 
 		$out .=
