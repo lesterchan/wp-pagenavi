@@ -106,13 +106,16 @@ function wp_pagenavi( $args = array() ) {
 	            $out .= wp_pagenavi_show_first_page( $options, $start_page, $pages_to_show, $total_pages, $wrapper_tag, $class_names, $args['type'] );
             } else {
                 // Call First page markup
-	            var_dump($out);
 	            $out .= wp_pagenavi_show_first_page( $options, $start_page, $pages_to_show, $total_pages, $wrapper_tag, $class_names, $args['type'] );
-	            var_dump($out);
 
                 // Call Previous Link markup
 	            $out .= wp_pagenavi_show_previous_link( $options, $paged, $wrapper_tag, $class_names, $args['type'] );
             }
+
+	        if ( $start_page >= 2 && $pages_to_show < $total_pages ) {
+		        if ( !empty( $options['dotleft_text'] ) )
+			        $out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
+	        }
 
             // Smaller pages
             $larger_pages_array = array();
@@ -348,10 +351,6 @@ function wp_pagenavi_show_first_page( $options, $start_page, $pages_to_show, $to
         $out = '<li>'.$first.'</li>';
     } else {
         $out = $first;
-    }
-
-    if ( !empty( $options['dotleft_text'] ) ) {
-	    $out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
     }
 
 	return $out;
