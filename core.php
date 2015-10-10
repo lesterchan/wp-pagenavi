@@ -351,7 +351,7 @@ function wp_pagenavi_show_first_page( $options, $render_args ) {
     // First
 	extract( $render_args, EXTR_SKIP );
 	if ( $start_page < 2 || $pages_to_show >= $total_pages ) {
-		return false;
+		return '';
 	}
 
     $first_text = str_replace( '%TOTAL_PAGES%', number_format_i18n( $total_pages ), __( $options['first_text'], 'wp-pagenavi' ) );
@@ -372,7 +372,7 @@ function wp_pagenavi_show_previous_link( $options, $render_args ) {
     // Previous
 	extract( $render_args, EXTR_SKIP );
 	if ( $paged <= 1 || empty( $options['prev_text'] ) ) {
-	    return false;
+		return '';
     }
 
     $prev_text = $options['prev_text'];
@@ -398,7 +398,7 @@ function wp_pagenavi_show_next_link( $options, $render_args ) {
     // Next
 	extract( $render_args, EXTR_SKIP );
 	if ( $paged >= $total_pages || empty( $options['next_text'] ) ) {
-		return false;
+		return '';
 	}
 
     $next_text = $options['next_text'];
@@ -422,7 +422,7 @@ function wp_pagenavi_show_last_page( $options, $render_args ) {
     // Last
 	extract( $render_args, EXTR_SKIP );
 	if ( $end_page >= $total_pages ) {
-		return false;
+		return '';
 	}
 
     $last = wp_pagenavi_get_single( $total_pages, __( $options['last_text'], 'wp-pagenavi' ), array(
