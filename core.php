@@ -100,16 +100,18 @@ function wp_pagenavi( $args = array() ) {
             // Get the right order : automaticaly update $out var
             if ( true == $options['show_prev_next_links_before_after_first_last'] ) {
                 // Call Previous Link markup
-                wp_pagenavi_show_previous_link( $out, $options, $paged, $wrapper_tag, $class_names, $args['type'] );
+                $out .= wp_pagenavi_show_previous_link( $options, $paged, $wrapper_tag, $class_names, $args['type'] );
 
                 // Call First page markup
-                wp_pagenavi_show_first_page( $out, $options, $start_page, $pages_to_show, $total_pages, $wrapper_tag, $class_names, $args['type'] );
+	            $out .= wp_pagenavi_show_first_page( $options, $start_page, $pages_to_show, $total_pages, $wrapper_tag, $class_names, $args['type'] );
             } else {
                 // Call First page markup
-                wp_pagenavi_show_first_page( $out, $options, $start_page, $pages_to_show, $total_pages, $wrapper_tag, $class_names, $args['type'] );
+	            var_dump($out);
+	            $out .= wp_pagenavi_show_first_page( $options, $start_page, $pages_to_show, $total_pages, $wrapper_tag, $class_names, $args['type'] );
+	            var_dump($out);
 
                 // Call Previous Link markup
-                wp_pagenavi_show_previous_link( $out, $options, $paged, $wrapper_tag, $class_names, $args['type'] );
+	            $out .= wp_pagenavi_show_previous_link( $options, $paged, $wrapper_tag, $class_names, $args['type'] );
             }
 
             // Smaller pages
@@ -200,16 +202,16 @@ function wp_pagenavi( $args = array() ) {
             // Get the right order : automaticaly update $out var
             if ( true == $options['show_prev_next_links_before_after_first_last'] ) {
                 // Call Last page markup
-                wp_pagenavi_show_last_page( $out, $options, $end_page, $total_pages, $wrapper_tag, $class_names, $args['type'] );
+	            $out .= wp_pagenavi_show_last_page( $options, $end_page, $total_pages, $wrapper_tag, $class_names, $args['type'] );
 
                 // Call Next Link markup
-                wp_pagenavi_show_next_link( $out, $options, $paged, $wrapper_tag, $class_names, $total_pages, $args['type'] );
+	            $out .= wp_pagenavi_show_next_link( $options, $paged, $wrapper_tag, $class_names, $total_pages, $args['type'] );
             } else {
                 // Call Next Link markup
-                wp_pagenavi_show_next_link( $out, $options, $paged, $wrapper_tag, $class_names, $total_pages, $args['type'] );
+	            $out .= wp_pagenavi_show_next_link( $options, $paged, $wrapper_tag, $class_names, $total_pages, $args['type'] );
 
                 // Call Last page markup
-                wp_pagenavi_show_last_page( $out, $options, $end_page, $total_pages, $wrapper_tag, $class_names, $args['type'] );
+	            $out .= wp_pagenavi_show_last_page( $options, $end_page, $total_pages, $wrapper_tag, $class_names, $args['type'] );
             }
 
 
@@ -331,80 +333,94 @@ function wp_pagenavi_dropdown() {
     wp_pagenavi();
 }
 
-function wp_pagenavi_show_first_page( $out, $options, $start_page, $pages_to_show, $total_pages, $wrapper_tag, $class_names, $type ) {
+function wp_pagenavi_show_first_page( $options, $start_page, $pages_to_show, $total_pages, $wrapper_tag, $class_names, $type ) {
     // First
-    if ( $start_page >= 2 && $pages_to_show < $total_pages ) {
-        $first_text = str_replace( '%TOTAL_PAGES%', number_format_i18n( $total_pages ), __( $options['first_text'], 'wp-pagenavi' ) );
-        $first = wp_pagenavi_get_single( 1, $first_text, array(
-            'class' => $class_names['first']
-        ), '%TOTAL_PAGES%', $type );
+	if ( $start_page < 2 || $pages_to_show >= $total_pages ) {
+		return false;
+	}
 
-        if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-            $out .= '<li>'.$first.'</li>';
-        } else {
-            $out .= $first;
-        }
+    $first_text = str_replace( '%TOTAL_PAGES%', number_format_i18n( $total_pages ), __( $options['first_text'], 'wp-pagenavi' ) );
+    $first = wp_pagenavi_get_single( 1, $first_text, array(
+        'class' => $class_names['first']
+    ), '%TOTAL_PAGES%', $type );
 
-        if ( !empty( $options['dotleft_text'] ) )
-            $out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
-
+    if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
+        $out = '<li>'.$first.'</li>';
+    } else {
+        $out = $first;
     }
+
+    if ( !empty( $options['dotleft_text'] ) ) {
+	    $out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
+    }
+
+	return $out;
 }
 
-function wp_pagenavi_show_previous_link( $out, $options, $paged, $wrapper_tag, $class_names, $type ) {
+function wp_pagenavi_show_previous_link( $options, $paged, $wrapper_tag, $class_names, $type ) {
     // Previous
-    if ( $paged > 1 && !empty( $options['prev_text'] ) ) {
-        $prev_text = $options['prev_text'];
-        if ( false !== strstr( $prev_text, 'dashicons' ) ) {
-            $prev_text = '<span class="dashicons '.$prev_text.'"></span>';
-        }
-
-        $prev = wp_pagenavi_get_single( $paged - 1, $prev_text, array(
-            'class' => $class_names['previouspostslink'],
-            'rel'   => 'prev'
-        ) , '%PAGE_NUMBER%', $type ) ;
-        if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-            $out .= '<li>'.$prev.'</li>';
-        } else {
-            $out .= $prev;
-        }
+    if ( $paged <= 1 || empty( $options['prev_text'] ) ) {
+	    return false;
     }
+
+    $prev_text = $options['prev_text'];
+    if ( false !== strstr( $prev_text, 'dashicons' ) ) {
+        $prev_text = '<span class="dashicons '.$prev_text.'"></span>';
+    }
+
+    $prev = wp_pagenavi_get_single( $paged - 1, $prev_text, array(
+        'class' => $class_names['previouspostslink'],
+        'rel'   => 'prev'
+    ) , '%PAGE_NUMBER%', $type ) ;
+    if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
+        $out = '<li>'.$prev.'</li>';
+    } else {
+        $out = $prev;
+    }
+    return $out;
+
 }
 
 
-function wp_pagenavi_show_next_link( $out, $options, $paged, $wrapper_tag, $class_names, $total_pages, $type ) {
+function wp_pagenavi_show_next_link( $options, $paged, $wrapper_tag, $class_names, $total_pages, $type ) {
     // Next
-    if ( $paged < $total_pages && ( !empty( $options['next_text'] ) ) ) {
-        $next_text = $options['next_text'];
-        if ( false !== strstr( $next_text, 'dashicons' ) ) {
-            $next_text = '<span class="dashicons '.$next_text.'"></span>';
-        }
-        $next = wp_pagenavi_get_single( $paged + 1, $next_text, array(
-            'class' => $class_names['nextpostslink'],
-            'rel'   => 'next'
-        ) , '%PAGE_NUMBER%', $type ) ;
-        if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-            $out .= '<li>'.$next.'</li>';
-        } else {
-            $out .= $next;
-        }
+	if ( $paged >= $total_pages || empty( $options['next_text'] ) ) {
+		return false;
+	}
+
+    $next_text = $options['next_text'];
+    if ( false !== strstr( $next_text, 'dashicons' ) ) {
+        $next_text = '<span class="dashicons '.$next_text.'"></span>';
     }
+    $next = wp_pagenavi_get_single( $paged + 1, $next_text, array(
+        'class' => $class_names['nextpostslink'],
+        'rel'   => 'next'
+    ) , '%PAGE_NUMBER%', $type ) ;
+    if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
+        $out = '<li>'.$next.'</li>';
+    } else {
+        $out = $next;
+    }
+	return $out;
 }
 
 
-function wp_pagenavi_show_last_page( $out, $options, $end_page, $total_pages, $wrapper_tag, $class_names, $type ) {
+function wp_pagenavi_show_last_page( $options, $end_page, $total_pages, $wrapper_tag, $class_names, $type ) {
     // Last
-    if ( $end_page < $total_pages ) {
-        $last = wp_pagenavi_get_single( $total_pages, __( $options['last_text'], 'wp-pagenavi' ), array(
-            'class' => $class_names['last'],
-        ), '%TOTAL_PAGES%', $type );
+	if ( $end_page >= $total_pages ) {
+		return false;
+	}
 
-        if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
-            $out .= '<li>'.$last.'</li>';
-        } else {
-            $out .= $last;
-        }
+    $last = wp_pagenavi_get_single( $total_pages, __( $options['last_text'], 'wp-pagenavi' ), array(
+        'class' => $class_names['last'],
+    ), '%TOTAL_PAGES%', $type );
+
+    if ( 'ul' === $wrapper_tag || 'ol' === $wrapper_tag ) {
+        $out = '<li>'.$last.'</li>';
+    } else {
+        $out = $last;
     }
+	return $out;
 }
 
 
