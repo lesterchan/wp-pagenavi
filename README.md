@@ -25,6 +25,7 @@ Help to translate at <https://translate.foe-services.de/projects/wp-pagenavi>.
 
 ### Credits
 * Plugin icon by [SimpleIcon](http://www.simpleicon.com) from [Flaticon](http://www.flaticon.com)
+* Dashicons picker by Bradvin (https://github.com/bradvin/dashicons-picker)
 
 ### Donations
 I spent most of my free time creating, updating, maintaining and supporting these plugins, if you really love my plugins and could spare me a couple of bucks, I will really appreciate it. If not feel free to use it without any obligations.
