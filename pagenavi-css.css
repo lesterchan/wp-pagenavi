@@ -13,6 +13,7 @@ http://wordpress.org/extend/plugins/wp-pagenavi/
 	border: 1px solid #BFBFBF;
 	padding: 3px 5px;
 	margin: 2px;
+	line-height: 25px; /* Fix bug : hidden border-bottom */
 }
 
 .wp-pagenavi a:hover, .wp-pagenavi span.current {
