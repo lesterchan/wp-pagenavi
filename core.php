@@ -137,7 +137,7 @@ function wp_pagenavi( $args = array() ) {
 	        // Smaller pages
 	        $out .= wp_pagenavi_show_smaller_pages( $options, $render_args );
 
-            if ( true != $options['use_extend_between_larger_pages'] ) {
+            if ( true == $options['use_extend_between_larger_pages'] ) {
                 $out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
             }
 
@@ -147,7 +147,7 @@ function wp_pagenavi( $args = array() ) {
             // Larger pages
 	        $larger_page_out = wp_pagenavi_show_larger_pages( $options, $render_args );
 
-            if ( true != $options['use_extend_between_larger_pages'] ) {
+            if ( true == $options['use_extend_between_larger_pages'] ) {
                 $out .= "<span class='{$class_names['extend']}'>{$options['dotright_text']}</span>";
             }
 
