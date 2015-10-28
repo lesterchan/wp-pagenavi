@@ -25,7 +25,15 @@ http://wordpress.org/extend/plugins/wp-pagenavi/
 }
 
 .wp-pagenavi .dashicons {
-    width: 25px;
-    height: 25px;
-    line-height: 25px;
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+}
+
+/* Style if the main wrapper is a ul/ol */
+ul.wp-pagenavi, ol.wp-pagenavi {
+	list-style: none;
+}
+ul.wp-pagenavi li, ol.wp-pagenavi li {
+	display: inline-block;
 }
