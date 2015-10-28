@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: WP-PageNavi\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-pagenavi\n"
 "POT-Creation-Date: 2015-10-28 11:05+0100\n"
-"PO-Revision-Date: 2015-10-28 11:06+0100\n"
+"PO-Revision-Date: 2015-10-28 18:37+0100\n"
 "Last-Translator: Florian TIAR <contact@tiar-florian.fr>\n"
 "Language-Team: Lionel Chollet <lionel.chollet@gmail.com>\n"
 "Language: fr_FR\n"
@@ -199,32 +199,3 @@ msgstr "&raquo;"
 #: wp-pagenavi.php:28 wp-pagenavi.php:29
 msgid "..."
 msgstr "…"
-
-#~ msgid "Use pagenavi.css"
-#~ msgstr "Utiliser la feuille de style pagenavi.css"
-
-#~ msgid "Save Changes"
-#~ msgstr "Enregistrer les réglages"
-
-#~ msgid "Settings <strong>saved</strong>."
-#~ msgstr "Réglages <strong>enregistrés</strong>."
-
-#~ msgid "Settings"
-#~ msgstr "Réglages"
-
-#~ msgid "WP-PageNavi"
-#~ msgstr "WP-PageNavi"
-
-#~ msgid "http://wordpress.org/extend/plugins/wp-pagenavi/"
-#~ msgstr "http://wordpress.org/extend/plugins/wp-pagenavi/"
-
-#~ msgid "Adds a more advanced paging navigation to your WordPress blog."
-#~ msgstr ""
-#~ "Permet à vos visiteurs une meilleure navigation dans les pages de votre "
-#~ "site WordPress."
-
-#~ msgid "Lester 'GaMerZ' Chan"
-#~ msgstr "Lester 'GaMerZ' Chan"
-
-#~ msgid "http://lesterchan.net"
-#~ msgstr "http://lesterchan.net"
