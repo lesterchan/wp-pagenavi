@@ -4,7 +4,7 @@ Donate link: http://lesterchan.net/site/donation/
 Tags: navigation, pagination, paging, pages  
 Requires at least: 3.2  
 Tested up to: 4.4  
-Stable tag: 2.89  
+Stable tag: 2.89 
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -61,10 +61,12 @@ and replace it with this:
 
 You can override the main HTML wrapper and its class by adding two more params to wp_pagenavi function :
 
-`<?php wp_pagenavi( array( 
+```
+<?php wp_pagenavi( array( 
     'wrapper_tag' => 'div',
     'wrapper_class' => 'wp-pagenavi'
-); ?>`
+); ?>
+```
 So if you want to have a ul or ol tag, the function automatically add li tags to the a links.
 
 Go to *WP-Admin -> Settings -> PageNavi* for configuration.
@@ -96,7 +98,7 @@ There are [filters](http://codex.wordpress.org/Glossary#Filter) that can be used
 
 #### Filter Usage
 
-`
+```
 // Simple Usage - 1 callback per filter
 add_filter('wp_pagenavi_class_previouspostslink', 'theme_pagination_previouspostslink_class');
 add_filter('wp_pagenavi_class_nextpostslink', 'theme_pagination_nextpostslink_class');
@@ -134,7 +136,7 @@ function theme_pagination_class($class_name) {
   }
   return $class_name;
 }
-`
+```
 
 ## Screenshots
 
