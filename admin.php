@@ -13,9 +13,10 @@ class PageNavi_Options_Page extends scbAdminPage {
 	}
 
 	function validate( $new_data, $old_data ) {
-		$options = wp_parse_args($new_data, $old_data);
-		foreach ( array( 'style', 'num_pages', 'num_larger_page_numbers', 'larger_page_numbers_multiple' ) as $key )
-			$options[$key] = absint( @$options[$key] );
+		$options = wp_parse_args( $new_data, $old_data );
+		foreach ( array( 'style', 'num_pages', 'num_larger_page_numbers', 'larger_page_numbers_multiple' ) as $key ) {
+			$options[ $key ] = absint( @$options[ $key ] );
+		}
 
 		foreach ( array( 'use_pagenavi_css', 'always_show', 'use_extend_between_larger_pages', 'show_prev_next_links_before_after_first_last' ) as $key ) {
 			$options[$key] = intval(@$options[$key]);
