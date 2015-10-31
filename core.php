@@ -246,7 +246,16 @@ class PageNavi_Call {
     }
 }
 
-function wp_pagenavi_get_single( $page, $raw_text, $attr, $format = '%PAGE_NUMBER%', $type ) {
+/**
+ * @param int $page
+ * @param string $raw_text
+ * @param array $attr
+ * @param string $format
+ * @param string $type
+ *
+ * @return string
+ */
+function wp_pagenavi_get_single( $page = 0, $raw_text = '', $attr = array(), $format = '%PAGE_NUMBER%', $type = '' ) {
     if ( empty( $raw_text ) )
         return '';
 
@@ -257,12 +266,23 @@ function wp_pagenavi_get_single( $page, $raw_text, $attr, $format = '%PAGE_NUMBE
     return html( 'a', $attr, $text );
 }
 
-function wp_pagenavi_get_url( $page, $type ) {
+/**
+ * @param int $page
+ * @param string $type
+ *
+ * @return string
+ */
+function wp_pagenavi_get_url( $page = 0, $type = '' ) {
     return ( 'multipart' == $type ) ? get_multipage_link( $page ) : get_pagenum_link( $page );
 }
 
 # http://core.trac.wordpress.org/ticket/16973
 if ( !function_exists( 'get_multipage_link' ) ) :
+	/**
+	 * @param int $page
+	 *
+	 * @return string
+	 */
     function get_multipage_link( $page = 1 ) {
         global $post, $wp_rewrite;
 
@@ -287,7 +307,13 @@ function wp_pagenavi_dropdown() {
     wp_pagenavi();
 }
 
-function wp_pagenavi_show_first_page( $options, $args ) {
+/**
+ * @param array $options
+ * @param array $args
+ *
+ * @return string
+ */
+function wp_pagenavi_show_first_page( $options = array(), $args = array() ) {
     // First
 	if ( $args['start_page'] < 2 || $args['pages_to_show'] >= $args['total_pages'] ) {
 		return '';
@@ -307,7 +333,13 @@ function wp_pagenavi_show_first_page( $options, $args ) {
 	return $out;
 }
 
-function wp_pagenavi_show_previous_link( $options, $args ) {
+/**
+ * @param array $options
+ * @param array $args
+ *
+ * @return string
+ */
+function wp_pagenavi_show_previous_link( $options = array(), $args = array() ) {
     // Previous
 
 	if ( $args['paged'] <= 1 || empty( $options['prev_text'] ) ) {
@@ -334,8 +366,13 @@ function wp_pagenavi_show_previous_link( $options, $args ) {
 
 }
 
-
-function wp_pagenavi_show_next_link( $options, $args ) {
+/**
+ * @param array $options
+ * @param array $args
+ *
+ * @return string
+ */
+function wp_pagenavi_show_next_link( $options = array(), $args = array() ) {
     // Next
 
 	if ( $args['paged'] >= $args['total_pages'] || empty( $options['next_text'] ) ) {
@@ -359,8 +396,13 @@ function wp_pagenavi_show_next_link( $options, $args ) {
 	return $out;
 }
 
-
-function wp_pagenavi_show_last_page( $options, $args ) {
+/**
+ * @param array $options
+ * @param array $args
+ *
+ * @return string
+ */
+function wp_pagenavi_show_last_page( $options = array(), $args = array() ) {
     // Last
 
 	if ( $args['end_page'] >= $args['total_pages'] ) {
@@ -379,7 +421,13 @@ function wp_pagenavi_show_last_page( $options, $args ) {
 	return $out;
 }
 
-function wp_pagenavi_show_smaller_pages( $options, $args ) {
+/**
+ * @param array $options
+ * @param array $args
+ *
+ * @return string
+ */
+function wp_pagenavi_show_smaller_pages( $options = array(), $args = array() ) {
 	// Smallest
 
 	$larger_pages_array = array();
@@ -415,7 +463,13 @@ function wp_pagenavi_show_smaller_pages( $options, $args ) {
 	return $out;
 }
 
-function wp_pagenavi_show_larger_pages( $options, $args ) {
+/**
+ * @param array $options
+ * @param array $args
+ *
+ * @return string
+ */
+function wp_pagenavi_show_larger_pages( $options = array(), $args = array() ) {
 
 	$larger_pages_array = array();
 	if ( $args['larger_page_multiple'] ) {
@@ -452,7 +506,13 @@ function wp_pagenavi_show_larger_pages( $options, $args ) {
 
 }
 
-function wp_pagenavi_show_page_numbers( $options, $args ) {
+/**
+ * @param array $options
+ * @param array $args
+ *
+ * @return string
+ */
+function wp_pagenavi_show_page_numbers( $options = array(), $args = array() ) {
 
 	$timeline = 'smaller';
 	$out = '';
