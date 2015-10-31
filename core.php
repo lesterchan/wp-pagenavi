@@ -136,19 +136,11 @@ function wp_pagenavi( $args = array() ) {
 	        // Smaller pages
 	        $out .= wp_pagenavi_show_smaller_pages( $options, $render_args );
 
-            if ( true == $options['use_extend_between_larger_pages'] ) {
-                $out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
-            }
-
             // Page numbers
 	        $out .= wp_pagenavi_show_page_numbers( $options, $render_args );
 
             // Larger pages
 	        $larger_page_out = wp_pagenavi_show_larger_pages( $options, $render_args );
-
-            if ( true == $options['use_extend_between_larger_pages'] ) {
-                $out .= "<span class='{$class_names['extend']}'>{$options['dotright_text']}</span>";
-            }
 
             $out .= $larger_page_out;
 
@@ -430,11 +422,13 @@ function wp_pagenavi_show_last_page( $options = array(), $args = array() ) {
 function wp_pagenavi_show_smaller_pages( $options = array(), $args = array() ) {
 	// Smallest
 
+	if ( ! $args['larger_page_multiple'] ) {
+		return '';
+	}
+
 	$larger_pages_array = array();
-	if ( $args['larger_page_multiple'] ) {
-		for ( $i = $args['larger_page_multiple'] ; $i <= $args['total_pages']; $i += $args['larger_page_multiple']  ) {
-			$larger_pages_array[] = $i;
-		}
+	for ( $i = $args['larger_page_multiple'] ; $i <= $args['total_pages']; $i += $args['larger_page_multiple']  ) {
+		$larger_pages_array[] = $i;
 	}
 
 	$larger_page_start = 0;
@@ -454,8 +448,13 @@ function wp_pagenavi_show_smaller_pages( $options = array(), $args = array() ) {
 
 			$larger_page_start++;
 
-			if ( true == $options['use_extend_between_larger_pages'] ) {
-				$out .= "<span class='{$args['class_names']['extend']}'>{$options['dotleft_text']}</span>";
+			// Smaller pages extend
+			if ( $args['start_page'] >= 2 && $args['pages_to_show'] < $args['total_pages'] ) {
+				if ( true == $options['use_extend_between_larger_pages'] ) {
+					if ( ! empty( $options['dotleft_text'] ) ) {
+						$out .= "<span class='{$args['class_names']['extend']}'>{$options['dotleft_text']}</span>";
+					}
+				}
 			}
 		}
 	}
@@ -472,11 +471,13 @@ function wp_pagenavi_show_smaller_pages( $options = array(), $args = array() ) {
 function wp_pagenavi_show_larger_pages( $options = array(), $args = array() ) {
 	// Largest
 
+	if ( ! $args['larger_page_multiple'] ) {
+		return '';
+	}
+
 	$larger_pages_array = array();
-	if ( $args['larger_page_multiple'] ) {
-		for ( $i = $args['larger_page_multiple'] ; $i <= $args['total_pages']; $i += $args['larger_page_multiple']  ) {
-			$larger_pages_array[] = $i;
-		}
+	for ( $i = $args['larger_page_multiple'] ; $i <= $args['total_pages']; $i += $args['larger_page_multiple']  ) {
+		$larger_pages_array[] = $i;
 	}
 
 	$larger_page_end = 0;
@@ -485,8 +486,12 @@ function wp_pagenavi_show_larger_pages( $options = array(), $args = array() ) {
 
 		if ( $larger_page > ( $args['end_page'] + $args['half_page_end'] ) && $larger_page_end < $args['larger_page_to_show'] ) {
 
-			if ( true == $options['use_extend_between_larger_pages'] ) {
-				$larger_page_out .= "<span class='{$args['class_names']['extend']}'>{$options['dotright_text']}</span>";
+			if ( $args['end_page'] < $args['total_pages'] ) {
+				if ( ! empty( $options['dotright_text'] ) ) {
+					if ( true == $options['use_extend_between_larger_pages'] ) {
+						$larger_page_out .= "<span class='{$args['class_names']['extend']}'>{$options['dotright_text']}</span>";
+					}
+				}
 			}
 
 			$largest = wp_pagenavi_get_single( $larger_page, $options['page_text'], array(
@@ -504,7 +509,6 @@ function wp_pagenavi_show_larger_pages( $options = array(), $args = array() ) {
 	}
 
 	return $larger_page_out;
-
 }
 
 /**
