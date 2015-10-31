@@ -356,7 +356,7 @@ function wp_pagenavi_show_previous_link( $options = array(), $args = array() ) {
         'rel'   => 'prev'
     ) , '%PAGE_NUMBER%', $args['type'] ) ;
 
-    if ( 'ul' === $args['$wrapper_tag'] || 'ol' === $args['$wrapper_tag'] )  {
+    if ( 'ul' === $args['wrapper_tag'] || 'ol' === $args['wrapper_tag'] )  {
         $out = '<li>'.$prev.'</li>';
     } else {
         $out = $prev;
