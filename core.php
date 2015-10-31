@@ -12,6 +12,8 @@
  *  'echo': (boolean) Echo the function or not
  *  'wrapper_tag': (string) Choose the main wrapper tag if you want to replace the default div
  *  'wrapper_class': (string) Change the wrapper class to allow you a prefered class name
+ *
+ * @return string | void
  */
 function wp_pagenavi( $args = array() ) {
     if ( ! is_array( $args ) ) {
