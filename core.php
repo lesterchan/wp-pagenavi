@@ -440,7 +440,7 @@ function wp_pagenavi_show_smaller_pages( $options = array(), $args = array() ) {
 	$larger_page_start = 0;
 	$out = '';
 	foreach ( $larger_pages_array as $larger_page ) {
-		if ( $larger_page < ( $args['start_page'] - $args['half_page_start'] ) && $args['larger_page_start'] < $args['larger_page_to_show'] ) {
+		if ( $larger_page < ( $args['start_page'] - $args['half_page_start'] ) && $larger_page_start < $args['larger_page_to_show'] ) {
 
 			$smallest = wp_pagenavi_get_single( $larger_page, $options['page_text'], array(
 				'class' => "{$args['class_names']['page']} {$args['class_names']['smaller']} {$args['class_names']['smallest']}",
@@ -470,6 +470,7 @@ function wp_pagenavi_show_smaller_pages( $options = array(), $args = array() ) {
  * @return string
  */
 function wp_pagenavi_show_larger_pages( $options = array(), $args = array() ) {
+	// Largest
 
 	$larger_pages_array = array();
 	if ( $args['larger_page_multiple'] ) {
