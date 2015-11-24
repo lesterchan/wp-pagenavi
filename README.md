@@ -4,7 +4,7 @@ Donate link: http://lesterchan.net/site/donation/
 Tags: navigation, pagination, paging, pages  
 Requires at least: 3.2  
 Tested up to: 4.4  
-Stable tag: 2.89  
+Stable tag: 2.89.1  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -156,6 +156,9 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 ## Changelog
+### 2.89.1
+* FIXED: before and after args
+
 ### 2.89
 * NEW: wrapper_tag option to allow other HTML tag besides DIV and wrapper_class option to allow other class name besides wp-pagenavi. Props @Mahjouba91.
 

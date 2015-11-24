@@ -7,15 +7,17 @@
  *  'before': (string)
  *  'after': (string)
  *  'options': (string|array) Used to overwrite options set in WP-Admin -> Settings -> PageNavi
- *  'query': (object) A WP_Query instance
+ *
+ * @return void|string
  */
 function wp_pagenavi( $args = array() ) {
 	if ( !is_array( $args ) ) {
 		$argv = func_get_args();
 
 		$args = array();
-		foreach ( array( 'before', 'after', 'wrapper_tag', 'wrapper_class', 'options' ) as $i => $key )
-			$args[ $key ] = isset( $argv[ $i ]) ? $argv[ $i ] : "";
+		foreach ( array( 'before', 'after', 'options' ) as $i => $key ) {
+			$args[ $key ] = isset( $argv[ $i ]) ? $argv[ $i ] : '';
+		}
 	}
 
 	$args = wp_parse_args( $args, array(
