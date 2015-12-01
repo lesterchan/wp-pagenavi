@@ -65,7 +65,7 @@ You can override the main HTML wrapper and its class by adding two more params t
 <?php wp_pagenavi( array( 
     'wrapper_tag' => 'div',
     'wrapper_class' => 'wp-pagenavi'
-); ?>
+)); ?>
 ```
 So if you want to have a ul or ol tag, the function automatically add li tags to the a links.
 
