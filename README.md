@@ -85,7 +85,7 @@ There are [filters](http://codex.wordpress.org/Glossary#Filter) that can be used
 
 #### Filter Usage
 
-`
+```php
 // Simple Usage - 1 callback per filter
 add_filter('wp_pagenavi_class_previouspostslink', 'theme_pagination_previouspostslink_class');
 add_filter('wp_pagenavi_class_nextpostslink', 'theme_pagination_nextpostslink_class');
@@ -123,7 +123,7 @@ function theme_pagination_class($class_name) {
   }
   return $class_name;
 }
-`
+```
 
 ## Screenshots
 
