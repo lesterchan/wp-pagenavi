@@ -125,6 +125,7 @@ function wp_pagenavi( $args = array() ) {
 				if ( $larger_page < ($start_page - $half_page_start) && $larger_page_start < $larger_page_to_show ) {
 					$out .= $instance->get_single( $larger_page, $options['page_text'], array(
 						'class' => "{$class_names['smaller']} {$class_names['page']}",
+						'title' => sprintf( __( 'Page %d', 'wp-pagenavi' ), number_format_i18n( $larger_page ) ),
 					) );
 					$larger_page_start++;
 				}
@@ -143,6 +144,7 @@ function wp_pagenavi( $args = array() ) {
 				} else {
 					$out .= $instance->get_single( $i, $options['page_text'], array(
 						'class' => "{$class_names['page']} {$class_names[$timeline]}",
+						'title' => sprintf( __( 'Page %d', 'wp-pagenavi' ), number_format_i18n( $i ) ),
 					) );
 				}
 			}
@@ -154,6 +156,7 @@ function wp_pagenavi( $args = array() ) {
 				if ( $larger_page > ($end_page + $half_page_end) && $larger_page_end < $larger_page_to_show ) {
 					$larger_page_out .= $instance->get_single( $larger_page, $options['page_text'], array(
 						'class' => "{$class_names['larger']} {$class_names['page']}",
+						'title' => sprintf( __( 'Page %d', 'wp-pagenavi' ), number_format_i18n( $larger_page ) ),
 					) );
 					$larger_page_end++;
 				}
