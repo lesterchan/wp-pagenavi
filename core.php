@@ -144,7 +144,7 @@ function wp_pagenavi( $args = array() ) {
 				} else {
 					$out .= $instance->get_single( $i, $options['page_text'], array(
 						'class' => "{$class_names['page']} {$class_names[$timeline]}",
-						'title' => sprintf( __( 'Page %d', 'wp-pagenavi' ), number_format_i18n( $i ) ),
+						'title' => sprintf( __( 'Page %s', 'wp-pagenavi' ), number_format_i18n( $i ) ),
 					) );
 				}
 			}
