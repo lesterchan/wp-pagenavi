@@ -139,7 +139,7 @@ function wp_pagenavi( $args = array() ) {
 			foreach ( range( $start_page, $end_page ) as $i ) {
 				if ( $i == $paged && !empty( $options['current_text'] ) ) {
 					$current_page_text = str_replace( '%PAGE_NUMBER%', number_format_i18n( $i ), $options['current_text'] );
-					$out .= "<span class='{$class_names['current']}'>$current_page_text</span>";
+					$out .= "<span aria-current='page' class='{$class_names['current']}'>$current_page_text</span>";
 					$timeline = 'larger';
 				} else {
 					$out .= $instance->get_single( $i, $options['page_text'], array(
