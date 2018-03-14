@@ -211,7 +211,7 @@ function wp_pagenavi( $args = array() ) {
 			$out .= "</form>\n";
 			break;
 	}
-	$out = $before . "<" . $wrapper_tag . " class='" . $wrapper_class . "'>\n$out\n</" . $wrapper_tag . ">" . $after;
+	$out = $before . "<" . $wrapper_tag . " class='" . $wrapper_class . "' role='navigation'>\n$out\n</" . $wrapper_tag . ">" . $after;
 
 	$out = apply_filters( 'wp_pagenavi', $out );
 
