@@ -3,18 +3,18 @@
 Plugin Name: WP-PageNavi
 Plugin URI: https://lesterchan.net/portfolio/programming/php/
 Description: Adds a more advanced paging navigation to your WordPress blog
-Version: 2.93
+Version: 2.93.1
 Author: Lester 'GaMerZ' Chan
 Author URI: https://lesterchan.net
 Text Domain: wp-pagenavi
 */
 
-require_once dirname( __FILE__ ) . '/scb/load.php';
+require_once __DIR__ . '/scb/load.php';
 
 function _pagenavi_init() {
 	load_plugin_textdomain( 'wp-pagenavi' );
 
-	require_once dirname( __FILE__ ) . '/core.php';
+	require_once __DIR__ . '/core.php';
 
 	$options = new scbOptions( 'pagenavi_options', __FILE__, array(
 		'pages_text'    => __( 'Page %CURRENT_PAGE% of %TOTAL_PAGES%', 'wp-pagenavi' ),
@@ -37,7 +37,7 @@ function _pagenavi_init() {
 	PageNavi_Core::init( $options );
 
 	if ( is_admin() ) {
-		require_once dirname( __FILE__ ) . '/admin.php';
+		require_once __DIR__ . '/admin.php';
 		new PageNavi_Options_Page( __FILE__, $options );
 	}
 }

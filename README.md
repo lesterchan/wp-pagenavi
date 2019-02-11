@@ -3,8 +3,8 @@ Contributors: GamerZ, scribu
 Donate link: https://lesterchan.net/site/donation/  
 Tags: navigation, pagination, paging, pages  
 Requires at least: 3.2  
-Tested up to: 5.0  
-Stable tag: 2.93  
+Tested up to: 5.1  
+Stable tag: 2.93.1  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -147,6 +147,9 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 ## Changelog
+### 2.93.1
+* FIXED: Duplicated Settings Saved admin_notices
+
 ### 2.93
 * Remove screen_icon from SCB.
 
