@@ -3,8 +3,8 @@ Contributors: GamerZ, scribu
 Donate link: https://lesterchan.net/site/donation/  
 Tags: navigation, pagination, paging, pages  
 Requires at least: 3.2  
-Tested up to: 5.4  
-Stable tag: 2.93.3  
+Tested up to: 5.6  
+Stable tag: 2.93.4  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -147,6 +147,9 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 ## Changelog
+### 2.93.4
+* FIXED: Update SCB Framework To Support PHP 8
+
 ### 2.93.3
 * FIXED: Update SCB Framework To Remove contextual_help
 
