@@ -213,7 +213,7 @@ function wp_pagenavi( $args = array() ) {
 	}
 	$out = $before . "<" . $wrapper_tag . " class='" . $wrapper_class . "' role='navigation'>\n$out\n</" . $wrapper_tag . ">" . $after;
 
-	$out = apply_filters( 'wp_pagenavi', $out );
+	$out = apply_filters( 'wp_pagenavi', $out, $args );
 
 	if ( !$echo )
 		return $out;
