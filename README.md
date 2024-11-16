@@ -3,8 +3,8 @@ Contributors: GamerZ, scribu
 Donate link: https://lesterchan.net/site/donation/  
 Tags: navigation, pagination, paging, pages  
 Requires at least: 3.2  
-Tested up to: 6.3  
-Stable tag: 2.94.1  
+Tested up to: 6.7  
+Stable tag: 2.94.2  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -144,6 +144,9 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 ## Changelog
+### 2.94.2
+* FIXED: load_plugin_textdomain to be called during init
+
 ### 2.94.1
 * FIXED: PHP 8.2 warnings
 
