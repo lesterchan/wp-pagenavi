@@ -12,8 +12,6 @@ Text Domain: wp-pagenavi
 require_once __DIR__ . '/scb/load.php';
 
 function _pagenavi_init() {
-	load_plugin_textdomain( 'wp-pagenavi' );
-
 	require_once __DIR__ . '/core.php';
 
 	$options = new scbOptions( 'pagenavi_options', __FILE__, array(

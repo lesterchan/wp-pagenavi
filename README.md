@@ -2,7 +2,7 @@
 Contributors: GamerZ, scribu  
 Donate link: https://lesterchan.net/site/donation/  
 Tags: navigation, pagination, paging, pages  
-Requires at least: 3.2  
+Requires at least: 4.6  
 Tested up to: 6.7  
 Stable tag: 2.94.3  
 License: GPLv2 or later  
@@ -146,6 +146,7 @@ You can do that like so:
 ## Changelog
 ### 2.94.3
 * FIXED: Update WP SCB Framework to fix load_textdomain_just_in_time warning
+* FIXED: Remove load_plugin_textdomain since it is no longer needed since WP 4.6
 
 ### 2.94.2
 * FIXED: load_plugin_textdomain to be called during init
