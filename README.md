@@ -4,7 +4,7 @@ Donate link: https://lesterchan.net/site/donation/
 Tags: navigation, pagination, paging, pages  
 Requires at least: 4.6  
 Tested up to: 6.7  
-Stable tag: 2.94.3  
+Stable tag: 2.94.4  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -144,6 +144,9 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 ## Changelog
+### 2.94.4
+* FIXED: Revert WP SCB Framework to use plugins_loaded hook
+
 ### 2.94.3
 * FIXED: Update WP SCB Framework to fix load_textdomain_just_in_time warning
 * FIXED: Remove load_plugin_textdomain since it is no longer needed since WP 4.6
