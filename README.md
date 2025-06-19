@@ -144,6 +144,9 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 ## Changelog
+### 2.94.6
+* FIXED: Translations now runs at the proper timing, not causing triggered too early notices.
+
 ### 2.94.5
 * FIXED: WP SCB Framework now uses init hook again
 

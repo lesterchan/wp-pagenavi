@@ -39,5 +39,7 @@ function _pagenavi_init() {
 		new PageNavi_Options_Page( __FILE__, $options );
 	}
 }
-scb_init( '_pagenavi_init' );
 
+add_action('init', function() {
+	scb_init( '_pagenavi_init' );
+});
