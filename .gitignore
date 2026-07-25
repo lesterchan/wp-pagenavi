@@ -1,1 +1,15 @@
-nbproject/*
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.sublime-*
+
+# Dependencies
+node_modules/
+vendor/
+
+# Logs
+*.log

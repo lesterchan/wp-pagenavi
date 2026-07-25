@@ -3,8 +3,8 @@ Contributors: GamerZ, scribu
 Donate link: https://lesterchan.net/site/donation/  
 Tags: navigation, pagination, paging, pages  
 Requires at least: 4.6  
-Tested up to: 6.7  
-Stable tag: 2.94.5  
+Tested up to: 7.0  
+Stable tag: 2.94.6  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -144,6 +144,12 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 ## Changelog
+### 2.94.6
+* NEW: WordPress 7.0
+* FIXED: Escape class names and wrapper attributes on output
+* FIXED: Sanitize navigation text with wp_kses_post when rendering
+* FIXED: Remove unused test.php debug template
+
 ### 2.94.5
 * FIXED: WP SCB Framework now uses init hook again
 

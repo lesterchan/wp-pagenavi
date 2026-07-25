@@ -35,6 +35,13 @@ function wp_pagenavi( $args = array() ) {
 
 	$options = wp_parse_args( $options, PageNavi_Core::$options->get() );
 
+	// The text options are output as HTML, so they are filtered here as well as on save,
+	// to cover values set through the 'options' argument or written to the option directly.
+	foreach ( array( 'pages_text', 'current_text', 'page_text', 'first_text', 'last_text', 'prev_text', 'next_text', 'dotleft_text', 'dotright_text' ) as $key ) {
+		if ( isset( $options[ $key ] ) )
+			$options[ $key ] = wp_kses_post( $options[ $key ] );
+	}
+
 	$instance = new PageNavi_Call( $args );
 
 	list( $posts_per_page, $paged, $total_pages ) = $instance->get_pagination_args();
@@ -89,13 +96,13 @@ function wp_pagenavi( $args = array() ) {
 				$pages_text = str_replace(
 					array( "%CURRENT_PAGE%", "%TOTAL_PAGES%" ),
 					array( number_format_i18n( $paged ), number_format_i18n( $total_pages ) ),
-					__( $options['pages_text'], 'wp-pagenavi' ) );
-				$out .= "<span class='{$class_names['pages']}'>$pages_text</span>";
+					$options['pages_text'] );
+				$out .= "<span class='" . esc_attr( $class_names['pages'] ) . "'>$pages_text</span>";
 			}
 
 			if ( $start_page >= 2 && $pages_to_show < $total_pages ) {
 				// First
-				$first_text = str_replace( '%TOTAL_PAGES%', number_format_i18n( $total_pages ), __( $options['first_text'], 'wp-pagenavi' ) );
+				$first_text = str_replace( '%TOTAL_PAGES%', number_format_i18n( $total_pages ), $options['first_text'] );
 				$out .= $instance->get_single( 1, $first_text, array(
 					'class' => $class_names['first'],
 					'aria-label' => __('First Page'),
@@ -113,7 +120,7 @@ function wp_pagenavi( $args = array() ) {
 
 			if ( $start_page >= 2 && $pages_to_show < $total_pages ) {
 				if ( !empty( $options['dotleft_text'] ) )
-					$out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
+					$out .= "<span class='" . esc_attr( $class_names['extend'] ) . "'>{$options['dotleft_text']}</span>";
 			}
 
 			// Smaller pages
@@ -134,14 +141,14 @@ function wp_pagenavi( $args = array() ) {
 			}
 
 			if ( $larger_page_start )
-				$out .= "<span class='{$class_names['extend']}'>{$options['dotleft_text']}</span>";
+				$out .= "<span class='" . esc_attr( $class_names['extend'] ) . "'>{$options['dotleft_text']}</span>";
 
 			// Page numbers
 			$timeline = 'smaller';
 			foreach ( range( $start_page, $end_page ) as $i ) {
 				if ( $i == $paged && !empty( $options['current_text'] ) ) {
 					$current_page_text = str_replace( '%PAGE_NUMBER%', number_format_i18n( $i ), $options['current_text'] );
-					$out .= "<span aria-current='page' class='{$class_names['current']}'>$current_page_text</span>";
+					$out .= "<span aria-current='page' class='" . esc_attr( $class_names['current'] ) . "'>$current_page_text</span>";
 					$timeline = 'larger';
 				} else {
 					$out .= $instance->get_single( $i, $options['page_text'], array(
@@ -165,13 +172,13 @@ function wp_pagenavi( $args = array() ) {
 			}
 
 			if ( $larger_page_out ) {
-				$out .= "<span class='{$class_names['extend']}'>{$options['dotright_text']}</span>";
+				$out .= "<span class='" . esc_attr( $class_names['extend'] ) . "'>{$options['dotright_text']}</span>";
 			}
 			$out .= $larger_page_out;
 
 			if ( $end_page < $total_pages ) {
 				if ( !empty( $options['dotright_text'] ) )
-					$out .= "<span class='{$class_names['extend']}'>{$options['dotright_text']}</span>";
+					$out .= "<span class='" . esc_attr( $class_names['extend'] ) . "'>{$options['dotright_text']}</span>";
 			}
 
 			// Next
@@ -185,7 +192,7 @@ function wp_pagenavi( $args = array() ) {
 
 			if ( $end_page < $total_pages ) {
 				// Last
-				$out .= $instance->get_single( $total_pages, __( $options['last_text'], 'wp-pagenavi' ), array(
+				$out .= $instance->get_single( $total_pages, $options['last_text'], array(
 					'class' => $class_names['last'],
 					'aria-label' => __('Last Page'),
 				), '%TOTAL_PAGES%' );
@@ -204,7 +211,7 @@ function wp_pagenavi( $args = array() ) {
 
 				if ( $i == $paged ) {
 					$current_page_text = str_replace( '%PAGE_NUMBER%', number_format_i18n( $i ), $options['current_text'] );
-					$out .= '<option value="'.esc_url( $instance->get_url( $page_num ) ).'" selected="selected" class="'.$class_names['current'].'">'.$current_page_text."</option>\n";
+					$out .= '<option value="'.esc_url( $instance->get_url( $page_num ) ).'" selected="selected" class="'.esc_attr( $class_names['current'] ).'">'.$current_page_text."</option>\n";
 				} else {
 					$page_text = str_replace( '%PAGE_NUMBER%', number_format_i18n( $i ), $options['page_text'] );
 					$out .= '<option value="'.esc_url( $instance->get_url( $page_num ) ).'">'.$page_text."</option>\n";
@@ -215,7 +222,10 @@ function wp_pagenavi( $args = array() ) {
 			$out .= "</form>\n";
 			break;
 	}
-	$out = $before . "<" . $wrapper_tag . " class='" . $wrapper_class . "' role='navigation'>\n$out\n</" . $wrapper_tag . ">" . $after;
+
+	$wrapper_tag = tag_escape( $wrapper_tag );
+
+	$out = $before . "<" . $wrapper_tag . " class='" . esc_attr( $wrapper_class ) . "' role='navigation'>\n$out\n</" . $wrapper_tag . ">" . $after;
 
 	$out = apply_filters( 'wp_pagenavi', $out, $args );
 
