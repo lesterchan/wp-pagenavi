@@ -233,15 +233,20 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The kses pass lowercases attribute names, so viewBox comes back as viewbox. HTML
-	 * parsers case-correct SVG attributes in foreign content, so it still
-	 * renders — this test pins the behaviour so it is not mistaken for a bug.
+	 * The viewBox attribute is retained, which is what makes the icon scale.
+	 *
+	 * Which case it comes back in depends on the WordPress version: 6.0 keeps the
+	 * author's `viewBox`, current versions lowercase it to `viewbox`. Either
+	 * renders, because HTML parsers case-correct SVG attributes in foreign
+	 * content, so the assertion deliberately ignores case rather than pinning one
+	 * version's behaviour.
 	 *
 	 * @return void
 	 */
-	public function test_viewbox_is_lowercased_but_retained() {
+	public function test_viewbox_is_retained_whatever_its_case() {
 		$out = PageNavi_Options::kses( '<svg viewBox="0 0 16 16"></svg>' );
 
-		$this->assertStringContainsString( 'viewbox="0 0 16 16"', $out );
+		$this->assertMatchesRegularExpression( '/\sviewbox="0 0 16 16"/i', $out );
+		$this->assertStringContainsString( '<svg', $out );
 	}
 }
