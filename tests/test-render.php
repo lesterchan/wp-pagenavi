@@ -336,6 +336,25 @@ class Test_PageNavi_Render extends WP_UnitTestCase {
 	}
 
 	/**
+	 * An unrecognised style renders the wrapper and nothing inside it, rather
+	 * than falling back to a style or fatalling.
+	 *
+	 * @return void
+	 */
+	public function test_unknown_style_renders_an_empty_wrapper() {
+		$out = $this->render(
+			array(
+				'query'   => $this->query( 3 ),
+				'options' => array( 'style' => 7 ),
+			)
+		);
+
+		$this->assertStringContainsString( "class='wp-pagenavi'", $out );
+		$this->assertStringNotContainsString( '<a ', $out );
+		$this->assertStringNotContainsString( '<select', $out );
+	}
+
+	/**
 	 * The echo argument is honoured in both directions.
 	 *
 	 * @return void

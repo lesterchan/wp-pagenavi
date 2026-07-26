@@ -14,8 +14,16 @@ cd "$( dirname "$0" )/.."
 SLUG="$( basename "$PWD" )"
 ENV_CWD="wp-content/plugins/${SLUG}"
 
+# Coverage needs Xdebug, which slows every request down, so it is opt-in:
+#   COVERAGE=1 bin/test.sh --coverage-text
+XDEBUG_FLAG=""
+if [ "${COVERAGE:-}" = "1" ]; then
+	XDEBUG_FLAG="--xdebug=coverage"
+fi
+
 echo "--- starting wp-env"
-npx --yes @wordpress/env start
+# shellcheck disable=SC2086
+npx --yes @wordpress/env start $XDEBUG_FLAG
 
 echo "--- installing dev dependencies in the container"
 npx --yes @wordpress/env run tests-cli --env-cwd="$ENV_CWD" composer install --no-interaction

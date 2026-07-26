@@ -30,4 +30,8 @@
 	<rule ref="WordPress.Security.EscapeOutput">
 		<exclude-pattern>/tests/*</exclude-pattern>
 	</rule>
+	<!-- Tests write real fixture files; WP_Filesystem is not appropriate there. -->
+	<rule ref="WordPress.WP.AlternativeFunctions">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
 </ruleset>

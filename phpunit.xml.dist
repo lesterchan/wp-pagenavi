@@ -10,4 +10,13 @@
 			<directory prefix="test-" suffix=".php">./tests/</directory>
 		</testsuite>
 	</testsuites>
+	<coverage>
+		<include>
+			<directory suffix=".php">./includes/</directory>
+			<file>./wp-pagenavi.php</file>
+		</include>
+		<exclude>
+			<file>./includes/index.php</file>
+		</exclude>
+	</coverage>
 </phpunit>

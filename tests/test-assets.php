@@ -100,6 +100,96 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 	}
 
 	/**
+	 * A copy of pagenavi-css.css in the active theme wins over the plugin's own,
+	 * which is the documented way to restyle the navigation without losing the
+	 * changes on upgrade.
+	 *
+	 * @return void
+	 */
+	public function test_theme_copy_overrides_the_plugin_stylesheet() {
+		$this->set_option( 'use_pagenavi_css', 1 );
+
+		$theme_dir = get_temp_dir() . 'pagenavi-theme-' . wp_generate_password( 6, false );
+		mkdir( $theme_dir );
+		file_put_contents( $theme_dir . '/pagenavi-css.css', '/* theme copy */' );
+
+		add_filter(
+			'stylesheet_directory',
+			static function () use ( $theme_dir ) {
+				return $theme_dir;
+			}
+		);
+		add_filter(
+			'stylesheet_directory_uri',
+			static function () {
+				return 'https://example.org/theme';
+			}
+		);
+
+		PageNavi_Core::stylesheets();
+		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
+
+		unlink( $theme_dir . '/pagenavi-css.css' );
+		rmdir( $theme_dir );
+
+		$this->assertSame( 'https://example.org/theme/pagenavi-css.css', $src );
+	}
+
+	/**
+	 * A parent theme copy is used when the child theme has none.
+	 *
+	 * @return void
+	 */
+	public function test_parent_theme_copy_is_used_as_a_fallback() {
+		$this->set_option( 'use_pagenavi_css', 1 );
+
+		$parent_dir = get_temp_dir() . 'pagenavi-parent-' . wp_generate_password( 6, false );
+		mkdir( $parent_dir );
+		file_put_contents( $parent_dir . '/pagenavi-css.css', '/* parent copy */' );
+
+		// The child theme deliberately has no copy.
+		add_filter(
+			'stylesheet_directory',
+			static function () {
+				return '/nonexistent-child-theme';
+			}
+		);
+		add_filter(
+			'template_directory',
+			static function () use ( $parent_dir ) {
+				return $parent_dir;
+			}
+		);
+		add_filter(
+			'template_directory_uri',
+			static function () {
+				return 'https://example.org/parent';
+			}
+		);
+
+		PageNavi_Core::stylesheets();
+		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
+
+		unlink( $parent_dir . '/pagenavi-css.css' );
+		rmdir( $parent_dir );
+
+		$this->assertSame( 'https://example.org/parent/pagenavi-css.css', $src );
+	}
+
+	/**
+	 * The init() method hooks the enqueue onto wp_enqueue_scripts.
+	 *
+	 * @return void
+	 */
+	public function test_init_registers_the_enqueue_hook() {
+		PageNavi_Core::init();
+
+		$this->assertNotFalse(
+			has_action( 'wp_enqueue_scripts', array( 'PageNavi_Core', 'stylesheets' ) )
+		);
+	}
+
+	/**
 	 * The version constant tracks the plugin header.
 	 *
 	 * @return void
