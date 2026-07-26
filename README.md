@@ -2,11 +2,12 @@
 Contributors: GamerZ, scribu  
 Donate link: https://lesterchan.net/site/donation/  
 Tags: navigation, pagination, paging, pages  
-Requires at least: 4.6  
+Requires at least: 6.0  
 Tested up to: 7.0  
-Stable tag: 2.94.6  
-License: GPLv2 or later  
-License URI: http://www.gnu.org/licenses/gpl-2.0.html  
+Stable tag: 3.0.0  
+Requires PHP: 7.4  
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Adds a more advanced paging navigation interface.
 
@@ -47,7 +48,7 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 
 ### Changing Class Names
 
-There are [filters](http://codex.wordpress.org/Glossary#Filter) that can be used to change the default class names that are assigned to page navigation elements.
+There are [filters](https://developer.wordpress.org/plugins/hooks/filters/) that can be used to change the default class names that are assigned to page navigation elements.
 
 #### Filters
 
@@ -108,7 +109,7 @@ function theme_pagination_class($class_name) {
 * [https://github.com/lesterchan/wp-pagenavi](https://github.com/lesterchan/wp-pagenavi "https://github.com/lesterchan/wp-pagenavi")
 
 ### Credits
-* Plugin icon by [SimpleIcon](http://www.simpleicon.com) from [Flaticon](http://www.flaticon.com)
+* Plugin icon by [SimpleIcon](https://www.simpleicon.com) from [Flaticon](https://www.flaticon.com)
 
 ### Donations
 I spent most of my free time creating, updating, maintaining and supporting these plugins, if you really love my plugins and could spare me a couple of bucks, I will really appreciate it. If not feel free to use it without any obligations.
@@ -120,20 +121,13 @@ I spent most of my free time creating, updating, maintaining and supporting thes
 
 ## Frequently Asked Questions
 
-### Error on activation: "Parse error: syntax error, unexpected..."
-
-Make sure your host is running PHP 5. The only foolproof way to do this is to add this line to wp-config.php (after the opening `<?php` tag):
-
-`var_dump(PHP_VERSION);`
-<br>
-
 ### When I go to page 2, I see the same posts as on page 1!
 
-You're using `query_posts()` wrong. See [The Right Way To use query_posts()](http://scribu.net/wordpress/wp-pagenavi/right-way-to-use-query_posts.html)
+You're using `query_posts()` wrong. See [The Right Way To use query_posts()](https://scribu.net/wordpress/wp-pagenavi/right-way-to-use-query_posts.html)
 
 ### Does PageNavi work with secondary WP_Query instances?
 
-Yes; read [this tutorial](http://scribu.net/wordpress/wp-pagenavi/wpn-2-74.html)
+Yes; read [this tutorial](https://scribu.net/wordpress/wp-pagenavi/wpn-2-74.html)
 
 ### How do I ignore the options page?
 
@@ -141,9 +135,23 @@ If you are running a multi-language plugin, you will probably want to ignore the
 
 You can do that like so:
 
-`<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
+`<?php wp_pagenavi( array( 'options' => PageNavi_Options::get_defaults() ) ); ?>`
+
+Before 3.0.0 this was written as `PageNavi_Core::$options->get_defaults()`. That property was backed by the bundled SCB framework, which 3.0.0 removes, so the old form no longer works and must be updated.
 
 ## Changelog
+### 3.0.0
+* NEW: Removed the bundled WP SCB Framework. The plugin now runs entirely on WordPress core APIs and has no dependencies
+* NEW: The settings page is built with the WordPress Settings API
+* NEW: Restructured into `includes/` following the Plugin Handbook layout
+* NEW: Requires WordPress 6.0 and PHP 7.4
+* FIXED: Page links are escaped with `esc_url()` instead of `esc_attr()`
+* FIXED: The "First Page", "Previous Page", "Next Page" and "Last Page" labels were missing their text domain and could never be translated
+* FIXED: Page numbers derived from a `WP_User_Query` are cast to integers, so the current page is marked correctly
+* FIXED: The stylesheet version now tracks the plugin version instead of being pinned to 2.70
+* BREAKING: `PageNavi_Core::$options` has been removed. Use `PageNavi_Options::get_defaults()` and `PageNavi_Options::get()` instead. See the FAQ
+* BREAKING: `PageNavi_Options_Page` has been removed and replaced by `PageNavi_Admin`
+
 ### 2.94.6
 * NEW: WordPress 7.0
 * FIXED: Escape class names and wrapper attributes on output
@@ -235,10 +243,10 @@ You can do that like so:
 ### 2.80
 * support for multi-part pages and user queries
 * moved prev/next links before/after first/last links
-* [more info](http://scribu.net/wordpress/wp-pagenavi/wpn-2-80.html)
+* [more info](https://scribu.net/wordpress/wp-pagenavi/wpn-2-80.html)
 
 ### 2.74 (2011-02-17)
 * added 'smaller' and 'larger' classes
 * added $query arg to wp_pagenavi()
 * updated translations
-* [more info](http://scribu.net/wordpress/wp-pagenavi/wpn-2-74.html)
+* [more info](https://scribu.net/wordpress/wp-pagenavi/wpn-2-74.html)

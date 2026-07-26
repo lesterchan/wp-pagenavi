@@ -1,47 +1,27 @@
 <?php
-/*
- * Uninstall plugin
+/**
+ * Uninstaller: removes everything the plugin stored.
+ *
+ * @package WP-PageNavi
  */
-if ( !defined( 'WP_UNINSTALL_PLUGIN' ) )
-	exit ();
 
-$option_names = array(
-	'pagenavi_options'
-);
-
-
-if ( is_multisite() ) {
-	$ms_sites = function_exists( 'get_sites' ) ? get_sites() : wp_get_sites();
-
-	if( 0 < sizeof( $ms_sites ) ) {
-		foreach ( $ms_sites as $ms_site ) {
-			$blog_id = isset( $ms_site['blog_id'] ) ? $ms_site['blog_id'] : $ms_site->blog_id;
-			switch_to_blog( $blog_id );
-			if( sizeof( $option_names ) > 0 ) {
-				foreach( $option_names as $option_name ) {
-					delete_option( $option_name );
-					plugin_uninstalled();
-				}
-			}
-		}
-	}
-
-	restore_current_blog();
-} else {
-	if( sizeof( $option_names ) > 0 ) {
-		foreach( $option_names as $option_name ) {
-			delete_option( $option_name );
-			plugin_uninstalled();
-		}
-	}
-}
+defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 /**
- * Delete plugin table when uninstalled
+ * Delete the plugin's options for the current site.
  *
- * @access public
  * @return void
  */
-function plugin_uninstalled() {
-	global $wpdb;
+function wp_pagenavi_uninstall_site() {
+	delete_option( 'pagenavi_options' );
+}
+
+if ( is_multisite() ) {
+	foreach ( get_sites( array( 'fields' => 'ids' ) ) as $blog_id ) {
+		switch_to_blog( (int) $blog_id );
+		wp_pagenavi_uninstall_site();
+		restore_current_blog();
+	}
+} else {
+	wp_pagenavi_uninstall_site();
 }

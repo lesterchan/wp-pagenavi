@@ -1,13 +1,20 @@
 <?php
-/*
-Plugin Name: WP-PageNavi
-Plugin URI: https://lesterchan.net/portfolio/programming/php/
-Description: Adds a more advanced paging navigation to your WordPress blog
-Version: 2.94.6
-Author: Lester 'GaMerZ' Chan
-Author URI: https://lesterchan.net
-Text Domain: wp-pagenavi
-*/
+/**
+ * Plugin Name: WP-PageNavi
+ * Plugin URI: https://lesterchan.net/portfolio/programming/php/
+ * Description: Adds a more advanced paging navigation to your WordPress blog
+ * Version: 3.0.0
+ * Requires at least: 6.0
+ * Requires PHP: 7.4
+ * Author: Lester 'GaMerZ' Chan
+ * Author URI: https://lesterchan.net
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: wp-pagenavi
+ * Domain Path: /languages
+ *
+ * @package WP-PageNavi
+ */
 
 /*
 	Copyright 2026  Lester Chan  (email : lesterchan@gmail.com)
@@ -27,35 +34,23 @@ Text Domain: wp-pagenavi
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-require_once __DIR__ . '/scb/load.php';
+// Prevent direct access.
+defined( 'ABSPATH' ) || exit;
 
-function _pagenavi_init() {
-	require_once __DIR__ . '/core.php';
+// Plugin version.
+define( 'WP_PAGENAVI_VERSION', '3.0.0' );
 
-	$options = new scbOptions( 'pagenavi_options', __FILE__, array(
-		'pages_text'    => __( 'Page %CURRENT_PAGE% of %TOTAL_PAGES%', 'wp-pagenavi' ),
-		'current_text'  => '%PAGE_NUMBER%',
-		'page_text'     => '%PAGE_NUMBER%',
-		'first_text'    => __( '&laquo; First', 'wp-pagenavi' ),
-		'last_text'     => __( 'Last &raquo;', 'wp-pagenavi' ),
-		'prev_text'     => __( '&laquo;', 'wp-pagenavi' ),
-		'next_text'     => __( '&raquo;', 'wp-pagenavi' ),
-		'dotleft_text'  => __( '...', 'wp-pagenavi' ),
-		'dotright_text' => __( '...', 'wp-pagenavi' ),
-		'num_pages' => 5,
-		'num_larger_page_numbers' => 3,
-		'larger_page_numbers_multiple' => 10,
-		'always_show' => false,
-		'use_pagenavi_css' => true,
-		'style' => 1,
-	) );
+// Main plugin file, for resolving paths from the includes.
+define( 'WP_PAGENAVI_MAIN_FILE', __FILE__ );
 
-	PageNavi_Core::init( $options );
+require_once __DIR__ . '/includes/class-pagenavi-options.php';
+require_once __DIR__ . '/includes/class-pagenavi-call.php';
+require_once __DIR__ . '/includes/class-pagenavi-core.php';
+require_once __DIR__ . '/includes/template-tags.php';
 
-	if ( is_admin() ) {
-		require_once __DIR__ . '/admin.php';
-		new PageNavi_Options_Page( __FILE__, $options );
-	}
+PageNavi_Core::init();
+
+if ( is_admin() ) {
+	require_once __DIR__ . '/includes/class-pagenavi-admin.php';
+	PageNavi_Admin::init();
 }
-scb_init( '_pagenavi_init' );
-
