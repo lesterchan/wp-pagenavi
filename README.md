@@ -146,6 +146,9 @@ Before 3.0.0 this was written as `PageNavi_Core::$options->get_defaults()`. That
 * NEW: Restructured into `includes/` following the Plugin Handbook layout
 * NEW: Requires WordPress 6.0 and PHP 7.4
 * FIXED: An inline SVG arrow no longer deletes the entire previous/next link. `wp_kses_post()` removes an SVG rather than cleaning it, which left the link text empty, and a link with empty text is dropped altogether. The navigation text is now filtered against `wp_kses_post()`'s list plus the inline SVG elements, exposed as the `wp_pagenavi_allowed_html` filter. Reported by Cal at toolshed (#73)
+* FIXED: Multisite uninstall no longer stops at the hundredth site, so a large network has its options removed everywhere. Reported by Cal at toolshed (#73)
+* FIXED: The navigation aria-labels now match the strings WordPress core defines, so they are translated in every locale core supports. Reported by Cal at toolshed (#73)
+* FIXED: An array submitted where a text setting belongs no longer raises a PHP 8 notice, and option keys the plugin does not define are no longer stored. Reported by Cal at toolshed (#73)
 * FIXED: Page links are escaped with `esc_url()` instead of `esc_attr()`
 * FIXED: Page numbers derived from a `WP_User_Query` are cast to integers, so the current page is marked correctly
 * FIXED: The stylesheet version now tracks the plugin version instead of being pinned to 2.70

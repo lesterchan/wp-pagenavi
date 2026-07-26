@@ -411,12 +411,19 @@ class PageNavi_Admin {
 	public static function sanitize( $input ) {
 		$options = wp_parse_args( is_array( $input ) ? $input : array(), PageNavi_Options::get() );
 
+		// Keep only keys the plugin actually defines. Without this a hand-crafted
+		// post to options.php would have its extra keys stored in the option row
+		// forever; the framework used before 3.0.0 dropped them for the same reason.
+		$options = array_intersect_key( $options, PageNavi_Options::get_defaults() );
+
 		foreach ( PageNavi_Options::int_keys() as $key ) {
-			$options[ $key ] = absint( isset( $options[ $key ] ) ? $options[ $key ] : 0 );
+			$value           = isset( $options[ $key ] ) && is_scalar( $options[ $key ] ) ? $options[ $key ] : 0;
+			$options[ $key ] = absint( $value );
 		}
 
 		foreach ( PageNavi_Options::bool_keys() as $key ) {
-			$options[ $key ] = intval( isset( $options[ $key ] ) ? $options[ $key ] : 0 );
+			$value           = isset( $options[ $key ] ) && is_scalar( $options[ $key ] ) ? $options[ $key ] : 0;
+			$options[ $key ] = intval( $value );
 		}
 
 		// The same allow-list the renderer uses, so an SVG arrow typed into the

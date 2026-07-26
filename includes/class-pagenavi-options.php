@@ -190,6 +190,13 @@ class PageNavi_Options {
 	 * @return string
 	 */
 	public static function kses( $value ) {
+		// A text option is always a string. Anything else can only arrive from a
+		// hand-crafted request posting pagenavi_options[prev_text][] to options.php,
+		// and casting an array to string is both meaningless and a PHP 8 notice.
+		if ( ! is_scalar( $value ) ) {
+			return '';
+		}
+
 		$add_xlink = static function ( $attributes ) {
 			$attributes[] = 'xlink:href';
 			return $attributes;

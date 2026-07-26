@@ -134,7 +134,7 @@ class Test_PageNavi_Render extends WP_UnitTestCase {
 	 */
 	public function test_aria_labels_use_the_core_text_domain() {
 		$seen   = array();
-		$labels = array( 'First Page', 'Previous Page', 'Next Page', 'Last Page' );
+		$labels = array( 'First page', 'Previous Page', 'Next Page', 'Last page' );
 
 		add_filter(
 			'gettext',
@@ -156,6 +156,28 @@ class Test_PageNavi_Render extends WP_UnitTestCase {
 			$this->assertSame( 'default', $seen[ $label ], "The '{$label}' label must use core's text domain." );
 			$this->assertStringContainsString( 'aria-label="' . $label . '"', $out );
 		}
+	}
+
+	/**
+	 * Each aria-label must match core's own spelling exactly, or it silently
+	 * resolves to nothing and ships untranslated. Core is inconsistent about the
+	 * casing, so this pins the four strings against core's current catalogue
+	 * rather than against a convention.
+	 *
+	 * @return void
+	 */
+	public function test_aria_labels_match_strings_core_actually_defines() {
+		$labels = array( 'First page', 'Previous Page', 'Next Page', 'Last page' );
+
+		$out = $this->render( array( 'query' => $this->query( 5 ) ) );
+
+		foreach ( $labels as $label ) {
+			$this->assertStringContainsString( 'aria-label="' . $label . '"', $out );
+		}
+
+		// The capitalisations core does not define must not creep back in.
+		$this->assertStringNotContainsString( 'aria-label="First Page"', $out );
+		$this->assertStringNotContainsString( 'aria-label="Last Page"', $out );
 	}
 
 	/**

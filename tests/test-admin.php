@@ -126,6 +126,60 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Keys the plugin does not define are dropped rather than stored forever.
+	 *
+	 * @return void
+	 */
+	public function test_unknown_keys_are_discarded() {
+		$clean = PageNavi_Admin::sanitize(
+			array(
+				'style'    => '1',
+				'evil_key' => 'x',
+				'another'  => array( 1, 2 ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'evil_key', $clean );
+		$this->assertArrayNotHasKey( 'another', $clean );
+		$this->assertSame(
+			array_keys( PageNavi_Options::get_defaults() ),
+			array_keys( $clean ),
+			'Only the plugin\'s own option keys may be stored.'
+		);
+	}
+
+	/**
+	 * An array posted where a scalar belongs is handled without a PHP 8 notice.
+	 *
+	 * @return void
+	 */
+	public function test_array_values_do_not_raise_a_notice() {
+		$raised = null;
+
+		// Capturing the notice is the assertion here, not debug output.
+		set_error_handler( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.prevent_path_disclosure_set_error_handler
+			static function ( $errno, $errstr ) use ( &$raised ) {
+				$raised = $errstr;
+				return true;
+			}
+		);
+
+		$clean = PageNavi_Admin::sanitize(
+			array(
+				'prev_text' => array( 'a' => 'b' ),
+				'num_pages' => array( 5 ),
+			)
+		);
+
+		restore_error_handler();
+
+		$this->assertNull( $raised, "Sanitising raised: {$raised}" );
+		$this->assertSame( '', $clean['prev_text'] );
+		$this->assertSame( 0, $clean['num_pages'] );
+		$this->assertStringNotContainsString( 'Array', (string) $clean['prev_text'] );
+	}
+
+	/**
 	 * The settings page is registered under Settings, at the slug it has always
 	 * used, so existing bookmarks keep working.
 	 *

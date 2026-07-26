@@ -189,12 +189,17 @@ class PageNavi_Core {
 
 		/*
 		 * The four navigation aria-labels below are deliberately read from the
-		 * 'default' (WordPress core) text domain rather than this plugin's. Core
-		 * already ships these strings translated into every locale it supports, so
-		 * reusing them means the labels are translated on day one instead of
-		 * waiting for this plugin's own catalogue on translate.wordpress.org. The
-		 * domain is passed explicitly rather than omitted so the intent is obvious
-		 * and the i18n sniff stays satisfied.
+		 * 'default' (WordPress core) text domain rather than this plugin's, so they
+		 * arrive already translated in every locale core supports instead of waiting
+		 * on this plugin's own catalogue. The domain is passed explicitly rather
+		 * than omitted so the intent is obvious and the i18n sniff stays satisfied.
+		 *
+		 * The casing matters and is not a typo: core spells these 'First page' and
+		 * 'Last page' with a lowercase p, but 'Previous Page' and 'Next Page' with a
+		 * capital one. Only the exact string resolves, so each label has to match
+		 * core's own spelling. Verified on a real front end request under de_DE:
+		 * all four translate as written here, and capitalising the first two does
+		 * not.
 		 */
 
 		if ( $start_page >= 2 && $pages_to_show < $total_pages ) {
@@ -205,7 +210,7 @@ class PageNavi_Core {
 				$first_text,
 				array(
 					'class'      => $class_names['first'],
-					'aria-label' => __( 'First Page', 'default' ),
+					'aria-label' => __( 'First page', 'default' ),
 				),
 				'%TOTAL_PAGES%'
 			);
@@ -327,7 +332,7 @@ class PageNavi_Core {
 				$options['last_text'],
 				array(
 					'class'      => $class_names['last'],
-					'aria-label' => __( 'Last Page', 'default' ),
+					'aria-label' => __( 'Last page', 'default' ),
 				),
 				'%TOTAL_PAGES%'
 			);
