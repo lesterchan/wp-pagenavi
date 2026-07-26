@@ -240,7 +240,7 @@ class PageNavi_Core {
 						'title' => sprintf( __( 'Page %s', 'wp-pagenavi' ), number_format_i18n( $larger_page ) ),
 					)
 				);
-				$larger_page_start++;
+				++$larger_page_start;
 			}
 		}
 
@@ -282,7 +282,7 @@ class PageNavi_Core {
 						'title' => sprintf( __( 'Page %s', 'wp-pagenavi' ), number_format_i18n( $larger_page ) ),
 					)
 				);
-				$larger_page_end++;
+				++$larger_page_end;
 			}
 		}
 
