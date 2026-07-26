@@ -156,8 +156,11 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	public function test_array_values_do_not_raise_a_notice() {
 		$raised = null;
 
-		// Capturing the notice is the assertion here, not debug output.
-		set_error_handler( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.prevent_path_disclosure_set_error_handler
+		// Capturing the notice is the assertion here, not leftover debug code. The
+		// sniff prefix is used rather than the full error code, which has differed
+		// between WPCS releases.
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions
+		set_error_handler(
 			static function ( $errno, $errstr ) use ( &$raised ) {
 				$raised = $errstr;
 				return true;
