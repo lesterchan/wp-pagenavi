@@ -151,6 +151,7 @@ Before 3.0.0 this was written as `PageNavi_Core::$options->get_defaults()`. That
 * FIXED: The stylesheet version now tracks the plugin version instead of being pinned to 2.70
 * BREAKING: `PageNavi_Core::$options` has been removed. Use `PageNavi_Options::get_defaults()` and `PageNavi_Options::get()` instead. See the FAQ
 * BREAKING: `PageNavi_Options_Page` has been removed and replaced by `PageNavi_Admin`
+* BREAKING: Dropping the SCB Framework also removes the global functions and `scb*` classes it defined, since they were loaded into WordPress by whichever plugin bundled it. If your theme or another plugin called `html()`, `html_link()`, `set_post_field()`, `scb_init()`, `scb_register_table()`, `scb_install_table()`, `scb_uninstall_table()`, `scb_admin_notice()`, `scb_get_query_flags()`, `scb_list_fold()` or `scb_list_group_by()`, it must now provide them itself. Note that another installed plugin may still be supplying them, so the breakage will only appear once nothing else on the site bundles SCB
 
 ### 2.94.6
 * NEW: WordPress 7.0
