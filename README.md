@@ -147,7 +147,6 @@ Before 3.0.0 this was written as `PageNavi_Core::$options->get_defaults()`. That
 * NEW: Requires WordPress 6.0 and PHP 7.4
 * FIXED: An inline SVG arrow no longer deletes the entire previous/next link. `wp_kses_post()` removes an SVG rather than cleaning it, which left the link text empty, and a link with empty text is dropped altogether. The navigation text is now filtered against `wp_kses_post()`'s list plus the inline SVG elements, exposed as the `wp_pagenavi_allowed_html` filter. Reported by Cal at toolshed (#73)
 * FIXED: Page links are escaped with `esc_url()` instead of `esc_attr()`
-* FIXED: The "First Page", "Previous Page", "Next Page" and "Last Page" aria-labels now use the `wp-pagenavi` text domain. They previously had no domain at all, so they were looked up against WordPress core's. Note for non-English sites: "Previous Page" and "Next Page" happen to exist in core and so were being translated by it, and will read in English until they are translated on translate.wordpress.org
 * FIXED: Page numbers derived from a `WP_User_Query` are cast to integers, so the current page is marked correctly
 * FIXED: The stylesheet version now tracks the plugin version instead of being pinned to 2.70
 * BREAKING: `PageNavi_Core::$options` has been removed. Use `PageNavi_Options::get_defaults()` and `PageNavi_Options::get()` instead. See the FAQ

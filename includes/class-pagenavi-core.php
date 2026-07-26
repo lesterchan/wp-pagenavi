@@ -187,6 +187,16 @@ class PageNavi_Core {
 			$out       .= "<span class='" . esc_attr( $class_names['pages'] ) . "'>" . $pages_text . '</span>';
 		}
 
+		/*
+		 * The four navigation aria-labels below are deliberately read from the
+		 * 'default' (WordPress core) text domain rather than this plugin's. Core
+		 * already ships these strings translated into every locale it supports, so
+		 * reusing them means the labels are translated on day one instead of
+		 * waiting for this plugin's own catalogue on translate.wordpress.org. The
+		 * domain is passed explicitly rather than omitted so the intent is obvious
+		 * and the i18n sniff stays satisfied.
+		 */
+
 		if ( $start_page >= 2 && $pages_to_show < $total_pages ) {
 			// First.
 			$first_text = str_replace( '%TOTAL_PAGES%', number_format_i18n( $total_pages ), $options['first_text'] );
@@ -195,7 +205,7 @@ class PageNavi_Core {
 				$first_text,
 				array(
 					'class'      => $class_names['first'],
-					'aria-label' => __( 'First Page', 'wp-pagenavi' ),
+					'aria-label' => __( 'First Page', 'default' ),
 				),
 				'%TOTAL_PAGES%'
 			);
@@ -209,7 +219,7 @@ class PageNavi_Core {
 				array(
 					'class'      => $class_names['previouspostslink'],
 					'rel'        => 'prev',
-					'aria-label' => __( 'Previous Page', 'wp-pagenavi' ),
+					'aria-label' => __( 'Previous Page', 'default' ),
 				)
 			);
 		}
@@ -305,7 +315,7 @@ class PageNavi_Core {
 				array(
 					'class'      => $class_names['nextpostslink'],
 					'rel'        => 'next',
-					'aria-label' => __( 'Next Page', 'wp-pagenavi' ),
+					'aria-label' => __( 'Next Page', 'default' ),
 				)
 			);
 		}
@@ -317,7 +327,7 @@ class PageNavi_Core {
 				$options['last_text'],
 				array(
 					'class'      => $class_names['last'],
-					'aria-label' => __( 'Last Page', 'wp-pagenavi' ),
+					'aria-label' => __( 'Last Page', 'default' ),
 				),
 				'%TOTAL_PAGES%'
 			);

@@ -127,6 +127,38 @@ class Test_PageNavi_Render extends WP_UnitTestCase {
 	}
 
 	/**
+	 * The navigation aria-labels are looked up in core's text domain, not this
+	 * plugin's, so they arrive already translated in every locale core supports.
+	 *
+	 * @return void
+	 */
+	public function test_aria_labels_use_the_core_text_domain() {
+		$seen   = array();
+		$labels = array( 'First Page', 'Previous Page', 'Next Page', 'Last Page' );
+
+		add_filter(
+			'gettext',
+			static function ( $translation, $text, $domain ) use ( &$seen, $labels ) {
+				if ( in_array( $text, $labels, true ) ) {
+					$seen[ $text ] = $domain;
+				}
+				return $translation;
+			},
+			10,
+			3
+		);
+
+		// Page 5 of 10 renders all four links.
+		$out = $this->render( array( 'query' => $this->query( 5 ) ) );
+
+		foreach ( $labels as $label ) {
+			$this->assertArrayHasKey( $label, $seen, "The '{$label}' label was never rendered." );
+			$this->assertSame( 'default', $seen[ $label ], "The '{$label}' label must use core's text domain." );
+			$this->assertStringContainsString( 'aria-label="' . $label . '"', $out );
+		}
+	}
+
+	/**
 	 * The first page has no previous link and the last page has no next link.
 	 *
 	 * @return void

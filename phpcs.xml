@@ -22,6 +22,8 @@
 		<properties>
 			<property name="text_domain" type="array">
 				<element value="wp-pagenavi"/>
+				<!-- The navigation aria-labels reuse core's own strings. -->
+				<element value="default"/>
 			</property>
 		</properties>
 	</rule>
