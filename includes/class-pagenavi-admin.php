@@ -419,8 +419,11 @@ class PageNavi_Admin {
 			$options[ $key ] = intval( isset( $options[ $key ] ) ? $options[ $key ] : 0 );
 		}
 
+		// The same allow-list the renderer uses, so an SVG arrow typed into the
+		// settings screen survives exactly as one passed through the 'options'
+		// argument does.
 		foreach ( PageNavi_Options::text_keys() as $key ) {
-			$options[ $key ] = wp_kses_post( isset( $options[ $key ] ) ? $options[ $key ] : '' );
+			$options[ $key ] = PageNavi_Options::kses( isset( $options[ $key ] ) ? $options[ $key ] : '' );
 		}
 
 		return $options;

@@ -76,7 +76,7 @@ class PageNavi_Core {
 		// the option directly.
 		foreach ( PageNavi_Options::text_keys() as $key ) {
 			if ( isset( $options[ $key ] ) ) {
-				$options[ $key ] = wp_kses_post( $options[ $key ] );
+				$options[ $key ] = PageNavi_Options::kses( $options[ $key ] );
 			}
 		}
 
