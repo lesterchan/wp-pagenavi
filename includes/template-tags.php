@@ -70,7 +70,11 @@ if ( ! function_exists( 'get_multipage_link' ) ) :
 			return get_permalink();
 		}
 
-		if ( '' === get_option( 'permalink_structure' ) || in_array( $post->post_status, array( 'draft', 'pending' ), true ) ) {
+		// get_option() returns false when the row is absent, not an empty string, so
+		// this must stay a loose emptiness check: a strict '' comparison sends a site
+		// with no permalink structure down the pretty-permalink branch and builds a
+		// broken URL like ?p=51/3.
+		if ( empty( get_option( 'permalink_structure' ) ) || in_array( $post->post_status, array( 'draft', 'pending' ), true ) ) {
 			$url = add_query_arg( 'page', $page, get_permalink() );
 		} elseif ( 'page' === get_option( 'show_on_front' ) && (int) get_option( 'page_on_front' ) === (int) $post->ID ) {
 			$url = trailingslashit( get_permalink() ) . user_trailingslashit( $wp_rewrite->pagination_base . "/$page", 'single_paged' );

@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  phpcs:
+    name: Coding standards
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+          tools: cs2pr
+
+      - name: Install PHPCS and WPCS
+        run: |
+          composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer global require --no-interaction --no-progress \
+            squizlabs/php_codesniffer wp-coding-standards/wpcs
+          echo "$(composer global config bin-dir --absolute)" >> "$GITHUB_PATH"
+
+      - name: Run phpcs
+        run: phpcs -q --report=checkstyle | cs2pr
+
+  phpunit:
+    name: PHPUnit (PHP ${{ matrix.php }}, WP ${{ matrix.label }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # The supported floor.
+          - php: '7.4'
+            core: 'WordPress/WordPress#6.0'
+            label: '6.0'
+          # The current ceiling.
+          - php: '8.3'
+            core: ''
+            label: 'latest'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # wp-env reads .wp-env.override.json on top of .wp-env.json. It is listed in
+      # plugin_deploy.sh's excludes, so it never ships.
+      - name: Pin the WordPress and PHP versions
+        run: |
+          if [ -n "${{ matrix.core }}" ]; then
+            printf '{ "core": "%s", "phpVersion": "%s" }\n' '${{ matrix.core }}' '${{ matrix.php }}' > .wp-env.override.json
+          else
+            printf '{ "phpVersion": "%s" }\n' '${{ matrix.php }}' > .wp-env.override.json
+          fi
+          cat .wp-env.override.json
+
+      - name: Run the test suite
+        run: bash bin/test.sh

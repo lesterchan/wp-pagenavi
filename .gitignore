@@ -13,3 +13,8 @@ vendor/
 
 # Logs
 *.log
+
+# Tests
+vendor/
+.phpunit.result.cache
+.wp-env.override.json
