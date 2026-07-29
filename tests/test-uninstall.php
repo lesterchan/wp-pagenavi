@@ -11,13 +11,18 @@
 class Test_PageNavi_Uninstall extends WP_UnitTestCase {
 
 	/**
-	 * Running the uninstaller removes the plugin's only option row.
+	 * Running the uninstaller removes both of the plugin's rows, and the
+	 * pre-3.0.0 row an install that never reached wp-admin might still hold.
 	 *
 	 * @return void
 	 */
-	public function test_uninstall_deletes_the_option() {
+	public function test_uninstall_deletes_every_row_the_plugin_owns() {
 		WP_PageNavi_Options::update( WP_PageNavi_Options::get_defaults() );
+		WP_PageNavi_Options::maybe_upgrade();
+		update_option( WP_PageNavi_Options::LEGACY_OPTION, array( 'num_pages' => 5 ) );
+
 		$this->assertIsArray( get_option( WP_PageNavi_Options::OPTION ) );
+		$this->assertIsArray( get_option( WP_PageNavi_Options::VERSION ) );
 
 		if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 			define( 'WP_UNINSTALL_PLUGIN', 'wp-pagenavi/wp-pagenavi.php' );
@@ -25,6 +30,8 @@ class Test_PageNavi_Uninstall extends WP_UnitTestCase {
 		require_once dirname( __DIR__ ) . '/uninstall.php';
 
 		$this->assertFalse( get_option( WP_PageNavi_Options::OPTION ) );
+		$this->assertFalse( get_option( WP_PageNavi_Options::VERSION ) );
+		$this->assertFalse( get_option( WP_PageNavi_Options::LEGACY_OPTION ) );
 	}
 
 	/**

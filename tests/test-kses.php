@@ -101,7 +101,7 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_svg_survives_the_settings_save() {
-		$clean = WP_PageNavi_Admin::sanitize( array( 'prev_text' => self::SVG ) );
+		$clean = WP_PageNavi_Options::sanitize( array( 'prev_text' => self::SVG ) );
 
 		$this->assertStringContainsString( '<svg', $clean['prev_text'] );
 		$this->assertStringContainsString( '<path', $clean['prev_text'] );

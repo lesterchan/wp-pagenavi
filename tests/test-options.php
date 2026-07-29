@@ -21,13 +21,15 @@ class Test_PageNavi_Options extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The option key must never change: it is what carries existing installs
-	 * across the 3.0.0 upgrade.
+	 * Both rows carry the wp_pagenavi_ prefix, and the settings row is not the
+	 * unprefixed name every release up to 2.94.6 wrote.
 	 *
 	 * @return void
 	 */
-	public function test_option_key_is_unchanged() {
-		$this->assertSame( 'pagenavi_options', WP_PageNavi_Options::OPTION );
+	public function test_option_rows_are_prefixed_with_the_slug() {
+		$this->assertSame( 'wp_pagenavi_options', WP_PageNavi_Options::OPTION );
+		$this->assertSame( 'wp_pagenavi_version', WP_PageNavi_Options::VERSION );
+		$this->assertSame( 'pagenavi_options', WP_PageNavi_Options::LEGACY_OPTION );
 	}
 
 	/**

@@ -21,7 +21,25 @@ class WP_PageNavi_Options {
 	 *
 	 * @var string
 	 */
-	const OPTION = 'pagenavi_options';
+	const OPTION = 'wp_pagenavi_options';
+
+	/**
+	 * The option row holding the 'plugin' and 'db' version markers.
+	 *
+	 * @var string
+	 */
+	const VERSION = 'wp_pagenavi_version';
+
+	/**
+	 * The settings row every release up to 2.94.6 wrote.
+	 *
+	 * The rename happens in 3.0.0, so this is seen on every install upgrading
+	 * from a shipped version as well as on one that ran a 3.0.0 development
+	 * build.
+	 *
+	 * @var string
+	 */
+	const LEGACY_OPTION = 'pagenavi_options';
 
 	/**
 	 * Option keys whose values are rendered as HTML and so must pass through kses.
@@ -295,5 +313,128 @@ class WP_PageNavi_Options {
 	 */
 	public static function update( array $options ) {
 		return update_option( self::OPTION, $options );
+	}
+
+	/**
+	 * Get the version markers.
+	 *
+	 * @return array The 'plugin' and 'db' markers, each an empty string when unset.
+	 */
+	public static function get_versions() {
+		$stored = get_option( self::VERSION, array() );
+
+		if ( ! is_array( $stored ) ) {
+			$stored = array();
+		}
+
+		return array(
+			'plugin' => isset( $stored['plugin'] ) ? (string) $stored['plugin'] : '',
+			'db'     => isset( $stored['db'] ) ? (string) $stored['db'] : '',
+		);
+	}
+
+	/**
+	 * Clean a full set of submitted options.
+	 *
+	 * Also used as register_setting()'s sanitize_callback, which receives the whole
+	 * nested array in one go. It reads nothing back out of the database: the version
+	 * markers live in their own row, so there is nothing here to rescue and nothing
+	 * this can corrupt.
+	 *
+	 * A key missing from the input falls back to its default rather than to the
+	 * stored value. Every field on the settings screen posts on every save --
+	 * the two toggles are radio pairs, not checkboxes -- so the two only differ
+	 * for a hand-crafted request, and a sanitiser that reads the row it is about
+	 * to replace is exactly what §2.1 of the house standard forbids.
+	 *
+	 * @param mixed $input Raw submitted values.
+	 * @return array
+	 */
+	public static function sanitize( $input ) {
+		$options = wp_parse_args( is_array( $input ) ? $input : array(), self::get_defaults() );
+
+		// Keep only keys the plugin actually defines. Without this a hand-crafted
+		// post to options.php would have its extra keys stored in the option row
+		// forever; the framework used before 3.0.0 dropped them for the same reason.
+		$options = array_intersect_key( $options, self::get_defaults() );
+
+		foreach ( self::int_keys() as $key ) {
+			$value           = isset( $options[ $key ] ) && is_scalar( $options[ $key ] ) ? $options[ $key ] : 0;
+			$options[ $key ] = absint( $value );
+		}
+
+		foreach ( self::bool_keys() as $key ) {
+			$value           = isset( $options[ $key ] ) && is_scalar( $options[ $key ] ) ? $options[ $key ] : 0;
+			$options[ $key ] = intval( $value );
+		}
+
+		// The same allow-list the renderer uses, so an SVG arrow typed into the
+		// settings screen survives exactly as one passed through the 'options'
+		// argument does.
+		foreach ( self::text_keys() as $key ) {
+			$options[ $key ] = self::kses( isset( $options[ $key ] ) ? $options[ $key ] : '' );
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Bring the stored rows up to date with the running code.
+	 *
+	 * Runs on activation and on every admin load, because activation hooks do not
+	 * fire when a plugin is updated -- which is the usual reason a migration never
+	 * runs. Idempotent.
+	 *
+	 * Both markers are written together in one update_option() at the very end, so
+	 * a half-finished upgrade never records itself as complete.
+	 *
+	 * @return void
+	 */
+	public static function maybe_upgrade() {
+		$versions = self::get_versions();
+
+		if ( WP_PAGENAVI_VERSION === $versions['plugin'] && WP_PAGENAVI_DB_VERSION === $versions['db'] ) {
+			return;
+		}
+
+		self::migrate();
+
+		update_option(
+			self::VERSION,
+			array(
+				'plugin' => WP_PAGENAVI_VERSION,
+				'db'     => WP_PAGENAVI_DB_VERSION,
+			)
+		);
+	}
+
+	/**
+	 * Fold the pre-3.0.0 row into the current one.
+	 *
+	 * The settings row was named after the plugin without its wp_ prefix for
+	 * twenty years. It is read once, folded in, and deleted; re-running finds
+	 * nothing left to do.
+	 *
+	 * Settings are re-sanitised on the way through, so an upgrade cleans a row that
+	 * an older, laxer version wrote just as thoroughly as a save would.
+	 *
+	 * @return void
+	 */
+	protected static function migrate() {
+		$legacy = get_option( self::LEGACY_OPTION );
+
+		if ( false !== $legacy ) {
+			if ( false === get_option( self::OPTION ) ) {
+				update_option( self::OPTION, self::sanitize( $legacy ) );
+			}
+
+			delete_option( self::LEGACY_OPTION );
+		}
+
+		$stored = get_option( self::OPTION );
+
+		if ( false !== $stored ) {
+			update_option( self::OPTION, self::sanitize( $stored ) );
+		}
 	}
 }

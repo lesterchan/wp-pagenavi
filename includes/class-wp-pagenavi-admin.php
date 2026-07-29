@@ -46,6 +46,11 @@ class WP_PageNavi_Admin {
 	public static function init() {
 		add_action( 'admin_menu', array( __CLASS__, 'add_page' ) );
 		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
+
+		// Activation hooks do not fire when a plugin is updated, so the upgrade
+		// routine is also run on every admin load.
+		add_action( 'admin_init', array( 'WP_PageNavi_Options', 'maybe_upgrade' ) );
+
 		add_filter( 'plugin_action_links_' . plugin_basename( WP_PAGENAVI_MAIN_FILE ), array( __CLASS__, 'action_links' ) );
 	}
 
@@ -112,7 +117,7 @@ class WP_PageNavi_Admin {
 			WP_PageNavi_Options::OPTION,
 			array(
 				'type'              => 'array',
-				'sanitize_callback' => array( __CLASS__, 'sanitize' ),
+				'sanitize_callback' => array( 'WP_PageNavi_Options', 'sanitize' ),
 			)
 		);
 
@@ -423,42 +428,5 @@ class WP_PageNavi_Admin {
 			</form>
 		</div>
 		<?php
-	}
-
-	/**
-	 * Validate and clean the submitted settings.
-	 *
-	 * Values missing from the submission fall back to what is already stored, so
-	 * a partial POST never wipes a setting.
-	 *
-	 * @param mixed $input Raw submitted values.
-	 * @return array
-	 */
-	public static function sanitize( $input ) {
-		$options = wp_parse_args( is_array( $input ) ? $input : array(), WP_PageNavi_Options::get() );
-
-		// Keep only keys the plugin actually defines. Without this a hand-crafted
-		// post to options.php would have its extra keys stored in the option row
-		// forever; the framework used before 3.0.0 dropped them for the same reason.
-		$options = array_intersect_key( $options, WP_PageNavi_Options::get_defaults() );
-
-		foreach ( WP_PageNavi_Options::int_keys() as $key ) {
-			$value           = isset( $options[ $key ] ) && is_scalar( $options[ $key ] ) ? $options[ $key ] : 0;
-			$options[ $key ] = absint( $value );
-		}
-
-		foreach ( WP_PageNavi_Options::bool_keys() as $key ) {
-			$value           = isset( $options[ $key ] ) && is_scalar( $options[ $key ] ) ? $options[ $key ] : 0;
-			$options[ $key ] = intval( $value );
-		}
-
-		// The same allow-list the renderer uses, so an SVG arrow typed into the
-		// settings screen survives exactly as one passed through the 'options'
-		// argument does.
-		foreach ( WP_PageNavi_Options::text_keys() as $key ) {
-			$options[ $key ] = WP_PageNavi_Options::kses( isset( $options[ $key ] ) ? $options[ $key ] : '' );
-		}
-
-		return $options;
 	}
 }

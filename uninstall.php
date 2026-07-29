@@ -13,6 +13,12 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
  * @return void
  */
 function wp_pagenavi_uninstall_site() {
+	delete_option( 'wp_pagenavi_options' );
+	delete_option( 'wp_pagenavi_version' );
+
+	// The settings row was named pagenavi_options up to 2.94.6. It is deleted by
+	// the upgrade routine, so this only catches an install that never reached
+	// wp-admin between updating and being removed.
 	delete_option( 'pagenavi_options' );
 }
 

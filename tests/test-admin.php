@@ -27,7 +27,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_numeric_settings_are_absinted() {
-		$clean = WP_PageNavi_Admin::sanitize(
+		$clean = WP_PageNavi_Options::sanitize(
 			array(
 				'num_pages'                    => '5abc',
 				'num_larger_page_numbers'      => '-3',
@@ -48,7 +48,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_toggles_are_integers() {
-		$clean = WP_PageNavi_Admin::sanitize(
+		$clean = WP_PageNavi_Options::sanitize(
 			array(
 				'always_show'      => '1',
 				'use_pagenavi_css' => '0',
@@ -66,7 +66,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_text_settings_are_ksesed() {
-		$clean = WP_PageNavi_Admin::sanitize(
+		$clean = WP_PageNavi_Options::sanitize(
 			array(
 				'pages_text'   => 'Page %CURRENT_PAGE% of %TOTAL_PAGES% <script>bad()</script>',
 				'current_text' => '<strong>%PAGE_NUMBER%</strong>',
@@ -84,7 +84,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_empty_text_is_preserved() {
-		$clean = WP_PageNavi_Admin::sanitize(
+		$clean = WP_PageNavi_Options::sanitize(
 			array(
 				'prev_text' => '',
 				'next_text' => '',
@@ -96,21 +96,26 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Keys absent from the submission keep their stored value rather than being
-	 * wiped.
+	 * Keys absent from the submission fall back to their defaults, and the
+	 * sanitiser never reads the row it is about to replace.
+	 *
+	 * Every field on the screen posts on every save, so this only differs from
+	 * the stored value for a hand-crafted request. Reading the stored row here is
+	 * what made a sanitiser have to rescue the version markers out of it, which
+	 * is the whole reason those markers now live in a row of their own.
 	 *
 	 * @return void
 	 */
-	public function test_missing_keys_keep_stored_values() {
+	public function test_missing_keys_fall_back_to_defaults() {
 		$options              = WP_PageNavi_Options::get_defaults();
 		$options['num_pages'] = 9;
 		$options['prev_text'] = 'KEEPME';
 		WP_PageNavi_Options::update( $options );
 
-		$clean = WP_PageNavi_Admin::sanitize( array( 'style' => '1' ) );
+		$clean = WP_PageNavi_Options::sanitize( array( 'style' => '1' ) );
 
-		$this->assertSame( 9, $clean['num_pages'] );
-		$this->assertSame( 'KEEPME', $clean['prev_text'] );
+		$this->assertSame( 5, $clean['num_pages'] );
+		$this->assertSame( '&laquo;', $clean['prev_text'] );
 	}
 
 	/**
@@ -119,7 +124,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_non_array_input_is_survivable() {
-		$clean = WP_PageNavi_Admin::sanitize( 'garbage' );
+		$clean = WP_PageNavi_Options::sanitize( 'garbage' );
 
 		$this->assertIsArray( $clean );
 		$this->assertSame( 5, $clean['num_pages'] );
@@ -131,7 +136,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_unknown_keys_are_discarded() {
-		$clean = WP_PageNavi_Admin::sanitize(
+		$clean = WP_PageNavi_Options::sanitize(
 			array(
 				'style'    => '1',
 				'evil_key' => 'x',
@@ -167,7 +172,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 			}
 		);
 
-		$clean = WP_PageNavi_Admin::sanitize(
+		$clean = WP_PageNavi_Options::sanitize(
 			array(
 				'prev_text' => array( 'a' => 'b' ),
 				'num_pages' => array( 5 ),

@@ -26,6 +26,9 @@ class WP_PageNavi {
 		require_once WP_PAGENAVI_DIR . 'includes/class-wp-pagenavi-core.php';
 		require_once WP_PAGENAVI_DIR . 'includes/template-tags.php';
 
+		// Must be registered at file-load time, which is when this runs.
+		register_activation_hook( WP_PAGENAVI_MAIN_FILE, array( __CLASS__, 'activate' ) );
+
 		WP_PageNavi_Core::init();
 
 		if ( is_admin() ) {
@@ -33,5 +36,14 @@ class WP_PageNavi {
 
 			WP_PageNavi_Admin::init();
 		}
+	}
+
+	/**
+	 * Activation: run the upgrade routine so the version row is stamped.
+	 *
+	 * @return void
+	 */
+	public static function activate() {
+		WP_PageNavi_Options::maybe_upgrade();
 	}
 }

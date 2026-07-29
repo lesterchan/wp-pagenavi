@@ -182,7 +182,7 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 		$html = $this->render_fields();
 
 		preg_match_all(
-			'/<input type="radio" name="pagenavi_options\[use_pagenavi_css\]" value="(\d)"([^>]*)/',
+			'/<input type="radio" name="wp_pagenavi_options\[use_pagenavi_css\]" value="(\d)"([^>]*)/',
 			$html,
 			$matches,
 			PREG_SET_ORDER
