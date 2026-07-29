@@ -117,19 +117,7 @@ class WP_PageNavi_Core {
 			$start_page = 1;
 		}
 
-		// Support for filters to change class names.
-		$class_names = array(
-			'pages'             => apply_filters( 'wp_pagenavi_class_pages', 'pages' ),
-			'first'             => apply_filters( 'wp_pagenavi_class_first', 'first' ),
-			'previouspostslink' => apply_filters( 'wp_pagenavi_class_previouspostslink', 'previouspostslink' ),
-			'extend'            => apply_filters( 'wp_pagenavi_class_extend', 'extend' ),
-			'smaller'           => apply_filters( 'wp_pagenavi_class_smaller', 'smaller' ),
-			'page'              => apply_filters( 'wp_pagenavi_class_page', 'page' ),
-			'current'           => apply_filters( 'wp_pagenavi_class_current', 'current' ),
-			'larger'            => apply_filters( 'wp_pagenavi_class_larger', 'larger' ),
-			'nextpostslink'     => apply_filters( 'wp_pagenavi_class_nextpostslink', 'nextpostslink' ),
-			'last'              => apply_filters( 'wp_pagenavi_class_last', 'last' ),
-		);
+		$class_names = self::class_names();
 
 		$out = '';
 
@@ -147,14 +135,126 @@ class WP_PageNavi_Core {
 
 		$out = $before . '<' . $wrapper_tag . " class='" . esc_attr( $wrapper_class ) . "' role='navigation'>\n" . $out . "\n</" . $wrapper_tag . '>' . $after;
 
+		/**
+		 * Filters the complete page navigation markup.
+		 *
+		 * @since 2.70
+		 * @since 2.94.0 The $args parameter was added.
+		 *
+		 * @param string $out  The navigation markup, wrapper included.
+		 * @param array  $args The parsed wp_pagenavi() arguments.
+		 */
 		$out = apply_filters( 'wp_pagenavi', $out, $args );
 
 		if ( ! $echo ) {
 			return $out;
 		}
 
-		// $out is assembled from escaped fragments above.
-		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled above from esc_url()/esc_attr()/tag_escape() fragments and kses'd option text; there is no escaping function for markup that is already escaped, and running wp_kses() over the finished string would strip aria-current and whatever a wp_pagenavi filter added.
+		echo $out;
+	}
+
+	/**
+	 * The class names used on each part of the navigation.
+	 *
+	 * One filter per element, so a theme can rename any of them without rewriting
+	 * the markup. They are part of the plugin's documented public API and keep the
+	 * names they shipped with in 2.88.
+	 *
+	 * @return array Class names, keyed by the part of the navigation they style.
+	 */
+	protected static function class_names() {
+		return array(
+			/**
+			 * Filters the class on the "Page N of M" text.
+			 *
+			 * @since 2.88
+			 *
+			 * @param string $class_name Default 'pages'.
+			 */
+			'pages'             => apply_filters( 'wp_pagenavi_class_pages', 'pages' ),
+
+			/**
+			 * Filters the class on the link to the first page.
+			 *
+			 * @since 2.88
+			 *
+			 * @param string $class_name Default 'first'.
+			 */
+			'first'             => apply_filters( 'wp_pagenavi_class_first', 'first' ),
+
+			/**
+			 * Filters the class on the link to the previous page.
+			 *
+			 * @since 2.88
+			 *
+			 * @param string $class_name Default 'previouspostslink'.
+			 */
+			'previouspostslink' => apply_filters( 'wp_pagenavi_class_previouspostslink', 'previouspostslink' ),
+
+			/**
+			 * Filters the class on the ellipsis standing in for a run of pages.
+			 *
+			 * @since 2.88
+			 *
+			 * @param string $class_name Default 'extend'.
+			 */
+			'extend'            => apply_filters( 'wp_pagenavi_class_extend', 'extend' ),
+
+			/**
+			 * Filters the class on page numbers below the current page.
+			 *
+			 * @since 2.88
+			 *
+			 * @param string $class_name Default 'smaller'.
+			 */
+			'smaller'           => apply_filters( 'wp_pagenavi_class_smaller', 'smaller' ),
+
+			/**
+			 * Filters the class every numbered page link carries.
+			 *
+			 * @since 2.88
+			 *
+			 * @param string $class_name Default 'page'.
+			 */
+			'page'              => apply_filters( 'wp_pagenavi_class_page', 'page' ),
+
+			/**
+			 * Filters the class on the current page.
+			 *
+			 * @since 2.88
+			 *
+			 * @param string $class_name Default 'current'.
+			 */
+			'current'           => apply_filters( 'wp_pagenavi_class_current', 'current' ),
+
+			/**
+			 * Filters the class on page numbers above the current page.
+			 *
+			 * @since 2.88
+			 *
+			 * @param string $class_name Default 'larger'.
+			 */
+			'larger'            => apply_filters( 'wp_pagenavi_class_larger', 'larger' ),
+
+			/**
+			 * Filters the class on the link to the next page.
+			 *
+			 * @since 2.88
+			 *
+			 * @param string $class_name Default 'nextpostslink'.
+			 */
+			'nextpostslink'     => apply_filters( 'wp_pagenavi_class_nextpostslink', 'nextpostslink' ),
+
+			/**
+			 * Filters the class on the link to the last page.
+			 *
+			 * @since 2.88
+			 *
+			 * @param string $class_name Default 'last'.
+			 */
+			'last'              => apply_filters( 'wp_pagenavi_class_last', 'last' ),
+		);
 	}
 
 	/**
