@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * than a top-level menu, and every field is registered rather than hand-written
  * into a form table.
  */
-class WP_PageNavi_Admin {
+class WP_PageNavi_Settings {
 
 	/**
 	 * Settings group passed to register_setting() and settings_fields().

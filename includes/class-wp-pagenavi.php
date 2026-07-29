@@ -32,9 +32,9 @@ class WP_PageNavi {
 		WP_PageNavi_Core::init();
 
 		if ( is_admin() ) {
-			require_once WP_PAGENAVI_DIR . 'includes/class-wp-pagenavi-admin.php';
+			require_once WP_PAGENAVI_DIR . 'includes/class-wp-pagenavi-settings.php';
 
-			WP_PageNavi_Admin::init();
+			WP_PageNavi_Settings::init();
 		}
 	}
 

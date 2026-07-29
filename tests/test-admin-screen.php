@@ -2,7 +2,7 @@
 /**
  * Settings screen rendering tests.
  *
- * These cover the half of WP_PageNavi_Admin that draws the form, as opposed to
+ * These cover the half of WP_PageNavi_Settings that draws the form, as opposed to
  * test-admin.php which covers the sanitise callback.
  *
  * @package WP-PageNavi
@@ -11,7 +11,7 @@
 /**
  * Covers the markup and the Settings API wiring of Settings -> PageNavi.
  */
-class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
+class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 
 	/**
 	 * Register the settings and act as an administrator.
@@ -22,7 +22,7 @@ class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 		parent::set_up();
 
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
-		WP_PageNavi_Admin::register_settings();
+		WP_PageNavi_Settings::register_settings();
 	}
 
 	/**
@@ -32,7 +32,7 @@ class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 	 */
 	protected function render_page() {
 		ob_start();
-		WP_PageNavi_Admin::render_page();
+		WP_PageNavi_Settings::render_page();
 		return ob_get_clean();
 	}
 
@@ -43,7 +43,7 @@ class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 	 */
 	protected function render_fields() {
 		ob_start();
-		do_settings_sections( WP_PageNavi_Admin::PAGE );
+		do_settings_sections( WP_PageNavi_Settings::PAGE );
 		return ob_get_clean();
 	}
 
@@ -57,7 +57,7 @@ class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 
 		$this->assertStringContainsString( 'action="options.php"', $html );
 		$this->assertStringContainsString( 'method="post"', $html );
-		$this->assertStringContainsString( WP_PageNavi_Admin::GROUP, $html );
+		$this->assertStringContainsString( WP_PageNavi_Settings::GROUP, $html );
 		$this->assertStringContainsString( 'name="_wpnonce"', $html );
 		// Core emits this one with single quotes.
 		$this->assertStringContainsString( "name='option_page'", $html );
@@ -235,7 +235,7 @@ class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
 
 		$this->expectException( WPDieException::class );
-		WP_PageNavi_Admin::render_page();
+		WP_PageNavi_Settings::render_page();
 	}
 
 	/**
@@ -272,7 +272,7 @@ class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 
 		$this->assertArrayHasKey( WP_PageNavi_Options::OPTION, $registered );
 		$this->assertSame(
-			WP_PageNavi_Admin::GROUP,
+			WP_PageNavi_Settings::GROUP,
 			$registered[ WP_PageNavi_Options::OPTION ]['group']
 		);
 	}
@@ -283,10 +283,10 @@ class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_init_registers_hooks() {
-		WP_PageNavi_Admin::init();
+		WP_PageNavi_Settings::init();
 
-		$this->assertNotFalse( has_action( 'admin_menu', array( 'WP_PageNavi_Admin', 'add_page' ) ) );
-		$this->assertNotFalse( has_action( 'admin_init', array( 'WP_PageNavi_Admin', 'register_settings' ) ) );
+		$this->assertNotFalse( has_action( 'admin_menu', array( 'WP_PageNavi_Settings', 'add_page' ) ) );
+		$this->assertNotFalse( has_action( 'admin_init', array( 'WP_PageNavi_Settings', 'register_settings' ) ) );
 		$this->assertNotFalse(
 			has_action( 'admin_init', array( 'WP_PageNavi_Options', 'maybe_upgrade' ) ),
 			'The upgrade routine must run on admin_init, because an update never fires the activation hook.'
@@ -294,7 +294,7 @@ class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 		$this->assertNotFalse(
 			has_filter(
 				'plugin_action_links_' . plugin_basename( WP_PAGENAVI_MAIN_FILE ),
-				array( 'WP_PageNavi_Admin', 'action_links' )
+				array( 'WP_PageNavi_Settings', 'action_links' )
 			)
 		);
 	}
@@ -306,7 +306,7 @@ class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_every_registered_field_has_a_callback_method_of_its_own() {
-		$fields = WP_PageNavi_Admin::fields();
+		$fields = WP_PageNavi_Settings::fields();
 
 		$this->assertSame(
 			array_keys( WP_PageNavi_Options::get_defaults() ),
@@ -316,7 +316,7 @@ class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 
 		foreach ( array_keys( $fields ) as $name ) {
 			$this->assertTrue(
-				method_exists( 'WP_PageNavi_Admin', 'field_' . $name ),
+				method_exists( 'WP_PageNavi_Settings', 'field_' . $name ),
 				"The '{$name}' field has no field_{$name}() callback."
 			);
 		}
@@ -331,11 +331,11 @@ class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 	public function test_the_sections_are_registered_under_the_page_slug() {
 		global $wp_settings_sections;
 
-		$this->assertArrayHasKey( WP_PageNavi_Admin::PAGE, $wp_settings_sections );
+		$this->assertArrayHasKey( WP_PageNavi_Settings::PAGE, $wp_settings_sections );
 
 		$this->assertSame(
-			array( WP_PageNavi_Admin::SECTION_TEXT, WP_PageNavi_Admin::SECTION_DISPLAY ),
-			array_keys( $wp_settings_sections[ WP_PageNavi_Admin::PAGE ] )
+			array( WP_PageNavi_Settings::SECTION_TEXT, WP_PageNavi_Settings::SECTION_DISPLAY ),
+			array_keys( $wp_settings_sections[ WP_PageNavi_Settings::PAGE ] )
 		);
 	}
 
@@ -350,7 +350,7 @@ class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_the_screen_writes_no_table_markup_or_inline_presentation() {
-		$source = file_get_contents( dirname( __DIR__ ) . '/includes/class-wp-pagenavi-admin.php' );
+		$source = file_get_contents( dirname( __DIR__ ) . '/includes/class-wp-pagenavi-settings.php' );
 
 		$this->assertStringNotContainsString( '<table', $source, 'do_settings_sections() emits the form table.' );
 		$this->assertStringNotContainsString( 'form-table', $source );

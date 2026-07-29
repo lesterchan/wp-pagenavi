@@ -6,10 +6,10 @@
  */
 
 /**
- * Covers WP_PageNavi_Admin, in particular the sanitize callback the Settings API
+ * Covers WP_PageNavi_Settings, in particular the sanitize callback the Settings API
  * runs on save.
  */
-class WP_PageNavi_Admin_Test extends WP_PageNavi_TestCase {
+class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 
 	/**
 	 * Numeric settings are coerced to non-negative integers.
@@ -188,7 +188,7 @@ class WP_PageNavi_Admin_Test extends WP_PageNavi_TestCase {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 		set_current_screen( 'dashboard' );
 
-		WP_PageNavi_Admin::add_page();
+		WP_PageNavi_Settings::add_page();
 
 		$slugs = wp_list_pluck( $submenu['options-general.php'], 2 );
 		$this->assertContains( 'wp-pagenavi', $slugs );
@@ -201,10 +201,10 @@ class WP_PageNavi_Admin_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_action_links() {
-		$links = WP_PageNavi_Admin::action_links( array( '<a href="#">Deactivate</a>' ) );
+		$links = WP_PageNavi_Settings::action_links( array( '<a href="#">Deactivate</a>' ) );
 		$this->assertCount( 2, $links );
 		$this->assertStringContainsString( 'page=wp-pagenavi', $links[0] );
 
-		$this->assertIsArray( WP_PageNavi_Admin::action_links( null ) );
+		$this->assertIsArray( WP_PageNavi_Settings::action_links( null ) );
 	}
 }
