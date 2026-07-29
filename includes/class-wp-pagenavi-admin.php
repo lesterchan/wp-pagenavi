@@ -39,6 +39,20 @@ class WP_PageNavi_Admin {
 	const CAPABILITY = 'manage_options';
 
 	/**
+	 * The section holding the wording of each part of the navigation.
+	 *
+	 * @var string
+	 */
+	const SECTION_TEXT = 'wp_pagenavi_text';
+
+	/**
+	 * The section holding how the navigation is presented.
+	 *
+	 * @var string
+	 */
+	const SECTION_DISPLAY = 'wp_pagenavi_display';
+
+	/**
 	 * Hook the admin screen into WordPress.
 	 *
 	 * @return void
@@ -122,162 +136,102 @@ class WP_PageNavi_Admin {
 		);
 
 		add_settings_section(
-			'pagenavi_text',
+			self::SECTION_TEXT,
 			__( 'Page Navigation Text', 'wp-pagenavi' ),
-			array( __CLASS__, 'text_section_intro' ),
+			array( __CLASS__, 'section_text' ),
 			self::PAGE
 		);
 
 		add_settings_section(
-			'pagenavi_options',
+			self::SECTION_DISPLAY,
 			__( 'Page Navigation Options', 'wp-pagenavi' ),
 			'__return_false',
 			self::PAGE
 		);
 
-		foreach ( self::text_fields() as $name => $field ) {
+		foreach ( self::fields() as $name => $field ) {
 			add_settings_field(
 				$name,
 				$field['title'],
-				array( __CLASS__, 'render_text_field' ),
+				array( __CLASS__, 'field_' . $name ),
 				self::PAGE,
-				'pagenavi_text',
-				array(
-					'label_for' => 'pagenavi-' . $name,
-					'name'      => $name,
-					'class_'    => isset( $field['class'] ) ? $field['class'] : '',
-					'tokens'    => isset( $field['tokens'] ) ? $field['tokens'] : array(),
-				)
-			);
-		}
-
-		foreach ( self::option_fields() as $name => $field ) {
-			add_settings_field(
-				$name,
-				$field['title'],
-				array( __CLASS__, 'render_' . $field['type'] . '_field' ),
-				self::PAGE,
-				'pagenavi_options',
-				array(
-					'label_for' => 'pagenavi-' . $name,
-					'name'      => $name,
-					'choices'   => isset( $field['choices'] ) ? $field['choices'] : array(),
-					'notes'     => isset( $field['notes'] ) ? $field['notes'] : array(),
-					'class_'    => isset( $field['class'] ) ? $field['class'] : '',
-				)
+				$field['section'],
+				array( 'label_for' => self::id( $name ) )
 			);
 		}
 	}
 
 	/**
-	 * The nine text fields, in the order the screen has always shown them.
+	 * The field definitions: a title and a section for each registered field.
 	 *
-	 * The %TOKEN% placeholders are listed separately from the translated label so
-	 * they never end up inside a translatable string, where a formatting pass
+	 * The order is the one the screen has shown since the scb version, and the
+	 * %TOKEN% hints live in the field callbacks rather than in these titles, so
+	 * they can never end up inside a translatable string where a formatting pass
 	 * would rewrite them into numbered printf placeholders.
 	 *
 	 * @return array
 	 */
-	protected static function text_fields() {
+	public static function fields() {
 		return array(
-			'pages_text'    => array(
-				'title'  => __( 'Text For Number Of Pages', 'wp-pagenavi' ),
-				'class'  => 'regular-text',
-				'tokens' => array(
-					'%CURRENT_PAGE%' => __( 'The current page number.', 'wp-pagenavi' ),
-					'%TOTAL_PAGES%'  => __( 'The total number of pages.', 'wp-pagenavi' ),
-				),
+			'pages_text'                   => array(
+				'title'   => __( 'Text For Number Of Pages', 'wp-pagenavi' ),
+				'section' => self::SECTION_TEXT,
 			),
-			'current_text'  => array(
-				'title'  => __( 'Text For Current Page', 'wp-pagenavi' ),
-				'tokens' => array(
-					'%PAGE_NUMBER%' => __( 'The page number.', 'wp-pagenavi' ),
-				),
+			'current_text'                 => array(
+				'title'   => __( 'Text For Current Page', 'wp-pagenavi' ),
+				'section' => self::SECTION_TEXT,
 			),
-			'page_text'     => array(
-				'title'  => __( 'Text For Page', 'wp-pagenavi' ),
-				'tokens' => array(
-					'%PAGE_NUMBER%' => __( 'The page number.', 'wp-pagenavi' ),
-				),
+			'page_text'                    => array(
+				'title'   => __( 'Text For Page', 'wp-pagenavi' ),
+				'section' => self::SECTION_TEXT,
 			),
-			'first_text'    => array(
-				'title'  => __( 'Text For First Page', 'wp-pagenavi' ),
-				'tokens' => array(
-					'%TOTAL_PAGES%' => __( 'The total number of pages.', 'wp-pagenavi' ),
-				),
+			'first_text'                   => array(
+				'title'   => __( 'Text For First Page', 'wp-pagenavi' ),
+				'section' => self::SECTION_TEXT,
 			),
-			'last_text'     => array(
-				'title'  => __( 'Text For Last Page', 'wp-pagenavi' ),
-				'tokens' => array(
-					'%TOTAL_PAGES%' => __( 'The total number of pages.', 'wp-pagenavi' ),
-				),
+			'last_text'                    => array(
+				'title'   => __( 'Text For Last Page', 'wp-pagenavi' ),
+				'section' => self::SECTION_TEXT,
 			),
-			'prev_text'     => array(
-				'title' => __( 'Text For Previous Page', 'wp-pagenavi' ),
+			'prev_text'                    => array(
+				'title'   => __( 'Text For Previous Page', 'wp-pagenavi' ),
+				'section' => self::SECTION_TEXT,
 			),
-			'next_text'     => array(
-				'title' => __( 'Text For Next Page', 'wp-pagenavi' ),
+			'next_text'                    => array(
+				'title'   => __( 'Text For Next Page', 'wp-pagenavi' ),
+				'section' => self::SECTION_TEXT,
 			),
-			'dotleft_text'  => array(
-				'title' => __( 'Text For Previous ...', 'wp-pagenavi' ),
+			'dotleft_text'                 => array(
+				'title'   => __( 'Text For Previous ...', 'wp-pagenavi' ),
+				'section' => self::SECTION_TEXT,
 			),
-			'dotright_text' => array(
-				'title' => __( 'Text For Next ...', 'wp-pagenavi' ),
+			'dotright_text'                => array(
+				'title'   => __( 'Text For Next ...', 'wp-pagenavi' ),
+				'section' => self::SECTION_TEXT,
 			),
-		);
-	}
-
-	/**
-	 * The non-text fields, in the order the screen has always shown them.
-	 *
-	 * @return array
-	 */
-	protected static function option_fields() {
-		$yes_no = array(
-			1 => __( 'Yes', 'wp-pagenavi' ),
-			0 => __( 'No', 'wp-pagenavi' ),
-		);
-
-		return array(
 			'use_pagenavi_css'             => array(
-				'title'   => __( 'Use pagenavi-css.css', 'wp-pagenavi' ),
-				'type'    => 'radio',
-				'choices' => $yes_no,
+				'title'   => __( 'Use wp-pagenavi.css', 'wp-pagenavi' ),
+				'section' => self::SECTION_DISPLAY,
 			),
 			'style'                        => array(
 				'title'   => __( 'Page Navigation Style', 'wp-pagenavi' ),
-				'type'    => 'select',
-				'choices' => array(
-					1 => __( 'Normal', 'wp-pagenavi' ),
-					2 => __( 'Drop-down List', 'wp-pagenavi' ),
-				),
+				'section' => self::SECTION_DISPLAY,
 			),
 			'always_show'                  => array(
 				'title'   => __( 'Always Show Page Navigation', 'wp-pagenavi' ),
-				'type'    => 'radio',
-				'choices' => $yes_no,
-				'notes'   => array( __( 'Show navigation even if there\'s only one page.', 'wp-pagenavi' ) ),
+				'section' => self::SECTION_DISPLAY,
 			),
 			'num_pages'                    => array(
-				'title' => __( 'Number Of Pages To Show', 'wp-pagenavi' ),
-				'type'  => 'number',
-				'class' => 'small-text',
+				'title'   => __( 'Number Of Pages To Show', 'wp-pagenavi' ),
+				'section' => self::SECTION_DISPLAY,
 			),
 			'num_larger_page_numbers'      => array(
-				'title' => __( 'Number Of Larger Page Numbers To Show', 'wp-pagenavi' ),
-				'type'  => 'number',
-				'class' => 'small-text',
-				'notes' => array(
-					__( 'Larger page numbers are in addition to the normal page numbers. They are useful when there are many pages of posts.', 'wp-pagenavi' ),
-					__( 'For example, WP-PageNavi will display: Pages 1, 2, 3, 4, 5, 10, 20, 30, 40, 50.', 'wp-pagenavi' ),
-					__( 'Enter 0 to disable.', 'wp-pagenavi' ),
-				),
+				'title'   => __( 'Number Of Larger Page Numbers To Show', 'wp-pagenavi' ),
+				'section' => self::SECTION_DISPLAY,
 			),
 			'larger_page_numbers_multiple' => array(
-				'title' => __( 'Show Larger Page Numbers In Multiples Of', 'wp-pagenavi' ),
-				'type'  => 'number',
-				'class' => 'small-text',
-				'notes' => array( __( 'For example, if multiple is 5, it will show: 5, 10, 15, 20, 25', 'wp-pagenavi' ) ),
+				'title'   => __( 'Show Larger Page Numbers In Multiples Of', 'wp-pagenavi' ),
+				'section' => self::SECTION_DISPLAY,
 			),
 		);
 	}
@@ -287,114 +241,307 @@ class WP_PageNavi_Admin {
 	 *
 	 * @return void
 	 */
-	public static function text_section_intro() {
+	public static function section_text() {
 		echo '<p>' . esc_html__( 'Leaving a field blank will hide that part of the navigation.', 'wp-pagenavi' ) . '</p>';
 	}
 
 	/**
-	 * Build the name attribute for a field.
+	 * The wording of the "Page N of M" text.
+	 *
+	 * @return void
+	 */
+	public static function field_pages_text() {
+		self::text( 'pages_text' );
+		self::tokens(
+			array(
+				'%CURRENT_PAGE%' => __( 'The current page number.', 'wp-pagenavi' ),
+				'%TOTAL_PAGES%'  => __( 'The total number of pages.', 'wp-pagenavi' ),
+			)
+		);
+	}
+
+	/**
+	 * The wording of the current page.
+	 *
+	 * @return void
+	 */
+	public static function field_current_text() {
+		self::text( 'current_text' );
+		self::tokens( array( '%PAGE_NUMBER%' => __( 'The page number.', 'wp-pagenavi' ) ) );
+	}
+
+	/**
+	 * The wording of a numbered page link.
+	 *
+	 * @return void
+	 */
+	public static function field_page_text() {
+		self::text( 'page_text' );
+		self::tokens( array( '%PAGE_NUMBER%' => __( 'The page number.', 'wp-pagenavi' ) ) );
+	}
+
+	/**
+	 * The wording of the link to the first page.
+	 *
+	 * @return void
+	 */
+	public static function field_first_text() {
+		self::text( 'first_text' );
+		self::tokens( array( '%TOTAL_PAGES%' => __( 'The total number of pages.', 'wp-pagenavi' ) ) );
+	}
+
+	/**
+	 * The wording of the link to the last page.
+	 *
+	 * @return void
+	 */
+	public static function field_last_text() {
+		self::text( 'last_text' );
+		self::tokens( array( '%TOTAL_PAGES%' => __( 'The total number of pages.', 'wp-pagenavi' ) ) );
+	}
+
+	/**
+	 * The wording of the link to the previous page.
+	 *
+	 * @return void
+	 */
+	public static function field_prev_text() {
+		self::text( 'prev_text' );
+	}
+
+	/**
+	 * The wording of the link to the next page.
+	 *
+	 * @return void
+	 */
+	public static function field_next_text() {
+		self::text( 'next_text' );
+	}
+
+	/**
+	 * The wording of the ellipsis before the page numbers.
+	 *
+	 * @return void
+	 */
+	public static function field_dotleft_text() {
+		self::text( 'dotleft_text' );
+	}
+
+	/**
+	 * The wording of the ellipsis after the page numbers.
+	 *
+	 * @return void
+	 */
+	public static function field_dotright_text() {
+		self::text( 'dotright_text' );
+	}
+
+	/**
+	 * Whether the bundled stylesheet is enqueued.
+	 *
+	 * @return void
+	 */
+	public static function field_use_pagenavi_css() {
+		self::radio( 'use_pagenavi_css', self::yes_no() );
+		self::description( __( 'A copy of wp-pagenavi.css in your theme directory is used in preference to the plugin\'s own.', 'wp-pagenavi' ) );
+	}
+
+	/**
+	 * Numbered links or a drop-down list.
+	 *
+	 * @return void
+	 */
+	public static function field_style() {
+		self::select(
+			'style',
+			array(
+				1 => __( 'Normal', 'wp-pagenavi' ),
+				2 => __( 'Drop-down List', 'wp-pagenavi' ),
+			)
+		);
+	}
+
+	/**
+	 * Whether a single page still gets navigation.
+	 *
+	 * @return void
+	 */
+	public static function field_always_show() {
+		self::radio( 'always_show', self::yes_no() );
+		self::description( __( 'Show navigation even if there\'s only one page.', 'wp-pagenavi' ) );
+	}
+
+	/**
+	 * How many numbered links the window holds.
+	 *
+	 * @return void
+	 */
+	public static function field_num_pages() {
+		self::number( 'num_pages' );
+	}
+
+	/**
+	 * How many larger page numbers are shown.
+	 *
+	 * @return void
+	 */
+	public static function field_num_larger_page_numbers() {
+		self::number( 'num_larger_page_numbers' );
+		self::description( __( 'Larger page numbers are in addition to the normal page numbers. They are useful when there are many pages of posts.', 'wp-pagenavi' ) );
+		self::description( __( 'For example, WP-PageNavi will display: Pages 1, 2, 3, 4, 5, 10, 20, 30, 40, 50.', 'wp-pagenavi' ) );
+		self::description( __( 'Enter 0 to disable.', 'wp-pagenavi' ) );
+	}
+
+	/**
+	 * The step the larger page numbers count in.
+	 *
+	 * @return void
+	 */
+	public static function field_larger_page_numbers_multiple() {
+		self::number( 'larger_page_numbers_multiple' );
+		self::description( __( 'For example, if multiple is 5, it will show: 5, 10, 15, 20, 25', 'wp-pagenavi' ) );
+	}
+
+	/**
+	 * The two choices every toggle on this screen offers.
+	 *
+	 * They are a radio pair rather than a checkbox on purpose: a checkbox posts
+	 * nothing when it is off, and the sanitiser reads only what was posted.
+	 *
+	 * @return array
+	 */
+	protected static function yes_no() {
+		return array(
+			1 => __( 'Yes', 'wp-pagenavi' ),
+			0 => __( 'No', 'wp-pagenavi' ),
+		);
+	}
+
+	/**
+	 * The id attribute for a field, matching the label_for it was registered with.
 	 *
 	 * @param string $name Option key.
 	 * @return string
 	 */
-	protected static function field_name( $name ) {
+	protected static function id( $name ) {
+		return self::PAGE . '-' . $name;
+	}
+
+	/**
+	 * The name attribute for a field, which posts into the settings array.
+	 *
+	 * @param string $name Option key.
+	 * @return string
+	 */
+	protected static function name( $name ) {
 		return WP_PageNavi_Options::OPTION . '[' . $name . ']';
 	}
 
 	/**
-	 * Print the notes shown beneath a field.
+	 * Print a field's description.
 	 *
-	 * @param array $notes Lines of help text.
+	 * @param string $text Description text.
 	 * @return void
 	 */
-	protected static function render_notes( $notes ) {
-		foreach ( $notes as $note ) {
-			echo '<br />' . esc_html( $note );
+	protected static function description( $text ) {
+		printf( '<p class="description">%s</p>', esc_html( $text ) );
+	}
+
+	/**
+	 * Print the list of %TOKEN% placeholders a text field understands.
+	 *
+	 * @param array $tokens Description keyed by token.
+	 * @return void
+	 */
+	protected static function tokens( array $tokens ) {
+		foreach ( $tokens as $token => $description ) {
+			printf(
+				'<p class="description"><code>%1$s</code> &mdash; %2$s</p>',
+				esc_html( $token ),
+				esc_html( $description )
+			);
 		}
 	}
 
 	/**
-	 * Render a text field.
+	 * Print a single-line text box.
 	 *
-	 * @param array $args Field arguments.
+	 * @param string $name Option key.
 	 * @return void
 	 */
-	public static function render_text_field( $args ) {
-		$value = WP_PageNavi_Options::get( $args['name'] );
-		$class = $args['class_'] ? $args['class_'] : 'regular-text';
-
+	protected static function text( $name ) {
 		printf(
-			'<input type="text" id="%1$s" name="%2$s" value="%3$s" class="%4$s" />',
-			esc_attr( $args['label_for'] ),
-			esc_attr( self::field_name( $args['name'] ) ),
-			esc_attr( $value ),
-			esc_attr( $class )
+			'<input type="text" id="%1$s" name="%2$s" value="%3$s" class="regular-text" />',
+			esc_attr( self::id( $name ) ),
+			esc_attr( self::name( $name ) ),
+			esc_attr( (string) WP_PageNavi_Options::get( $name ) )
 		);
-
-		foreach ( $args['tokens'] as $token => $description ) {
-			echo '<br /><code>' . esc_html( $token ) . '</code> &mdash; ' . esc_html( $description );
-		}
 	}
 
 	/**
-	 * Render a number field.
+	 * Print a whole-number box that cannot go negative.
 	 *
-	 * @param array $args Field arguments.
+	 * @param string $name Option key.
 	 * @return void
 	 */
-	public static function render_number_field( $args ) {
-		$value = WP_PageNavi_Options::get( $args['name'] );
-
+	protected static function number( $name ) {
 		printf(
-			'<input type="number" min="0" step="1" id="%1$s" name="%2$s" value="%3$s" class="%4$s" />',
-			esc_attr( $args['label_for'] ),
-			esc_attr( self::field_name( $args['name'] ) ),
-			esc_attr( $value ),
-			esc_attr( $args['class_'] ? $args['class_'] : 'small-text' )
+			'<input type="number" min="0" step="1" id="%1$s" name="%2$s" value="%3$s" class="small-text" />',
+			esc_attr( self::id( $name ) ),
+			esc_attr( self::name( $name ) ),
+			esc_attr( (string) WP_PageNavi_Options::get( $name ) )
 		);
-
-		self::render_notes( $args['notes'] );
 	}
 
 	/**
-	 * Render a pair of radio buttons.
+	 * Print a set of radio buttons.
 	 *
-	 * @param array $args Field arguments.
+	 * The first one carries the id the field was registered with, so the label
+	 * do_settings_fields() prints has something to point at.
+	 *
+	 * @param string $name    Option key.
+	 * @param array  $choices Label keyed by stored value.
 	 * @return void
 	 */
-	public static function render_radio_field( $args ) {
-		$value = (int) WP_PageNavi_Options::get( $args['name'] );
+	protected static function radio( $name, array $choices ) {
+		$value = (int) WP_PageNavi_Options::get( $name );
+		$first = true;
 
 		echo '<fieldset>';
-		foreach ( $args['choices'] as $choice => $label ) {
+
+		foreach ( $choices as $choice => $label ) {
 			printf(
-				'<label><input type="radio" name="%1$s" value="%2$s"%3$s /> %4$s</label> ',
-				esc_attr( self::field_name( $args['name'] ) ),
+				'<label><input type="radio" id="%1$s" name="%2$s" value="%3$s"%4$s /> %5$s</label> ',
+				esc_attr( $first ? self::id( $name ) : self::id( $name ) . '-' . $choice ),
+				esc_attr( self::name( $name ) ),
 				esc_attr( $choice ),
 				checked( $value, (int) $choice, false ),
 				esc_html( $label )
 			);
-		}
-		echo '</fieldset>';
 
-		self::render_notes( $args['notes'] );
+			$first = false;
+		}
+
+		echo '</fieldset>';
 	}
 
 	/**
-	 * Render a select box.
+	 * Print a select box.
 	 *
-	 * @param array $args Field arguments.
+	 * @param string $name    Option key.
+	 * @param array  $choices Label keyed by stored value.
 	 * @return void
 	 */
-	public static function render_select_field( $args ) {
-		$value = (int) WP_PageNavi_Options::get( $args['name'] );
+	protected static function select( $name, array $choices ) {
+		$value = (int) WP_PageNavi_Options::get( $name );
 
 		printf(
 			'<select id="%1$s" name="%2$s">',
-			esc_attr( $args['label_for'] ),
-			esc_attr( self::field_name( $args['name'] ) )
+			esc_attr( self::id( $name ) ),
+			esc_attr( self::name( $name ) )
 		);
-		foreach ( $args['choices'] as $choice => $label ) {
+
+		foreach ( $choices as $choice => $label ) {
 			printf(
 				'<option value="%1$s"%2$s>%3$s</option>',
 				esc_attr( $choice ),
@@ -402,9 +549,8 @@ class WP_PageNavi_Admin {
 				esc_html( $label )
 			);
 		}
-		echo '</select>';
 
-		self::render_notes( $args['notes'] );
+		echo '</select>';
 	}
 
 	/**

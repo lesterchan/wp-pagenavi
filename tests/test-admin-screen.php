@@ -117,8 +117,8 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 	public function test_fields_are_labelled() {
 		$html = $this->render_fields();
 
-		$this->assertStringContainsString( 'for="pagenavi-pages_text"', $html );
-		$this->assertStringContainsString( 'id="pagenavi-pages_text"', $html );
+		$this->assertStringContainsString( 'for="wp-pagenavi-pages_text"', $html );
+		$this->assertStringContainsString( 'id="wp-pagenavi-pages_text"', $html );
 		$this->assertStringContainsString( 'Text For Number Of Pages', $html );
 		$this->assertStringContainsString( 'Number Of Pages To Show', $html );
 	}
@@ -164,7 +164,7 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 		$html = $this->render_fields();
 
 		$this->assertMatchesRegularExpression(
-			'/<input type="number" min="0" step="1" id="pagenavi-num_pages"[^>]*value="5"/',
+			'/<input type="number" min="0" step="1" id="wp-pagenavi-num_pages"[^>]*value="5"/',
 			$html
 		);
 	}
@@ -182,7 +182,7 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 		$html = $this->render_fields();
 
 		preg_match_all(
-			'/<input type="radio" name="wp_pagenavi_options\[use_pagenavi_css\]" value="(\d)"([^>]*)/',
+			'/<input type="radio" id="[^"]*" name="wp_pagenavi_options\[use_pagenavi_css\]" value="(\d)"([^>]*)/',
 			$html,
 			$matches,
 			PREG_SET_ORDER
@@ -289,10 +289,80 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 		$this->assertNotFalse( has_action( 'admin_menu', array( 'WP_PageNavi_Admin', 'add_page' ) ) );
 		$this->assertNotFalse( has_action( 'admin_init', array( 'WP_PageNavi_Admin', 'register_settings' ) ) );
 		$this->assertNotFalse(
+			has_action( 'admin_init', array( 'WP_PageNavi_Options', 'maybe_upgrade' ) ),
+			'The upgrade routine must run on admin_init, because an update never fires the activation hook.'
+		);
+		$this->assertNotFalse(
 			has_filter(
 				'plugin_action_links_' . plugin_basename( WP_PAGENAVI_MAIN_FILE ),
 				array( 'WP_PageNavi_Admin', 'action_links' )
 			)
 		);
+	}
+
+	/**
+	 * Every registered field is drawn by a method of its own, named after the
+	 * option key, and the set of fields is exactly the set of options.
+	 *
+	 * @return void
+	 */
+	public function test_every_registered_field_has_a_callback_method_of_its_own() {
+		$fields = WP_PageNavi_Admin::fields();
+
+		$this->assertSame(
+			array_keys( WP_PageNavi_Options::get_defaults() ),
+			array_keys( $fields ),
+			'Every option needs a field and every field needs an option.'
+		);
+
+		foreach ( array_keys( $fields ) as $name ) {
+			$this->assertTrue(
+				method_exists( 'WP_PageNavi_Admin', 'field_' . $name ),
+				"The '{$name}' field has no field_{$name}() callback."
+			);
+		}
+	}
+
+	/**
+	 * Both sections are registered against the page, keyed by the constants
+	 * rather than by a loose string.
+	 *
+	 * @return void
+	 */
+	public function test_the_sections_are_registered_under_the_page_slug() {
+		global $wp_settings_sections;
+
+		$this->assertArrayHasKey( WP_PageNavi_Admin::PAGE, $wp_settings_sections );
+
+		$this->assertSame(
+			array( WP_PageNavi_Admin::SECTION_TEXT, WP_PageNavi_Admin::SECTION_DISPLAY ),
+			array_keys( $wp_settings_sections[ WP_PageNavi_Admin::PAGE ] )
+		);
+	}
+
+	/**
+	 * The screen hands its markup to the Settings API rather than writing any of
+	 * its own: do_settings_sections() emits the form table, so the plugin must
+	 * not, and nothing carries a presentational attribute.
+	 *
+	 * Asserted against the source rather than the rendered page, because the
+	 * table in the output is core's and is supposed to be there.
+	 *
+	 * @return void
+	 */
+	public function test_the_screen_writes_no_table_markup_or_inline_presentation() {
+		$source = file_get_contents( dirname( __DIR__ ) . '/includes/class-wp-pagenavi-admin.php' );
+
+		$this->assertStringNotContainsString( '<table', $source, 'do_settings_sections() emits the form table.' );
+		$this->assertStringNotContainsString( 'form-table', $source );
+		$this->assertStringNotContainsString( '<tr', $source );
+
+		foreach ( array( 'style="', 'width="', 'valign', 'align="' ) as $attribute ) {
+			$this->assertStringNotContainsString(
+				$attribute,
+				$source,
+				"The admin markup must carry no inline {$attribute} attribute."
+			);
+		}
 	}
 }
