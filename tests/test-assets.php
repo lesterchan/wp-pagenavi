@@ -6,7 +6,7 @@
  */
 
 /**
- * Covers PageNavi_Core::stylesheets().
+ * Covers WP_PageNavi_Core::stylesheets().
  */
 class Test_PageNavi_Assets extends WP_UnitTestCase {
 
@@ -17,7 +17,7 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
-		delete_option( PageNavi_Options::OPTION_NAME );
+		delete_option( WP_PageNavi_Options::OPTION );
 
 		$GLOBALS['wp_styles'] = new WP_Styles();
 	}
@@ -30,9 +30,9 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 	 * @return void
 	 */
 	protected function set_option( $key, $value ) {
-		$options         = PageNavi_Options::get_defaults();
+		$options         = WP_PageNavi_Options::get_defaults();
 		$options[ $key ] = $value;
-		PageNavi_Options::update( $options );
+		WP_PageNavi_Options::update( $options );
 	}
 
 	/**
@@ -43,7 +43,7 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 	public function test_enqueued_when_enabled() {
 		$this->set_option( 'use_pagenavi_css', 1 );
 
-		PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::stylesheets();
 
 		$this->assertTrue( wp_style_is( 'wp-pagenavi', 'enqueued' ) );
 	}
@@ -56,12 +56,12 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 	 */
 	public function test_not_enqueued_when_disabled() {
 		$this->set_option( 'use_pagenavi_css', 0 );
-		PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::stylesheets();
 		$this->assertFalse( wp_style_is( 'wp-pagenavi', 'enqueued' ) );
 
 		$GLOBALS['wp_styles'] = new WP_Styles();
 		$this->set_option( 'use_pagenavi_css', false );
-		PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::stylesheets();
 		$this->assertFalse( wp_style_is( 'wp-pagenavi', 'enqueued' ) );
 	}
 
@@ -74,7 +74,7 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 	public function test_stylesheet_url_resolves_to_plugin_root() {
 		$this->set_option( 'use_pagenavi_css', 1 );
 
-		PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::stylesheets();
 
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
@@ -91,7 +91,7 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 	public function test_stylesheet_is_versioned_with_the_plugin() {
 		$this->set_option( 'use_pagenavi_css', 1 );
 
-		PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::stylesheets();
 
 		$this->assertSame(
 			WP_PAGENAVI_VERSION,
@@ -117,7 +117,7 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 			}
 		);
 
-		PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::stylesheets();
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
 		$this->assertSame( 'https://example.org/theme/wp-pagenavi.css', $src );
@@ -146,7 +146,7 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 			}
 		);
 
-		PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::stylesheets();
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
 		$this->assertSame( 'https://example.org/parent/wp-pagenavi.css', $src );
@@ -172,10 +172,10 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_init_registers_the_enqueue_hook() {
-		PageNavi_Core::init();
+		WP_PageNavi_Core::init();
 
 		$this->assertNotFalse(
-			has_action( 'wp_enqueue_scripts', array( 'PageNavi_Core', 'stylesheets' ) )
+			has_action( 'wp_enqueue_scripts', array( 'WP_PageNavi_Core', 'stylesheets' ) )
 		);
 	}
 

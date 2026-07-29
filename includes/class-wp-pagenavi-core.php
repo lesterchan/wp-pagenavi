@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Builds the page navigation markup and enqueues the stylesheet.
  */
-class PageNavi_Core {
+class WP_PageNavi_Core {
 
 	/**
 	 * Hook the plugin into WordPress.
@@ -27,7 +27,7 @@ class PageNavi_Core {
 	 * @return void
 	 */
 	public static function stylesheets() {
-		if ( ! PageNavi_Options::get( 'use_pagenavi_css' ) ) {
+		if ( ! WP_PageNavi_Options::get( 'use_pagenavi_css' ) ) {
 			return;
 		}
 
@@ -69,18 +69,18 @@ class PageNavi_Core {
 		$wrapper_class = $args['wrapper_class'];
 		$echo          = $args['echo'];
 
-		$options = wp_parse_args( $args['options'], PageNavi_Options::get() );
+		$options = wp_parse_args( $args['options'], WP_PageNavi_Options::get() );
 
 		// The text options are output as HTML, so they are filtered here as well as
 		// on save, to cover values set through the 'options' argument or written to
 		// the option directly.
-		foreach ( PageNavi_Options::text_keys() as $key ) {
+		foreach ( WP_PageNavi_Options::text_keys() as $key ) {
 			if ( isset( $options[ $key ] ) ) {
-				$options[ $key ] = PageNavi_Options::kses( $options[ $key ] );
+				$options[ $key ] = WP_PageNavi_Options::kses( $options[ $key ] );
 			}
 		}
 
-		$instance = new PageNavi_Call( $args );
+		$instance = new WP_PageNavi_Call( $args );
 
 		list( $posts_per_page, $paged, $total_pages ) = $instance->get_pagination_args();
 
@@ -160,18 +160,18 @@ class PageNavi_Core {
 	/**
 	 * Render the numbered link style.
 	 *
-	 * @param PageNavi_Call $instance             The current call.
-	 * @param array         $options              Merged options.
-	 * @param array         $class_names          Filtered class names.
-	 * @param int           $paged                Current page.
-	 * @param int           $total_pages          Total pages.
-	 * @param int           $start_page           First page in the window.
-	 * @param int           $end_page             Last page in the window.
-	 * @param int           $pages_to_show        Size of the window.
-	 * @param int           $half_page_start      Pages before the current one.
-	 * @param int           $half_page_end        Pages after the current one.
-	 * @param int           $larger_page_to_show  How many larger page numbers to show.
-	 * @param int           $larger_page_multiple Multiple the larger page numbers step by.
+	 * @param WP_PageNavi_Call $instance             The current call.
+	 * @param array            $options              Merged options.
+	 * @param array            $class_names          Filtered class names.
+	 * @param int              $paged                Current page.
+	 * @param int              $total_pages          Total pages.
+	 * @param int              $start_page           First page in the window.
+	 * @param int              $end_page             Last page in the window.
+	 * @param int              $pages_to_show        Size of the window.
+	 * @param int              $half_page_start      Pages before the current one.
+	 * @param int              $half_page_end        Pages after the current one.
+	 * @param int              $larger_page_to_show  How many larger page numbers to show.
+	 * @param int              $larger_page_multiple Multiple the larger page numbers step by.
 	 * @return string
 	 */
 	protected static function render_normal( $instance, $options, $class_names, $paged, $total_pages, $start_page, $end_page, $pages_to_show, $half_page_start, $half_page_end, $larger_page_to_show, $larger_page_multiple ) {
@@ -344,11 +344,11 @@ class PageNavi_Core {
 	/**
 	 * Render the drop-down list style.
 	 *
-	 * @param PageNavi_Call $instance    The current call.
-	 * @param array         $options     Merged options.
-	 * @param array         $class_names Filtered class names.
-	 * @param int           $paged       Current page.
-	 * @param int           $total_pages Total pages.
+	 * @param WP_PageNavi_Call $instance    The current call.
+	 * @param array            $options     Merged options.
+	 * @param array            $class_names Filtered class names.
+	 * @param int              $paged       Current page.
+	 * @param int              $total_pages Total pages.
 	 * @return string
 	 */
 	protected static function render_dropdown( $instance, $options, $class_names, $paged, $total_pages ) {

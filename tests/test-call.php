@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for PageNavi_Call, the per-invocation helper.
+ * Tests for WP_PageNavi_Call, the per-invocation helper.
  *
  * @package WP-PageNavi
  */
@@ -14,10 +14,10 @@ class Test_PageNavi_Call extends WP_UnitTestCase {
 	 * Build a call instance.
 	 *
 	 * @param array $args Arguments.
-	 * @return PageNavi_Call
+	 * @return WP_PageNavi_Call
 	 */
 	protected function call( $args = array() ) {
-		return new PageNavi_Call( wp_parse_args( $args, array( 'type' => 'posts' ) ) );
+		return new WP_PageNavi_Call( wp_parse_args( $args, array( 'type' => 'posts' ) ) );
 	}
 
 	/**

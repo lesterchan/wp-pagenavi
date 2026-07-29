@@ -34,7 +34,7 @@ class Test_PageNavi_Render extends WP_UnitTestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
-		delete_option( PageNavi_Options::OPTION_NAME );
+		delete_option( WP_PageNavi_Options::OPTION );
 	}
 
 	/**
@@ -318,7 +318,7 @@ class Test_PageNavi_Render extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'safe', $out );
 
 		update_option(
-			PageNavi_Options::OPTION_NAME,
+			WP_PageNavi_Options::OPTION,
 			array( 'pages_text' => '<script>alert(1)</script>fromdb' )
 		);
 		$out = $this->render( array( 'query' => $this->query( 5 ) ) );

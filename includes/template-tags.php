@@ -40,7 +40,7 @@ function wp_pagenavi( $args = array() ) {
 		}
 	}
 
-	return PageNavi_Core::render( $args );
+	return WP_PageNavi_Core::render( $args );
 }
 
 /**

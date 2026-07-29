@@ -6,7 +6,7 @@
  */
 
 /**
- * Covers PageNavi_Options.
+ * Covers WP_PageNavi_Options.
  */
 class Test_PageNavi_Options extends WP_UnitTestCase {
 
@@ -17,7 +17,7 @@ class Test_PageNavi_Options extends WP_UnitTestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
-		delete_option( PageNavi_Options::OPTION_NAME );
+		delete_option( WP_PageNavi_Options::OPTION );
 	}
 
 	/**
@@ -27,7 +27,7 @@ class Test_PageNavi_Options extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_option_key_is_unchanged() {
-		$this->assertSame( 'pagenavi_options', PageNavi_Options::OPTION_NAME );
+		$this->assertSame( 'pagenavi_options', WP_PageNavi_Options::OPTION );
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Test_PageNavi_Options extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_defaults_when_nothing_stored() {
-		$this->assertSame( PageNavi_Options::get_defaults(), PageNavi_Options::get() );
+		$this->assertSame( WP_PageNavi_Options::get_defaults(), WP_PageNavi_Options::get() );
 	}
 
 	/**
@@ -45,7 +45,7 @@ class Test_PageNavi_Options extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_default_values() {
-		$defaults = PageNavi_Options::get_defaults();
+		$defaults = WP_PageNavi_Options::get_defaults();
 
 		$this->assertSame( 5, $defaults['num_pages'] );
 		$this->assertSame( 3, $defaults['num_larger_page_numbers'] );
@@ -64,14 +64,14 @@ class Test_PageNavi_Options extends WP_UnitTestCase {
 	 */
 	public function test_partial_row_falls_back_to_defaults() {
 		update_option(
-			PageNavi_Options::OPTION_NAME,
+			WP_PageNavi_Options::OPTION,
 			array(
 				'style'     => 1,
 				'num_pages' => 4,
 			)
 		);
 
-		$options = PageNavi_Options::get();
+		$options = WP_PageNavi_Options::get();
 
 		$this->assertSame( 4, $options['num_pages'] );
 		$this->assertSame( 10, $options['larger_page_numbers_multiple'] );
@@ -84,8 +84,8 @@ class Test_PageNavi_Options extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_single_key_access() {
-		$this->assertSame( 5, PageNavi_Options::get( 'num_pages' ) );
-		$this->assertNull( PageNavi_Options::get( 'no_such_option' ) );
+		$this->assertSame( 5, WP_PageNavi_Options::get( 'num_pages' ) );
+		$this->assertNull( WP_PageNavi_Options::get( 'no_such_option' ) );
 	}
 
 	/**
@@ -94,9 +94,9 @@ class Test_PageNavi_Options extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_non_array_option_row_is_survivable() {
-		update_option( PageNavi_Options::OPTION_NAME, 'not-an-array' );
+		update_option( WP_PageNavi_Options::OPTION, 'not-an-array' );
 
-		$this->assertSame( PageNavi_Options::get_defaults(), PageNavi_Options::get() );
+		$this->assertSame( WP_PageNavi_Options::get_defaults(), WP_PageNavi_Options::get() );
 	}
 
 	/**
@@ -105,11 +105,11 @@ class Test_PageNavi_Options extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_update_round_trip() {
-		$options              = PageNavi_Options::get_defaults();
+		$options              = WP_PageNavi_Options::get_defaults();
 		$options['num_pages'] = 9;
 
-		PageNavi_Options::update( $options );
+		WP_PageNavi_Options::update( $options );
 
-		$this->assertSame( 9, PageNavi_Options::get( 'num_pages' ) );
+		$this->assertSame( 9, WP_PageNavi_Options::get( 'num_pages' ) );
 	}
 }

@@ -26,10 +26,10 @@ require_once $_tests_dir . '/includes/functions.php';
  *
  * @return void
  */
-function _pagenavi_manually_load_plugin() {
+function _wp_pagenavi_manually_load_plugin() {
 	require dirname( __DIR__ ) . '/wp-pagenavi.php';
-	require_once dirname( __DIR__ ) . '/includes/class-pagenavi-admin.php';
+	require_once dirname( __DIR__ ) . '/includes/class-wp-pagenavi-admin.php';
 }
-tests_add_filter( 'muplugins_loaded', '_pagenavi_manually_load_plugin' );
+tests_add_filter( 'muplugins_loaded', '_wp_pagenavi_manually_load_plugin' );
 
 require $_tests_dir . '/includes/bootstrap.php';

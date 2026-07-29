@@ -10,7 +10,7 @@
  */
 
 /**
- * Covers PageNavi_Options::allowed_html() and ::kses().
+ * Covers WP_PageNavi_Options::allowed_html() and ::kses().
  */
 class Test_PageNavi_Kses extends WP_UnitTestCase {
 
@@ -28,7 +28,7 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
-		delete_option( PageNavi_Options::OPTION_NAME );
+		delete_option( WP_PageNavi_Options::OPTION );
 	}
 
 	/**
@@ -73,9 +73,9 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	public function test_svg_arrow_stored_in_the_option_row() {
 		self::factory()->post->create_many( 12 );
 
-		$options              = PageNavi_Options::get_defaults();
+		$options              = WP_PageNavi_Options::get_defaults();
 		$options['next_text'] = self::SVG;
-		PageNavi_Options::update( $options );
+		WP_PageNavi_Options::update( $options );
 
 		$out = wp_pagenavi(
 			array(
@@ -101,7 +101,7 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_svg_survives_the_settings_save() {
-		$clean = PageNavi_Admin::sanitize( array( 'prev_text' => self::SVG ) );
+		$clean = WP_PageNavi_Admin::sanitize( array( 'prev_text' => self::SVG ) );
 
 		$this->assertStringContainsString( '<svg', $clean['prev_text'] );
 		$this->assertStringContainsString( '<path', $clean['prev_text'] );
@@ -113,11 +113,11 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_existing_arrow_markup_is_untouched() {
-		$this->assertSame( '&laquo;', PageNavi_Options::kses( '&laquo;' ) );
-		$this->assertSame( '<i class="fa fa-chevron-left"></i>', PageNavi_Options::kses( '<i class="fa fa-chevron-left"></i>' ) );
-		$this->assertSame( '<span class="dashicons dashicons-arrow-left"></span>', PageNavi_Options::kses( '<span class="dashicons dashicons-arrow-left"></span>' ) );
-		$this->assertStringContainsString( '<img', PageNavi_Options::kses( '<img src="/a.png" alt="prev">' ) );
-		$this->assertSame( 'Page %CURRENT_PAGE%', PageNavi_Options::kses( 'Page %CURRENT_PAGE%' ) );
+		$this->assertSame( '&laquo;', WP_PageNavi_Options::kses( '&laquo;' ) );
+		$this->assertSame( '<i class="fa fa-chevron-left"></i>', WP_PageNavi_Options::kses( '<i class="fa fa-chevron-left"></i>' ) );
+		$this->assertSame( '<span class="dashicons dashicons-arrow-left"></span>', WP_PageNavi_Options::kses( '<span class="dashicons dashicons-arrow-left"></span>' ) );
+		$this->assertStringContainsString( '<img', WP_PageNavi_Options::kses( '<img src="/a.png" alt="prev">' ) );
+		$this->assertSame( 'Page %CURRENT_PAGE%', WP_PageNavi_Options::kses( 'Page %CURRENT_PAGE%' ) );
 	}
 
 	/**
@@ -129,11 +129,11 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	public function test_sprite_syntax_is_supported() {
 		$this->assertStringContainsString(
 			'xlink:href="#chevron-left"',
-			PageNavi_Options::kses( '<svg><use xlink:href="#chevron-left"/></svg>' )
+			WP_PageNavi_Options::kses( '<svg><use xlink:href="#chevron-left"/></svg>' )
 		);
 		$this->assertStringContainsString(
 			'href="#chevron-left"',
-			PageNavi_Options::kses( '<svg><use href="#chevron-left"/></svg>' )
+			WP_PageNavi_Options::kses( '<svg><use href="#chevron-left"/></svg>' )
 		);
 	}
 
@@ -147,11 +147,11 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	public function test_xlink_href_is_protocol_filtered() {
 		$this->assertStringNotContainsString(
 			'javascript:',
-			PageNavi_Options::kses( '<svg><use xlink:href="javascript:alert(1)"/></svg>' )
+			WP_PageNavi_Options::kses( '<svg><use xlink:href="javascript:alert(1)"/></svg>' )
 		);
 		$this->assertStringNotContainsString(
 			'javascript:',
-			PageNavi_Options::kses( '<svg><use href="javascript:alert(1)"/></svg>' )
+			WP_PageNavi_Options::kses( '<svg><use href="javascript:alert(1)"/></svg>' )
 		);
 	}
 
@@ -163,7 +163,7 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	public function test_uri_attribute_filter_is_scoped_to_the_call() {
 		$this->assertNotContains( 'xlink:href', wp_kses_uri_attributes() );
 
-		PageNavi_Options::kses( '<svg><use xlink:href="#i"/></svg>' );
+		WP_PageNavi_Options::kses( '<svg><use xlink:href="#i"/></svg>' );
 
 		$this->assertNotContains( 'xlink:href', wp_kses_uri_attributes() );
 		$this->assertFalse( has_filter( 'wp_kses_uri_attributes' ), 'The scoped filter was left attached.' );
@@ -179,7 +179,7 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_hostile_input_is_neutralised( $input ) {
-		$out = PageNavi_Options::kses( $input );
+		$out = WP_PageNavi_Options::kses( $input );
 
 		$this->assertStringNotContainsStringIgnoringCase( '<script', $out );
 		$this->assertStringNotContainsStringIgnoringCase( 'javascript:', $out );
@@ -218,7 +218,7 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_allowed_html_is_filterable() {
-		$this->assertArrayHasKey( 'svg', PageNavi_Options::allowed_html() );
+		$this->assertArrayHasKey( 'svg', WP_PageNavi_Options::allowed_html() );
 
 		add_filter(
 			'wp_pagenavi_allowed_html',
@@ -228,8 +228,8 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 			}
 		);
 
-		$this->assertArrayNotHasKey( 'svg', PageNavi_Options::allowed_html() );
-		$this->assertStringNotContainsString( '<svg', PageNavi_Options::kses( self::SVG ) );
+		$this->assertArrayNotHasKey( 'svg', WP_PageNavi_Options::allowed_html() );
+		$this->assertStringNotContainsString( '<svg', WP_PageNavi_Options::kses( self::SVG ) );
 	}
 
 	/**
@@ -244,7 +244,7 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_viewbox_is_retained_whatever_its_case() {
-		$out = PageNavi_Options::kses( '<svg viewBox="0 0 16 16"></svg>' );
+		$out = WP_PageNavi_Options::kses( '<svg viewBox="0 0 16 16"></svg>' );
 
 		$this->assertMatchesRegularExpression( '/\sviewbox="0 0 16 16"/i', $out );
 		$this->assertStringContainsString( '<svg', $out );

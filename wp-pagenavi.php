@@ -4,8 +4,8 @@
  * Plugin URI: https://lesterchan.net/portfolio/programming/php/
  * Description: Adds a more advanced paging navigation to your WordPress blog
  * Version: 3.0.0
- * Requires at least: 6.0
- * Requires PHP: 7.4
+ * Requires at least: 6.8
+ * Requires PHP: 8.2
  * Author: Lester 'GaMerZ' Chan
  * Author URI: https://lesterchan.net
  * License: GPLv2 or later
@@ -34,23 +34,38 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// Prevent direct access.
 defined( 'ABSPATH' ) || exit;
 
-// Plugin version.
+/**
+ * WP-PageNavi version. The last-run value is kept in the wp_pagenavi_version row.
+ */
 define( 'WP_PAGENAVI_VERSION', '3.0.0' );
 
-// Main plugin file, for resolving paths from the includes.
+/**
+ * Schema counter. Bumped only when the stored rows need reshaping.
+ */
+define( 'WP_PAGENAVI_DB_VERSION', '1' );
+
+/**
+ * WP-PageNavi slug, which is also the text domain.
+ */
+define( 'WP_PAGENAVI_SLUG', 'wp-pagenavi' );
+
+/**
+ * WP-PageNavi main file.
+ */
 define( 'WP_PAGENAVI_MAIN_FILE', __FILE__ );
 
-require_once __DIR__ . '/includes/class-pagenavi-options.php';
-require_once __DIR__ . '/includes/class-pagenavi-call.php';
-require_once __DIR__ . '/includes/class-pagenavi-core.php';
-require_once __DIR__ . '/includes/template-tags.php';
+/**
+ * WP-PageNavi directory, with a trailing slash.
+ */
+define( 'WP_PAGENAVI_DIR', plugin_dir_path( __FILE__ ) );
 
-PageNavi_Core::init();
+/**
+ * WP-PageNavi URL, with a trailing slash.
+ */
+define( 'WP_PAGENAVI_URL', plugin_dir_url( __FILE__ ) );
 
-if ( is_admin() ) {
-	require_once __DIR__ . '/includes/class-pagenavi-admin.php';
-	PageNavi_Admin::init();
-}
+require_once WP_PAGENAVI_DIR . 'includes/class-wp-pagenavi.php';
+
+WP_PageNavi::init();

@@ -2,7 +2,7 @@
 /**
  * Settings screen rendering tests.
  *
- * These cover the half of PageNavi_Admin that draws the form, as opposed to
+ * These cover the half of WP_PageNavi_Admin that draws the form, as opposed to
  * test-admin.php which covers the sanitise callback.
  *
  * @package WP-PageNavi
@@ -20,10 +20,10 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
-		delete_option( PageNavi_Options::OPTION_NAME );
+		delete_option( WP_PageNavi_Options::OPTION );
 
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
-		PageNavi_Admin::register_settings();
+		WP_PageNavi_Admin::register_settings();
 	}
 
 	/**
@@ -33,7 +33,7 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 	 */
 	protected function render_page() {
 		ob_start();
-		PageNavi_Admin::render_page();
+		WP_PageNavi_Admin::render_page();
 		return ob_get_clean();
 	}
 
@@ -44,7 +44,7 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 	 */
 	protected function render_fields() {
 		ob_start();
-		do_settings_sections( PageNavi_Admin::PAGE_SLUG );
+		do_settings_sections( WP_PageNavi_Admin::PAGE );
 		return ob_get_clean();
 	}
 
@@ -58,7 +58,7 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 
 		$this->assertStringContainsString( 'action="options.php"', $html );
 		$this->assertStringContainsString( 'method="post"', $html );
-		$this->assertStringContainsString( PageNavi_Admin::OPTION_GROUP, $html );
+		$this->assertStringContainsString( WP_PageNavi_Admin::GROUP, $html );
 		$this->assertStringContainsString( 'name="_wpnonce"', $html );
 		// Core emits this one with single quotes.
 		$this->assertStringContainsString( "name='option_page'", $html );
@@ -100,9 +100,9 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 	public function test_every_option_has_a_field() {
 		$html = $this->render_fields();
 
-		foreach ( array_keys( PageNavi_Options::get_defaults() ) as $key ) {
+		foreach ( array_keys( WP_PageNavi_Options::get_defaults() ) as $key ) {
 			$this->assertStringContainsString(
-				'name="' . PageNavi_Options::OPTION_NAME . '[' . $key . ']"',
+				'name="' . WP_PageNavi_Options::OPTION . '[' . $key . ']"',
 				$html,
 				"Missing a form field for the '{$key}' option."
 			);
@@ -129,9 +129,9 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_text_fields_show_stored_values_escaped() {
-		$options               = PageNavi_Options::get_defaults();
+		$options               = WP_PageNavi_Options::get_defaults();
 		$options['pages_text'] = 'Mine "quoted" & <b>bold</b>';
-		PageNavi_Options::update( $options );
+		WP_PageNavi_Options::update( $options );
 
 		$html = $this->render_fields();
 
@@ -175,9 +175,9 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_radio_reflects_stored_value() {
-		$options                     = PageNavi_Options::get_defaults();
+		$options                     = WP_PageNavi_Options::get_defaults();
 		$options['use_pagenavi_css'] = 0;
-		PageNavi_Options::update( $options );
+		WP_PageNavi_Options::update( $options );
 
 		$html = $this->render_fields();
 
@@ -204,9 +204,9 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_select_reflects_stored_value() {
-		$options          = PageNavi_Options::get_defaults();
+		$options          = WP_PageNavi_Options::get_defaults();
 		$options['style'] = 2;
-		PageNavi_Options::update( $options );
+		WP_PageNavi_Options::update( $options );
 
 		$html = $this->render_fields();
 
@@ -236,7 +236,7 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
 
 		$this->expectException( WPDieException::class );
-		PageNavi_Admin::render_page();
+		WP_PageNavi_Admin::render_page();
 	}
 
 	/**
@@ -249,14 +249,14 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 	 */
 	public function test_registered_setting_sanitizes_on_update() {
 		update_option(
-			PageNavi_Options::OPTION_NAME,
+			WP_PageNavi_Options::OPTION,
 			array(
 				'num_pages'  => '7abc',
 				'pages_text' => '<script>bad()</script>hello',
 			)
 		);
 
-		$stored = get_option( PageNavi_Options::OPTION_NAME );
+		$stored = get_option( WP_PageNavi_Options::OPTION );
 
 		$this->assertSame( 7, $stored['num_pages'] );
 		$this->assertStringNotContainsString( '<script>', $stored['pages_text'] );
@@ -271,10 +271,10 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 	public function test_setting_is_registered_in_the_expected_group() {
 		$registered = get_registered_settings();
 
-		$this->assertArrayHasKey( PageNavi_Options::OPTION_NAME, $registered );
+		$this->assertArrayHasKey( WP_PageNavi_Options::OPTION, $registered );
 		$this->assertSame(
-			PageNavi_Admin::OPTION_GROUP,
-			$registered[ PageNavi_Options::OPTION_NAME ]['group']
+			WP_PageNavi_Admin::GROUP,
+			$registered[ WP_PageNavi_Options::OPTION ]['group']
 		);
 	}
 
@@ -284,14 +284,14 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_init_registers_hooks() {
-		PageNavi_Admin::init();
+		WP_PageNavi_Admin::init();
 
-		$this->assertNotFalse( has_action( 'admin_menu', array( 'PageNavi_Admin', 'add_page' ) ) );
-		$this->assertNotFalse( has_action( 'admin_init', array( 'PageNavi_Admin', 'register_settings' ) ) );
+		$this->assertNotFalse( has_action( 'admin_menu', array( 'WP_PageNavi_Admin', 'add_page' ) ) );
+		$this->assertNotFalse( has_action( 'admin_init', array( 'WP_PageNavi_Admin', 'register_settings' ) ) );
 		$this->assertNotFalse(
 			has_filter(
 				'plugin_action_links_' . plugin_basename( WP_PAGENAVI_MAIN_FILE ),
-				array( 'PageNavi_Admin', 'action_links' )
+				array( 'WP_PageNavi_Admin', 'action_links' )
 			)
 		);
 	}

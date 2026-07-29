@@ -8,19 +8,20 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Reads and writes the plugin's single option row.
+ * Reads and writes the plugin's two option rows.
  *
- * Replaces the scbOptions object the plugin used before 3.0.0. The option key is
- * deliberately unchanged, so existing installs carry over without a migration.
+ * Replaces the scbOptions object the plugin used before 3.0.0. Settings live in
+ * one row and the version markers in another, so the settings screen and the
+ * upgrade routine can never overwrite each other's work.
  */
-class PageNavi_Options {
+class WP_PageNavi_Options {
 
 	/**
-	 * The option key. Unchanged since the plugin's first release.
+	 * The option row holding every setting, as a nested array.
 	 *
 	 * @var string
 	 */
-	const OPTION_NAME = 'pagenavi_options';
+	const OPTION = 'pagenavi_options';
 
 	/**
 	 * Option keys whose values are rendered as HTML and so must pass through kses.
@@ -47,7 +48,7 @@ class PageNavi_Options {
 	 * This is wp_kses_post()'s list plus the inline SVG elements. Themes commonly
 	 * use an inline SVG for the previous and next arrows, and wp_kses_post()
 	 * removes an SVG completely rather than cleaning it — which leaves the text
-	 * empty, and PageNavi_Call::get_single() drops a link whose text is empty. The
+	 * empty, and WP_PageNavi_Call::get_single() drops a link whose text is empty. The
 	 * result is that the whole link disappears from the page, not just the icon.
 	 *
 	 * Script tags, event-handler attributes and unsafe protocols are still
@@ -276,7 +277,7 @@ class PageNavi_Options {
 	 * @return mixed The full option array, or one value, or null for an unknown key.
 	 */
 	public static function get( $key = null ) {
-		$stored  = get_option( self::OPTION_NAME, array() );
+		$stored  = get_option( self::OPTION, array() );
 		$options = wp_parse_args( is_array( $stored ) ? $stored : array(), self::get_defaults() );
 
 		if ( null === $key ) {
@@ -293,6 +294,6 @@ class PageNavi_Options {
 	 * @return bool Whether the option row changed.
 	 */
 	public static function update( array $options ) {
-		return update_option( self::OPTION_NAME, $options );
+		return update_option( self::OPTION, $options );
 	}
 }

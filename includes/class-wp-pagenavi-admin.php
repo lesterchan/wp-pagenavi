@@ -10,25 +10,33 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Builds Settings -> PageNavi with the WordPress Settings API.
  *
- * Replaces the scbAdminPage/scbForms screen used before 3.0.0. The field names,
- * the option key and the page slug are unchanged, so bookmarks and saved values
- * both survive the upgrade.
+ * Replaces the scbAdminPage/scbForms screen used before 3.0.0. The plugin's only
+ * admin surface is its settings, so it takes a single page under Settings rather
+ * than a top-level menu, and every field is registered rather than hand-written
+ * into a form table.
  */
-class PageNavi_Admin {
+class WP_PageNavi_Admin {
 
 	/**
 	 * Settings group passed to register_setting() and settings_fields().
 	 *
 	 * @var string
 	 */
-	const OPTION_GROUP = 'pagenavi_options_group';
+	const GROUP = 'wp_pagenavi_options';
 
 	/**
-	 * The page slug, unchanged since the scb version.
+	 * The settings page slug.
 	 *
 	 * @var string
 	 */
-	const PAGE_SLUG = 'pagenavi';
+	const PAGE = 'wp-pagenavi';
+
+	/**
+	 * The capability required to see and save the settings.
+	 *
+	 * @var string
+	 */
+	const CAPABILITY = 'manage_options';
 
 	/**
 	 * Hook the admin screen into WordPress.
@@ -42,6 +50,24 @@ class PageNavi_Admin {
 	}
 
 	/**
+	 * The capability required for a given context.
+	 *
+	 * @param string $context What the capability is being checked for.
+	 * @return string
+	 */
+	public static function capability( $context = 'settings' ) {
+		/**
+		 * Filters the capability required to manage WP-PageNavi.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $capability The required capability.
+		 * @param string $context    What the capability is being checked for.
+		 */
+		return (string) apply_filters( 'wp_pagenavi_capability', self::CAPABILITY, $context );
+	}
+
+	/**
 	 * Add the settings page under the Settings menu.
 	 *
 	 * @return void
@@ -50,8 +76,8 @@ class PageNavi_Admin {
 		add_options_page(
 			__( 'PageNavi Settings', 'wp-pagenavi' ),
 			__( 'PageNavi', 'wp-pagenavi' ),
-			'manage_options',
-			self::PAGE_SLUG,
+			self::capability(),
+			self::PAGE,
 			array( __CLASS__, 'render_page' )
 		);
 	}
@@ -69,7 +95,7 @@ class PageNavi_Admin {
 
 		array_unshift(
 			$links,
-			'<a href="' . esc_url( admin_url( 'options-general.php?page=' . self::PAGE_SLUG ) ) . '">' . esc_html__( 'Settings', 'wp-pagenavi' ) . '</a>'
+			'<a href="' . esc_url( admin_url( 'options-general.php?page=' . self::PAGE ) ) . '">' . esc_html__( 'Settings', 'wp-pagenavi' ) . '</a>'
 		);
 
 		return $links;
@@ -82,8 +108,8 @@ class PageNavi_Admin {
 	 */
 	public static function register_settings() {
 		register_setting(
-			self::OPTION_GROUP,
-			PageNavi_Options::OPTION_NAME,
+			self::GROUP,
+			WP_PageNavi_Options::OPTION,
 			array(
 				'type'              => 'array',
 				'sanitize_callback' => array( __CLASS__, 'sanitize' ),
@@ -94,14 +120,14 @@ class PageNavi_Admin {
 			'pagenavi_text',
 			__( 'Page Navigation Text', 'wp-pagenavi' ),
 			array( __CLASS__, 'text_section_intro' ),
-			self::PAGE_SLUG
+			self::PAGE
 		);
 
 		add_settings_section(
 			'pagenavi_options',
 			__( 'Page Navigation Options', 'wp-pagenavi' ),
 			'__return_false',
-			self::PAGE_SLUG
+			self::PAGE
 		);
 
 		foreach ( self::text_fields() as $name => $field ) {
@@ -109,7 +135,7 @@ class PageNavi_Admin {
 				$name,
 				$field['title'],
 				array( __CLASS__, 'render_text_field' ),
-				self::PAGE_SLUG,
+				self::PAGE,
 				'pagenavi_text',
 				array(
 					'label_for' => 'pagenavi-' . $name,
@@ -125,7 +151,7 @@ class PageNavi_Admin {
 				$name,
 				$field['title'],
 				array( __CLASS__, 'render_' . $field['type'] . '_field' ),
-				self::PAGE_SLUG,
+				self::PAGE,
 				'pagenavi_options',
 				array(
 					'label_for' => 'pagenavi-' . $name,
@@ -267,7 +293,7 @@ class PageNavi_Admin {
 	 * @return string
 	 */
 	protected static function field_name( $name ) {
-		return PageNavi_Options::OPTION_NAME . '[' . $name . ']';
+		return WP_PageNavi_Options::OPTION . '[' . $name . ']';
 	}
 
 	/**
@@ -289,7 +315,7 @@ class PageNavi_Admin {
 	 * @return void
 	 */
 	public static function render_text_field( $args ) {
-		$value = PageNavi_Options::get( $args['name'] );
+		$value = WP_PageNavi_Options::get( $args['name'] );
 		$class = $args['class_'] ? $args['class_'] : 'regular-text';
 
 		printf(
@@ -312,7 +338,7 @@ class PageNavi_Admin {
 	 * @return void
 	 */
 	public static function render_number_field( $args ) {
-		$value = PageNavi_Options::get( $args['name'] );
+		$value = WP_PageNavi_Options::get( $args['name'] );
 
 		printf(
 			'<input type="number" min="0" step="1" id="%1$s" name="%2$s" value="%3$s" class="%4$s" />',
@@ -332,7 +358,7 @@ class PageNavi_Admin {
 	 * @return void
 	 */
 	public static function render_radio_field( $args ) {
-		$value = (int) PageNavi_Options::get( $args['name'] );
+		$value = (int) WP_PageNavi_Options::get( $args['name'] );
 
 		echo '<fieldset>';
 		foreach ( $args['choices'] as $choice => $label ) {
@@ -356,7 +382,7 @@ class PageNavi_Admin {
 	 * @return void
 	 */
 	public static function render_select_field( $args ) {
-		$value = (int) PageNavi_Options::get( $args['name'] );
+		$value = (int) WP_PageNavi_Options::get( $args['name'] );
 
 		printf(
 			'<select id="%1$s" name="%2$s">',
@@ -382,7 +408,7 @@ class PageNavi_Admin {
 	 * @return void
 	 */
 	public static function render_page() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( self::capability() ) ) {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'wp-pagenavi' ) );
 		}
 		?>
@@ -390,8 +416,8 @@ class PageNavi_Admin {
 			<h1><?php esc_html_e( 'PageNavi Settings', 'wp-pagenavi' ); ?></h1>
 			<form method="post" action="options.php">
 				<?php
-				settings_fields( self::OPTION_GROUP );
-				do_settings_sections( self::PAGE_SLUG );
+				settings_fields( self::GROUP );
+				do_settings_sections( self::PAGE );
 				submit_button();
 				?>
 			</form>
@@ -409,19 +435,19 @@ class PageNavi_Admin {
 	 * @return array
 	 */
 	public static function sanitize( $input ) {
-		$options = wp_parse_args( is_array( $input ) ? $input : array(), PageNavi_Options::get() );
+		$options = wp_parse_args( is_array( $input ) ? $input : array(), WP_PageNavi_Options::get() );
 
 		// Keep only keys the plugin actually defines. Without this a hand-crafted
 		// post to options.php would have its extra keys stored in the option row
 		// forever; the framework used before 3.0.0 dropped them for the same reason.
-		$options = array_intersect_key( $options, PageNavi_Options::get_defaults() );
+		$options = array_intersect_key( $options, WP_PageNavi_Options::get_defaults() );
 
-		foreach ( PageNavi_Options::int_keys() as $key ) {
+		foreach ( WP_PageNavi_Options::int_keys() as $key ) {
 			$value           = isset( $options[ $key ] ) && is_scalar( $options[ $key ] ) ? $options[ $key ] : 0;
 			$options[ $key ] = absint( $value );
 		}
 
-		foreach ( PageNavi_Options::bool_keys() as $key ) {
+		foreach ( WP_PageNavi_Options::bool_keys() as $key ) {
 			$value           = isset( $options[ $key ] ) && is_scalar( $options[ $key ] ) ? $options[ $key ] : 0;
 			$options[ $key ] = intval( $value );
 		}
@@ -429,8 +455,8 @@ class PageNavi_Admin {
 		// The same allow-list the renderer uses, so an SVG arrow typed into the
 		// settings screen survives exactly as one passed through the 'options'
 		// argument does.
-		foreach ( PageNavi_Options::text_keys() as $key ) {
-			$options[ $key ] = PageNavi_Options::kses( isset( $options[ $key ] ) ? $options[ $key ] : '' );
+		foreach ( WP_PageNavi_Options::text_keys() as $key ) {
+			$options[ $key ] = WP_PageNavi_Options::kses( isset( $options[ $key ] ) ? $options[ $key ] : '' );
 		}
 
 		return $options;

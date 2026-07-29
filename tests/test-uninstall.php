@@ -16,15 +16,15 @@ class Test_PageNavi_Uninstall extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_uninstall_deletes_the_option() {
-		PageNavi_Options::update( PageNavi_Options::get_defaults() );
-		$this->assertIsArray( get_option( PageNavi_Options::OPTION_NAME ) );
+		WP_PageNavi_Options::update( WP_PageNavi_Options::get_defaults() );
+		$this->assertIsArray( get_option( WP_PageNavi_Options::OPTION ) );
 
 		if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 			define( 'WP_UNINSTALL_PLUGIN', 'wp-pagenavi/wp-pagenavi.php' );
 		}
 		require_once dirname( __DIR__ ) . '/uninstall.php';
 
-		$this->assertFalse( get_option( PageNavi_Options::OPTION_NAME ) );
+		$this->assertFalse( get_option( WP_PageNavi_Options::OPTION ) );
 	}
 
 	/**

@@ -6,7 +6,7 @@
  */
 
 /**
- * Covers PageNavi_Admin, in particular the sanitize callback the Settings API
+ * Covers WP_PageNavi_Admin, in particular the sanitize callback the Settings API
  * runs on save.
  */
 class Test_PageNavi_Admin extends WP_UnitTestCase {
@@ -18,7 +18,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
-		delete_option( PageNavi_Options::OPTION_NAME );
+		delete_option( WP_PageNavi_Options::OPTION );
 	}
 
 	/**
@@ -27,7 +27,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_numeric_settings_are_absinted() {
-		$clean = PageNavi_Admin::sanitize(
+		$clean = WP_PageNavi_Admin::sanitize(
 			array(
 				'num_pages'                    => '5abc',
 				'num_larger_page_numbers'      => '-3',
@@ -48,7 +48,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_toggles_are_integers() {
-		$clean = PageNavi_Admin::sanitize(
+		$clean = WP_PageNavi_Admin::sanitize(
 			array(
 				'always_show'      => '1',
 				'use_pagenavi_css' => '0',
@@ -66,7 +66,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_text_settings_are_ksesed() {
-		$clean = PageNavi_Admin::sanitize(
+		$clean = WP_PageNavi_Admin::sanitize(
 			array(
 				'pages_text'   => 'Page %CURRENT_PAGE% of %TOTAL_PAGES% <script>bad()</script>',
 				'current_text' => '<strong>%PAGE_NUMBER%</strong>',
@@ -84,7 +84,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_empty_text_is_preserved() {
-		$clean = PageNavi_Admin::sanitize(
+		$clean = WP_PageNavi_Admin::sanitize(
 			array(
 				'prev_text' => '',
 				'next_text' => '',
@@ -102,12 +102,12 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_missing_keys_keep_stored_values() {
-		$options              = PageNavi_Options::get_defaults();
+		$options              = WP_PageNavi_Options::get_defaults();
 		$options['num_pages'] = 9;
 		$options['prev_text'] = 'KEEPME';
-		PageNavi_Options::update( $options );
+		WP_PageNavi_Options::update( $options );
 
-		$clean = PageNavi_Admin::sanitize( array( 'style' => '1' ) );
+		$clean = WP_PageNavi_Admin::sanitize( array( 'style' => '1' ) );
 
 		$this->assertSame( 9, $clean['num_pages'] );
 		$this->assertSame( 'KEEPME', $clean['prev_text'] );
@@ -119,7 +119,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_non_array_input_is_survivable() {
-		$clean = PageNavi_Admin::sanitize( 'garbage' );
+		$clean = WP_PageNavi_Admin::sanitize( 'garbage' );
 
 		$this->assertIsArray( $clean );
 		$this->assertSame( 5, $clean['num_pages'] );
@@ -131,7 +131,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_unknown_keys_are_discarded() {
-		$clean = PageNavi_Admin::sanitize(
+		$clean = WP_PageNavi_Admin::sanitize(
 			array(
 				'style'    => '1',
 				'evil_key' => 'x',
@@ -142,7 +142,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 		$this->assertArrayNotHasKey( 'evil_key', $clean );
 		$this->assertArrayNotHasKey( 'another', $clean );
 		$this->assertSame(
-			array_keys( PageNavi_Options::get_defaults() ),
+			array_keys( WP_PageNavi_Options::get_defaults() ),
 			array_keys( $clean ),
 			'Only the plugin\'s own option keys may be stored.'
 		);
@@ -167,7 +167,7 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 			}
 		);
 
-		$clean = PageNavi_Admin::sanitize(
+		$clean = WP_PageNavi_Admin::sanitize(
 			array(
 				'prev_text' => array( 'a' => 'b' ),
 				'num_pages' => array( 5 ),
@@ -194,10 +194,10 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 		set_current_screen( 'dashboard' );
 
-		PageNavi_Admin::add_page();
+		WP_PageNavi_Admin::add_page();
 
 		$slugs = wp_list_pluck( $submenu['options-general.php'], 2 );
-		$this->assertContains( 'pagenavi', $slugs );
+		$this->assertContains( 'wp-pagenavi', $slugs );
 	}
 
 	/**
@@ -207,10 +207,10 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_action_links() {
-		$links = PageNavi_Admin::action_links( array( '<a href="#">Deactivate</a>' ) );
+		$links = WP_PageNavi_Admin::action_links( array( '<a href="#">Deactivate</a>' ) );
 		$this->assertCount( 2, $links );
-		$this->assertStringContainsString( 'page=pagenavi', $links[0] );
+		$this->assertStringContainsString( 'page=wp-pagenavi', $links[0] );
 
-		$this->assertIsArray( PageNavi_Admin::action_links( null ) );
+		$this->assertIsArray( WP_PageNavi_Admin::action_links( null ) );
 	}
 }
