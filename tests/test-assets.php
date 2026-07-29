@@ -109,16 +109,7 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 	public function test_theme_copy_overrides_the_plugin_stylesheet() {
 		$this->set_option( 'use_pagenavi_css', 1 );
 
-		$theme_dir = get_temp_dir() . 'pagenavi-theme-' . wp_generate_password( 6, false );
-		mkdir( $theme_dir );
-		file_put_contents( $theme_dir . '/wp-pagenavi.css', '/* theme copy */' );
-
-		add_filter(
-			'stylesheet_directory',
-			static function () use ( $theme_dir ) {
-				return $theme_dir;
-			}
-		);
+		add_filter( 'stylesheet_directory', array( $this, 'filter_css_directory' ) );
 		add_filter(
 			'stylesheet_directory_uri',
 			static function () {
@@ -128,9 +119,6 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 
 		PageNavi_Core::stylesheets();
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
-
-		unlink( $theme_dir . '/wp-pagenavi.css' );
-		rmdir( $theme_dir );
 
 		$this->assertSame( 'https://example.org/theme/wp-pagenavi.css', $src );
 	}
@@ -143,10 +131,6 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 	public function test_parent_theme_copy_is_used_as_a_fallback() {
 		$this->set_option( 'use_pagenavi_css', 1 );
 
-		$parent_dir = get_temp_dir() . 'pagenavi-parent-' . wp_generate_password( 6, false );
-		mkdir( $parent_dir );
-		file_put_contents( $parent_dir . '/wp-pagenavi.css', '/* parent copy */' );
-
 		// The child theme deliberately has no copy.
 		add_filter(
 			'stylesheet_directory',
@@ -154,12 +138,7 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 				return '/nonexistent-child-theme';
 			}
 		);
-		add_filter(
-			'template_directory',
-			static function () use ( $parent_dir ) {
-				return $parent_dir;
-			}
-		);
+		add_filter( 'template_directory', array( $this, 'filter_css_directory' ) );
 		add_filter(
 			'template_directory_uri',
 			static function () {
@@ -170,10 +149,21 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 		PageNavi_Core::stylesheets();
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
-		unlink( $parent_dir . '/wp-pagenavi.css' );
-		rmdir( $parent_dir );
-
 		$this->assertSame( 'https://example.org/parent/wp-pagenavi.css', $src );
+	}
+
+	/**
+	 * Point a theme directory at the plugin's own css/ folder.
+	 *
+	 * The lookup only asks whether wp-pagenavi.css exists in the directory, and
+	 * css/ is a directory that certainly holds one. Standing a real theme up in
+	 * the temp directory would mean creating and deleting files from a test, and
+	 * a half-run test would then leave them behind.
+	 *
+	 * @return string
+	 */
+	public function filter_css_directory() {
+		return untrailingslashit( dirname( __DIR__ ) . '/css' );
 	}
 
 	/**

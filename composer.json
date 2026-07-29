@@ -1,14 +1,24 @@
 {
 	"name": "lesterchan/wp-pagenavi",
-	"description": "Adds a more advanced paging navigation to your WordPress blog.",
+	"description": "Adds a more advanced paging navigation to your WordPress blog",
 	"type": "wordpress-plugin",
+	"homepage": "https://wordpress.org/plugins/wp-pagenavi/",
 	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Lester Chan",
+			"email": "lesterchan@gmail.com"
+		}
+	],
 	"require": {
-		"php": ">=7.4"
+		"php": ">=8.2"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^9.6",
 		"yoast/phpunit-polyfills": "^2.0"
+	},
+	"scripts": {
+		"test": "phpunit"
 	},
 	"config": {
 		"allow-plugins": false

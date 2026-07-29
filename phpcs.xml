@@ -16,24 +16,83 @@
 
 	<rule ref="WordPress"/>
 
-	<config name="minimum_wp_version" value="6.0"/>
+	<config name="text_domain" value="wp-pagenavi,default"/>
+	<config name="minimum_wp_version" value="6.8"/>
 
-	<rule ref="WordPress.WP.I18n">
-		<properties>
-			<property name="text_domain" type="array">
-				<element value="wp-pagenavi"/>
-				<!-- The navigation aria-labels reuse core's own strings. -->
-				<element value="default"/>
-			</property>
-		</properties>
-	</rule>
+	<!--
+		Everything below relaxes a sniff for the test suite only, and this list
+		is closed: it is identical in all nineteen plugins. A sniff firing in
+		includes/ is a bug in the code, not a missing exclusion - fix the code.
+	-->
 
 	<!-- The tests assert on the plugin's own markup, so they must not escape it. -->
 	<rule ref="WordPress.Security.EscapeOutput">
 		<exclude-pattern>/tests/*</exclude-pattern>
 	</rule>
-	<!-- Tests write real fixture files; WP_Filesystem is not appropriate there. -->
-	<rule ref="WordPress.WP.AlternativeFunctions">
+
+	<!--
+		A test method's name is its documentation - test_a_malformed_range_does_
+		not_ban_everyone() gains nothing from a docblock repeating it. Required
+		everywhere else.
+	-->
+	<rule ref="Squiz.Commenting.FunctionComment.Missing">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+	<rule ref="Generic.Commenting.DocComment.MissingShort">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<!--
+		Test files are named test-*.php by WordPress convention rather than
+		class-*.php; the coding standard excepts test classes from that rule.
+	-->
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<!--
+		The tests read wp_options directly to assert which rows the migration
+		left behind. There is no API for "which rows exist".
+	-->
+	<rule ref="WordPress.DB.DirectDatabaseQuery">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<!--
+		The tests drive superglobals to simulate proxy headers and form posts;
+		that is the behaviour under test, not unvalidated input.
+	-->
+	<rule ref="WordPress.Security.ValidatedSanitizedInput">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.Security.NonceVerification">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<!-- The tests read the plugin's own source; WP_Filesystem is not appropriate. -->
+	<rule ref="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<!--
+		The admin-screen tests install an error handler on purpose: collecting
+		the diagnostics is what makes them more than smoke tests.
+	-->
+	<rule ref="WordPress.PHP.DevelopmentFunctions.error_log_set_error_handler">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<!--
+		The settings tests set $hook_suffix, which wp-admin would have set before
+		any page callback ran. WP_List_Table's constructor reaches
+		WP_Screen::get(), which reads that global, so the test bootstrap has to
+		stand in for admin.php.
+
+		Worth re-checking now the floor is WordPress 6.8: this exclusion was
+		added for a much older core, and if current WP guards the read, the
+		tests can drop the assignment and this rule can go.
+	-->
+	<rule ref="WordPress.WP.GlobalVariablesOverride">
 		<exclude-pattern>/tests/*</exclude-pattern>
 	</rule>
 </ruleset>

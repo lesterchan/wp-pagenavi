@@ -1,32 +1,32 @@
 #!/usr/bin/env bash
 #
-# Run the PHPUnit suite against a wp-env WordPress install.
+# Run the PHPUnit suite against a real WordPress install, single site.
 #
-# Dev dependencies are installed inside the container, so vendor/ never appears
-# in the repo. Docker is the only prerequisite.
+# Docker is the only prerequisite: wp-env brings up WordPress, MySQL and the
+# WordPress test library. Dev dependencies are installed INSIDE the container,
+# so vendor/ never appears in the repo.
 #
-# Usage: bin/test.sh [extra phpunit args]
+#   bash bin/test.sh                 # whole suite
+#   bash bin/test.sh --filter Escaping
+#
+# For the network run use bin/test-multisite.sh. Override the stack with
+# WP_ENV_PHP_VERSION / WP_ENV_CORE, exactly as CI does.
 
 set -euo pipefail
 
-cd "$( dirname "$0" )/.."
+SLUG=wp-pagenavi
+CONFIG="${PHPUNIT_CONFIG:-phpunit.xml.dist}"
+CWD=wp-content/plugins/$SLUG
 
-SLUG="$( basename "$PWD" )"
-ENV_CWD="wp-content/plugins/${SLUG}"
+cd "$(dirname "$0")/.."
 
-# Coverage needs Xdebug, which slows every request down, so it is opt-in:
-#   COVERAGE=1 bin/test.sh --coverage-text
-XDEBUG_FLAG=""
-if [ "${COVERAGE:-}" = "1" ]; then
-	XDEBUG_FLAG="--xdebug=coverage"
-fi
+echo "==> Starting wp-env (PHP ${WP_ENV_PHP_VERSION:-default}, core ${WP_ENV_CORE:-default})"
+npx --yes @wordpress/env start
 
-echo "--- starting wp-env"
-# shellcheck disable=SC2086
-npx --yes @wordpress/env start $XDEBUG_FLAG
+echo "==> Installing dev dependencies inside the tests container"
+npx --yes @wordpress/env run tests-cli --env-cwd="$CWD" \
+	composer install --no-interaction --no-progress
 
-echo "--- installing dev dependencies in the container"
-npx --yes @wordpress/env run tests-cli --env-cwd="$ENV_CWD" composer install --no-interaction
-
-echo "--- running phpunit"
-npx --yes @wordpress/env run tests-cli --env-cwd="$ENV_CWD" ./vendor/bin/phpunit "$@"
+echo "==> Running PHPUnit ($CONFIG)"
+npx --yes @wordpress/env run tests-cli --env-cwd="$CWD" \
+	vendor/bin/phpunit -c "$CONFIG" "$@"
