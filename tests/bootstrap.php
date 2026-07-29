@@ -33,3 +33,8 @@ function _wp_pagenavi_manually_load_plugin() {
 tests_add_filter( 'muplugins_loaded', '_wp_pagenavi_manually_load_plugin' );
 
 require $_tests_dir . '/includes/bootstrap.php';
+
+// After the test library, not before: the base class extends WP_UnitTestCase,
+// which does not exist until the bootstrap above has run.
+require_once __DIR__ . '/helper-source.php';
+require_once __DIR__ . '/helper-testcase.php';

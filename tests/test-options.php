@@ -8,17 +8,7 @@
 /**
  * Covers WP_PageNavi_Options.
  */
-class Test_PageNavi_Options extends WP_UnitTestCase {
-
-	/**
-	 * Reset the options between tests.
-	 *
-	 * @return void
-	 */
-	public function set_up() {
-		parent::set_up();
-		delete_option( WP_PageNavi_Options::OPTION );
-	}
+class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 
 	/**
 	 * Both rows carry the wp_pagenavi_ prefix, and the settings row is not the

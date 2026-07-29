@@ -8,20 +8,7 @@
 /**
  * Covers WP_PageNavi_Options::maybe_upgrade() and the row rename it performs.
  */
-class Test_PageNavi_Upgrade extends WP_UnitTestCase {
-
-	/**
-	 * Start every test with no rows at all, as a fresh install would.
-	 *
-	 * @return void
-	 */
-	public function set_up() {
-		parent::set_up();
-
-		delete_option( WP_PageNavi_Options::OPTION );
-		delete_option( WP_PageNavi_Options::VERSION );
-		delete_option( WP_PageNavi_Options::LEGACY_OPTION );
-	}
+class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 
 	/**
 	 * The row every release up to 2.94.6 wrote is folded into the prefixed one

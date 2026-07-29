@@ -9,17 +9,7 @@
  * Covers WP_PageNavi_Admin, in particular the sanitize callback the Settings API
  * runs on save.
  */
-class Test_PageNavi_Admin extends WP_UnitTestCase {
-
-	/**
-	 * Reset the options between tests.
-	 *
-	 * @return void
-	 */
-	public function set_up() {
-		parent::set_up();
-		delete_option( WP_PageNavi_Options::OPTION );
-	}
+class WP_PageNavi_Admin_Test extends WP_PageNavi_TestCase {
 
 	/**
 	 * Numeric settings are coerced to non-negative integers.
@@ -162,9 +152,8 @@ class Test_PageNavi_Admin extends WP_UnitTestCase {
 		$raised = null;
 
 		// Capturing the notice is the assertion here, not leftover debug code. The
-		// sniff prefix is used rather than the full error code, which has differed
-		// between WPCS releases.
-		// phpcs:ignore WordPress.PHP.DevelopmentFunctions
+		// shared phpcs.xml excuses set_error_handler() for tests/, so this needs no
+		// suppression of its own.
 		set_error_handler(
 			static function ( $errno, $errstr ) use ( &$raised ) {
 				$raised = $errstr;

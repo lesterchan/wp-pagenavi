@@ -8,7 +8,7 @@
 /**
  * Covers the markup wp_pagenavi() produces.
  */
-class Test_PageNavi_Render extends WP_UnitTestCase {
+class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 
 	/**
 	 * IDs of the posts created for the suite.
@@ -25,34 +25,6 @@ class Test_PageNavi_Render extends WP_UnitTestCase {
 	 */
 	public static function wpSetUpBeforeClass( $factory ) {
 		self::$post_ids = $factory->post->create_many( 47 );
-	}
-
-	/**
-	 * Reset the options between tests.
-	 *
-	 * @return void
-	 */
-	public function set_up() {
-		parent::set_up();
-		delete_option( WP_PageNavi_Options::OPTION );
-	}
-
-	/**
-	 * Build a posts query at a given page.
-	 *
-	 * @param int $paged    Page number.
-	 * @param int $per_page Posts per page.
-	 * @return WP_Query
-	 */
-	protected function query( $paged, $per_page = 5 ) {
-		return new WP_Query(
-			array(
-				'post_type'      => 'post',
-				'post_status'    => 'publish',
-				'posts_per_page' => $per_page,
-				'paged'          => $paged,
-			)
-		);
 	}
 
 	/**

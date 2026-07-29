@@ -12,7 +12,7 @@
 /**
  * Covers WP_PageNavi_Options::allowed_html() and ::kses().
  */
-class Test_PageNavi_Kses extends WP_UnitTestCase {
+class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 
 	/**
 	 * A representative inline SVG arrow.
@@ -20,16 +20,6 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	 * @var string
 	 */
 	const SVG = '<svg viewBox="0 0 16 16" width="16" height="16" class="icon" aria-hidden="true" focusable="false"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
-
-	/**
-	 * Reset options between tests.
-	 *
-	 * @return void
-	 */
-	public function set_up() {
-		parent::set_up();
-		delete_option( WP_PageNavi_Options::OPTION );
-	}
 
 	/**
 	 * The exact 2.94.6 regression: wp_kses_post() empties an inline SVG, and a
@@ -235,11 +225,11 @@ class Test_PageNavi_Kses extends WP_UnitTestCase {
 	/**
 	 * The viewBox attribute is retained, which is what makes the icon scale.
 	 *
-	 * Which case it comes back in depends on the WordPress version: 6.0 keeps the
-	 * author's `viewBox`, current versions lowercase it to `viewbox`. Either
-	 * renders, because HTML parsers case-correct SVG attributes in foreign
-	 * content, so the assertion deliberately ignores case rather than pinning one
-	 * version's behaviour.
+	 * The case it comes back in is kses's business, not the plugin's: it
+	 * lowercases attribute names, so the author's `viewBox` is stored as
+	 * `viewbox`. Either renders, because HTML parsers case-correct SVG
+	 * attributes in foreign content, so the assertion is about the attribute
+	 * surviving at all rather than about which case core happens to hand back.
 	 *
 	 * @return void
 	 */

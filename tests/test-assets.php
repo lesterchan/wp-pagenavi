@@ -8,7 +8,7 @@
 /**
  * Covers WP_PageNavi_Core::stylesheets().
  */
-class Test_PageNavi_Assets extends WP_UnitTestCase {
+class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 
 	/**
 	 * Start each test with a clean style queue and no stored options.
@@ -17,22 +17,8 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
-		delete_option( WP_PageNavi_Options::OPTION );
 
 		$GLOBALS['wp_styles'] = new WP_Styles();
-	}
-
-	/**
-	 * Store a single option value.
-	 *
-	 * @param string $key   Option key.
-	 * @param mixed  $value Option value.
-	 * @return void
-	 */
-	protected function set_option( $key, $value ) {
-		$options         = WP_PageNavi_Options::get_defaults();
-		$options[ $key ] = $value;
-		WP_PageNavi_Options::update( $options );
 	}
 
 	/**

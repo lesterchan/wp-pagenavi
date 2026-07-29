@@ -11,7 +11,7 @@
 /**
  * Covers the markup and the Settings API wiring of Settings -> PageNavi.
  */
-class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
+class WP_PageNavi_Admin_Screen_Test extends WP_PageNavi_TestCase {
 
 	/**
 	 * Register the settings and act as an administrator.
@@ -20,7 +20,6 @@ class Test_PageNavi_Admin_Screen extends WP_UnitTestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
-		delete_option( WP_PageNavi_Options::OPTION );
 
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 		WP_PageNavi_Admin::register_settings();

@@ -8,7 +8,7 @@
 /**
  * Covers pagination maths and link building.
  */
-class Test_PageNavi_Call extends WP_UnitTestCase {
+class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 
 	/**
 	 * Build a call instance.
