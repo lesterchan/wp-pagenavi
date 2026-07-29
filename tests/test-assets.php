@@ -189,4 +189,68 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 
 		$this->assertSame( $data['Version'], WP_PAGENAVI_VERSION );
 	}
+
+	/**
+	 * The stylesheet, with its comment block removed.
+	 *
+	 * The comment names the properties the sheet promises not to use, so leaving
+	 * it in would fail every assertion below for the wrong reason.
+	 *
+	 * @return string
+	 */
+	protected function stylesheet_rules() {
+		$css = (string) file_get_contents( dirname( __DIR__ ) . '/css/wp-pagenavi.css' );
+
+		return (string) preg_replace( '#/\*.*?\*/#s', '', $css );
+	}
+
+	/**
+	 * One sheet serves both text directions, so nothing in it may be physical.
+	 *
+	 * This is what removes the need for a mirrored -rtl.css: a physical property
+	 * here is the only thing that would ever make a second sheet necessary, so
+	 * the rule is enforced at the source rather than by remembering it.
+	 *
+	 * @return void
+	 */
+	public function test_the_stylesheet_uses_no_physical_properties() {
+		$rules = $this->stylesheet_rules();
+
+		foreach ( array( 'margin-left', 'margin-right', 'padding-left', 'padding-right', 'border-left', 'border-right', 'float' ) as $property ) {
+			$this->assertStringNotContainsString(
+				$property . ':',
+				$rules,
+				"{$property} is physical; use its inline-start/inline-end equivalent."
+			);
+		}
+
+		$this->assertDoesNotMatchRegularExpression(
+			'/text-align:\s*(left|right)/',
+			$rules,
+			'text-align must be start or end, not left or right.'
+		);
+
+		$this->assertSame( array(), (array) glob( dirname( __DIR__ ) . '/css/*-rtl.css' ) );
+	}
+
+	/**
+	 * The theme owns the typography and the text colour; the plugin borrows them.
+	 *
+	 * @return void
+	 */
+	public function test_the_stylesheet_leaves_typography_to_the_theme() {
+		$rules = $this->stylesheet_rules();
+
+		foreach ( array( 'font-family', 'font-size', 'background' ) as $property ) {
+			$this->assertStringNotContainsString( $property . ':', $rules );
+		}
+
+		$this->assertDoesNotMatchRegularExpression(
+			'/(^|[^-])color:\s*#/',
+			$rules,
+			'A colour must come from a custom property with a fallback, never a bare hex.'
+		);
+
+		$this->assertStringNotContainsString( '!important', $rules );
+	}
 }

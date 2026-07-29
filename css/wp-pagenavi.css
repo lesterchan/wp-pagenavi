@@ -1,22 +1,45 @@
 /*
-Default style for WP-PageNavi plugin
-
-http://wordpress.org/extend/plugins/wp-pagenavi/
-*/
+ * Front-end styles for WP-PageNavi.
+ *
+ * Everything is scoped under the .wp-pagenavi root class, and font-family,
+ * font-size and color are deliberately never set: the navigation inherits them
+ * from the theme, which is why it looks at home in one without being told
+ * anything about it.
+ *
+ * One sheet serves both text directions. Every property below is either
+ * direction-neutral or a logical one -- no margin-left, no text-align: left, no
+ * float -- so there is no -rtl.css to keep in step with this file.
+ *
+ * Both colours come from a custom property with a sensible fallback, so a theme
+ * can restyle the navigation by setting two variables anywhere up the tree
+ * rather than by copying this file. The resting border has a dark-scheme
+ * default of its own; the current and hovered border is currentColor, which
+ * follows the theme's text colour into either scheme on its own.
+ */
 
 .wp-pagenavi {
 	clear: both;
 }
 
-.wp-pagenavi a, .wp-pagenavi span {
-	text-decoration: none;
-	border: 1px solid #BFBFBF;
-	padding: 3px 5px;
+.wp-pagenavi a,
+.wp-pagenavi span {
+	border: 1px solid var(--wp-pagenavi-border-color, #bfbfbf);
 	margin: 2px;
+	padding: 3px 5px;
+	text-decoration: none;
 }
 
-.wp-pagenavi a:hover, .wp-pagenavi span.current {
-	border-color: #000;
+@media (prefers-color-scheme: dark) {
+
+	.wp-pagenavi a,
+	.wp-pagenavi span {
+		border-color: var(--wp-pagenavi-border-color, #4f4f4f);
+	}
+}
+
+.wp-pagenavi a:hover,
+.wp-pagenavi span.current {
+	border-color: var(--wp-pagenavi-border-color-current, currentColor);
 }
 
 .wp-pagenavi span.current {
