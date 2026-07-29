@@ -31,12 +31,12 @@ class PageNavi_Core {
 			return;
 		}
 
-		if ( file_exists( get_stylesheet_directory() . '/pagenavi-css.css' ) ) {
-			$css_file = get_stylesheet_directory_uri() . '/pagenavi-css.css';
-		} elseif ( file_exists( get_template_directory() . '/pagenavi-css.css' ) ) {
-			$css_file = get_template_directory_uri() . '/pagenavi-css.css';
+		if ( file_exists( get_stylesheet_directory() . '/wp-pagenavi.css' ) ) {
+			$css_file = get_stylesheet_directory_uri() . '/wp-pagenavi.css';
+		} elseif ( file_exists( get_template_directory() . '/wp-pagenavi.css' ) ) {
+			$css_file = get_template_directory_uri() . '/wp-pagenavi.css';
 		} else {
-			$css_file = plugins_url( 'pagenavi-css.css', WP_PAGENAVI_MAIN_FILE );
+			$css_file = plugins_url( 'css/wp-pagenavi.css', WP_PAGENAVI_MAIN_FILE );
 		}
 
 		wp_enqueue_style( 'wp-pagenavi', $css_file, array(), WP_PAGENAVI_VERSION );

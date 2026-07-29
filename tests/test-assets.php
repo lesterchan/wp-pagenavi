@@ -78,7 +78,7 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
-		$this->assertStringEndsWith( '/wp-pagenavi/pagenavi-css.css', $src );
+		$this->assertStringEndsWith( '/wp-pagenavi/css/wp-pagenavi.css', $src );
 		$this->assertStringNotContainsString( '/includes/', $src );
 	}
 
@@ -100,7 +100,7 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 	}
 
 	/**
-	 * A copy of pagenavi-css.css in the active theme wins over the plugin's own,
+	 * A copy of wp-pagenavi.css in the active theme wins over the plugin's own,
 	 * which is the documented way to restyle the navigation without losing the
 	 * changes on upgrade.
 	 *
@@ -111,7 +111,7 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 
 		$theme_dir = get_temp_dir() . 'pagenavi-theme-' . wp_generate_password( 6, false );
 		mkdir( $theme_dir );
-		file_put_contents( $theme_dir . '/pagenavi-css.css', '/* theme copy */' );
+		file_put_contents( $theme_dir . '/wp-pagenavi.css', '/* theme copy */' );
 
 		add_filter(
 			'stylesheet_directory',
@@ -129,10 +129,10 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 		PageNavi_Core::stylesheets();
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
-		unlink( $theme_dir . '/pagenavi-css.css' );
+		unlink( $theme_dir . '/wp-pagenavi.css' );
 		rmdir( $theme_dir );
 
-		$this->assertSame( 'https://example.org/theme/pagenavi-css.css', $src );
+		$this->assertSame( 'https://example.org/theme/wp-pagenavi.css', $src );
 	}
 
 	/**
@@ -145,7 +145,7 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 
 		$parent_dir = get_temp_dir() . 'pagenavi-parent-' . wp_generate_password( 6, false );
 		mkdir( $parent_dir );
-		file_put_contents( $parent_dir . '/pagenavi-css.css', '/* parent copy */' );
+		file_put_contents( $parent_dir . '/wp-pagenavi.css', '/* parent copy */' );
 
 		// The child theme deliberately has no copy.
 		add_filter(
@@ -170,10 +170,10 @@ class Test_PageNavi_Assets extends WP_UnitTestCase {
 		PageNavi_Core::stylesheets();
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
-		unlink( $parent_dir . '/pagenavi-css.css' );
+		unlink( $parent_dir . '/wp-pagenavi.css' );
 		rmdir( $parent_dir );
 
-		$this->assertSame( 'https://example.org/parent/pagenavi-css.css', $src );
+		$this->assertSame( 'https://example.org/parent/wp-pagenavi.css', $src );
 	}
 
 	/**
