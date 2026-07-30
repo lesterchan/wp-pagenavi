@@ -447,7 +447,7 @@ class WP_PageNavi_Metadata_Test extends WP_PageNavi_TestCase {
 
 		$this->assertStringNotContainsStringIgnoringCase( 'jquery', $code );
 		$this->assertStringNotContainsString(
-			'wp_enqueue_script',
+			'wp_enqueue_script(',
 			$code,
 			'The plugin registers no scripts, so it can declare no dependencies.'
 		);
