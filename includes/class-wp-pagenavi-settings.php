@@ -94,7 +94,7 @@ class WP_PageNavi_Settings {
 	public static function add_page() {
 		add_options_page(
 			__( 'PageNavi Settings', 'wp-pagenavi' ),
-			__( 'PageNavi', 'wp-pagenavi' ),
+			__( 'WP-PageNavi', 'wp-pagenavi' ),
 			self::capability(),
 			self::PAGE,
 			array( __CLASS__, 'render_page' )
