@@ -308,9 +308,18 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	public function test_every_registered_field_has_a_callback_method_of_its_own() {
 		$fields = WP_PageNavi_Settings::fields();
 
+		// Compared as sets, not sequences. The two orders are deliberately
+		// different: get_defaults() groups keys by what they store, while
+		// fields() orders them the way the screen reads top to bottom. What the
+		// standard requires is that neither list has a member the other lacks.
+		$expected = array_keys( WP_PageNavi_Options::get_defaults() );
+		$actual   = array_keys( $fields );
+		sort( $expected );
+		sort( $actual );
+
 		$this->assertSame(
-			array_keys( WP_PageNavi_Options::get_defaults() ),
-			array_keys( $fields ),
+			$expected,
+			$actual,
 			'Every option needs a field and every field needs an option.'
 		);
 
