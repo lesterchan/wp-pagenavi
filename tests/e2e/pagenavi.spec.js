@@ -69,8 +69,8 @@ test.describe( 'WP-PageNavi', () => {
 					title: `Paged post ${ String( i + 1 ).padStart( 2, '0' ) }`,
 					content: 'Body.',
 					status: 'publish',
-				} )
-			)
+				} ),
+			),
 		);
 	} );
 
@@ -110,7 +110,7 @@ test.describe( 'WP-PageNavi', () => {
 		await page.goto( '/' );
 
 		await expect( nav( page ).locator( '.pages' ) ).toHaveText(
-			`Page 1 of ${ PAGES }`
+			`Page 1 of ${ PAGES }`,
 		);
 	} );
 
@@ -219,7 +219,7 @@ test.describe( 'WP-PageNavi', () => {
 		await page.goto( '/' );
 
 		await expect( page.locator( 'link[rel="stylesheet"][href*="wp-pagenavi"]' ) ).toHaveCount(
-			1
+			1,
 		);
 
 		await admin.visitAdminPage( 'options-general.php', 'page=wp-pagenavi' );
@@ -233,7 +233,7 @@ test.describe( 'WP-PageNavi', () => {
 		// A theme that styles the navigation itself should be able to stop the
 		// plugin's sheet loading at all, rather than override it.
 		await expect( page.locator( 'link[rel="stylesheet"][href*="wp-pagenavi"]' ) ).toHaveCount(
-			0
+			0,
 		);
 	} );
 
@@ -264,8 +264,8 @@ test.describe( 'WP-PageNavi', () => {
 					title: `Paged post ${ String( i + 1 ).padStart( 2, '0' ) }`,
 					content: 'Body.',
 					status: 'publish',
-				} )
-			)
+				} ),
+			),
 		);
 	} );
 } );
@@ -337,8 +337,8 @@ test.describe( 'The WP-PageNavi settings screen', () => {
 					title: `Paged post ${ String( i + 1 ).padStart( 2, '0' ) }`,
 					content: 'Body.',
 					status: 'publish',
-				} )
-			)
+				} ),
+			),
 		);
 	} );
 
@@ -379,7 +379,7 @@ test.describe( 'The WP-PageNavi settings screen', () => {
 		await other.goto( `${ baseURL }${ SETTINGS_URL }` );
 
 		await expect( other.locator( 'body' ) ).toContainText(
-			/do not have sufficient permissions|not allowed to access this page/
+			/do not have sufficient permissions|not allowed to access this page/,
 		);
 
 		await context.close();
