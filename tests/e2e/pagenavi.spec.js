@@ -371,6 +371,16 @@ test.describe( 'The WP-PageNavi settings screen', () => {
 		const other = await context.newPage();
 
 		await other.goto( `${ baseURL }/wp-login.php` );
+
+		// wp-login.php focuses and selects #user_login on a 200ms timer, so
+		// that a visitor can start typing. Filling across that moment puts the
+		// password into the username box: Playwright focuses #user_pass, the
+		// timer takes focus back and selects what is there, and the typed text
+		// replaces the selection. Waiting for the timer's own effect is the
+		// signal that it has already fired -- a sleep would only make the race
+		// less likely.
+		await expect( other.locator( '#user_login' ) ).toBeFocused();
+
 		await other.locator( '#user_login' ).fill( username );
 		await other.locator( '#user_pass' ).fill( 'correct-horse-battery-staple' );
 		await other.locator( '#wp-submit' ).click();
