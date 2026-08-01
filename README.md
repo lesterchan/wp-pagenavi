@@ -184,19 +184,19 @@ Yes. The navigation text settings accept the inline SVG elements as well as ever
 * NOTE: No hook and no template tag is renamed. The ten `wp_pagenavi_class_*` filters, the `wp_pagenavi` filter, `wp_pagenavi()` and `wp_pagenavi_dropdown()` all keep the names they shipped with
 
 ## Upgrade Notice
+
 ### 3.0.0
-This is a large release. Read this before updating from 2.94.6.
 
-**Your site must be on WordPress 6.8 or newer and PHP 8.2 or newer.** This is the change most likely to affect you: a site on an older stack simply will not be offered the update, and nothing else here matters until the stack is current. Ask your host if you are not sure which PHP version you are on.
+Requires WordPress 6.8 and PHP 8.2.
 
-**Your settings are kept, but they move.** The `pagenavi_options` row becomes `wp_pagenavi_options`. The plugin does this itself, on activation or on the first wp-admin page you load after updating, and deletes the old row once it has copied it. There is nothing to do by hand.
+**Settings migrate on activation, or on the first admin page load after updating.** `pagenavi_options` becomes `wp_pagenavi_options`, and the old row is deleted once copied.
 
-**The settings screen has a new address.** It was *Settings -> PageNavi* at `options-general.php?page=pagenavi` and it is still *Settings -> PageNavi*, now at `options-general.php?page=wp-pagenavi`. Update any bookmark you have.
+**The settings screen is at `options-general.php?page=wp-pagenavi`**, still under *Settings -> PageNavi*.
 
-**If you copied `pagenavi-css.css` into your theme, rename your copy to `wp-pagenavi.css`.** The plugin's own stylesheet has moved to `css/wp-pagenavi.css`, and the theme override is looked up under the new name. Until you rename it your customised copy is ignored and the plugin's default styling is used instead. Nothing inside your copy needs to change.
+**If you copied `pagenavi-css.css` into your theme, rename your copy to `wp-pagenavi.css`.** The plugin's stylesheet is now `css/wp-pagenavi.css` and the theme override is looked up under the new name; until you rename it your copy is ignored. Nothing inside it needs to change.
 
-**Nothing a theme calls has been renamed.** `wp_pagenavi()`, `wp_pagenavi_dropdown()`, the `wp_pagenavi` filter and all ten `wp_pagenavi_class_*` filters behave exactly as before. If your theme only calls the template tag, that side of the upgrade is uneventful.
+**Nothing a theme calls has been renamed.** `wp_pagenavi()`, `wp_pagenavi_dropdown()`, the `wp_pagenavi` filter and all ten `wp_pagenavi_class_*` filters behave as before.
 
-**Custom PHP that reached into the plugin's classes needs editing.** Every class is now prefixed with `WP_`: `PageNavi_Options` is `WP_PageNavi_Options`, `PageNavi_Call` is `WP_PageNavi_Call` and `PageNavi_Core` is `WP_PageNavi_Core`. The settings screen was renamed as well as prefixed: `PageNavi_Admin` is now `WP_PageNavi_Settings`. `PageNavi_Options_Page` and `PageNavi_Core::$options` are gone; use `WP_PageNavi_Options::get()` and `WP_PageNavi_Options::get_defaults()` instead.
+**Custom PHP reaching into the plugin's classes needs editing.** Every class is prefixed `WP_`: `PageNavi_Options` is `WP_PageNavi_Options`, `PageNavi_Call` is `WP_PageNavi_Call`, `PageNavi_Core` is `WP_PageNavi_Core`. The settings screen was renamed as well as prefixed: `PageNavi_Admin` is now `WP_PageNavi_Settings`. `PageNavi_Options_Page` and `PageNavi_Core::$options` are gone — use `WP_PageNavi_Options::get()` and `WP_PageNavi_Options::get_defaults()`.
 
-**The bundled SCB framework is gone.** It defined a set of global functions and `scb*` classes that any plugin bundling it loaded into WordPress for everything else to use. If your theme or another plugin called `html()`, `html_link()`, `set_post_field()`, `scb_init()` or any of the `scb_*` helpers and relied on WP-PageNavi to provide them, it must now provide them itself. Another installed plugin may still be supplying them, in which case you will notice nothing until that one stops.
+**The bundled SCB framework is gone.** It defined global functions and `scb*` classes that any plugin bundling it loaded for everything else to use. Code calling `html()`, `html_link()`, `set_post_field()`, `scb_init()` or any `scb_*` helper and relying on WP-PageNavi to provide them must now provide them itself. Another installed plugin may still be supplying them, in which case nothing breaks until that one stops.
