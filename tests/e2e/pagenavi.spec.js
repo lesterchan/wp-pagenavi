@@ -15,9 +15,17 @@ const { test, expect } = require( '@wordpress/e2e-test-utils-playwright' );
 
 const SETTINGS_URL = '/wp-admin/options-general.php?page=wp-pagenavi';
 
-/** Ten per page is the WordPress default, so 25 posts is three pages. */
+/**
+ * Five to a page rather than the WordPress default of ten, matching the demo
+ * site. Smaller pages mean more of them for the same fixture, and the number of
+ * pages is the only thing this plugin is about.
+ *
+ * Twenty-five posts is five pages, which is also the default width of the
+ * plugin's window -- so every page number is on screen and a test can assert the
+ * whole set rather than a slice of it.
+ */
 const POSTS = 25;
-const PER_PAGE = 10;
+const PER_PAGE = 5;
 const PAGES = Math.ceil( POSTS / PER_PAGE );
 
 /**
@@ -49,7 +57,11 @@ test.describe( 'WP-PageNavi', () => {
 	test.beforeAll( async ( { requestUtils } ) => {
 		await requestUtils.deleteAllPosts();
 
-		// Three pages' worth. Created in parallel because 25 sequential REST
+		// posts_per_page is one of the few settings core does expose over REST,
+		// so unlike the comment paging options this can be set from here.
+		await requestUtils.updateSiteSettings( { posts_per_page: PER_PAGE } );
+
+		// Five pages' worth. Created in parallel because 25 sequential REST
 		// round trips is most of a minute for nothing.
 		await Promise.all(
 			Array.from( { length: POSTS }, ( _, i ) =>
@@ -130,7 +142,14 @@ test.describe( 'WP-PageNavi', () => {
 		await expect( nav( page ).locator( 'span.current' ) ).toHaveText( '2' );
 		await expect( nav( page ).locator( '.previouspostslink' ) ).toHaveCount( 1 );
 
-		await nav( page ).locator( '.nextpostslink' ).click();
+		// Walk to the end rather than clicking a fixed number of times: how many
+		// pages there are is a function of the fixture and the site's per-page
+		// setting, and a test that hardcodes two clicks quietly stops testing the
+		// last page the moment either changes.
+		for ( let i = 2; i < PAGES; i++ ) {
+			await nav( page ).locator( '.nextpostslink' ).click();
+			await expect( nav( page ).locator( 'span.current' ) ).toHaveText( String( i + 1 ) );
+		}
 
 		// And the last page has nothing after it.
 		await expect( nav( page ).locator( 'span.current' ) ).toHaveText( String( PAGES ) );
@@ -233,7 +252,12 @@ test.describe( 'WP-PageNavi', () => {
 
 		await expect( nav( page ) ).toHaveCount( 0 );
 
-		// Put the fixture back for whatever runs next.
+		// Put the fixture back for whatever runs next -- clearing first, because
+		// the single post above is still there and twenty-six posts is six pages,
+		// not five. A later test then reads "of 6" and fails for a reason that
+		// has nothing to do with it.
+		await requestUtils.deleteAllPosts();
+
 		await Promise.all(
 			Array.from( { length: POSTS }, ( _, i ) =>
 				requestUtils.createPost( {
@@ -304,6 +328,8 @@ test.describe( 'The WP-PageNavi settings screen', () => {
 
 		await expect( nav( page ) ).toBeVisible();
 		await expect( nav( page ).locator( '.pages' ) ).toHaveText( 'Page 1 of 1' );
+
+		await requestUtils.deleteAllPosts();
 
 		await Promise.all(
 			Array.from( { length: POSTS }, ( _, i ) =>
