@@ -1,0 +1,15 @@
+{
+	"name": "wp-pagenavi",
+	"private": true,
+	"description": "Dev tooling for WP-PageNavi. Excluded from the SVN deploy; never ships to users.",
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"test": "bin/test.sh",
+		"test:e2e": "bin/test-e2e.sh",
+		"test:e2e:headed": "bin/test-e2e.sh --headed"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.62.1",
+		"@wordpress/e2e-test-utils-playwright": "^1.52.0"
+	}
+}

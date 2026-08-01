@@ -80,8 +80,12 @@ class WP_PageNavi_Metadata_Test extends WP_PageNavi_TestCase {
 		foreach ( $iterator as $file ) {
 			$path = $file->getPathname();
 
-			// vendor/ and node_modules/ are not ours and never ship.
-			if ( false !== strpos( $path, '/vendor/' ) || false !== strpos( $path, '/node_modules/' ) ) {
+			// vendor/ and node_modules/ are not ours and never ship, and
+			// artifacts/ is Playwright output: gitignored, never deployed, and
+			// recreated on any failing run.
+			if ( false !== strpos( $path, '/vendor/' )
+				|| false !== strpos( $path, '/node_modules/' )
+				|| false !== strpos( $path, '/artifacts/' ) ) {
 				continue;
 			}
 
