@@ -38,3 +38,9 @@ require $_tests_dir . '/includes/bootstrap.php';
 // which does not exist until the bootstrap above has run.
 require_once __DIR__ . '/helper-source.php';
 require_once __DIR__ . '/helper-testcase.php';
+
+// The shared metadata base is byte-identical in all nineteen plugins, so it
+// cannot name this plugin's fixture class. The alias is the one per-plugin line
+// the mechanism needs.
+class_alias( 'WP_PageNavi_TestCase', 'Plugin_TestCase' );
+require_once __DIR__ . '/helper-metadata-testcase.php';

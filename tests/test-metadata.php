@@ -2,201 +2,130 @@
 /**
  * The release invariants, asserted from the source and from the stored rows.
  *
- * These are the house rules every plugin in this family shares, and every one
- * of them has been broken by an ordinary edit at some point: a header field
- * that drifted out of the canonical order, a new directory shipped without its
- * silence guard, a version bumped in one file of three, a readme header line
- * that lost the two trailing spaces holding it apart from the next.
- *
- * They are the things a restructuring quietly breaks and nothing notices until
- * a release fails its pre-flight months later, so catching them here is far
- * cheaper than catching them there.
+ * Everything §7.2 asks of all nineteen plugins now lives in
+ * Plugin_Metadata_TestCase. What is left here is what only WP-PageNavi can
+ * say: the version it ships, its class prefix, the breaks its Upgrade Notice
+ * has to cover, and the rules that have no home in the shared base -- the four
+ * aria-labels borrowed from core's catalogue, the readme link and tag hygiene,
+ * and the pre-3.0.0 option row no LIKE over wp_pagenavi_% can see.
  *
  * @package WP-PageNavi
  */
 
 /**
+ * WP-PageNavi's half of the shared metadata contract.
+ *
  * @coversNothing
  */
-class WP_PageNavi_Metadata_Test extends WP_PageNavi_TestCase {
-
-	const VERSION = '3.0.0';
+class WP_PageNavi_Metadata_Test extends Plugin_Metadata_TestCase {
 
 	/**
-	 * The main plugin file.
+	 * The version this release ships.
 	 *
 	 * @return string
 	 */
-	protected function plugin_file() {
-		return wp_pagenavi_test_read( 'wp-pagenavi.php' );
+	protected function expected_version() {
+		return '3.0.0';
 	}
 
 	/**
-	 * The readme.
+	 * The prefix every class the plugin declares carries.
 	 *
 	 * @return string
 	 */
-	protected function readme() {
-		return wp_pagenavi_test_read( 'README.md' );
+	protected function class_prefix() {
+		return 'WP_PageNavi';
 	}
 
 	/**
-	 * A field from the main plugin file's header docblock.
+	 * What a site owner updating from the released 2.94.6 would notice.
 	 *
-	 * @param string $field Field name.
-	 * @return string
-	 */
-	protected function header_field( $field ) {
-		$data = get_file_data( dirname( __DIR__ ) . '/wp-pagenavi.php', array( $field => $field ) );
-
-		return $data[ $field ];
-	}
-
-	/**
-	 * A field from the readme's header block.
+	 * Two things make this list longer than most. Every class was prefixed and
+	 * one of them renamed as well, so custom PHP reaching into them breaks; and
+	 * the bundled SCB framework is gone, which took a set of global functions
+	 * other plugins may have been relying on WP-PageNavi to supply.
 	 *
-	 * @param string $field Field name.
-	 * @return string
+	 * @return string[]
 	 */
-	protected function readme_field( $field ) {
-		preg_match( '/^' . preg_quote( $field, '/' ) . ':\s*(.+?)\s*$/m', $this->readme(), $matches );
-
-		return isset( $matches[1] ) ? $matches[1] : '';
-	}
-
-	/**
-	 * Every directory in the repo that holds at least one PHP file.
-	 *
-	 * @return string[] Absolute paths, plugin root included.
-	 */
-	protected function php_directories() {
-		$root  = dirname( __DIR__ );
-		$found = array();
-
-		$iterator = new RecursiveIteratorIterator(
-			new RecursiveDirectoryIterator( $root, FilesystemIterator::SKIP_DOTS )
+	protected function upgrade_notice_subjects() {
+		return array(
+			'WordPress 6.8',
+			'PHP 8.2',
+			'`pagenavi_options`',
+			'`wp_pagenavi_options`',
+			'options-general.php?page=wp-pagenavi',
+			'`pagenavi-css.css`',
+			'css/wp-pagenavi.css',
+			'`PageNavi_Options`',
+			'`WP_PageNavi_Options`',
+			'`PageNavi_Call`',
+			'`PageNavi_Core`',
+			'`PageNavi_Admin`',
+			'`WP_PageNavi_Settings`',
+			'`PageNavi_Options_Page`',
+			'`PageNavi_Core::$options`',
+			'SCB framework',
+			'`scb_init()`',
+			'`html()`',
 		);
-
-		foreach ( $iterator as $file ) {
-			$path = $file->getPathname();
-
-			// vendor/ and node_modules/ are not ours and never ship, and
-			// artifacts/ is Playwright output: gitignored, never deployed, and
-			// recreated on any failing run.
-			if ( false !== strpos( $path, '/vendor/' )
-				|| false !== strpos( $path, '/node_modules/' )
-				|| false !== strpos( $path, '/artifacts/' ) ) {
-				continue;
-			}
-
-			if ( 'php' === strtolower( $file->getExtension() ) ) {
-				$found[ dirname( $path ) ] = true;
-			}
-		}
-
-		return array_keys( $found );
-	}
-
-	public function test_version_matches_everywhere() {
-		$this->assertStringContainsString( ' * Version: ' . self::VERSION, $this->plugin_file() );
-		$this->assertStringContainsString( "define( 'WP_PAGENAVI_VERSION', '" . self::VERSION . "' );", $this->plugin_file() );
-		$this->assertStringContainsString( 'Stable tag: ' . self::VERSION, $this->readme() );
-	}
-
-	public function test_the_changelog_has_a_section_for_this_version() {
-		$this->assertStringContainsString( '### ' . self::VERSION . "\n", $this->readme() );
 	}
 
 	/**
-	 * The order is neither alphabetical nor intuitive -- Requires at least and
-	 * Requires PHP sit before Author -- so it is copied, never composed.
-	 */
-	public function test_the_plugin_header_fields_are_in_the_canonical_order() {
-		$expected = array(
-			'Plugin Name',
-			'Plugin URI',
-			'Description',
-			'Version',
-			'Requires at least',
-			'Requires PHP',
-			'Author',
-			'Author URI',
-			'License',
-			'License URI',
-			'Text Domain',
-			'Domain Path',
-		);
-
-		preg_match( '#^<\?php\s*/\*\*(.+?)\*/#s', $this->plugin_file(), $matches );
-		$this->assertNotEmpty( $matches, 'The plugin file must open with a docblock header.' );
-
-		preg_match_all( '/^\s*\*\s*([A-Z][A-Za-z ]*?):\s/m', $matches[1], $fields );
-
-		$this->assertSame( $expected, $fields[1] );
-	}
-
-	/**
-	 * The readme order differs from the PHP one on purpose: Requires PHP comes
-	 * after Stable tag here. They are not to be harmonised.
-	 */
-	public function test_the_readme_header_fields_are_in_the_canonical_order() {
-		$expected = array(
-			'Contributors',
-			'Donate link',
-			'Tags',
-			'Requires at least',
-			'Tested up to',
-			'Stable tag',
-			'Requires PHP',
-			'License',
-			'License URI',
-		);
-
-		$header = substr( $this->readme(), 0, (int) strpos( $this->readme(), "\n\n" ) );
-
-		preg_match_all( '/^([A-Z][A-Za-z ]*?):\s/m', $header, $fields );
-
-		$this->assertSame( $expected, $fields[1] );
-	}
-
-	public function test_requires_headers_match_readme() {
-		$this->assertStringContainsString( ' * Requires at least: 6.8', $this->plugin_file() );
-		$this->assertStringContainsString( ' * Requires PHP: 8.2', $this->plugin_file() );
-		$this->assertStringContainsString( 'Requires at least: 6.8', $this->readme() );
-		$this->assertStringContainsString( 'Requires PHP: 8.2', $this->readme() );
-	}
-
-	/**
-	 * Header lines need two trailing spaces to render as separate lines.
+	 * Seed the rows uninstall has to remove.
 	 *
-	 * Markdown joins consecutive lines into one paragraph unless each is ended
-	 * with a hard line break, so a missing pair renders as
-	 * "License: GPLv2 or later License URI: https://..." on GitHub. It is
-	 * invisible in the source and in a diff, which is exactly why it wants a
-	 * test. The last line needs none, having nothing after it to run into.
+	 * @return void
 	 */
-	public function test_every_readme_header_line_keeps_its_line_break() {
-		$header = substr( $this->readme(), 0, (int) strpos( $this->readme(), "\n\n" ) );
-		$lines  = explode( "\n", $header );
-
-		// The first line is the "# WP-PageNavi" heading, not a header field.
-		$fields = array_slice( $lines, 1 );
-		$last   = array_pop( $fields );
-
-		$this->assertCount( 8, $fields, 'Nine header fields, the ninth popped off above.' );
-
-		foreach ( $fields as $line ) {
-			$this->assertStringEndsWith(
-				'  ',
-				$line,
-				"Needs two trailing spaces or it merges with the line below: {$line}"
-			);
-		}
-
-		$this->assertStringStartsWith( 'License URI:', $last );
-		$this->assertSame( rtrim( $last ), $last, 'The last header line must not have trailing spaces.' );
+	protected function seed_option_rows() {
+		WP_PageNavi_Options::update( WP_PageNavi_Options::get_defaults() );
+		WP_PageNavi_Options::maybe_upgrade();
 	}
 
+	/**
+	 * Write the wp_pagenavi_version marker row.
+	 *
+	 * @return void
+	 */
+	protected function write_version_row() {
+		WP_PageNavi_Options::maybe_upgrade();
+	}
+
+	/**
+	 * Round-trip the settings sanitiser.
+	 *
+	 * @param array $input What the settings form is pretending to have posted.
+	 * @return array
+	 */
+	protected function sanitize_settings( array $input ) {
+		return (array) WP_PageNavi_Options::sanitize( $input );
+	}
+
+	/**
+	 * A real settings key beside the poison, so the sanitiser actually runs.
+	 *
+	 * @return array
+	 */
+	protected function settings_fixture() {
+		return array( 'num_pages' => 5 );
+	}
+
+	/**
+	 * Register the front-end stylesheet.
+	 *
+	 * It is only enqueued when the plugin's own CSS is switched on, so the
+	 * defaults have to be written before the shared RTL test has a handle to
+	 * look at. There is no script to register: this plugin ships none.
+	 *
+	 * @return void
+	 */
+	protected function register_plugin_assets() {
+		WP_PageNavi_Options::update( WP_PageNavi_Options::get_defaults() );
+
+		WP_PageNavi_Core::stylesheets();
+	}
+
+	/**
+	 * Five tags, because wordpress.org shows five and ignores the rest.
+	 */
 	public function test_the_readme_lists_exactly_five_tags() {
 		preg_match( '/^Tags:\s*(.+?)\s*$/m', $this->readme(), $matches );
 
@@ -205,60 +134,33 @@ class WP_PageNavi_Metadata_Test extends WP_PageNavi_TestCase {
 	}
 
 	/**
-	 * Bare versions: "### 3.0.0", never "### Version 3.0.0".
+	 * The copyright block says what the header says.
+	 *
+	 * The header declares "GPLv2 or later", so a version-2-only block below it
+	 * would contradict both the header and the GPL-2.0-or-later in
+	 * composer.json.
 	 */
-	public function test_every_changelog_heading_is_a_bare_version() {
-		$this->assertSame( 0, preg_match( '/^### Version /m', $this->readme() ) );
+	public function test_the_copyright_block_is_the_or_later_variant() {
+		$this->assertSame( 'GPLv2 or later', $this->header_field( 'License' ) );
+		$this->assertStringContainsString(
+			'either version 2 of the License, or',
+			$this->plugin_file()
+		);
+		$this->assertStringContainsString( '(at your option) any later version.', $this->plugin_file() );
+		$this->assertStringNotContainsString( 'version 2, as', $this->plugin_file() );
 	}
 
 	/**
-	 * The catalogue comes from translate.wordpress.org, and since WP 6.7 calling
-	 * load_plugin_textdomain() this early trips _doing_it_wrong.
-	 */
-	public function test_the_plugin_does_not_load_its_own_textdomain() {
-		$this->assertStringNotContainsString( 'load_plugin_textdomain', wp_pagenavi_test_source_code() );
-	}
-
-	/**
-	 * The old forums.lesterchan.net is gone, and the rest of these had drifted
-	 * to http over twenty years. Code spans are exempt: they document input.
-	 */
-	public function test_no_insecure_or_dead_links_remain() {
-		$readme = preg_replace( '/`[^`]*`/', '', $this->readme() );
-
-		$this->assertSame( 0, preg_match( '#http://#', $readme ), 'Every readme link must use https.' );
-		$this->assertSame( 0, preg_match( '#http://#', $this->plugin_file() ) );
-		$this->assertStringNotContainsString( 'forums.lesterchan.net', $readme );
-	}
-
-	public function test_every_directory_has_an_index_php() {
-		foreach ( $this->php_directories() as $directory ) {
-			$this->assertFileExists(
-				$directory . '/index.php',
-				"{$directory} ships PHP and so needs an index.php silence guard."
-			);
-		}
-	}
-
-	public function test_the_guards_use_the_docblock_form() {
-		foreach ( $this->php_directories() as $directory ) {
-			$guard = (string) file_get_contents( $directory . '/index.php' );
-
-			// phpcbf cannot fix the one-line "// Silence is golden." form.
-			$this->assertStringContainsString( '/**', $guard, "{$directory}/index.php must use the docblock form." );
-			$this->assertStringContainsString( 'Silence is golden.', $guard );
-		}
-	}
-
-	/**
-	 * Every translation call must carry the plugin's own text domain, except the
-	 * four navigation aria-labels, which reuse strings WordPress core already
-	 * defines so they arrive translated in every locale core supports.
+	 * Every translation call carries a text domain, and only two are allowed.
+	 *
+	 * The plugin's own is wp-pagenavi. The four navigation aria-labels reuse
+	 * strings WordPress core already defines, so they name 'default' instead
+	 * and arrive translated in every locale core supports.
 	 */
 	public function test_every_translation_call_uses_the_plugin_text_domain() {
-		$code = wp_pagenavi_test_source_code();
+		preg_match_all( '/(?:__|_n|_x)\((.*?)\);/s', wp_pagenavi_test_source_code(), $calls );
 
-		preg_match_all( '/(?:__|_n|_x)\((.*?)\);/s', $code, $calls );
+		$this->assertNotEmpty( $calls[1], 'The plugin makes at least one translation call.' );
 
 		foreach ( $calls[1] as $arguments ) {
 			$this->assertMatchesRegularExpression(
@@ -274,9 +176,9 @@ class WP_PageNavi_Metadata_Test extends WP_PageNavi_TestCase {
 	 *
 	 * A msgid is a byte-for-byte lookup key, and core is not consistent about
 	 * the casing: it spells these 'First page' and 'Last page' with a lowercase
-	 * p but 'Previous Page' and 'Next Page' with a capital one. Capitalising the
-	 * first two silently drops back to English in every locale, which no test
-	 * that only checks the domain would catch.
+	 * p but 'Previous Page' and 'Next Page' with a capital one. Capitalising
+	 * the first two silently drops back to English in every locale, which no
+	 * test that only checks the domain would catch.
 	 */
 	public function test_the_borrowed_aria_labels_keep_cores_spelling() {
 		$code = wp_pagenavi_test_source_code();
@@ -290,104 +192,17 @@ class WP_PageNavi_Metadata_Test extends WP_PageNavi_TestCase {
 		}
 	}
 
-	public function test_the_gpl_licence_is_shipped() {
-		$licence = wp_pagenavi_test_read( 'LICENSE' );
-
-		$this->assertStringContainsString( 'GNU GENERAL PUBLIC LICENSE', $licence );
-		$this->assertStringContainsString( 'Version 2, June 1991', $licence );
-	}
-
 	/**
-	 * The header says "GPLv2 or later", so the copyright block below it must say
-	 * the same. A v2-only block there contradicts both the header and the
-	 * GPL-2.0-or-later in composer.json.
-	 */
-	public function test_the_copyright_block_is_the_or_later_variant() {
-		$this->assertStringContainsString(
-			'either version 2 of the License, or',
-			$this->plugin_file()
-		);
-		$this->assertStringContainsString( '(at your option) any later version.', $this->plugin_file() );
-		$this->assertStringNotContainsString( 'version 2, as', $this->plugin_file() );
-	}
-
-	/**
-	 * The catalogue is built by translate.wordpress.org, and Travis has been
-	 * dead for these repos for years.
-	 */
-	public function test_no_abandoned_build_or_translation_artefacts_ship() {
-		$root = dirname( __DIR__ );
-
-		$this->assertFileDoesNotExist( $root . '/.travis.yml' );
-		$this->assertDirectoryDoesNotExist( $root . '/languages' );
-
-		foreach ( array( 'pot', 'po', 'mo' ) as $extension ) {
-			$this->assertSame(
-				array(),
-				(array) glob( $root . '/*.' . $extension ),
-				"No .{$extension} files: translate.wordpress.org builds the catalogue."
-			);
-		}
-	}
-
-	public function test_canonical_lesterchan_urls() {
-		$this->assertSame(
-			'https://lesterchan.net/portfolio/programming/php/',
-			$this->header_field( 'Plugin URI' )
-		);
-		$this->assertSame( 'https://lesterchan.net', $this->header_field( 'Author URI' ) );
-		$this->assertSame( 'https://lesterchan.net/site/donation/', $this->readme_field( 'Donate link' ) );
-		$this->assertSame(
-			'https://www.gnu.org/licenses/gpl-2.0.html',
-			$this->header_field( 'License URI' )
-		);
-		$this->assertSame( 'https://www.gnu.org/licenses/gpl-2.0.html', $this->readme_field( 'License URI' ) );
-	}
-
-	/**
-	 * One name, in every plugin. A second contributor has to be added on
-	 * wordpress.org as well, so a name here that is not on the listing silently
-	 * does nothing -- which is what "GamerZ, scribu" was doing here until 3.0.0.
-	 */
-	public function test_contributors_is_gamerz_only() {
-		$this->assertSame( 'GamerZ', $this->readme_field( 'Contributors' ) );
-	}
-
-	public function test_text_domain_is_the_plugin_slug() {
-		$this->assertSame( 'wp-pagenavi', $this->header_field( 'Text Domain' ) );
-		$this->assertSame( '/languages', $this->header_field( 'Domain Path' ) );
-		$this->assertSame( 'wp-pagenavi', WP_PAGENAVI_SLUG );
-	}
-
-	/**
-	 * The second-level headings are a closed set in a fixed order.
+	 * The Donations note is the wording shared by all nineteen plugins.
 	 *
-	 * Third-level ones are not: Donations, the usage subsections and every
-	 * changelog version live below these.
-	 */
-	public function test_readme_sections_are_the_canonical_set() {
-		preg_match_all( '/^## (.+?)\s*$/m', $this->readme(), $sections );
-
-		$this->assertSame(
-			array(
-				'Description',
-				'Usage',
-				'Frequently Asked Questions',
-				'Screenshots',
-				'Changelog',
-				'Upgrade Notice',
-			),
-			$sections[1]
-		);
-	}
-
-	/**
-	 * Donations is the last h3 of the description, with the wording shared by
-	 * all nineteen plugins.
+	 * It is the last h3 of the description, and the two variants the family
+	 * used to carry -- a stray bullet, and a clause about a school allowance
+	 * that stopped being true a long time ago -- are gone.
 	 */
 	public function test_the_donations_note_is_the_shared_wording() {
 		$readme      = $this->readme();
-		$description = substr( $readme, (int) strpos( $readme, '## Description' ), (int) strpos( $readme, '## Usage' ) - (int) strpos( $readme, '## Description' ) );
+		$from        = (int) strpos( $readme, '## Description' );
+		$description = substr( $readme, $from, (int) strpos( $readme, '## Usage' ) - $from );
 
 		$this->assertStringContainsString( "### Donations\n", $description );
 		$this->assertStringContainsString(
@@ -395,132 +210,38 @@ class WP_PageNavi_Metadata_Test extends WP_PageNavi_TestCase {
 			$description
 		);
 
-		// The two variants the family carried before: a stray bullet, and a
-		// clause about school that stopped being true a long time ago.
 		$this->assertStringNotContainsString( '* I spent most of my free time', $description );
 		$this->assertStringNotContainsString( 'school allowance', $description );
 	}
 
 	/**
-	 * Five prefixes, and nothing else.
+	 * The old forums.lesterchan.net is gone, and the rest had drifted to http.
 	 *
-	 * The listing on wordpress.org renders the changelog verbatim, so a stray
-	 * "Important:" or a lowercase "New:" is visible to every reader of it.
+	 * Code spans are exempt: they document input rather than link anywhere.
 	 */
-	public function test_changelog_prefixes_are_canonical() {
-		$readme    = $this->readme();
-		$changelog = substr( $readme, (int) strpos( $readme, '## Changelog' ) );
-		$changelog = substr( $changelog, 0, (int) strpos( $changelog, "\n## Upgrade Notice" ) );
+	public function test_no_insecure_or_dead_links_remain() {
+		$readme = (string) preg_replace( '/`[^`]*`/', '', $this->readme() );
 
-		preg_match_all( '/^\* (.+?):/m', $changelog, $bullets );
-
-		$this->assertNotEmpty( $bullets[1], 'The changelog must carry bullets.' );
-
-		foreach ( $bullets[1] as $prefix ) {
-			$this->assertContains(
-				$prefix . ':',
-				array( 'BREAKING:', 'NEW:', 'CHANGED:', 'FIXED:', 'NOTE:' ),
-				"'{$prefix}:' is not one of the five allowed changelog prefixes."
-			);
-		}
+		$this->assertSame( 0, preg_match( '#http://#', $readme ), 'Every readme link must use https.' );
+		$this->assertSame( 0, preg_match( '#http://#', $this->plugin_file() ) );
+		$this->assertStringNotContainsString( 'forums.lesterchan.net', $readme );
 	}
 
 	/**
-	 * Every break a site owner updating from the released 2.94.6 would notice
-	 * has to be spelled out under Upgrade Notice, not only in the changelog.
+	 * The settings row holds the plugin's own keys and nothing else.
+	 *
+	 * Stronger than the shared marker assertion, and only expressible here:
+	 * the allowed set is exactly what get_defaults() returns, so a key the
+	 * sanitiser lets through that no default names shows up as a difference.
 	 */
-	public function test_the_upgrade_notice_covers_the_gap_since_the_released_version() {
-		$readme = $this->readme();
-		$notice = substr( $readme, (int) strpos( $readme, '## Upgrade Notice' ) );
-
-		foreach ( array( '6.8', '8.2', 'wp_pagenavi_options', 'page=wp-pagenavi', 'wp-pagenavi.css', 'WP_PageNavi_Options' ) as $break ) {
-			$this->assertStringContainsString(
-				$break,
-				$notice,
-				"The Upgrade Notice must tell a site owner about {$break}."
-			);
-		}
-	}
-
-	/**
-	 * WP-PageNavi ships no JavaScript at all, which is the strongest form of the
-	 * house rule: nothing to enqueue, so nothing to depend on jQuery.
-	 */
-	public function test_no_jquery_is_enqueued() {
-		$code = wp_pagenavi_test_source_code();
-
-		$this->assertStringNotContainsStringIgnoringCase( 'jquery', $code );
-		$this->assertStringNotContainsString(
-			'wp_enqueue_script(',
-			$code,
-			'The plugin registers no scripts, so it can declare no dependencies.'
-		);
-		$this->assertSame( array(), (array) glob( dirname( __DIR__ ) . '/js/*.js' ) );
-	}
-
-	/**
-	 * No plugin in this family ships a second, mirrored stylesheet: the front
-	 * end uses CSS logical properties instead, so one sheet serves both
-	 * directions.
-	 */
-	public function test_no_rtl_stylesheet_is_registered() {
-		$root = dirname( __DIR__ );
-
-		$this->assertSame( array(), (array) glob( $root . '/*-rtl.css' ) );
-		$this->assertSame( array(), (array) glob( $root . '/css/*-rtl.css' ) );
-		$this->assertStringNotContainsString(
-			'wp_style_add_data',
-			wp_pagenavi_test_source_code(),
-			"No plugin registers 'rtl' style data."
-		);
-	}
-
-	/**
-	 * The upgrade markers live in their own row, holding those two keys and no
-	 * others. Anything else in here means a marker has drifted back into the
-	 * settings array, which is the bug this shape exists to make impossible.
-	 */
-	public function test_version_row_holds_exactly_plugin_and_db() {
-		WP_PageNavi_Options::maybe_upgrade();
-
-		$markers = get_option( WP_PageNavi_Options::VERSION );
-
-		$this->assertIsArray( $markers, 'wp_pagenavi_version must be an array.' );
-
-		$keys = array_keys( $markers );
-		sort( $keys );
-
-		$this->assertSame( array( 'db', 'plugin' ), $keys );
-		$this->assertSame( WP_PAGENAVI_VERSION, $markers['plugin'] );
-		$this->assertSame( WP_PAGENAVI_DB_VERSION, $markers['db'] );
-	}
-
-	/**
-	 * The regression guard for the wp-useronline bug: a sanitiser that has to
-	 * rescue the version markers out of the value it is replacing will sooner or
-	 * later fail to, and the upgrade then re-runs on every request. Keeping the
-	 * markers in a row of their own makes that impossible, and this fails the
-	 * moment someone moves one back.
-	 */
-	public function test_settings_sanitizer_never_stores_version_markers() {
+	public function test_the_settings_row_holds_only_the_plugins_own_keys() {
 		$clean = WP_PageNavi_Options::sanitize(
 			array(
-				'num_pages'  => 5,
-				'version'    => '3.0.0',
-				'db_version' => '1',
-				'versions'   => array( 'plugin' => '3.0.0' ),
-				'plugin'     => '3.0.0',
-				'db'         => '1',
+				'num_pages' => 5,
+				'plugin'    => '3.0.0',
+				'db'        => '1',
 			)
 		);
-
-		foreach ( array( 'version', 'db_version', 'versions', 'plugin', 'db' ) as $key ) {
-			$this->assertArrayNotHasKey(
-				$key,
-				$clean,
-				"'{$key}' is a version marker and must never be stored in the settings array."
-			);
-		}
 
 		WP_PageNavi_Options::update( $clean );
 		WP_PageNavi_Options::maybe_upgrade();
@@ -528,47 +249,33 @@ class WP_PageNavi_Metadata_Test extends WP_PageNavi_TestCase {
 		$this->assertSame(
 			array_keys( WP_PageNavi_Options::get_defaults() ),
 			array_keys( (array) get_option( WP_PageNavi_Options::OPTION ) ),
-			'The settings row holds the plugin\'s own keys and nothing else.'
+			"The settings row holds the plugin's own keys and nothing else."
 		);
 	}
 
 	/**
-	 * Deleting the plugin leaves nothing behind.
+	 * The pre-3.0.0 settings row goes too, and no LIKE would find it.
 	 *
-	 * The assertion is deliberately a LIKE over wp_options rather than two
-	 * delete_option() checks: a row added later and forgotten in uninstall.php
-	 * is exactly the failure this is here to catch. The multisite config runs
-	 * the same test through uninstall.php's get_sites() branch.
-	 *
-	 * This is the only test that runs the uninstaller. uninstall.php is included
-	 * with require_once, so a second test doing the same would silently include
-	 * nothing and assert against rows no one had removed.
+	 * The legacy name does not begin with the plugin's own option prefix, so
+	 * the shared uninstall test -- which walks wp_options for wp_pagenavi_% --
+	 * cannot see it. Deleting it is the whole reason the uninstaller names
+	 * three rows rather than two.
 	 */
-	public function test_uninstall_removes_every_option_row() {
-		WP_PageNavi_Options::update( WP_PageNavi_Options::get_defaults() );
-		WP_PageNavi_Options::maybe_upgrade();
+	public function test_uninstall_removes_the_pre_3_0_0_settings_row() {
+		update_option( WP_PageNavi_Options::LEGACY_OPTION, array( 'num_pages' => 5 ) );
 
-		$this->assertNotEmpty(
-			$this->stored_option_names(),
-			'There should be rows to remove before uninstall runs.'
+		$this->assertNotFalse(
+			get_option( WP_PageNavi_Options::LEGACY_OPTION ),
+			'There should be a legacy row to remove, or this proves nothing.'
 		);
 
-		if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-			define( 'WP_UNINSTALL_PLUGIN', 'wp-pagenavi/wp-pagenavi.php' );
-		}
-
-		require_once dirname( __DIR__ ) . '/uninstall.php';
+		$this->run_uninstall();
 
 		wp_cache_flush();
 
-		$this->assertSame(
-			array(),
-			$this->stored_option_names(),
-			'uninstall.php must remove every wp_pagenavi_* row.'
-		);
 		$this->assertFalse(
-			get_option( 'pagenavi_options' ),
-			'The pre-3.0.0 row must go too, for an install that never reached wp-admin.'
+			get_option( WP_PageNavi_Options::LEGACY_OPTION ),
+			'Uninstalling left the pre-3.0.0 pagenavi_options row behind.'
 		);
 	}
 }

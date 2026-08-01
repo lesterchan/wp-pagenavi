@@ -61,6 +61,31 @@ abstract class WP_PageNavi_TestCase extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Run the uninstaller, however many times a suite asks for it.
+	 *
+	 * The uninstaller declares a global function, so a second require would
+	 * fatal on redeclare and a require_once that has already fired proves
+	 * nothing. Calling the function directly once it exists is the repeatable
+	 * form. Nothing here touches schema, so including the file is safe for the
+	 * first caller.
+	 *
+	 * @return void
+	 */
+	protected function run_uninstall() {
+		if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+			define( 'WP_UNINSTALL_PLUGIN', 'wp-pagenavi/wp-pagenavi.php' );
+		}
+
+		if ( function_exists( 'wp_pagenavi_uninstall_site' ) ) {
+			wp_pagenavi_uninstall_site();
+
+			return;
+		}
+
+		require dirname( __DIR__ ) . '/uninstall.php';
+	}
+
+	/**
 	 * Every option row the plugin owns, read straight from the table.
 	 *
 	 * There is no API for "which rows exist", and asking the table is the point:
