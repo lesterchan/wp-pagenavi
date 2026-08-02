@@ -342,11 +342,24 @@ test.describe( 'The WP-PageNavi settings screen', () => {
 		);
 	} );
 
-	test( 'a user without manage_options cannot reach the screen', async ( {
+	test( 'an administrator reaches the screen and an editor is refused it', async ( {
+		page,
 		browser,
 		baseURL,
 		requestUtils,
 	} ) => {
+		// The half that makes the other half mean anything. A refusal assertion on
+		// its own passes with the plugin deactivated -- the page does not exist, so
+		// core refuses everybody, and the test cannot tell "the capability works"
+		// from "there is nothing here". STANDARDS 7.5 forbids the one-sided form
+		// for exactly that reason. Asserted first, so a missing screen fails here
+		// and says so rather than passing further down for the wrong reason.
+		await page.goto( `${ baseURL }${ SETTINGS_URL }` );
+
+		await expect(
+			page.getByRole( 'heading', { name: 'PageNavi Settings' } ),
+		).toBeVisible();
+
 		const username = 'pagenavi_editor';
 
 		const existing = await requestUtils.rest( {
@@ -391,6 +404,12 @@ test.describe( 'The WP-PageNavi settings screen', () => {
 		await expect( other.locator( 'body' ) ).toContainText(
 			/do not have sufficient permissions|not allowed to access this page/,
 		);
+
+		// And the refusal really is the capability talking, not the screen being
+		// absent: the same URL rendered its heading for the administrator above.
+		await expect(
+			other.getByRole( 'heading', { name: 'PageNavi Settings' } ),
+		).toHaveCount( 0 );
 
 		await context.close();
 	} );
