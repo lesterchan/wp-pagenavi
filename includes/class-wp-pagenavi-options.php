@@ -409,6 +409,43 @@ class WP_PageNavi_Options {
 	}
 
 	/**
+	 * Write the settings row from inside an upgrade.
+	 *
+	 * `update_option()` declines to write a value equal to the one
+	 * `get_option()` would return, and `register_setting()` is passed a
+	 * `default`, which installs a `default_option_wp_pagenavi_options` filter answering with
+	 * the shipped defaults for a row that does not exist. So on an admin request
+	 * -- the path every real update takes, because activation hooks do not fire
+	 * on an update -- a migration whose result happens to equal the defaults
+	 * writes nothing at all, while the legacy rows it read are deleted anyway.
+	 *
+	 * Passing an explicit default to `get_option()` defeats the registered one,
+	 * because `filter_default_option()` returns early when a default was passed.
+	 * That is what lets an absent row be told from a defaulted one and added
+	 * outright. `add_option()` runs the sanitize callback exactly as
+	 * `update_option()` does, so nothing else about the write changes.
+	 *
+	 * Latent here rather than live: `get()` merges over the defaults, so a
+	 * missing row and a defaults row read identically and nothing is lost today.
+	 * It stops being latent the moment this plugin gains a setting whose
+	 * *absence* means something other than its default -- and then the failure is
+	 * silent, browser-only, and the legacy rows are already gone. §7.6.1 has the
+	 * three plugins this shape has already bitten.
+	 *
+	 * @param array $options The settings to store.
+	 * @return void
+	 */
+	private static function write( array $options ) {
+		if ( false === get_option( self::OPTION, false ) ) {
+			add_option( self::OPTION, $options );
+
+			return;
+		}
+
+		update_option( self::OPTION, $options );
+	}
+
+	/**
 	 * Fold the pre-3.0.0 row into the current one.
 	 *
 	 * The settings row was named after the plugin without its wp_ prefix for
@@ -438,7 +475,7 @@ class WP_PageNavi_Options {
 			 * test that goes through activation passes.
 			 */
 			if ( false === get_option( self::OPTION, false ) ) {
-				update_option( self::OPTION, self::sanitize( $legacy ) );
+				self::write( self::sanitize( $legacy ) );
 			}
 
 			delete_option( self::LEGACY_OPTION );
@@ -447,7 +484,7 @@ class WP_PageNavi_Options {
 		$stored = get_option( self::OPTION, false );
 
 		if ( false !== $stored ) {
-			update_option( self::OPTION, self::sanitize( $stored ) );
+			self::write( self::sanitize( $stored ) );
 		}
 	}
 }
