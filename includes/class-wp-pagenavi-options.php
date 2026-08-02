@@ -424,14 +424,27 @@ class WP_PageNavi_Options {
 		$legacy = get_option( self::LEGACY_OPTION );
 
 		if ( false !== $legacy ) {
-			if ( false === get_option( self::OPTION ) ) {
+			/*
+			 * The raw row, never one register_setting() can synthesise. A plugin
+			 * that passes a `default` installs a `default_option_*` filter with it,
+			 * and a bare get_option() then answers with that defaults array instead
+			 * of false for a row which does not exist -- so this branch is skipped
+			 * and the legacy row is deleted a few lines below regardless, taking the
+			 * settings with it. Passing an explicit default defeats the registered
+			 * one: filter_default_option() returns early when a default was passed.
+			 *
+			 * It bites only on an admin request. Activation and WP-CLI never run
+			 * register_setting(), which is why reactivating repairs it and why every
+			 * test that goes through activation passes.
+			 */
+			if ( false === get_option( self::OPTION, false ) ) {
 				update_option( self::OPTION, self::sanitize( $legacy ) );
 			}
 
 			delete_option( self::LEGACY_OPTION );
 		}
 
-		$stored = get_option( self::OPTION );
+		$stored = get_option( self::OPTION, false );
 
 		if ( false !== $stored ) {
 			update_option( self::OPTION, self::sanitize( $stored ) );
