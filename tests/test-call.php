@@ -28,7 +28,7 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 	public function test_arguments_are_readable_as_properties() {
 		$call = $this->call( array( 'type' => 'users' ) );
 
-		$this->assertSame( 'users', $call->type );
+		$this->assertSame( 'users', $call->type, 'An argument is readable as a property, which is how the renderer consumes them.' );
 	}
 
 	/**
@@ -59,9 +59,9 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 
 		list( $per_page, $paged, $total ) = $this->call( array( 'query' => $query ) )->get_pagination_args();
 
-		$this->assertSame( 5, $per_page );
-		$this->assertSame( 2, $paged );
-		$this->assertSame( 3, $total );
+		$this->assertSame( 5, $per_page, 'per_page is an integer.' );
+		$this->assertSame( 2, $paged, 'paged is an integer.' );
+		$this->assertSame( 3, $total, 'And total; a float here would reach the SQL as 3.0.' );
 	}
 
 	/**
@@ -91,7 +91,7 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 		$this->assertIsInt( $per_page, 'per_page is an integer; a float would reach the SQL as 5.0.' );
 		$this->assertIsInt( $paged, 'paged is an integer; a float would reach the SQL as 2.0.' );
 		$this->assertIsInt( $total, 'total is an integer; a float would reach the SQL as 10.0.' );
-		$this->assertSame( 3, $paged );
+		$this->assertSame( 3, $paged, 'A user query pages as integers too, not the floats its own maths produces.' );
 	}
 
 	/**
@@ -111,8 +111,8 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 
 		list( , $paged, $total ) = $this->call( array( 'query' => $query ) )->get_pagination_args();
 
-		$this->assertSame( 1, $paged );
-		$this->assertSame( 1, $total );
+		$this->assertSame( 1, $paged, 'An empty query is on page one.' );
+		$this->assertSame( 1, $total, 'Of one, rather than of zero, which would render a navigation of nothing.' );
 	}
 
 	/**
@@ -122,8 +122,8 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_get_single_is_empty_without_text() {
-		$this->assertSame( '', $this->call()->get_single( 2, '', array() ) );
-		$this->assertSame( '', $this->call()->get_single( 2, null, array() ) );
+		$this->assertSame( '', $this->call()->get_single( 2, '', array() ), 'A link with no text renders nothing; blank is how a part is hidden.' );
+		$this->assertSame( '', $this->call()->get_single( 2, null, array() ), 'And null likewise, rather than raising.' );
 	}
 
 	/**
@@ -142,9 +142,9 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertStringStartsWith( '<a class="page smaller" title=', $html );
-		$this->assertStringContainsString( '&quot;quoted&quot;', $html );
-		$this->assertStringContainsString( '>Page 3</a>', $html );
+		$this->assertStringStartsWith( '<a class="page smaller" title=', $html, 'The link is an anchor carrying its classes.' );
+		$this->assertStringContainsString( '&quot;quoted&quot;', $html, 'With the title escaped for its attribute.' );
+		$this->assertStringContainsString( '>Page 3</a>', $html, 'And the text as the anchor content.' );
 
 		// href is appended after the caller's attributes.
 		$this->assertGreaterThan( strpos( $html, 'title=' ), strpos( $html, 'href=' ), 'The title attribute is written before href, which is the order the escaping assumes.' );
@@ -168,9 +168,9 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( 'data-on="data-on"', $html );
-		$this->assertStringNotContainsString( 'data-off', $html );
-		$this->assertStringContainsString( 'class="c"', $html );
+		$this->assertStringContainsString( 'data-on="data-on"', $html, 'A boolean attribute renders in its XHTML form.' );
+		$this->assertStringNotContainsString( 'data-off', $html, 'While a false one is omitted rather than rendered empty.' );
+		$this->assertStringContainsString( 'class="c"', $html, 'And ordinary attributes are unaffected.' );
 	}
 
 	/**
@@ -182,7 +182,7 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 	public function test_custom_replacement_token() {
 		$html = $this->call()->get_single( 9, 'Last of %TOTAL_PAGES%', array(), '%TOTAL_PAGES%' );
 
-		$this->assertStringContainsString( '>Last of 9</a>', $html );
+		$this->assertStringContainsString( '>Last of 9</a>', $html, 'A custom token is substituted in the link text.' );
 	}
 
 	/**
@@ -192,14 +192,15 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_get_url_switches_on_type() {
-		$this->assertSame( get_pagenum_link( 3 ), $this->call()->get_url( 3 ) );
+		$this->assertSame( get_pagenum_link( 3 ), $this->call()->get_url( 3 ), 'A posts query builds its URL with core paging link.' );
 
 		$post_id         = self::factory()->post->create( array( 'post_content' => 'A<!--nextpage-->B' ) );
 		$GLOBALS['post'] = get_post( $post_id );
 
 		$this->assertSame(
 			get_multipage_link( 2 ),
-			$this->call( array( 'type' => 'multipart' ) )->get_url( 2 )
+			$this->call( array( 'type' => 'multipart' ) )->get_url( 2 ),
+			'While a multipart one builds a within-post link, so the type decides.'
 		);
 	}
 
@@ -213,8 +214,8 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 		$post_id         = self::factory()->post->create( array( 'post_content' => 'A<!--nextpage-->B' ) );
 		$GLOBALS['post'] = get_post( $post_id );
 
-		$this->assertSame( get_permalink( $post_id ), get_multipage_link( 1 ) );
-		$this->assertStringContainsString( 'page=2', get_multipage_link( 2 ) );
+		$this->assertSame( get_permalink( $post_id ), get_multipage_link( 1 ), 'Page one of a multipart post is the permalink itself, with no page argument.' );
+		$this->assertStringContainsString( 'page=2', get_multipage_link( 2 ), 'While later pages carry one.' );
 	}
 
 	/**
@@ -234,7 +235,7 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 		);
 		$GLOBALS['post'] = get_post( $post_id );
 
-		$this->assertStringContainsString( 'page=2', get_multipage_link( 2 ) );
+		$this->assertStringContainsString( 'page=2', get_multipage_link( 2 ), 'A draft pages the same way, so a preview navigates.' );
 
 		update_option( 'permalink_structure', '' );
 	}

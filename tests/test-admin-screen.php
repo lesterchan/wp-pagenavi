@@ -55,13 +55,13 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	public function test_form_targets_options_php_with_nonce() {
 		$html = $this->render_page();
 
-		$this->assertStringContainsString( 'action="options.php"', $html );
-		$this->assertStringContainsString( 'method="post"', $html );
-		$this->assertStringContainsString( WP_PageNavi_Settings::GROUP, $html );
-		$this->assertStringContainsString( 'name="_wpnonce"', $html );
+		$this->assertStringContainsString( 'action="options.php"', $html, 'The form posts to options.php, so core handles the save.' );
+		$this->assertStringContainsString( 'method="post"', $html, 'By POST.' );
+		$this->assertStringContainsString( WP_PageNavi_Settings::GROUP, $html, 'Naming the settings group.' );
+		$this->assertStringContainsString( 'name="_wpnonce"', $html, 'With a nonce.' );
 		// Core emits this one with single quotes.
-		$this->assertStringContainsString( "name='option_page'", $html );
-		$this->assertStringContainsString( 'name="action" value="update"', $html );
+		$this->assertStringContainsString( "name='option_page'", $html, 'And the option_page field core checks it against.' );
+		$this->assertStringContainsString( 'name="action" value="update"', $html, 'And the update action, without which core ignores the post.' );
 	}
 
 	/**
@@ -72,9 +72,9 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	public function test_page_chrome() {
 		$html = $this->render_page();
 
-		$this->assertStringContainsString( 'PageNavi Settings', $html );
-		$this->assertStringContainsString( 'type="submit"', $html );
-		$this->assertStringContainsString( 'class="wrap"', $html );
+		$this->assertStringContainsString( 'PageNavi Settings', $html, 'The screen is headed.' );
+		$this->assertStringContainsString( 'type="submit"', $html, 'Carries a submit button.' );
+		$this->assertStringContainsString( 'class="wrap"', $html, 'And uses the core page wrapper.' );
 	}
 
 	/**
@@ -85,9 +85,9 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	public function test_sections_render() {
 		$html = $this->render_fields();
 
-		$this->assertStringContainsString( 'Page Navigation Text', $html );
-		$this->assertStringContainsString( 'Page Navigation Options', $html );
-		$this->assertStringContainsString( 'Leaving a field blank will hide that part of the navigation.', $html );
+		$this->assertStringContainsString( 'Page Navigation Text', $html, 'The text section is drawn.' );
+		$this->assertStringContainsString( 'Page Navigation Options', $html, 'And the options section.' );
+		$this->assertStringContainsString( 'Leaving a field blank will hide that part of the navigation.', $html, 'With the note explaining what a blank field does.' );
 	}
 
 	/**
@@ -116,10 +116,10 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	public function test_fields_are_labelled() {
 		$html = $this->render_fields();
 
-		$this->assertStringContainsString( 'for="wp-pagenavi-pages_text"', $html );
-		$this->assertStringContainsString( 'id="wp-pagenavi-pages_text"', $html );
-		$this->assertStringContainsString( 'Text For Number Of Pages', $html );
-		$this->assertStringContainsString( 'Number Of Pages To Show', $html );
+		$this->assertStringContainsString( 'for="wp-pagenavi-pages_text"', $html, 'The label points at a control.' );
+		$this->assertStringContainsString( 'id="wp-pagenavi-pages_text"', $html, 'Which exists under that id, so clicking the label focuses the field.' );
+		$this->assertStringContainsString( 'Text For Number Of Pages', $html, 'The text field is labelled.' );
+		$this->assertStringContainsString( 'Number Of Pages To Show', $html, 'And so is the numeric one.' );
 	}
 
 	/**
@@ -134,8 +134,8 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 
 		$html = $this->render_fields();
 
-		$this->assertStringContainsString( 'value="Mine &quot;quoted&quot; &amp; &lt;b&gt;bold&lt;/b&gt;"', $html );
-		$this->assertStringNotContainsString( 'value="Mine "quoted"', $html );
+		$this->assertStringContainsString( 'value="Mine &quot;quoted&quot; &amp; &lt;b&gt;bold&lt;/b&gt;"', $html, 'A stored value is escaped for an attribute.' );
+		$this->assertStringNotContainsString( 'value="Mine "quoted"', $html, 'Rather than closing it early, which would end the input.' );
 	}
 
 	/**
@@ -148,10 +148,10 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	public function test_token_hints_are_code_spans() {
 		$html = $this->render_fields();
 
-		$this->assertStringContainsString( '<code>%CURRENT_PAGE%</code>', $html );
-		$this->assertStringContainsString( '<code>%TOTAL_PAGES%</code>', $html );
-		$this->assertStringContainsString( '<code>%PAGE_NUMBER%</code>', $html );
-		$this->assertStringNotContainsString( '%1$', $html );
+		$this->assertStringContainsString( '<code>%CURRENT_PAGE%</code>', $html, 'The current page token is shown as code.' );
+		$this->assertStringContainsString( '<code>%TOTAL_PAGES%</code>', $html, 'And the total pages token.' );
+		$this->assertStringContainsString( '<code>%PAGE_NUMBER%</code>', $html, 'And the page number token.' );
+		$this->assertStringNotContainsString( '%1$', $html, 'With no printf specifier left in the hint, which would be consumed rather than shown.' );
 	}
 
 	/**
@@ -210,9 +210,9 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 
 		$html = $this->render_fields();
 
-		$this->assertStringContainsString( '<option value="2" selected', $html );
-		$this->assertStringNotContainsString( '<option value="1" selected', $html );
-		$this->assertStringContainsString( 'Drop-down List', $html );
+		$this->assertStringContainsString( '<option value="2" selected', $html, 'The stored style is the option marked selected.' );
+		$this->assertStringNotContainsString( '<option value="1" selected', $html, 'And it is the only one, so the select has one initial value.' );
+		$this->assertStringContainsString( 'Drop-down List', $html, 'With the styles named rather than numbered.' );
 	}
 
 	/**
@@ -223,8 +223,8 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	public function test_help_notes_are_rendered() {
 		$html = $this->render_fields();
 
-		$this->assertStringContainsString( 'Enter 0 to disable.', $html );
-		$this->assertStringContainsString( 'Show navigation even if there', $html );
+		$this->assertStringContainsString( 'Enter 0 to disable.', $html, 'The note explaining the disable value is rendered.' );
+		$this->assertStringContainsString( 'Show navigation even if there', $html, 'And the note on the always-show toggle.' );
 	}
 
 	/**
@@ -258,9 +258,9 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 
 		$stored = get_option( WP_PageNavi_Options::OPTION );
 
-		$this->assertSame( 7, $stored['num_pages'] );
-		$this->assertStringNotContainsString( '<script>', $stored['pages_text'] );
-		$this->assertStringContainsString( 'hello', $stored['pages_text'] );
+		$this->assertSame( 7, $stored['num_pages'], 'A save through options.php runs the sanitiser, so the number is cast.' );
+		$this->assertStringNotContainsString( '<script>', $stored['pages_text'], 'And the text is filtered.' );
+		$this->assertStringContainsString( 'hello', $stored['pages_text'], 'While the safe part of it survives.' );
 	}
 
 	/**
@@ -274,7 +274,8 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 		$this->assertArrayHasKey( WP_PageNavi_Options::OPTION, $registered, 'The settings row is registered, so its sanitise callback is attached.' );
 		$this->assertSame(
 			WP_PageNavi_Settings::GROUP,
-			$registered[ WP_PageNavi_Options::OPTION ]['group']
+			$registered[ WP_PageNavi_Options::OPTION ]['group'],
+			'The setting is registered in the group the form posts, or the save is rejected.'
 		);
 	}
 
@@ -346,7 +347,8 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 
 		$this->assertSame(
 			array( WP_PageNavi_Settings::SECTION_TEXT, WP_PageNavi_Settings::SECTION_DISPLAY ),
-			array_keys( $wp_settings_sections[ WP_PageNavi_Settings::PAGE ] )
+			array_keys( $wp_settings_sections[ WP_PageNavi_Settings::PAGE ] ),
+			'Both sections are registered under the page slug, in order.'
 		);
 	}
 
@@ -364,8 +366,8 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 		$source = file_get_contents( dirname( __DIR__ ) . '/includes/class-wp-pagenavi-settings.php' );
 
 		$this->assertStringNotContainsString( '<table', $source, 'do_settings_sections() emits the form table.' );
-		$this->assertStringNotContainsString( 'form-table', $source );
-		$this->assertStringNotContainsString( '<tr', $source );
+		$this->assertStringNotContainsString( 'form-table', $source, 'The screen writes no table markup of its own; the Settings API draws it.' );
+		$this->assertStringNotContainsString( '<tr', $source, 'Not a row either, which is what a hand-written form leaves behind.' );
 
 		foreach ( array( 'style="', 'width="', 'valign', 'align="' ) as $attribute ) {
 			$this->assertStringNotContainsString(

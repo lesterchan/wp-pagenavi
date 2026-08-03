@@ -17,9 +17,9 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_option_rows_are_prefixed_with_the_slug() {
-		$this->assertSame( 'wp_pagenavi_options', WP_PageNavi_Options::OPTION );
-		$this->assertSame( 'wp_pagenavi_version', WP_PageNavi_Options::VERSION );
-		$this->assertSame( 'pagenavi_options', WP_PageNavi_Options::LEGACY_OPTION );
+		$this->assertSame( 'wp_pagenavi_options', WP_PageNavi_Options::OPTION, 'The settings row carries the plugin prefix.' );
+		$this->assertSame( 'wp_pagenavi_version', WP_PageNavi_Options::VERSION, 'And the version row.' );
+		$this->assertSame( 'pagenavi_options', WP_PageNavi_Options::LEGACY_OPTION, 'While the legacy row keeps its released name, which the migration reads.' );
 	}
 
 	/**
@@ -28,7 +28,7 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_defaults_when_nothing_stored() {
-		$this->assertSame( WP_PageNavi_Options::get_defaults(), WP_PageNavi_Options::get() );
+		$this->assertSame( WP_PageNavi_Options::get_defaults(), WP_PageNavi_Options::get(), 'With nothing stored the defaults are what is read.' );
 	}
 
 	/**
@@ -39,13 +39,13 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 	public function test_default_values() {
 		$defaults = WP_PageNavi_Options::get_defaults();
 
-		$this->assertSame( 5, $defaults['num_pages'] );
-		$this->assertSame( 3, $defaults['num_larger_page_numbers'] );
-		$this->assertSame( 10, $defaults['larger_page_numbers_multiple'] );
-		$this->assertSame( 1, $defaults['style'] );
+		$this->assertSame( 5, $defaults['num_pages'], 'Five pages is the shipped window.' );
+		$this->assertSame( 3, $defaults['num_larger_page_numbers'], 'Three larger numbers ship.' );
+		$this->assertSame( 10, $defaults['larger_page_numbers_multiple'], 'At multiples of ten.' );
+		$this->assertSame( 1, $defaults['style'], 'Style one, the numbered list, ships as the default.' );
 		$this->assertFalse( $defaults['always_show'], 'always_show ships off.' );
 		$this->assertTrue( $defaults['use_pagenavi_css'], 'use_pagenavi_css ships on.' );
-		$this->assertSame( '%PAGE_NUMBER%', $defaults['page_text'] );
+		$this->assertSame( '%PAGE_NUMBER%', $defaults['page_text'], 'And the page text ships as the bare token.' );
 	}
 
 	/**
@@ -65,8 +65,8 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 
 		$options = WP_PageNavi_Options::get();
 
-		$this->assertSame( 4, $options['num_pages'] );
-		$this->assertSame( 10, $options['larger_page_numbers_multiple'] );
+		$this->assertSame( 4, $options['num_pages'], 'A stored key wins over its default.' );
+		$this->assertSame( 10, $options['larger_page_numbers_multiple'], 'While a key absent from the row still takes its default.' );
 		$this->assertArrayHasKey( 'dotright_text', $options, 'A partial stored row is merged over the defaults rather than replacing them.' );
 	}
 
@@ -76,7 +76,7 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_single_key_access() {
-		$this->assertSame( 5, WP_PageNavi_Options::get( 'num_pages' ) );
+		$this->assertSame( 5, WP_PageNavi_Options::get( 'num_pages' ), 'A single key reads back its own value.' );
 		$this->assertNull( WP_PageNavi_Options::get( 'no_such_option' ), 'An unknown key reads back null rather than raising a notice.' );
 	}
 
@@ -88,7 +88,7 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 	public function test_non_array_option_row_is_survivable() {
 		update_option( WP_PageNavi_Options::OPTION, 'not-an-array' );
 
-		$this->assertSame( WP_PageNavi_Options::get_defaults(), WP_PageNavi_Options::get() );
+		$this->assertSame( WP_PageNavi_Options::get_defaults(), WP_PageNavi_Options::get(), 'A row that is not an array falls back to the defaults rather than propagating.' );
 	}
 
 	/**
@@ -102,6 +102,6 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 
 		WP_PageNavi_Options::update( $options );
 
-		$this->assertSame( 9, WP_PageNavi_Options::get( 'num_pages' ) );
+		$this->assertSame( 9, WP_PageNavi_Options::get( 'num_pages' ), 'An update writes the value and a read gets it back.' );
 	}
 }

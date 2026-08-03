@@ -97,7 +97,8 @@ class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 				'plugin' => WP_PAGENAVI_VERSION,
 				'db'     => WP_PAGENAVI_DB_VERSION,
 			),
-			get_option( WP_PageNavi_Options::VERSION )
+			get_option( WP_PageNavi_Options::VERSION ),
+			'The version row is stamped with both markers, which is what stops the upgrade running again.'
 		);
 	}
 
@@ -113,7 +114,8 @@ class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 				'plugin' => '',
 				'db'     => '',
 			),
-			WP_PageNavi_Options::get_versions()
+			WP_PageNavi_Options::get_versions(),
+			'A missing marker row reads as empty strings rather than null.'
 		);
 
 		update_option( WP_PageNavi_Options::VERSION, 'not-an-array' );
@@ -123,7 +125,8 @@ class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 				'plugin' => '',
 				'db'     => '',
 			),
-			WP_PageNavi_Options::get_versions()
+			WP_PageNavi_Options::get_versions(),
+			'And a corrupt one, rather than propagating.'
 		);
 	}
 
@@ -175,6 +178,6 @@ class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 		$markers = get_option( WP_PageNavi_Options::VERSION );
 
 		$this->assertIsArray( $markers, 'Activation stamps a version row, so an upgrade has somewhere to read from.' );
-		$this->assertSame( WP_PAGENAVI_VERSION, $markers['plugin'] );
+		$this->assertSame( WP_PAGENAVI_VERSION, $markers['plugin'], 'Activation stamps the plugin marker.' );
 	}
 }

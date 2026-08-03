@@ -26,10 +26,10 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertSame( 5, $clean['num_pages'] );
-		$this->assertSame( 3, $clean['num_larger_page_numbers'] );
-		$this->assertSame( 10, $clean['larger_page_numbers_multiple'] );
-		$this->assertSame( 2, $clean['style'] );
+		$this->assertSame( 5, $clean['num_pages'], 'A numeric setting is cast to a non-negative integer.' );
+		$this->assertSame( 3, $clean['num_larger_page_numbers'], 'Every numeric setting, not only the first.' );
+		$this->assertSame( 10, $clean['larger_page_numbers_multiple'], 'Including the multiple.' );
+		$this->assertSame( 2, $clean['style'], 'And the style.' );
 	}
 
 	/**
@@ -45,8 +45,8 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertSame( 1, $clean['always_show'] );
-		$this->assertSame( 0, $clean['use_pagenavi_css'] );
+		$this->assertSame( 1, $clean['always_show'], 'A ticked toggle stores as one.' );
+		$this->assertSame( 0, $clean['use_pagenavi_css'], 'And an unticked one as zero, rather than as a string.' );
 	}
 
 	/**
@@ -63,9 +63,9 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertStringNotContainsString( '<script>', $clean['pages_text'] );
-		$this->assertStringContainsString( '%CURRENT_PAGE%', $clean['pages_text'] );
-		$this->assertSame( '<strong>%PAGE_NUMBER%</strong>', $clean['current_text'] );
+		$this->assertStringNotContainsString( '<script>', $clean['pages_text'], 'A script is filtered out of a text setting.' );
+		$this->assertStringContainsString( '%CURRENT_PAGE%', $clean['pages_text'], 'While the token it carries survives.' );
+		$this->assertSame( '<strong>%PAGE_NUMBER%</strong>', $clean['current_text'], 'And the markup a site is allowed to use is kept exactly.' );
 	}
 
 	/**
@@ -81,8 +81,8 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertSame( '', $clean['prev_text'] );
-		$this->assertSame( '', $clean['next_text'] );
+		$this->assertSame( '', $clean['prev_text'], 'An emptied text setting stays empty; blank is how a part is hidden.' );
+		$this->assertSame( '', $clean['next_text'], 'For every text setting, not only the first.' );
 	}
 
 	/**
@@ -104,8 +104,8 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 
 		$clean = WP_PageNavi_Options::sanitize( array( 'style' => '1' ) );
 
-		$this->assertSame( 5, $clean['num_pages'] );
-		$this->assertSame( '&laquo;', $clean['prev_text'] );
+		$this->assertSame( 5, $clean['num_pages'], 'A key the submission omitted falls back to its default.' );
+		$this->assertSame( '&laquo;', $clean['prev_text'], 'Including the text defaults.' );
 	}
 
 	/**
@@ -117,7 +117,7 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 		$clean = WP_PageNavi_Options::sanitize( 'garbage' );
 
 		$this->assertIsArray( $clean, 'A non-array posted value comes back an array rather than propagating.' );
-		$this->assertSame( 5, $clean['num_pages'] );
+		$this->assertSame( 5, $clean['num_pages'], 'A non-array posted value falls back to the defaults rather than propagating.' );
 	}
 
 	/**
@@ -171,9 +171,9 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 		restore_error_handler();
 
 		$this->assertNull( $raised, "Sanitising raised: {$raised}" );
-		$this->assertSame( '', $clean['prev_text'] );
-		$this->assertSame( 0, $clean['num_pages'] );
-		$this->assertStringNotContainsString( 'Array', (string) $clean['prev_text'] );
+		$this->assertSame( '', $clean['prev_text'], 'An array posted into a text setting becomes an empty string.' );
+		$this->assertSame( 0, $clean['num_pages'], 'And into a numeric one, zero.' );
+		$this->assertStringNotContainsString( 'Array', (string) $clean['prev_text'], 'Rather than the literal Array, which is what casting one would produce.' );
 	}
 
 	/**
@@ -191,7 +191,7 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 		WP_PageNavi_Settings::add_page();
 
 		$slugs = wp_list_pluck( $submenu['options-general.php'], 2 );
-		$this->assertContains( 'wp-pagenavi', $slugs );
+		$this->assertContains( 'wp-pagenavi', $slugs, 'The screen is registered at the slug the plugin has always used.' );
 	}
 
 	/**
@@ -203,7 +203,7 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 	public function test_action_links() {
 		$links = WP_PageNavi_Settings::action_links( array( '<a href="#">Deactivate</a>' ) );
 		$this->assertCount( 2, $links, 'The Settings link is added to the link passed in, not instead of it.' );
-		$this->assertStringContainsString( 'page=wp-pagenavi', $links[0] );
+		$this->assertStringContainsString( 'page=wp-pagenavi', $links[0], 'And the Settings link points at it.' );
 
 		$this->assertIsArray( WP_PageNavi_Settings::action_links( null ), 'A null links list is survivable rather than fatal.' );
 	}

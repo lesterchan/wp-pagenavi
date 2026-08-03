@@ -141,13 +141,14 @@ class WP_PageNavi_Metadata_Test extends Plugin_Metadata_TestCase {
 	 * composer.json.
 	 */
 	public function test_the_copyright_block_is_the_or_later_variant() {
-		$this->assertSame( 'GPLv2 or later', $this->header_field( 'License' ) );
+		$this->assertSame( 'GPLv2 or later', $this->header_field( 'License' ), 'The header offers the later-version option.' );
 		$this->assertStringContainsString(
 			'either version 2 of the License, or',
-			$this->plugin_file()
+			$this->plugin_file(),
+			'And the copyright block offers it.'
 		);
-		$this->assertStringContainsString( '(at your option) any later version.', $this->plugin_file() );
-		$this->assertStringNotContainsString( 'version 2, as', $this->plugin_file() );
+		$this->assertStringContainsString( '(at your option) any later version.', $this->plugin_file(), 'In full.' );
+		$this->assertStringNotContainsString( 'version 2, as', $this->plugin_file(), 'With no version-2-only wording left behind.' );
 	}
 
 	/**
@@ -204,14 +205,15 @@ class WP_PageNavi_Metadata_Test extends Plugin_Metadata_TestCase {
 		$from        = (int) strpos( $readme, '## Description' );
 		$description = substr( $readme, $from, (int) strpos( $readme, '## Usage' ) - $from );
 
-		$this->assertStringContainsString( "### Donations\n", $description );
+		$this->assertStringContainsString( "### Donations\n", $description, 'The readme carries a Donations heading.' );
 		$this->assertStringContainsString(
 			'I spent most of my free time creating, updating, maintaining and supporting these plugins, if you really love my plugins and could spare me a couple of bucks, I will really appreciate it. If not feel free to use it without any obligations.',
-			$description
+			$description,
+			'With the collection wording, word for word.'
 		);
 
-		$this->assertStringNotContainsString( '* I spent most of my free time', $description );
-		$this->assertStringNotContainsString( 'school allowance', $description );
+		$this->assertStringNotContainsString( '* I spent most of my free time', $description, 'Without a stray bullet.' );
+		$this->assertStringNotContainsString( 'school allowance', $description, 'And without the older wording it replaced.' );
 	}
 
 	/**
@@ -223,8 +225,8 @@ class WP_PageNavi_Metadata_Test extends Plugin_Metadata_TestCase {
 		$readme = (string) preg_replace( '/`[^`]*`/', '', $this->readme() );
 
 		$this->assertSame( 0, preg_match( '#http://#', $readme ), 'Every readme link must use https.' );
-		$this->assertSame( 0, preg_match( '#http://#', $this->plugin_file() ) );
-		$this->assertStringNotContainsString( 'forums.lesterchan.net', $readme );
+		$this->assertSame( 0, preg_match( '#http://#', $this->plugin_file() ), 'The plugin file links over https only.' );
+		$this->assertStringNotContainsString( 'forums.lesterchan.net', $readme, 'The retired support forum is not linked; it no longer exists.' );
 	}
 
 	/**

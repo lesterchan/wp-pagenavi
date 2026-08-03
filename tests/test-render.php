@@ -46,8 +46,8 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 	public function test_wrapper_defaults() {
 		$out = $this->render( array( 'query' => $this->query( 3 ) ) );
 
-		$this->assertStringStartsWith( "<div class='wp-pagenavi' role='navigation'>", $out );
-		$this->assertStringEndsWith( '</div>', $out );
+		$this->assertStringStartsWith( "<div class='wp-pagenavi' role='navigation'>", $out, 'The wrapper is a div carrying the plugin class and a navigation role.' );
+		$this->assertStringEndsWith( '</div>', $out, 'And is closed.' );
 	}
 
 	/**
@@ -63,7 +63,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 				'wrapper_class' => 'my-nav',
 			)
 		);
-		$this->assertStringStartsWith( "<nav class='my-nav' role='navigation'>", $out );
+		$this->assertStringStartsWith( "<nav class='my-nav' role='navigation'>", $out, 'The tag and class are configurable.' );
 
 		$out = $this->render(
 			array(
@@ -71,7 +71,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 				'wrapper_class' => 'x" onclick="alert(1)',
 			)
 		);
-		$this->assertStringNotContainsString( 'onclick="alert(1)"', $out );
+		$this->assertStringNotContainsString( 'onclick="alert(1)"', $out, 'And escaped, so neither can add an event handler.' );
 	}
 
 	/**
@@ -83,7 +83,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 	public function test_current_page_is_marked() {
 		$out = $this->render( array( 'query' => $this->query( 5 ) ) );
 
-		$this->assertStringContainsString( "<span aria-current='page' class='current'>5</span>", $out );
+		$this->assertStringContainsString( "<span aria-current='page' class='current'>5</span>", $out, 'The current page is marked for assistive technology as well as visually.' );
 	}
 
 	/**
@@ -94,8 +94,8 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 	public function test_prev_and_next_rel_attributes() {
 		$out = $this->render( array( 'query' => $this->query( 5 ) ) );
 
-		$this->assertStringContainsString( 'rel="prev"', $out );
-		$this->assertStringContainsString( 'rel="next"', $out );
+		$this->assertStringContainsString( 'rel="prev"', $out, 'The previous link declares its relation.' );
+		$this->assertStringContainsString( 'rel="next"', $out, 'And the next link.' );
 	}
 
 	/**
@@ -148,8 +148,8 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 		}
 
 		// The capitalisations core does not define must not creep back in.
-		$this->assertStringNotContainsString( 'aria-label="First Page"', $out );
-		$this->assertStringNotContainsString( 'aria-label="Last Page"', $out );
+		$this->assertStringNotContainsString( 'aria-label="First Page"', $out, 'No aria-label is invented that core does not define, since it would go untranslated.' );
+		$this->assertStringNotContainsString( 'aria-label="Last Page"', $out, 'For either end.' );
 	}
 
 	/**
@@ -159,12 +159,12 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 	 */
 	public function test_no_prev_on_first_page_and_no_next_on_last() {
 		$first = $this->render( array( 'query' => $this->query( 1 ) ) );
-		$this->assertStringNotContainsString( 'rel="prev"', $first );
-		$this->assertStringContainsString( 'rel="next"', $first );
+		$this->assertStringNotContainsString( 'rel="prev"', $first, 'On the first page there is no previous link.' );
+		$this->assertStringContainsString( 'rel="next"', $first, 'But there is a next one.' );
 
 		$last = $this->render( array( 'query' => $this->query( 10 ) ) );
-		$this->assertStringContainsString( 'rel="prev"', $last );
-		$this->assertStringNotContainsString( 'rel="next"', $last );
+		$this->assertStringContainsString( 'rel="prev"', $last, 'On the last page there is a previous link.' );
+		$this->assertStringNotContainsString( 'rel="next"', $last, 'And no next one.' );
 	}
 
 	/**
@@ -181,7 +181,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 				'options' => array( 'always_show' => true ),
 			)
 		);
-		$this->assertStringContainsString( 'wp-pagenavi', $out );
+		$this->assertStringContainsString( 'wp-pagenavi', $out, 'always_show renders on a single page, which is what it is for.' );
 	}
 
 	/**
@@ -223,8 +223,8 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( '>10</a>', $out );
-		$this->assertStringContainsString( '>40</a>', $out );
+		$this->assertStringContainsString( '>10</a>', $out, 'The larger numbers start at the first multiple.' );
+		$this->assertStringContainsString( '>40</a>', $out, 'And continue to the last one inside the run.' );
 
 		// Disabling the multiple removes them.
 		$out = $this->render(
@@ -233,7 +233,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 				'options' => array( 'larger_page_numbers_multiple' => 0 ),
 			)
 		);
-		$this->assertStringNotContainsString( 'smaller page', $out );
+		$this->assertStringNotContainsString( 'smaller page', $out, 'With no smaller numbers, since there is nothing before the window.' );
 	}
 
 	/**
@@ -252,8 +252,8 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertStringNotContainsString( 'previouspostslink', $out );
-		$this->assertStringNotContainsString( 'nextpostslink', $out );
+		$this->assertStringNotContainsString( 'previouspostslink', $out, 'A blanked previous text hides that link entirely.' );
+		$this->assertStringNotContainsString( 'nextpostslink', $out, 'And a blanked next text.' );
 	}
 
 	/**
@@ -269,8 +269,8 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( 'Showing 5 of 10', $out );
-		$this->assertStringNotContainsString( '%CURRENT_PAGE%', $out );
+		$this->assertStringContainsString( 'Showing 5 of 10', $out, 'Both tokens are substituted with the real numbers.' );
+		$this->assertStringNotContainsString( '%CURRENT_PAGE%', $out, 'With no token left in the output.' );
 	}
 
 	/**
@@ -286,16 +286,16 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 				'options' => array( 'pages_text' => '<script>alert(1)</script>safe' ),
 			)
 		);
-		$this->assertStringNotContainsString( '<script>', $out );
-		$this->assertStringContainsString( 'safe', $out );
+		$this->assertStringNotContainsString( '<script>', $out, 'A script in a text option is filtered on output.' );
+		$this->assertStringContainsString( 'safe', $out, 'While the safe part survives.' );
 
 		update_option(
 			WP_PageNavi_Options::OPTION,
 			array( 'pages_text' => '<script>alert(1)</script>fromdb' )
 		);
 		$out = $this->render( array( 'query' => $this->query( 5 ) ) );
-		$this->assertStringNotContainsString( '<script>', $out );
-		$this->assertStringContainsString( 'fromdb', $out );
+		$this->assertStringNotContainsString( '<script>', $out, 'And filtered again for a value that came from the database rather than the form.' );
+		$this->assertStringContainsString( 'fromdb', $out, 'With its safe part surviving too.' );
 	}
 
 	/**
@@ -313,7 +313,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 
 		$out = $this->render( array( 'query' => $this->query( 5 ) ) );
 
-		$this->assertStringContainsString( "class='my-current'", $out );
+		$this->assertStringContainsString( "class='my-current'", $out, 'A filter can replace the class the current page carries.' );
 	}
 
 	/**
@@ -336,11 +336,11 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 
 		$out = $this->render( array( 'query' => $this->query( 3 ) ) );
 
-		$this->assertStringStartsWith( '<!--f-->', $out );
+		$this->assertStringStartsWith( '<!--f-->', $out, 'The output filter can rewrite the markup.' );
 		$this->assertIsArray( $captured, 'The output filter is handed the argument array.' );
 		$this->assertArrayHasKey( 'wrapper_tag', $captured, 'The filtered arguments still carry wrapper_tag.' );
 		$this->assertArrayHasKey( 'type', $captured, 'The filtered arguments still carry type.' );
-		$this->assertSame( 'posts', $captured['type'] );
+		$this->assertSame( 'posts', $captured['type'], 'And is told which kind of query it is filtering.' );
 	}
 
 	/**
@@ -356,9 +356,9 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( '<select', $out );
-		$this->assertSame( 10, substr_count( $out, '<option ' ) );
-		$this->assertStringContainsString( 'selected="selected"', $out );
+		$this->assertStringContainsString( '<select', $out, 'The dropdown style renders a select.' );
+		$this->assertSame( 10, substr_count( $out, '<option ' ), 'With one option per page.' );
+		$this->assertStringContainsString( 'selected="selected"', $out, 'And the current page selected.' );
 	}
 
 	/**
@@ -375,9 +375,9 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( "class='wp-pagenavi'", $out );
-		$this->assertStringNotContainsString( '<a ', $out );
-		$this->assertStringNotContainsString( '<select', $out );
+		$this->assertStringContainsString( "class='wp-pagenavi'", $out, 'An unknown style still renders the wrapper.' );
+		$this->assertStringNotContainsString( '<a ', $out, 'With no links in it.' );
+		$this->assertStringNotContainsString( '<select', $out, 'And no select, rather than falling back to a style the site did not ask for.' );
 	}
 
 	/**
@@ -392,7 +392,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 		wp_pagenavi();
 		$echoed = ob_get_clean();
 
-		$this->assertStringContainsString( 'wp-pagenavi', $echoed );
+		$this->assertStringContainsString( 'wp-pagenavi', $echoed, 'The echo argument prints the markup rather than returning it.' );
 
 		ob_start();
 		$returned = wp_pagenavi( array( 'echo' => true ) );
@@ -413,8 +413,8 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 		wp_pagenavi( '<i>B</i>', '<i>A</i>' );
 		$out = ob_get_clean();
 
-		$this->assertStringStartsWith( '<i>B</i>', $out );
-		$this->assertStringEndsWith( '<i>A</i>', $out );
+		$this->assertStringStartsWith( '<i>B</i>', $out, 'The positional form still puts before first.' );
+		$this->assertStringEndsWith( '<i>A</i>', $out, 'And after last, so a theme calling it the old way is not broken.' );
 	}
 
 	/**
@@ -429,7 +429,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 		wp_pagenavi_dropdown();
 		$out = ob_get_clean();
 
-		$this->assertStringContainsString( 'wp-pagenavi', $out );
+		$this->assertStringContainsString( 'wp-pagenavi', $out, 'The deprecated dropdown tag still renders, so a theme calling it is not broken.' );
 	}
 
 	/**
@@ -457,8 +457,8 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( "aria-current='page'", $out );
-		$this->assertStringContainsString( "<span aria-current='page' class='current'>2</span>", $out );
+		$this->assertStringContainsString( "aria-current='page'", $out, 'A user query marks its current page for assistive technology.' );
+		$this->assertStringContainsString( "<span aria-current='page' class='current'>2</span>", $out, 'And visually, on the page the query is actually on.' );
 	}
 
 	/**
@@ -488,7 +488,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 		wp_reset_postdata();
 		set_query_var( 'page', 0 );
 
-		$this->assertStringContainsString( "<span aria-current='page' class='current'>2</span>", $out );
-		$this->assertStringContainsString( 'page=3', $out );
+		$this->assertStringContainsString( "<span aria-current='page' class='current'>2</span>", $out, 'A multipart post marks its current page.' );
+		$this->assertStringContainsString( 'page=3', $out, 'And links the others by page argument rather than by permalink.' );
 	}
 }

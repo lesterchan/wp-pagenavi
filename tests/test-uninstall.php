@@ -89,7 +89,7 @@ class WP_PageNavi_Uninstall_Test extends WP_PageNavi_TestCase {
 		$start  = (int) strpos( $source, 'foreach ( $site_ids' );
 		$loop   = substr( $source, $start, (int) strpos( $source, '} else {' ) - $start );
 
-		$this->assertStringContainsString( 'switch_to_blog(', $loop );
-		$this->assertStringContainsString( 'restore_current_blog();', $loop );
+		$this->assertStringContainsString( 'switch_to_blog(', $loop, 'The site loop switches per site.' );
+		$this->assertStringContainsString( 'restore_current_blog();', $loop, 'And restores each time round, rather than once after the loop.' );
 	}
 }

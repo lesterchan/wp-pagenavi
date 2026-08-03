@@ -49,9 +49,9 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 		);
 
 		$this->assertStringContainsString( 'previouspostslink', $out, 'The previous link was dropped.' );
-		$this->assertStringContainsString( '<svg', $out );
-		$this->assertStringContainsString( '<path', $out );
-		$this->assertStringContainsString( 'd="M10 3L5 8l5 5"', $out );
+		$this->assertStringContainsString( '<svg', $out, 'An inline SVG arrow survives the filtering.' );
+		$this->assertStringContainsString( '<path', $out, 'With its path child.' );
+		$this->assertStringContainsString( 'd="M10 3L5 8l5 5"', $out, 'And the path data, which is the whole point of keeping the element.' );
 	}
 
 	/**
@@ -80,8 +80,8 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( 'nextpostslink', $out );
-		$this->assertStringContainsString( '<svg', $out );
+		$this->assertStringContainsString( 'nextpostslink', $out, 'The link renders.' );
+		$this->assertStringContainsString( '<svg', $out, 'With the SVG arrow stored in the option row, so it survives storage as well as output.' );
 	}
 
 	/**
@@ -93,8 +93,8 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 	public function test_svg_survives_the_settings_save() {
 		$clean = WP_PageNavi_Options::sanitize( array( 'prev_text' => self::SVG ) );
 
-		$this->assertStringContainsString( '<svg', $clean['prev_text'] );
-		$this->assertStringContainsString( '<path', $clean['prev_text'] );
+		$this->assertStringContainsString( '<svg', $clean['prev_text'], 'An SVG survives the settings save.' );
+		$this->assertStringContainsString( '<path', $clean['prev_text'], 'With its path, so the arrow is not emptied on the way in.' );
 	}
 
 	/**
@@ -103,11 +103,11 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_existing_arrow_markup_is_untouched() {
-		$this->assertSame( '&laquo;', WP_PageNavi_Options::kses( '&laquo;' ) );
-		$this->assertSame( '<i class="fa fa-chevron-left"></i>', WP_PageNavi_Options::kses( '<i class="fa fa-chevron-left"></i>' ) );
-		$this->assertSame( '<span class="dashicons dashicons-arrow-left"></span>', WP_PageNavi_Options::kses( '<span class="dashicons dashicons-arrow-left"></span>' ) );
-		$this->assertStringContainsString( '<img', WP_PageNavi_Options::kses( '<img src="/a.png" alt="prev">' ) );
-		$this->assertSame( 'Page %CURRENT_PAGE%', WP_PageNavi_Options::kses( 'Page %CURRENT_PAGE%' ) );
+		$this->assertSame( '&laquo;', WP_PageNavi_Options::kses( '&laquo;' ), 'An entity arrow is untouched.' );
+		$this->assertSame( '<i class="fa fa-chevron-left"></i>', WP_PageNavi_Options::kses( '<i class="fa fa-chevron-left"></i>' ), 'An icon font element is untouched.' );
+		$this->assertSame( '<span class="dashicons dashicons-arrow-left"></span>', WP_PageNavi_Options::kses( '<span class="dashicons dashicons-arrow-left"></span>' ), 'A dashicon element is untouched.' );
+		$this->assertStringContainsString( '<img', WP_PageNavi_Options::kses( '<img src="/a.png" alt="prev">' ), 'An image arrow is kept.' );
+		$this->assertSame( 'Page %CURRENT_PAGE%', WP_PageNavi_Options::kses( 'Page %CURRENT_PAGE%' ), 'And plain text carrying a token is untouched.' );
 	}
 
 	/**
@@ -119,11 +119,13 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 	public function test_sprite_syntax_is_supported() {
 		$this->assertStringContainsString(
 			'xlink:href="#chevron-left"',
-			WP_PageNavi_Options::kses( '<svg><use xlink:href="#chevron-left"/></svg>' )
+			WP_PageNavi_Options::kses( '<svg><use xlink:href="#chevron-left"/></svg>' ),
+			'A sprite reference in the xlink form is kept.'
 		);
 		$this->assertStringContainsString(
 			'href="#chevron-left"',
-			WP_PageNavi_Options::kses( '<svg><use href="#chevron-left"/></svg>' )
+			WP_PageNavi_Options::kses( '<svg><use href="#chevron-left"/></svg>' ),
+			'And in the plain href form, which is what SVG2 uses.'
 		);
 	}
 
@@ -137,11 +139,13 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 	public function test_xlink_href_is_protocol_filtered() {
 		$this->assertStringNotContainsString(
 			'javascript:',
-			WP_PageNavi_Options::kses( '<svg><use xlink:href="javascript:alert(1)"/></svg>' )
+			WP_PageNavi_Options::kses( '<svg><use xlink:href="javascript:alert(1)"/></svg>' ),
+			'A javascript URI in the xlink form is filtered out.'
 		);
 		$this->assertStringNotContainsString(
 			'javascript:',
-			WP_PageNavi_Options::kses( '<svg><use href="javascript:alert(1)"/></svg>' )
+			WP_PageNavi_Options::kses( '<svg><use href="javascript:alert(1)"/></svg>' ),
+			'And in the plain form.'
 		);
 	}
 
@@ -151,11 +155,11 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_uri_attribute_filter_is_scoped_to_the_call() {
-		$this->assertNotContains( 'xlink:href', wp_kses_uri_attributes() );
+		$this->assertNotContains( 'xlink:href', wp_kses_uri_attributes(), 'The URI attribute list is put back after the call.' );
 
 		WP_PageNavi_Options::kses( '<svg><use xlink:href="#i"/></svg>' );
 
-		$this->assertNotContains( 'xlink:href', wp_kses_uri_attributes() );
+		$this->assertNotContains( 'xlink:href', wp_kses_uri_attributes(), 'Even when the call filtered nothing, so the widening never outlives it.' );
 		$this->assertFalse( has_filter( 'wp_kses_uri_attributes' ), 'The scoped filter was left attached.' );
 	}
 
@@ -171,9 +175,9 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 	public function test_hostile_input_is_neutralised( $input ) {
 		$out = WP_PageNavi_Options::kses( $input );
 
-		$this->assertStringNotContainsStringIgnoringCase( '<script', $out );
-		$this->assertStringNotContainsStringIgnoringCase( 'javascript:', $out );
-		$this->assertStringNotContainsStringIgnoringCase( '<iframe', $out );
+		$this->assertStringNotContainsStringIgnoringCase( '<script', $out, 'No script survives.' );
+		$this->assertStringNotContainsStringIgnoringCase( 'javascript:', $out, 'No javascript URI.' );
+		$this->assertStringNotContainsStringIgnoringCase( '<iframe', $out, 'And no frame.' );
 		$this->assertDoesNotMatchRegularExpression( '/\son[a-z]+\s*=/i', $out, 'No event handler attribute survives the filtering.' );
 	}
 
@@ -219,7 +223,7 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 		);
 
 		$this->assertArrayNotHasKey( 'svg', WP_PageNavi_Options::allowed_html(), 'Removing the filter takes svg back out again.' );
-		$this->assertStringNotContainsString( '<svg', WP_PageNavi_Options::kses( self::SVG ) );
+		$this->assertStringNotContainsString( '<svg', WP_PageNavi_Options::kses( self::SVG ), 'A filter can narrow the allowed elements, so SVG is not forced on a site.' );
 	}
 
 	/**
@@ -237,6 +241,6 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 		$out = WP_PageNavi_Options::kses( '<svg viewBox="0 0 16 16"></svg>' );
 
 		$this->assertMatchesRegularExpression( '/\sviewbox="0 0 16 16"/i', $out, 'viewBox is retained whatever case it was written in.' );
-		$this->assertStringContainsString( '<svg', $out );
+		$this->assertStringContainsString( '<svg', $out, 'The element survives whatever case viewBox was written in.' );
 	}
 }

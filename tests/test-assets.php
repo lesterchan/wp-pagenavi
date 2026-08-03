@@ -64,8 +64,8 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
-		$this->assertStringEndsWith( '/wp-pagenavi/css/wp-pagenavi.css', $src );
-		$this->assertStringNotContainsString( '/includes/', $src );
+		$this->assertStringEndsWith( '/wp-pagenavi/css/wp-pagenavi.css', $src, 'The stylesheet URL resolves to the plugin root.' );
+		$this->assertStringNotContainsString( '/includes/', $src, 'Rather than to the directory the registering class lives in.' );
 	}
 
 	/**
@@ -81,7 +81,8 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 
 		$this->assertSame(
 			WP_PAGENAVI_VERSION,
-			$GLOBALS['wp_styles']->registered['wp-pagenavi']->ver
+			$GLOBALS['wp_styles']->registered['wp-pagenavi']->ver,
+			'The stylesheet is versioned with the plugin, so an upgrade busts the cache.'
 		);
 	}
 
@@ -106,7 +107,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 		WP_PageNavi_Core::stylesheets();
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
-		$this->assertSame( 'https://example.org/theme/wp-pagenavi.css', $src );
+		$this->assertSame( 'https://example.org/theme/wp-pagenavi.css', $src, 'A copy in the theme overrides the plugin stylesheet.' );
 	}
 
 	/**
@@ -135,7 +136,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 		WP_PageNavi_Core::stylesheets();
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
-		$this->assertSame( 'https://example.org/parent/wp-pagenavi.css', $src );
+		$this->assertSame( 'https://example.org/parent/wp-pagenavi.css', $src, 'And a copy in the parent theme is used when the child has none.' );
 	}
 
 	/**
@@ -174,7 +175,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 	public function test_version_constant_matches_header() {
 		$data = get_file_data( WP_PAGENAVI_MAIN_FILE, array( 'Version' => 'Version' ) );
 
-		$this->assertSame( $data['Version'], WP_PAGENAVI_VERSION );
+		$this->assertSame( $data['Version'], WP_PAGENAVI_VERSION, 'The version constant matches the plugin header.' );
 	}
 
 	/**
@@ -217,7 +218,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 			'text-align must be start or end, not left or right.'
 		);
 
-		$this->assertSame( array(), (array) glob( dirname( __DIR__ ) . '/css/*-rtl.css' ) );
+		$this->assertSame( array(), (array) glob( dirname( __DIR__ ) . '/css/*-rtl.css' ), 'No RTL stylesheet ships; the one file uses logical properties.' );
 	}
 
 	/**
@@ -238,6 +239,6 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 			'A colour must come from a custom property with a fallback, never a bare hex.'
 		);
 
-		$this->assertStringNotContainsString( '!important', $rules );
+		$this->assertStringNotContainsString( '!important', $rules, 'And forces nothing, so a theme can restyle it.' );
 	}
 }
