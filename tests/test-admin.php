@@ -185,7 +185,7 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 	public function test_settings_page_is_registered_at_the_same_slug() {
 		global $submenu;
 
-		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->create_admin() );
 		set_current_screen( 'dashboard' );
 
 		WP_PageNavi_Settings::add_page();

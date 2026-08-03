@@ -21,7 +21,7 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->create_admin() );
 		WP_PageNavi_Settings::register_settings();
 	}
 
