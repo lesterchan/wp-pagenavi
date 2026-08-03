@@ -126,7 +126,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 		foreach ( $labels as $label ) {
 			$this->assertArrayHasKey( $label, $seen, "The '{$label}' label was never rendered." );
 			$this->assertSame( 'default', $seen[ $label ], "The '{$label}' label must use core's text domain." );
-			$this->assertStringContainsString( 'aria-label="' . $label . '"', $out );
+			$this->assertStringContainsString( 'aria-label="' . $label . '"', $out, 'The ' . $label . ' link carries its aria-label in the output.' );
 		}
 	}
 
@@ -144,7 +144,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 		$out = $this->render( array( 'query' => $this->query( 5 ) ) );
 
 		foreach ( $labels as $label ) {
-			$this->assertStringContainsString( 'aria-label="' . $label . '"', $out );
+			$this->assertStringContainsString( 'aria-label="' . $label . '"', $out, 'The ' . $label . ' link carries its aria-label in the output.' );
 		}
 
 		// The capitalisations core does not define must not creep back in.
@@ -173,7 +173,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_single_page_is_hidden_unless_always_show() {
-		$this->assertNull( $this->render( array( 'query' => $this->query( 1, 100 ) ) ) );
+		$this->assertNull( $this->render( array( 'query' => $this->query( 1, 100 ) ) ), 'A single page renders nothing at all unless always_show is set.' );
 
 		$out = $this->render(
 			array(
@@ -337,9 +337,9 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 		$out = $this->render( array( 'query' => $this->query( 3 ) ) );
 
 		$this->assertStringStartsWith( '<!--f-->', $out );
-		$this->assertIsArray( $captured );
-		$this->assertArrayHasKey( 'wrapper_tag', $captured );
-		$this->assertArrayHasKey( 'type', $captured );
+		$this->assertIsArray( $captured, 'The output filter is handed the argument array.' );
+		$this->assertArrayHasKey( 'wrapper_tag', $captured, 'The filtered arguments still carry wrapper_tag.' );
+		$this->assertArrayHasKey( 'type', $captured, 'The filtered arguments still carry type.' );
 		$this->assertSame( 'posts', $captured['type'] );
 	}
 
@@ -398,7 +398,7 @@ class WP_PageNavi_Render_Test extends WP_PageNavi_TestCase {
 		$returned = wp_pagenavi( array( 'echo' => true ) );
 		ob_end_clean();
 
-		$this->assertNull( $returned );
+		$this->assertNull( $returned, 'With echo on, nothing is returned; the markup went to the output buffer.' );
 	}
 
 	/**

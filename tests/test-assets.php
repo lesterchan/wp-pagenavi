@@ -31,7 +31,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 
 		WP_PageNavi_Core::stylesheets();
 
-		$this->assertTrue( wp_style_is( 'wp-pagenavi', 'enqueued' ) );
+		$this->assertTrue( wp_style_is( 'wp-pagenavi', 'enqueued' ), 'With the stylesheet setting on, the stylesheet is enqueued.' );
 	}
 
 	/**
@@ -43,12 +43,12 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 	public function test_not_enqueued_when_disabled() {
 		$this->set_option( 'use_pagenavi_css', 0 );
 		WP_PageNavi_Core::stylesheets();
-		$this->assertFalse( wp_style_is( 'wp-pagenavi', 'enqueued' ) );
+		$this->assertFalse( wp_style_is( 'wp-pagenavi', 'enqueued' ), 'With the stylesheet setting off, nothing is enqueued.' );
 
 		$GLOBALS['wp_styles'] = new WP_Styles();
 		$this->set_option( 'use_pagenavi_css', false );
 		WP_PageNavi_Core::stylesheets();
-		$this->assertFalse( wp_style_is( 'wp-pagenavi', 'enqueued' ) );
+		$this->assertFalse( wp_style_is( 'wp-pagenavi', 'enqueued' ), 'It stays unenqueued on a second pass too.' );
 	}
 
 	/**
@@ -161,7 +161,8 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 		WP_PageNavi_Core::init();
 
 		$this->assertNotFalse(
-			has_action( 'wp_enqueue_scripts', array( 'WP_PageNavi_Core', 'stylesheets' ) )
+			has_action( 'wp_enqueue_scripts', array( 'WP_PageNavi_Core', 'stylesheets' ) ),
+			'The enqueue is hooked onto wp_enqueue_scripts.'
 		);
 	}
 
@@ -228,7 +229,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 		$rules = $this->stylesheet_rules();
 
 		foreach ( array( 'font-family', 'font-size', 'background' ) as $property ) {
-			$this->assertStringNotContainsString( $property . ':', $rules );
+			$this->assertStringNotContainsString( $property . ':', $rules, 'The stylesheet sets ' . $property . ', which is the theme to decide.' );
 		}
 
 		$this->assertDoesNotMatchRegularExpression(

@@ -174,7 +174,7 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 		$this->assertStringNotContainsStringIgnoringCase( '<script', $out );
 		$this->assertStringNotContainsStringIgnoringCase( 'javascript:', $out );
 		$this->assertStringNotContainsStringIgnoringCase( '<iframe', $out );
-		$this->assertDoesNotMatchRegularExpression( '/\son[a-z]+\s*=/i', $out );
+		$this->assertDoesNotMatchRegularExpression( '/\son[a-z]+\s*=/i', $out, 'No event handler attribute survives the filtering.' );
 	}
 
 	/**
@@ -208,7 +208,7 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_allowed_html_is_filterable() {
-		$this->assertArrayHasKey( 'svg', WP_PageNavi_Options::allowed_html() );
+		$this->assertArrayHasKey( 'svg', WP_PageNavi_Options::allowed_html(), 'A filter can add svg to the allowed elements.' );
 
 		add_filter(
 			'wp_pagenavi_allowed_html',
@@ -218,7 +218,7 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 			}
 		);
 
-		$this->assertArrayNotHasKey( 'svg', WP_PageNavi_Options::allowed_html() );
+		$this->assertArrayNotHasKey( 'svg', WP_PageNavi_Options::allowed_html(), 'Removing the filter takes svg back out again.' );
 		$this->assertStringNotContainsString( '<svg', WP_PageNavi_Options::kses( self::SVG ) );
 	}
 
@@ -236,7 +236,7 @@ class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
 	public function test_viewbox_is_retained_whatever_its_case() {
 		$out = WP_PageNavi_Options::kses( '<svg viewBox="0 0 16 16"></svg>' );
 
-		$this->assertMatchesRegularExpression( '/\sviewbox="0 0 16 16"/i', $out );
+		$this->assertMatchesRegularExpression( '/\sviewbox="0 0 16 16"/i', $out, 'viewBox is retained whatever case it was written in.' );
 		$this->assertStringContainsString( '<svg', $out );
 	}
 }

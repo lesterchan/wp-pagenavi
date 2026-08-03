@@ -174,7 +174,7 @@ class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 
 		$markers = get_option( WP_PageNavi_Options::VERSION );
 
-		$this->assertIsArray( $markers );
+		$this->assertIsArray( $markers, 'Activation stamps a version row, so an upgrade has somewhere to read from.' );
 		$this->assertSame( WP_PAGENAVI_VERSION, $markers['plugin'] );
 	}
 }

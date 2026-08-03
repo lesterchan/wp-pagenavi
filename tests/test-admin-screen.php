@@ -164,7 +164,8 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 
 		$this->assertMatchesRegularExpression(
 			'/<input type="number" min="0" step="1" id="wp-pagenavi-num_pages"[^>]*value="5"/',
-			$html
+			$html,
+			'The stored number is the value the field renders with.'
 		);
 	}
 
@@ -187,12 +188,12 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 			PREG_SET_ORDER
 		);
 
-		$this->assertCount( 2, $matches );
+		$this->assertCount( 2, $matches, 'Both radios of the pair are rendered, or the loop below asserts nothing.' );
 		foreach ( $matches as $match ) {
 			if ( '0' === $match[1] ) {
-				$this->assertStringContainsString( 'checked', $match[2] );
+				$this->assertStringContainsString( 'checked', $match[2], 'The radio matching the stored value is the one marked checked.' );
 			} else {
-				$this->assertStringNotContainsString( 'checked', $match[2] );
+				$this->assertStringNotContainsString( 'checked', $match[2], 'Only the radio matching the stored value is marked checked.' );
 			}
 		}
 	}
@@ -270,7 +271,7 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	public function test_setting_is_registered_in_the_expected_group() {
 		$registered = get_registered_settings();
 
-		$this->assertArrayHasKey( WP_PageNavi_Options::OPTION, $registered );
+		$this->assertArrayHasKey( WP_PageNavi_Options::OPTION, $registered, 'The settings row is registered, so its sanitise callback is attached.' );
 		$this->assertSame(
 			WP_PageNavi_Settings::GROUP,
 			$registered[ WP_PageNavi_Options::OPTION ]['group']
@@ -285,8 +286,8 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	public function test_init_registers_hooks() {
 		WP_PageNavi_Settings::init();
 
-		$this->assertNotFalse( has_action( 'admin_menu', array( 'WP_PageNavi_Settings', 'add_page' ) ) );
-		$this->assertNotFalse( has_action( 'admin_init', array( 'WP_PageNavi_Settings', 'register_settings' ) ) );
+		$this->assertNotFalse( has_action( 'admin_menu', array( 'WP_PageNavi_Settings', 'add_page' ) ), 'The settings page is hooked onto admin_menu.' );
+		$this->assertNotFalse( has_action( 'admin_init', array( 'WP_PageNavi_Settings', 'register_settings' ) ), 'The settings registration is hooked onto admin_init.' );
 		$this->assertNotFalse(
 			has_action( 'admin_init', array( 'WP_PageNavi_Options', 'maybe_upgrade' ) ),
 			'The upgrade routine must run on admin_init, because an update never fires the activation hook.'
@@ -295,7 +296,8 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 			has_filter(
 				'plugin_action_links_' . plugin_basename( WP_PAGENAVI_MAIN_FILE ),
 				array( 'WP_PageNavi_Settings', 'action_links' )
-			)
+			),
+			'The Settings action link is hooked onto this plugin basename.'
 		);
 	}
 
@@ -340,7 +342,7 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	public function test_the_sections_are_registered_under_the_page_slug() {
 		global $wp_settings_sections;
 
-		$this->assertArrayHasKey( WP_PageNavi_Settings::PAGE, $wp_settings_sections );
+		$this->assertArrayHasKey( WP_PageNavi_Settings::PAGE, $wp_settings_sections, 'The sections are registered under this screen slug, not the option group.' );
 
 		$this->assertSame(
 			array( WP_PageNavi_Settings::SECTION_TEXT, WP_PageNavi_Settings::SECTION_DISPLAY ),

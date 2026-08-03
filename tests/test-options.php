@@ -43,8 +43,8 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 		$this->assertSame( 3, $defaults['num_larger_page_numbers'] );
 		$this->assertSame( 10, $defaults['larger_page_numbers_multiple'] );
 		$this->assertSame( 1, $defaults['style'] );
-		$this->assertFalse( $defaults['always_show'] );
-		$this->assertTrue( $defaults['use_pagenavi_css'] );
+		$this->assertFalse( $defaults['always_show'], 'always_show ships off.' );
+		$this->assertTrue( $defaults['use_pagenavi_css'], 'use_pagenavi_css ships on.' );
 		$this->assertSame( '%PAGE_NUMBER%', $defaults['page_text'] );
 	}
 
@@ -67,7 +67,7 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 
 		$this->assertSame( 4, $options['num_pages'] );
 		$this->assertSame( 10, $options['larger_page_numbers_multiple'] );
-		$this->assertArrayHasKey( 'dotright_text', $options );
+		$this->assertArrayHasKey( 'dotright_text', $options, 'A partial stored row is merged over the defaults rather than replacing them.' );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 	 */
 	public function test_single_key_access() {
 		$this->assertSame( 5, WP_PageNavi_Options::get( 'num_pages' ) );
-		$this->assertNull( WP_PageNavi_Options::get( 'no_such_option' ) );
+		$this->assertNull( WP_PageNavi_Options::get( 'no_such_option' ), 'An unknown key reads back null rather than raising a notice.' );
 	}
 
 	/**

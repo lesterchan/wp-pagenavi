@@ -38,7 +38,7 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_unknown_argument_is_null() {
-		$this->assertNull( $this->call()->no_such_argument );
+		$this->assertNull( $this->call()->no_such_argument, 'An unknown argument reads back null rather than raising a notice.' );
 	}
 
 	/**
@@ -88,9 +88,9 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 			)
 		)->get_pagination_args();
 
-		$this->assertIsInt( $per_page );
-		$this->assertIsInt( $paged );
-		$this->assertIsInt( $total );
+		$this->assertIsInt( $per_page, 'per_page is an integer; a float would reach the SQL as 5.0.' );
+		$this->assertIsInt( $paged, 'paged is an integer; a float would reach the SQL as 2.0.' );
+		$this->assertIsInt( $total, 'total is an integer; a float would reach the SQL as 10.0.' );
 		$this->assertSame( 3, $paged );
 	}
 
@@ -147,7 +147,7 @@ class WP_PageNavi_Call_Test extends WP_PageNavi_TestCase {
 		$this->assertStringContainsString( '>Page 3</a>', $html );
 
 		// href is appended after the caller's attributes.
-		$this->assertGreaterThan( strpos( $html, 'title=' ), strpos( $html, 'href=' ) );
+		$this->assertGreaterThan( strpos( $html, 'title=' ), strpos( $html, 'href=' ), 'The title attribute is written before href, which is the order the escaping assumes.' );
 	}
 
 	/**

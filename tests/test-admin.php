@@ -116,7 +116,7 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 	public function test_non_array_input_is_survivable() {
 		$clean = WP_PageNavi_Options::sanitize( 'garbage' );
 
-		$this->assertIsArray( $clean );
+		$this->assertIsArray( $clean, 'A non-array posted value comes back an array rather than propagating.' );
 		$this->assertSame( 5, $clean['num_pages'] );
 	}
 
@@ -134,8 +134,8 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 			)
 		);
 
-		$this->assertArrayNotHasKey( 'evil_key', $clean );
-		$this->assertArrayNotHasKey( 'another', $clean );
+		$this->assertArrayNotHasKey( 'evil_key', $clean, 'A key the sanitiser does not know is discarded.' );
+		$this->assertArrayNotHasKey( 'another', $clean, 'Every unknown key is discarded, not only the first.' );
 		$this->assertSame(
 			array_keys( WP_PageNavi_Options::get_defaults() ),
 			array_keys( $clean ),
@@ -202,9 +202,9 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 	 */
 	public function test_action_links() {
 		$links = WP_PageNavi_Settings::action_links( array( '<a href="#">Deactivate</a>' ) );
-		$this->assertCount( 2, $links );
+		$this->assertCount( 2, $links, 'The Settings link is added to the link passed in, not instead of it.' );
 		$this->assertStringContainsString( 'page=wp-pagenavi', $links[0] );
 
-		$this->assertIsArray( WP_PageNavi_Settings::action_links( null ) );
+		$this->assertIsArray( WP_PageNavi_Settings::action_links( null ), 'A null links list is survivable rather than fatal.' );
 	}
 }
