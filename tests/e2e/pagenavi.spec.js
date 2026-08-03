@@ -168,11 +168,11 @@ test.describe( 'WP-PageNavi', () => {
 		await page.getByRole( 'button', { name: 'Save Changes' } ).click();
 		await expect( page.locator( '.notice-success, .settings-error' ).first() ).toBeVisible();
 
-		// Reached by clicking, not by typing /page/2/: the tests site keeps the
-		// plain permalink structure, so that path is not a pagination URL and
-		// WordPress quietly serves page one. The navigation then reads "Page 1 of
-		// 3" and the assertion below fails for a reason that has nothing to do
-		// with the plugin.
+		// Reached by clicking, not by typing a page URL, because the shape of one
+		// is not this plugin's to know: /page/2/ is a pagination URL on a site
+		// with a permalink structure and an ordinary 404 on a site without, and
+		// this suite pins neither. Clicking the link the plugin rendered is
+		// right under both, and it is also the thing under test.
 		await page.goto( '/' );
 		await nav( page ).locator( '.nextpostslink' ).click();
 
