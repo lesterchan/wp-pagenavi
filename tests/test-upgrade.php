@@ -16,6 +16,62 @@ class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 	 *
 	 * @return void
 	 */
+	/**
+	 * A stock legacy row still lands, even once a `default` is registered.
+	 *
+	 * This plugin passes no `default` to `register_setting()` today, so the
+	 * §7.6.1 trap is not armed and a fixture equal to the defaults would prove
+	 * nothing on its own -- with no `default_option_wp_pagenavi_options` filter,
+	 * an absent row reads back as false and any write lands.
+	 *
+	 * write() is nonetheless written as though the filter existed, precisely so
+	 * that adding one later cannot quietly break the migration. This registers
+	 * the setting WITH a default -- the change a future release makes without
+	 * thinking about migrations -- and requires the fold-in to land anyway.
+	 *
+	 * **It does not fail if write()'s add_option() branch is removed, and that
+	 * is worth knowing rather than assuming.** WP-PageNavi is protected twice
+	 * over: update_option() sanitises before it compares, WP_PageNavi_Options::sanitize()
+	 * does not return the defaults unchanged, so the values differ and core
+	 * reaches its own add_option() fallback. wp-commentnavi carries a migration
+	 * identical to this one and its sanitiser *is* idempotent on the defaults,
+	 * so there the same mutation goes red. Two plugins, one code path, different
+	 * safety -- which is the argument for write() being explicit rather than
+	 * leaning on whichever accident happens to hold.
+	 *
+	 * So what this pins is the outcome a site sees: a stock legacy row is folded
+	 * in and lands. The legacy row is seeded equal to the shipped defaults on
+	 * purpose -- a customised one cannot see this shape at all, because a result
+	 * differing from the defaults is written whatever the read before it did.
+	 *
+	 * @return void
+	 */
+	public function test_a_stock_legacy_row_lands_even_with_a_registered_default() {
+		delete_option( WP_PageNavi_Options::OPTION );
+		delete_option( WP_PageNavi_Options::VERSION );
+
+		register_setting(
+			WP_PageNavi_Settings::GROUP,
+			WP_PageNavi_Options::OPTION,
+			array(
+				'type'              => 'array',
+				'sanitize_callback' => array( 'WP_PageNavi_Options', 'sanitize' ),
+				'default'           => WP_PageNavi_Options::get_defaults(),
+			)
+		);
+
+		update_option( WP_PageNavi_Options::LEGACY_OPTION, WP_PageNavi_Options::get_defaults() );
+
+		$this->assertFalse( get_option( WP_PageNavi_Options::OPTION, false ), 'The fixture is only pre-migration if the new row is genuinely absent.' );
+
+		WP_PageNavi_Options::maybe_upgrade();
+
+		$this->assertIsArray( get_option( WP_PageNavi_Options::OPTION, false ), 'The migration must write the row even when its result equals the shipped defaults and a default is registered.' );
+		$this->assertFalse( get_option( WP_PageNavi_Options::LEGACY_OPTION, false ), 'And the legacy row is deleted, having actually been folded in.' );
+
+		unregister_setting( WP_PageNavi_Settings::GROUP, WP_PageNavi_Options::OPTION );
+	}
+
 	public function test_the_legacy_row_is_folded_in_and_deleted() {
 		update_option(
 			WP_PageNavi_Options::LEGACY_OPTION,

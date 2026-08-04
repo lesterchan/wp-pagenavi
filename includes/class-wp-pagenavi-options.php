@@ -412,25 +412,30 @@ class WP_PageNavi_Options {
 	 * Write the settings row from inside an upgrade.
 	 *
 	 * `update_option()` declines to write a value equal to the one
-	 * `get_option()` would return, and `register_setting()` is passed a
-	 * `default`, which installs a `default_option_wp_pagenavi_options` filter answering with
-	 * the shipped defaults for a row that does not exist. So on an admin request
-	 * -- the path every real update takes, because activation hooks do not fire
-	 * on an update -- a migration whose result happens to equal the defaults
-	 * writes nothing at all, while the legacy rows it read are deleted anyway.
+	 * `get_option()` would return. Where `register_setting()` is passed a
+	 * `default` that becomes a trap: the `default_option_*` filter it installs
+	 * answers with the shipped defaults for a row that does not exist, so on an
+	 * admin request -- the path every real update takes, because activation
+	 * hooks do not fire on an update -- a migration whose result happens to
+	 * equal the defaults writes nothing at all, while the legacy rows it read
+	 * are deleted anyway.
 	 *
-	 * Passing an explicit default to `get_option()` defeats the registered one,
+	 * **This plugin passes no `default`** -- WP_PageNavi_Settings::register_settings()
+	 * passes `type` and `sanitize_callback` only -- so no
+	 * `default_option_wp_pagenavi_options` filter exists here and the trap is
+	 * not armed. The helper is written this way regardless, so that adding one
+	 * later cannot quietly break the migration. Do not read the paragraph above
+	 * as a description of this plugin's `register_setting()` call.
+	 *
+	 * Passing an explicit default to `get_option()` defeats a registered one,
 	 * because `filter_default_option()` returns early when a default was passed.
 	 * That is what lets an absent row be told from a defaulted one and added
 	 * outright. `add_option()` runs the sanitize callback exactly as
 	 * `update_option()` does, so nothing else about the write changes.
 	 *
-	 * Latent here rather than live: `get()` merges over the defaults, so a
-	 * missing row and a defaults row read identically and nothing is lost today.
-	 * It stops being latent the moment this plugin gains a setting whose
-	 * *absence* means something other than its default -- and then the failure is
-	 * silent, browser-only, and the legacy rows are already gone. §7.6.1 has the
-	 * three plugins this shape has already bitten.
+	 * §7.6.1 has the plugins this shape has already bitten, and wp-dbmanager --
+	 * where the same helper sat beside a migration that read the row bare -- is
+	 * why the two halves have to agree rather than merely both exist.
 	 *
 	 * @param array $options The settings to store.
 	 * @return void
