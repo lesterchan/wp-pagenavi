@@ -2,10 +2,6 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-WP-PageNavi follows `_standards/STANDARDS.md` in the parent folder, which is the
-contract for all nineteen plugins in the collection. Where this file and that
-one disagree, that one wins.
-
 ## What it is
 
 One template tag, `wp_pagenavi()`, replacing "« Older / Newer »" with numbered
@@ -13,15 +9,20 @@ page links, plus a settings screen under Settings for the twenty-odd text and
 number options that shape the output. It paginates three different things:
 `WP_Query` (the default), a `<!--nextpage-->` multipart post, and `WP_User_Query`.
 
-wp-commentnavi is its sibling and shares its `Core` / `Call` / `Options` /
-`Settings` shape. Changes to one usually belong in the other.
+WP-CommentNavi is its sibling and shares the same `Core` / `Call` / `Options` /
+`Settings` shape — a change to one is usually a change to both.
 
 ## Data
 
-`wp_pagenavi_options` and `wp_pagenavi_version`. The migration folds in
-`pagenavi_options`, which the **released** 2.94.6 ships — so unlike most of the
-collection this rename is user-facing rather than confined to an unreleased
-major.
+Two option rows: `wp_pagenavi_options` for the settings and `wp_pagenavi_version`
+for the `plugin` and `db` upgrade markers. **The markers are a row of their own
+and must stay that way.** A marker kept inside the settings array has to be
+rescued from the stored value on every save, because the settings form never
+posts one.
+
+`WP_PageNavi_Options::maybe_upgrade()` folds in `pagenavi_options`, the row every
+release up to 2.94.5 wrote. That row is out in the world, so this migration runs
+on real installs rather than on a rename nobody shipped.
 
 ## Traps
 
@@ -59,10 +60,45 @@ major.
   possibly not until some *other* plugin also stops bundling it.
 * `PageNavi_Admin` became `WP_PageNavi_Settings`, not `WP_PageNavi_Admin` — the
   rename and the prefix happened together (commit `8e60588`).
-* `README` `Contributors:` is `GamerZ` alone; `scribu` was dropped per §3.2. Do
-  not restore it.
+* `README` `Contributors:` is `GamerZ` alone; `scribu` was dropped deliberately.
+  Do not restore it.
+
+## Migrations, and why they are tested through a browser
+
+**Activation hooks do not fire when a plugin is updated.** A site that updates
+from the Plugins screen never calls `activate()`, so `maybe_upgrade()` also
+hangs off `admin_init` — the hook every real upgrade goes through.
+
+That difference is what `tests/e2e/upgrade.spec.js` exists for, and it is worth
+understanding before changing either the migration or that file:
+
+* **On the admin path `register_setting()` has already run**, so the sanitize
+  callback is attached to the settings row and every write the migration makes
+  goes through it. Under WP-CLI it is not attached at all. **A migration test
+  that never registers the setting is testing WP-CLI**, not the path real sites
+  take.
+* **Read the row raw when the question is "was it written".**
+  `WP_PageNavi_Options::get()` merges the defaults over whatever is stored, so it
+  answers identically for a row holding the defaults and for no row at all —
+  which is exactly the state a migration that read, deleted and never wrote
+  leaves behind.
+* **Seed the shipped defaults, not customised values.** A customised fixture
+  cannot see that failure: its migrated result differs from the defaults, so the
+  write lands whatever the read before it did.
+* **A migrated stock row is not the defaults array byte for byte.**
+  `always_show` and `use_pagenavi_css` ship as PHP booleans and the sanitizer
+  stores integers, so the test names that rather than asserting round it.
+* `write()` passes an explicit default to `get_option()` so an absent row can be
+  told from a defaulted one and `add_option()`ed. This plugin passes no
+  `default` to `register_setting()` today, so the trap is not armed here; the
+  helper is written that way so adding one later cannot quietly break the
+  migration.
 
 ## Tests
+
+`bin/test.sh` runs PHPUnit, `bin/test-multisite.sh` the network pass, and
+`bin/test-e2e.sh` the Playwright suite. **Run them rather than trusting a note
+about their last result** — CI is the authority, and this file cannot be.
 
 `tests/test-kses.php` is the file to read first — ten tests over the SVG
 allow-list, the `xlink:href` scoping and hostile input. `test-call.php` covers
@@ -71,11 +107,13 @@ the three pagination types, `test-upgrade.php` the `pagenavi_options` migration.
 `tests/e2e/pagenavi.spec.js` needs its fixture to *be* more than one page, so it
 carries an explicit "the fixture really is paginated" assertion — without it the
 suite is vacuous. Fixtures page **five at a time**, not WordPress's default ten,
-because pages are the only thing a pagination plugin is about. The tests site
-uses plain permalinks, so `/page/2/` is not a pagination URL; navigate by
-clicking.
+because pages are the only thing a pagination plugin is about. Navigate by
+clicking the link the plugin rendered rather than typing a URL: `/page/2/` is
+pagination on a site with a permalink structure and a 404 on one without, and
+the link is the thing under test anyway.
 
-**Known gap** (`_standards/RESUME.md`): the capability test in this suite passes
-with the plugin deactivated, because it cannot tell "capability works" from
-"page missing". It needs a companion assertion that an admin *can* reach the
-same screen. §7.5 now forbids the one-sided form.
+**A capability test must assert both directions.** "An editor cannot reach the
+settings screen" passes with the plugin deactivated, because then the screen
+does not exist and core refuses everybody. Pair it with an administrator
+reaching the same screen, so the pair can only pass when the plugin is present
+*and* gating.
