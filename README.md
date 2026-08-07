@@ -153,8 +153,8 @@ Yes. The navigation text settings accept the inline SVG elements as well as ever
 
 ## Screenshots
 
-1. With Custom Styling
-2. Admin - Options Page
+1. Settings -> WP-PageNavi, where every piece of the navigation text is set
+2. The page links under the loop, on a front page forty-three pages long
 
 ## Changelog
 ### 3.0.0
