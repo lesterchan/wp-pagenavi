@@ -21,6 +21,12 @@ Much of the 2.x line was the work of [scribu](https://scribu.net), whose write-u
 ### Donations
 I spent most of my free time creating, updating, maintaining and supporting these plugins, if you really love my plugins and could spare me a couple of bucks, I will really appreciate it. If not feel free to use it without any obligations.
 
+## Installation
+
+1. Install and activate the plugin.
+1. In your theme, replace the calls to `next_posts_link()` and `previous_posts_link()` with `wp_pagenavi()`. Usage below shows what that looks like in a stock theme.
+1. Go to `WP-Admin -> Settings -> PageNavi` to change the wording and the number of page links.
+
 ## Usage
 In your theme, you need to find calls to next_posts_link() and previous_posts_link() and replace them.
 
