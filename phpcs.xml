@@ -16,7 +16,7 @@
 
 	<rule ref="WordPress"/>
 
-	<config name="text_domain" value="wp-pagenavi,default"/>
+	<config name="text_domain" value="wp-pagenavi"/>
 	<config name="minimum_wp_version" value="6.8"/>
 
 	<!--

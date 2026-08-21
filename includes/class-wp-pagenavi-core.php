@@ -291,8 +291,9 @@ class WP_PageNavi_Core {
 		 * The four navigation aria-labels below are deliberately read from the
 		 * 'default' (WordPress core) text domain rather than this plugin's, so they
 		 * arrive already translated in every locale core supports instead of waiting
-		 * on this plugin's own catalogue. The domain is passed explicitly rather
-		 * than omitted so the intent is obvious and the i18n sniff stays satisfied.
+		 * on this plugin's own catalogue. The i18n sniff is answered on each of the
+		 * four lines rather than by allowing 'default' for the whole plugin, so a
+		 * fifth borrowed string still has to argue its case.
 		 *
 		 * The casing matters and is not a typo: core spells these 'First page' and
 		 * 'Last page' with a lowercase p, but 'Previous Page' and 'Next Page' with a
@@ -310,7 +311,7 @@ class WP_PageNavi_Core {
 				$first_text,
 				array(
 					'class'      => $class_names['first'],
-					'aria-label' => __( 'First page', 'default' ),
+					'aria-label' => __( 'First page', 'default' ), // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- core's catalogue, see the block comment above.
 				),
 				'%TOTAL_PAGES%'
 			);
@@ -324,7 +325,7 @@ class WP_PageNavi_Core {
 				array(
 					'class'      => $class_names['previouspostslink'],
 					'rel'        => 'prev',
-					'aria-label' => __( 'Previous Page', 'default' ),
+					'aria-label' => __( 'Previous Page', 'default' ), // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- core's catalogue, see the block comment above.
 				)
 			);
 		}
@@ -420,7 +421,7 @@ class WP_PageNavi_Core {
 				array(
 					'class'      => $class_names['nextpostslink'],
 					'rel'        => 'next',
-					'aria-label' => __( 'Next Page', 'default' ),
+					'aria-label' => __( 'Next Page', 'default' ), // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- core's catalogue, see the block comment above.
 				)
 			);
 		}
@@ -432,7 +433,7 @@ class WP_PageNavi_Core {
 				$options['last_text'],
 				array(
 					'class'      => $class_names['last'],
-					'aria-label' => __( 'Last page', 'default' ),
+					'aria-label' => __( 'Last page', 'default' ), // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- core's catalogue, see the block comment above.
 				),
 				'%TOTAL_PAGES%'
 			);
