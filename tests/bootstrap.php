@@ -14,7 +14,7 @@ if ( ! $_tests_dir ) {
 
 if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
 	echo "Could not find the WordPress test library at {$_tests_dir}." . PHP_EOL;
-	echo 'Run the suite through bin/test.sh, or set WP_TESTS_DIR.' . PHP_EOL;
+	echo 'Run the suite through wp-env: bash bin/test.sh' . PHP_EOL;
 	exit( 1 );
 }
 
