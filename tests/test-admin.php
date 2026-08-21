@@ -195,6 +195,39 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 	}
 
 	/**
+	 * The capability constant and its accessor agree on manage_options.
+	 *
+	 * @return void
+	 */
+	public function test_capability_defaults_to_manage_options() {
+		$this->assertSame( 'manage_options', WP_PageNavi_Settings::CAPABILITY, 'The capability constant is manage_options.' );
+		$this->assertSame( 'manage_options', WP_PageNavi_Settings::capability(), 'And the accessor answers with it, so the two cannot drift.' );
+	}
+
+	/**
+	 * Every capability check goes through one filter, which is handed the
+	 * context it is being asked about.
+	 *
+	 * @return void
+	 */
+	public function test_capability_filter_is_honoured() {
+		$seen = null;
+
+		$replace = static function ( $capability, $context ) use ( &$seen ) {
+			$seen = $context;
+			return 'edit_pages';
+		};
+		add_filter( 'wp_pagenavi_capability', $replace, 10, 2 );
+
+		$capability = WP_PageNavi_Settings::capability();
+
+		remove_filter( 'wp_pagenavi_capability', $replace, 10 );
+
+		$this->assertSame( 'edit_pages', $capability, 'A filter can replace the capability the screen requires.' );
+		$this->assertSame( 'settings', $seen, 'the filter was not told which context it was being asked about.' );
+	}
+
+	/**
 	 * A Settings link is added to the plugin row, and a non-array input from
 	 * another plugin's bad filter does not break it.
 	 *
