@@ -83,11 +83,12 @@ abstract class WP_PageNavi_TestCase extends WP_UnitTestCase {
 	/**
 	 * Run the uninstaller, however many times a suite asks for it.
 	 *
-	 * The uninstaller declares a global function, so a second require would
-	 * fatal on redeclare and a require_once that has already fired proves
-	 * nothing. Calling the function directly once it exists is the repeatable
-	 * form. Nothing here touches schema, so including the file is safe for the
-	 * first caller.
+	 * The uninstaller does its work in the file body, and PHP will not run a
+	 * file body twice -- so the first caller in a process gets the real thing
+	 * and any later one would silently get nothing at all. The require is
+	 * therefore only there to guarantee the function exists, and the fan-out is
+	 * driven from here: the same loop the file itself runs, with the same
+	 * arguments.
 	 *
 	 * @return void
 	 */
@@ -96,13 +97,26 @@ abstract class WP_PageNavi_TestCase extends WP_UnitTestCase {
 			define( 'WP_UNINSTALL_PLUGIN', 'wp-pagenavi/wp-pagenavi.php' );
 		}
 
-		if ( function_exists( 'wp_pagenavi_uninstall_site' ) ) {
-			wp_pagenavi_uninstall_site();
+		require_once dirname( __DIR__ ) . '/uninstall.php';
+
+		if ( is_multisite() ) {
+			$site_ids = get_sites(
+				array(
+					'fields' => 'ids',
+					'number' => 0,
+				)
+			);
+
+			foreach ( $site_ids as $site_id ) {
+				switch_to_blog( (int) $site_id );
+				wp_pagenavi_uninstall_site();
+				restore_current_blog();
+			}
 
 			return;
 		}
 
-		require dirname( __DIR__ ) . '/uninstall.php';
+		wp_pagenavi_uninstall_site();
 	}
 
 	/**
