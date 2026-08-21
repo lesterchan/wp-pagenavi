@@ -27,7 +27,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_enqueued_when_enabled() {
-		$this->set_option( 'use_pagenavi_css', 1 );
+		$this->set_options( array( 'use_pagenavi_css' => 1 ) );
 
 		WP_PageNavi_Core::stylesheets();
 
@@ -41,12 +41,12 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_not_enqueued_when_disabled() {
-		$this->set_option( 'use_pagenavi_css', 0 );
+		$this->set_options( array( 'use_pagenavi_css' => 0 ) );
 		WP_PageNavi_Core::stylesheets();
 		$this->assertFalse( wp_style_is( 'wp-pagenavi', 'enqueued' ), 'With the stylesheet setting off, nothing is enqueued.' );
 
 		$GLOBALS['wp_styles'] = new WP_Styles();
-		$this->set_option( 'use_pagenavi_css', false );
+		$this->set_options( array( 'use_pagenavi_css' => false ) );
 		WP_PageNavi_Core::stylesheets();
 		$this->assertFalse( wp_style_is( 'wp-pagenavi', 'enqueued' ), 'It stays unenqueued on a second pass too.' );
 	}
@@ -58,7 +58,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_stylesheet_url_resolves_to_plugin_root() {
-		$this->set_option( 'use_pagenavi_css', 1 );
+		$this->set_options( array( 'use_pagenavi_css' => 1 ) );
 
 		WP_PageNavi_Core::stylesheets();
 
@@ -75,7 +75,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_stylesheet_is_versioned_with_the_plugin() {
-		$this->set_option( 'use_pagenavi_css', 1 );
+		$this->set_options( array( 'use_pagenavi_css' => 1 ) );
 
 		WP_PageNavi_Core::stylesheets();
 
@@ -94,7 +94,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_theme_copy_overrides_the_plugin_stylesheet() {
-		$this->set_option( 'use_pagenavi_css', 1 );
+		$this->set_options( array( 'use_pagenavi_css' => 1 ) );
 
 		add_filter( 'stylesheet_directory', array( $this, 'filter_css_directory' ) );
 		add_filter(
@@ -116,7 +116,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_parent_theme_copy_is_used_as_a_fallback() {
-		$this->set_option( 'use_pagenavi_css', 1 );
+		$this->set_options( array( 'use_pagenavi_css' => 1 ) );
 
 		// The child theme deliberately has no copy.
 		add_filter(

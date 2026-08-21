@@ -49,17 +49,13 @@ abstract class WP_PageNavi_TestCase extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Store one option value over the defaults.
+	 * Store the defaults with some keys overridden.
 	 *
-	 * @param string $key   Option key.
-	 * @param mixed  $value Option value.
+	 * @param array $overrides Values to change.
 	 * @return void
 	 */
-	protected function set_option( $key, $value ) {
-		$options         = WP_PageNavi_Options::get_defaults();
-		$options[ $key ] = $value;
-
-		WP_PageNavi_Options::update( $options );
+	protected function set_options( array $overrides = array() ) {
+		WP_PageNavi_Options::update( array_merge( WP_PageNavi_Options::get_defaults(), $overrides ) );
 	}
 
 	/**
