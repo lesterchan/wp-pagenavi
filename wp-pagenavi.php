@@ -3,7 +3,7 @@
  * Plugin Name: WP-PageNavi
  * Plugin URI: https://lesterchan.net/portfolio/programming/php/
  * Description: Adds a more advanced paging navigation to your WordPress blog
- * Version: 3.0.0
+ * Version: 3.0.1
  * Requires at least: 6.8
  * Requires PHP: 8.2
  * Author: Lester 'GaMerZ' Chan
@@ -39,7 +39,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * WP-PageNavi version. The last-run value is kept in the wp_pagenavi_version row.
  */
-define( 'WP_PAGENAVI_VERSION', '3.0.0' );
+define( 'WP_PAGENAVI_VERSION', '3.0.1' );
 
 /**
  * Schema counter. Bumped only when the stored rows need reshaping.

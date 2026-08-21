@@ -4,7 +4,7 @@ Donate link: https://lesterchan.net/site/donation/
 Tags: navigation, pagination, paging, pages, page links  
 Requires at least: 6.8  
 Tested up to: 7.1  
-Stable tag: 3.0.0  
+Stable tag: 3.0.1  
 Requires PHP: 8.2  
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -163,6 +163,9 @@ Yes. The navigation text settings accept the inline SVG elements as well as ever
 2. The page links under the loop, on a front page forty-two pages long
 
 ## Changelog
+### 3.0.1
+* FIXED: Network-activating the plugin upgraded only the site the click happened on. Every other site on the network kept serving its front end with the default settings — its real, pre-3.0.0 settings sat unread until somebody opened that site's wp-admin, which also means nothing was lost and any site that looked wrong has already healed itself. Activation now walks every site on the network
+
 ### 3.0.0
 * BREAKING: WP-PageNavi now requires WordPress 6.8 and PHP 8.2. A site running anything older will not be offered the update
 * BREAKING: The settings are stored in `wp_pagenavi_options` instead of `pagenavi_options`. The old row is copied over and removed automatically
