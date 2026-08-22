@@ -12,7 +12,7 @@
 /**
  * Covers WP_PageNavi_Options::allowed_html() and ::kses().
  */
-class WP_PageNavi_Kses_Test extends WP_PageNavi_TestCase {
+class WP_PageNavi_Escaping_Test extends WP_PageNavi_TestCase {
 
 	/**
 	 * A representative inline SVG arrow.

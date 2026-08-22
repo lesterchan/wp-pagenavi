@@ -100,7 +100,7 @@ understanding before changing either the migration or that file:
 `bin/test-e2e.sh` the Playwright suite. **Run them rather than trusting a note
 about their last result** — CI is the authority, and this file cannot be.
 
-`tests/test-kses.php` is the file to read first — ten tests over the SVG
+`tests/test-escaping.php` is the file to read first — ten tests over the SVG
 allow-list, the `xlink:href` scoping and hostile input. `test-call.php` covers
 the three pagination types, `test-upgrade.php` the `pagenavi_options` migration.
 
