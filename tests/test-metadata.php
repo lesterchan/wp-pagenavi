@@ -76,7 +76,7 @@ class WP_PageNavi_Metadata_Test extends Plugin_Metadata_TestCase {
 	 * @return void
 	 */
 	protected function seed_option_rows() {
-		WP_PageNavi_Options::update( WP_PageNavi_Options::get_defaults() );
+		WP_PageNavi_Options::update( WP_PageNavi_Options::defaults() );
 		WP_PageNavi_Options::maybe_upgrade();
 	}
 
@@ -118,9 +118,9 @@ class WP_PageNavi_Metadata_Test extends Plugin_Metadata_TestCase {
 	 * @return void
 	 */
 	protected function register_plugin_assets() {
-		WP_PageNavi_Options::update( WP_PageNavi_Options::get_defaults() );
+		WP_PageNavi_Options::update( WP_PageNavi_Options::defaults() );
 
-		WP_PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::enqueue_styles();
 	}
 
 	/**
@@ -233,7 +233,7 @@ class WP_PageNavi_Metadata_Test extends Plugin_Metadata_TestCase {
 	 * The settings row holds the plugin's own keys and nothing else.
 	 *
 	 * Stronger than the shared marker assertion, and only expressible here:
-	 * the allowed set is exactly what get_defaults() returns, so a key the
+	 * the allowed set is exactly what defaults() returns, so a key the
 	 * sanitiser lets through that no default names shows up as a difference.
 	 */
 	public function test_the_settings_row_holds_only_the_plugins_own_keys() {
@@ -249,7 +249,7 @@ class WP_PageNavi_Metadata_Test extends Plugin_Metadata_TestCase {
 		WP_PageNavi_Options::maybe_upgrade();
 
 		$this->assertSame(
-			array_keys( WP_PageNavi_Options::get_defaults() ),
+			array_keys( WP_PageNavi_Options::defaults() ),
 			array_keys( (array) get_option( WP_PageNavi_Options::OPTION ) ),
 			"The settings row holds the plugin's own keys and nothing else."
 		);

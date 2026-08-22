@@ -21,7 +21,7 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 		parent::set_up();
 
 		wp_set_current_user( $this->create_admin() );
-		WP_PageNavi_Settings::register_settings();
+		WP_PageNavi_Settings::register();
 	}
 
 	/**
@@ -98,7 +98,7 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	public function test_every_option_has_a_field() {
 		$html = $this->render_fields();
 
-		foreach ( array_keys( WP_PageNavi_Options::get_defaults() ) as $key ) {
+		foreach ( array_keys( WP_PageNavi_Options::defaults() ) as $key ) {
 			$this->assertStringContainsString(
 				'name="' . WP_PageNavi_Options::OPTION . '[' . $key . ']"',
 				$html,
@@ -127,7 +127,7 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_text_fields_show_stored_values_escaped() {
-		$options               = WP_PageNavi_Options::get_defaults();
+		$options               = WP_PageNavi_Options::defaults();
 		$options['pages_text'] = 'Mine "quoted" & <b>bold</b>';
 		WP_PageNavi_Options::update( $options );
 
@@ -174,7 +174,7 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_radio_reflects_stored_value() {
-		$options                     = WP_PageNavi_Options::get_defaults();
+		$options                     = WP_PageNavi_Options::defaults();
 		$options['use_pagenavi_css'] = 0;
 		WP_PageNavi_Options::update( $options );
 
@@ -203,7 +203,7 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_select_reflects_stored_value() {
-		$options          = WP_PageNavi_Options::get_defaults();
+		$options          = WP_PageNavi_Options::defaults();
 		$options['style'] = 2;
 		WP_PageNavi_Options::update( $options );
 
@@ -287,7 +287,7 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 		WP_PageNavi_Settings::init();
 
 		$this->assertNotFalse( has_action( 'admin_menu', array( 'WP_PageNavi_Settings', 'add_page' ) ), 'The settings page is hooked onto admin_menu.' );
-		$this->assertNotFalse( has_action( 'admin_init', array( 'WP_PageNavi_Settings', 'register_settings' ) ), 'The settings registration is hooked onto admin_init.' );
+		$this->assertNotFalse( has_action( 'admin_init', array( 'WP_PageNavi_Settings', 'register' ) ), 'The settings registration is hooked onto admin_init.' );
 		$this->assertNotFalse(
 			has_action( 'admin_init', array( 'WP_PageNavi_Options', 'maybe_upgrade' ) ),
 			'The upgrade routine must run on admin_init, because an update never fires the activation hook.'
@@ -311,10 +311,10 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 		$fields = WP_PageNavi_Settings::fields();
 
 		// Compared as sets, not sequences. The two orders are deliberately
-		// different: get_defaults() groups keys by what they store, while
+		// different: defaults() groups keys by what they store, while
 		// fields() orders them the way the screen reads top to bottom. What the
 		// standard requires is that neither list has a member the other lacks.
-		$expected = array_keys( WP_PageNavi_Options::get_defaults() );
+		$expected = array_keys( WP_PageNavi_Options::defaults() );
 		$actual   = array_keys( $fields );
 		sort( $expected );
 		sort( $actual );

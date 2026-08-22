@@ -18,7 +18,7 @@ class WP_PageNavi_Core {
 	 * @return void
 	 */
 	public static function init() {
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'stylesheets' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_styles' ) );
 	}
 
 	/**
@@ -26,7 +26,7 @@ class WP_PageNavi_Core {
 	 *
 	 * @return void
 	 */
-	public static function stylesheets() {
+	public static function enqueue_styles() {
 		if ( ! WP_PageNavi_Options::get( 'use_pagenavi_css' ) ) {
 			return;
 		}

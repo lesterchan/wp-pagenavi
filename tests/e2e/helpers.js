@@ -136,7 +136,7 @@ function deleteOptions() {
  */
 function defaultOptions() {
 	return JSON.parse(
-		wpEval( "echo '<<<' . wp_json_encode( WP_PageNavi_Options::get_defaults() ) . '>>>';" ),
+		wpEval( "echo '<<<' . wp_json_encode( WP_PageNavi_Options::defaults() ) . '>>>';" ),
 	);
 }
 

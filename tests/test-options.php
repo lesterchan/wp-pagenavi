@@ -28,7 +28,7 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_defaults_when_nothing_stored() {
-		$this->assertSame( WP_PageNavi_Options::get_defaults(), WP_PageNavi_Options::get(), 'With nothing stored the defaults are what is read.' );
+		$this->assertSame( WP_PageNavi_Options::defaults(), WP_PageNavi_Options::get(), 'With nothing stored the defaults are what is read.' );
 	}
 
 	/**
@@ -37,7 +37,7 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_default_values() {
-		$defaults = WP_PageNavi_Options::get_defaults();
+		$defaults = WP_PageNavi_Options::defaults();
 
 		$this->assertSame( 5, $defaults['num_pages'], 'Five pages is the shipped window.' );
 		$this->assertSame( 3, $defaults['num_larger_page_numbers'], 'Three larger numbers ship.' );
@@ -88,7 +88,7 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 	public function test_non_array_option_row_is_survivable() {
 		update_option( WP_PageNavi_Options::OPTION, 'not-an-array' );
 
-		$this->assertSame( WP_PageNavi_Options::get_defaults(), WP_PageNavi_Options::get(), 'A row that is not an array falls back to the defaults rather than propagating.' );
+		$this->assertSame( WP_PageNavi_Options::defaults(), WP_PageNavi_Options::get(), 'A row that is not an array falls back to the defaults rather than propagating.' );
 	}
 
 	/**
@@ -97,7 +97,7 @@ class WP_PageNavi_Options_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_update_round_trip() {
-		$options              = WP_PageNavi_Options::get_defaults();
+		$options              = WP_PageNavi_Options::defaults();
 		$options['num_pages'] = 9;
 
 		WP_PageNavi_Options::update( $options );

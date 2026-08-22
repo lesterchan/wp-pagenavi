@@ -56,11 +56,11 @@ class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 			array(
 				'type'              => 'array',
 				'sanitize_callback' => array( 'WP_PageNavi_Options', 'sanitize' ),
-				'default'           => WP_PageNavi_Options::get_defaults(),
+				'default'           => WP_PageNavi_Options::defaults(),
 			)
 		);
 
-		update_option( WP_PageNavi_Options::LEGACY_OPTION, WP_PageNavi_Options::get_defaults() );
+		update_option( WP_PageNavi_Options::LEGACY_OPTION, WP_PageNavi_Options::defaults() );
 
 		$this->assertFalse( get_option( WP_PageNavi_Options::OPTION, false ), 'The fixture is only pre-migration if the new row is genuinely absent.' );
 
@@ -128,7 +128,7 @@ class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_an_existing_prefixed_row_wins_over_the_legacy_one() {
-		$options              = WP_PageNavi_Options::get_defaults();
+		$options              = WP_PageNavi_Options::defaults();
 		$options['num_pages'] = 7;
 		WP_PageNavi_Options::update( $options );
 
@@ -170,7 +170,7 @@ class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 				'plugin' => '',
 				'db'     => '',
 			),
-			WP_PageNavi_Options::get_versions(),
+			WP_PageNavi_Options::markers(),
 			'A missing marker row reads as empty strings rather than null.'
 		);
 
@@ -181,7 +181,7 @@ class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 				'plugin' => '',
 				'db'     => '',
 			),
-			WP_PageNavi_Options::get_versions(),
+			WP_PageNavi_Options::markers(),
 			'And a corrupt one, rather than propagating.'
 		);
 	}

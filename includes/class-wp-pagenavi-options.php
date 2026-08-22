@@ -265,7 +265,7 @@ class WP_PageNavi_Options {
 	 *
 	 * @return array
 	 */
-	public static function get_defaults() {
+	public static function defaults() {
 		return array(
 			'pages_text'                   => __( 'Page %CURRENT_PAGE% of %TOTAL_PAGES%', 'wp-pagenavi' ),
 			'current_text'                 => '%PAGE_NUMBER%',
@@ -296,7 +296,7 @@ class WP_PageNavi_Options {
 	 */
 	public static function get( $key = null ) {
 		$stored  = get_option( self::OPTION, array() );
-		$options = wp_parse_args( is_array( $stored ) ? $stored : array(), self::get_defaults() );
+		$options = wp_parse_args( is_array( $stored ) ? $stored : array(), self::defaults() );
 
 		if ( null === $key ) {
 			return $options;
@@ -320,7 +320,7 @@ class WP_PageNavi_Options {
 	 *
 	 * @return array The 'plugin' and 'db' markers, each an empty string when unset.
 	 */
-	public static function get_versions() {
+	public static function markers() {
 		$stored = get_option( self::VERSION, array() );
 
 		if ( ! is_array( $stored ) ) {
@@ -351,12 +351,12 @@ class WP_PageNavi_Options {
 	 * @return array
 	 */
 	public static function sanitize( $input ) {
-		$options = wp_parse_args( is_array( $input ) ? $input : array(), self::get_defaults() );
+		$options = wp_parse_args( is_array( $input ) ? $input : array(), self::defaults() );
 
 		// Keep only keys the plugin actually defines. Without this a hand-crafted
 		// post to options.php would have its extra keys stored in the option row
 		// forever; the framework used before 3.0.0 dropped them for the same reason.
-		$options = array_intersect_key( $options, self::get_defaults() );
+		$options = array_intersect_key( $options, self::defaults() );
 
 		foreach ( self::int_keys() as $key ) {
 			$value           = isset( $options[ $key ] ) && is_scalar( $options[ $key ] ) ? $options[ $key ] : 0;
@@ -391,7 +391,7 @@ class WP_PageNavi_Options {
 	 * @return void
 	 */
 	public static function maybe_upgrade() {
-		$versions = self::get_versions();
+		$versions = self::markers();
 
 		if ( WP_PAGENAVI_VERSION === $versions['plugin'] && WP_PAGENAVI_DB_VERSION === $versions['db'] ) {
 			return;
@@ -420,7 +420,7 @@ class WP_PageNavi_Options {
 	 * equal the defaults writes nothing at all, while the legacy rows it read
 	 * are deleted anyway.
 	 *
-	 * **This plugin passes no `default`** -- WP_PageNavi_Settings::register_settings()
+	 * **This plugin passes no `default`** -- WP_PageNavi_Settings::register()
 	 * passes `type` and `sanitize_callback` only -- so no
 	 * `default_option_wp_pagenavi_options` filter exists here and the trap is
 	 * not armed. The helper is written this way regardless, so that adding one

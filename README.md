@@ -148,7 +148,7 @@ If you are running a multi-language plugin, you will probably want to ignore the
 You can do that like so:
 
 ```php
-<?php wp_pagenavi( array( 'options' => WP_PageNavi_Options::get_defaults() ) ); ?>
+<?php wp_pagenavi( array( 'options' => WP_PageNavi_Options::defaults() ) ); ?>
 ```
 
 Before 3.0.0 this was written as `PageNavi_Core::$options->get_defaults()`. That property was backed by the bundled SCB framework, which 3.0.0 removes, so the old form no longer works and must be updated.
@@ -172,7 +172,7 @@ Yes. The navigation text settings accept the inline SVG elements as well as ever
 * BREAKING: The settings screen has moved from `options-general.php?page=pagenavi` to `options-general.php?page=wp-pagenavi`
 * BREAKING: `pagenavi-css.css` is now `css/wp-pagenavi.css`, and a copy in your theme directory must be renamed to `wp-pagenavi.css` to keep overriding it
 * BREAKING: Every class is now prefixed. `PageNavi_Options`, `PageNavi_Call` and `PageNavi_Core` are `WP_PageNavi_Options`, `WP_PageNavi_Call` and `WP_PageNavi_Core`, and `PageNavi_Admin` is now `WP_PageNavi_Settings`
-* BREAKING: `PageNavi_Core::$options` has been removed. Use `WP_PageNavi_Options::get_defaults()` and `WP_PageNavi_Options::get()` instead. See the FAQ
+* BREAKING: `PageNavi_Core::$options` has been removed. Use `WP_PageNavi_Options::defaults()` and `WP_PageNavi_Options::get()` instead. See the FAQ
 * BREAKING: `PageNavi_Options_Page` has been removed and replaced by `WP_PageNavi_Settings`
 * BREAKING: Dropping the SCB Framework also removes the global functions and `scb*` classes it defined, since they were loaded into WordPress by whichever plugin bundled it. If your theme or another plugin called `html()`, `html_link()`, `set_post_field()`, `scb_init()`, `scb_register_table()`, `scb_install_table()`, `scb_uninstall_table()`, `scb_admin_notice()`, `scb_get_query_flags()`, `scb_list_fold()` or `scb_list_group_by()`, it must now provide them itself. Note that another installed plugin may still be supplying them, so the breakage will only appear once nothing else on the site bundles SCB
 * NEW: Removed the bundled WP SCB Framework. The plugin now runs entirely on WordPress core APIs and has no dependencies
@@ -206,6 +206,6 @@ Requires WordPress 6.8 and PHP 8.2.
 
 **Nothing a theme calls has been renamed.** `wp_pagenavi()`, `wp_pagenavi_dropdown()`, the `wp_pagenavi` filter and all ten `wp_pagenavi_class_*` filters behave as before.
 
-**Custom PHP reaching into the plugin's classes needs editing.** Every class is prefixed `WP_`: `PageNavi_Options` is `WP_PageNavi_Options`, `PageNavi_Call` is `WP_PageNavi_Call`, `PageNavi_Core` is `WP_PageNavi_Core`. The settings screen was renamed as well as prefixed: `PageNavi_Admin` is now `WP_PageNavi_Settings`. `PageNavi_Options_Page` and `PageNavi_Core::$options` are gone — use `WP_PageNavi_Options::get()` and `WP_PageNavi_Options::get_defaults()`.
+**Custom PHP reaching into the plugin's classes needs editing.** Every class is prefixed `WP_`: `PageNavi_Options` is `WP_PageNavi_Options`, `PageNavi_Call` is `WP_PageNavi_Call`, `PageNavi_Core` is `WP_PageNavi_Core`. The settings screen was renamed as well as prefixed: `PageNavi_Admin` is now `WP_PageNavi_Settings`. `PageNavi_Options_Page` and `PageNavi_Core::$options` are gone — use `WP_PageNavi_Options::get()` and `WP_PageNavi_Options::defaults()`.
 
 **The bundled SCB framework is gone.** It defined global functions and `scb*` classes that any plugin bundling it loaded for everything else to use. Code calling `html()`, `html_link()`, `set_post_field()`, `scb_init()` or any `scb_*` helper and relying on WP-PageNavi to provide them must now provide them itself. Another installed plugin may still be supplying them, in which case nothing breaks until that one stops.

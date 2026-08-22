@@ -6,7 +6,7 @@
  */
 
 /**
- * Covers WP_PageNavi_Core::stylesheets().
+ * Covers WP_PageNavi_Core::enqueue_styles().
  */
 class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 
@@ -29,7 +29,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 	public function test_enqueued_when_enabled() {
 		$this->set_options( array( 'use_pagenavi_css' => 1 ) );
 
-		WP_PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::enqueue_styles();
 
 		$this->assertTrue( wp_style_is( 'wp-pagenavi', 'enqueued' ), 'With the stylesheet setting on, the stylesheet is enqueued.' );
 	}
@@ -42,12 +42,12 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 	 */
 	public function test_not_enqueued_when_disabled() {
 		$this->set_options( array( 'use_pagenavi_css' => 0 ) );
-		WP_PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::enqueue_styles();
 		$this->assertFalse( wp_style_is( 'wp-pagenavi', 'enqueued' ), 'With the stylesheet setting off, nothing is enqueued.' );
 
 		$GLOBALS['wp_styles'] = new WP_Styles();
 		$this->set_options( array( 'use_pagenavi_css' => false ) );
-		WP_PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::enqueue_styles();
 		$this->assertFalse( wp_style_is( 'wp-pagenavi', 'enqueued' ), 'It stays unenqueued on a second pass too.' );
 	}
 
@@ -60,7 +60,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 	public function test_stylesheet_url_resolves_to_plugin_root() {
 		$this->set_options( array( 'use_pagenavi_css' => 1 ) );
 
-		WP_PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::enqueue_styles();
 
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
@@ -77,7 +77,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 	public function test_stylesheet_is_versioned_with_the_plugin() {
 		$this->set_options( array( 'use_pagenavi_css' => 1 ) );
 
-		WP_PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::enqueue_styles();
 
 		$this->assertSame(
 			WP_PAGENAVI_VERSION,
@@ -104,7 +104,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 			}
 		);
 
-		WP_PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::enqueue_styles();
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
 		$this->assertSame( 'https://example.org/theme/wp-pagenavi.css', $src, 'A copy in the theme overrides the plugin stylesheet.' );
@@ -133,7 +133,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 			}
 		);
 
-		WP_PageNavi_Core::stylesheets();
+		WP_PageNavi_Core::enqueue_styles();
 		$src = $GLOBALS['wp_styles']->registered['wp-pagenavi']->src;
 
 		$this->assertSame( 'https://example.org/parent/wp-pagenavi.css', $src, 'And a copy in the parent theme is used when the child has none.' );
@@ -162,7 +162,7 @@ class WP_PageNavi_Assets_Test extends WP_PageNavi_TestCase {
 		WP_PageNavi_Core::init();
 
 		$this->assertNotFalse(
-			has_action( 'wp_enqueue_scripts', array( 'WP_PageNavi_Core', 'stylesheets' ) ),
+			has_action( 'wp_enqueue_scripts', array( 'WP_PageNavi_Core', 'enqueue_styles' ) ),
 			'The enqueue is hooked onto wp_enqueue_scripts.'
 		);
 	}

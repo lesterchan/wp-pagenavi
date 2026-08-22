@@ -63,7 +63,7 @@ class WP_PageNavi_Escaping_Test extends WP_PageNavi_TestCase {
 	public function test_svg_arrow_stored_in_the_option_row() {
 		self::factory()->post->create_many( 12 );
 
-		$options              = WP_PageNavi_Options::get_defaults();
+		$options              = WP_PageNavi_Options::defaults();
 		$options['next_text'] = self::SVG;
 		WP_PageNavi_Options::update( $options );
 

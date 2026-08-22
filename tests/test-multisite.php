@@ -94,7 +94,7 @@ class WP_PageNavi_Multisite_Test extends WP_PageNavi_TestCase {
 
 			$this->assertSame(
 				WP_PAGENAVI_VERSION,
-				WP_PageNavi_Options::get_versions()['plugin'],
+				WP_PageNavi_Options::markers()['plugin'],
 				"Site {$site_id} was never stamped with the running version."
 			);
 

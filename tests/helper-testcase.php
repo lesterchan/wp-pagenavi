@@ -55,7 +55,7 @@ abstract class WP_PageNavi_TestCase extends WP_UnitTestCase {
 	 * @return void
 	 */
 	protected function set_options( array $overrides = array() ) {
-		WP_PageNavi_Options::update( array_merge( WP_PageNavi_Options::get_defaults(), $overrides ) );
+		WP_PageNavi_Options::update( array_merge( WP_PageNavi_Options::defaults(), $overrides ) );
 	}
 
 	/**

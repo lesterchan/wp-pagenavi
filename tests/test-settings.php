@@ -98,7 +98,7 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 	 * @return void
 	 */
 	public function test_missing_keys_fall_back_to_defaults() {
-		$options              = WP_PageNavi_Options::get_defaults();
+		$options              = WP_PageNavi_Options::defaults();
 		$options['num_pages'] = 9;
 		$options['prev_text'] = 'KEEPME';
 		WP_PageNavi_Options::update( $options );
@@ -138,7 +138,7 @@ class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
 		$this->assertArrayNotHasKey( 'evil_key', $clean, 'A key the sanitiser does not know is discarded.' );
 		$this->assertArrayNotHasKey( 'another', $clean, 'Every unknown key is discarded, not only the first.' );
 		$this->assertSame(
-			array_keys( WP_PageNavi_Options::get_defaults() ),
+			array_keys( WP_PageNavi_Options::defaults() ),
 			array_keys( $clean ),
 			'Only the plugin\'s own option keys may be stored.'
 		);
