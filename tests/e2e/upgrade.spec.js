@@ -3,18 +3,20 @@
  *
  * Activation does not fire when a plugin is merely updated -- a site that
  * updates from the Plugins screen never calls activate() -- so the migration
- * also hangs off admin_init. That is the hook every real upgrade actually goes
- * through, and loading an admin page in a browser is the only way to reach it.
- * A dashboard load rather than the settings screen, because the point is that
- * any admin request does it, not that somebody went looking for the plugin.
+ * also hangs off init at priority 5, which fires on every request, admin and
+ * front end alike. Loading an admin page in a browser reaches it the way a
+ * real upgrade does. A dashboard load rather than the settings screen, because
+ * the point is that any request does it, not that somebody went looking for
+ * the plugin.
  *
  * Two things follow from that, and they are why this file exists at all when
  * tests/test-options.php covers the same routine:
  *
- *   1. On the admin path register_setting() has already run, so the sanitize
- *      callback is attached to the settings row and every write the migration
- *      makes goes through it. Under WP-CLI it is not attached at all, and a
- *      migration test that never registers the setting is testing WP-CLI.
+ *   1. A real request runs the plugin's wiring in order: the upgrade fires on
+ *      init, before admin_init has run register_setting(), so no sanitize
+ *      callback or registered default is attached to the row yet and the
+ *      migration has to sanitise for itself. Only a browser exercises that
+ *      ordering; a test that calls maybe_upgrade() by hand chooses its own.
  *   2. Every row here is read *raw*. WP_PageNavi_Options::get() merges the
  *      defaults over whatever is stored, so it cannot tell a row holding the
  *      defaults from no row at all -- and "no row at all, legacy row deleted"
@@ -246,7 +248,7 @@ test.describe( 'The pre-3.0.0 upgrade', () => {
 
 		// Owners deactivate and reactivate to fix things, sometimes twice. The
 		// second pass has to be a bystander: the rows it finds are the rows it
-		// leaves, and so is the admin_init pass that follows a real update.
+		// leaves, and so is the init pass that follows a real update.
 		reactivatePlugin();
 
 		expect( getStoredOptions() ).toEqual( once.options );

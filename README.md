@@ -164,6 +164,7 @@ Yes. The navigation text settings accept the inline SVG elements as well as ever
 
 ## Changelog
 ### 3.0.1
+* CHANGED: The settings migration now runs early on every request instead of only when wp-admin is loaded, so a site whose dashboard is never opened still picks up its settings after an update
 * FIXED: Network-activating the plugin upgraded only the site the click happened on. Every other site on the network kept serving its front end with the default settings — its real, pre-3.0.0 settings sat unread until somebody opened that site's wp-admin, which also means nothing was lost and any site that looked wrong has already healed itself. Activation now walks every site on the network
 
 ### 3.0.0

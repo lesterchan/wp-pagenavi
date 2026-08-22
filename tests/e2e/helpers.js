@@ -247,7 +247,7 @@ function runningVersions() {
 /**
  * Deactivate and reactivate the plugin, which is the path that fires activate().
  *
- * Genuinely a different entry point from the admin_init one: updating through
+ * Genuinely a different entry point from the init one: updating through
  * the Plugins screen never fires the activation hook, and activation never runs
  * register_setting() -- so this path meets none of the filters the admin path
  * hangs on the settings row.

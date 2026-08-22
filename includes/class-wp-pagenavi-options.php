@@ -381,9 +381,9 @@ class WP_PageNavi_Options {
 	/**
 	 * Bring the stored rows up to date with the running code.
 	 *
-	 * Runs on activation and on every admin load, because activation hooks do not
-	 * fire when a plugin is updated -- which is the usual reason a migration never
-	 * runs. Idempotent.
+	 * Runs on activation and early on every request, from init at priority 5.
+	 * Activation does not fire on a plugin update, which is the single most
+	 * common reason a migration never runs. Idempotent.
 	 *
 	 * Both markers are written together in one update_option() at the very end, so
 	 * a half-finished upgrade never records itself as complete.
@@ -475,8 +475,9 @@ class WP_PageNavi_Options {
 			 * settings with it. Passing an explicit default defeats the registered
 			 * one: filter_default_option() returns early when a default was passed.
 			 *
-			 * It bites only on an admin request. Activation and WP-CLI never run
-			 * register_setting(), which is why reactivating repairs it and why every
+			 * It bites only once register_setting() has run, on admin_init.
+			 * Activation, WP-CLI and the init hook the upgrade rides all come
+			 * before that, which is why reactivating repairs it and why every
 			 * test that goes through activation passes.
 			 */
 			if ( false === get_option( self::OPTION, false ) ) {

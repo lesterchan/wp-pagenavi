@@ -67,16 +67,17 @@ on real installs rather than on a rename nobody shipped.
 
 **Activation hooks do not fire when a plugin is updated.** A site that updates
 from the Plugins screen never calls `activate()`, so `maybe_upgrade()` also
-hangs off `admin_init` — the hook every real upgrade goes through.
+hangs off `init` at priority 5 — which fires on every request, front end
+included, so a site whose admin is never opened still upgrades.
 
-That difference is what `tests/e2e/upgrade.spec.js` exists for, and it is worth
+That path is what `tests/e2e/upgrade.spec.js` exists for, and it is worth
 understanding before changing either the migration or that file:
 
-* **On the admin path `register_setting()` has already run**, so the sanitize
-  callback is attached to the settings row and every write the migration makes
-  goes through it. Under WP-CLI it is not attached at all. **A migration test
-  that never registers the setting is testing WP-CLI**, not the path real sites
-  take.
+* **The upgrade runs before `register_setting()`**: `init` precedes
+  `admin_init`, so no sanitize callback or registered default is attached to
+  the row while the migration writes it, and the migration sanitises for
+  itself. Only a browser request exercises that ordering; a test calling
+  `maybe_upgrade()` by hand chooses its own.
 * **Read the row raw when the question is "was it written".**
   `WP_PageNavi_Options::get()` merges the defaults over whatever is stored, so it
   answers identically for a row holding the defaults and for no row at all —

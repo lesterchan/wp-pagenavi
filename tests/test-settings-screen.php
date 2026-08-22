@@ -288,9 +288,10 @@ class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 
 		$this->assertNotFalse( has_action( 'admin_menu', array( 'WP_PageNavi_Settings', 'add_page' ) ), 'The settings page is hooked onto admin_menu.' );
 		$this->assertNotFalse( has_action( 'admin_init', array( 'WP_PageNavi_Settings', 'register' ) ), 'The settings registration is hooked onto admin_init.' );
-		$this->assertNotFalse(
-			has_action( 'admin_init', array( 'WP_PageNavi_Options', 'maybe_upgrade' ) ),
-			'The upgrade routine must run on admin_init, because an update never fires the activation hook.'
+		$this->assertSame(
+			5,
+			has_action( 'init', array( 'WP_PageNavi_Options', 'maybe_upgrade' ) ),
+			'The upgrade routine must run early on init, because an update never fires the activation hook.'
 		);
 		$this->assertNotFalse(
 			has_filter(

@@ -61,10 +61,6 @@ class WP_PageNavi_Settings {
 		add_action( 'admin_menu', array( __CLASS__, 'add_page' ) );
 		add_action( 'admin_init', array( __CLASS__, 'register' ) );
 
-		// Activation hooks do not fire when a plugin is updated, so the upgrade
-		// routine is also run on every admin load.
-		add_action( 'admin_init', array( 'WP_PageNavi_Options', 'maybe_upgrade' ) );
-
 		add_filter( 'plugin_action_links_' . plugin_basename( WP_PAGENAVI_MAIN_FILE ), array( __CLASS__, 'action_links' ) );
 	}
 

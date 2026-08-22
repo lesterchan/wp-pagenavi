@@ -36,7 +36,7 @@ class WP_PageNavi_Core {
 		} elseif ( file_exists( get_template_directory() . '/wp-pagenavi.css' ) ) {
 			$css_file = get_template_directory_uri() . '/wp-pagenavi.css';
 		} else {
-			$css_file = plugins_url( 'css/wp-pagenavi.css', WP_PAGENAVI_MAIN_FILE );
+			$css_file = WP_PAGENAVI_URL . 'css/wp-pagenavi.css';
 		}
 
 		wp_enqueue_style( 'wp-pagenavi', $css_file, array(), WP_PAGENAVI_VERSION );

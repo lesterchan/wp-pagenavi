@@ -7,10 +7,10 @@
  * whichever site happened to be current leaves the rest of the network serving
  * its front end with the shipped defaults while the real settings sit in the
  * pre-3.0.0 row, unread. Nothing is destroyed by that -- the legacy row is only
- * deleted once it has been folded in, and the admin load runs the same routine
- * -- which is precisely why it went unnoticed: every site heals the moment
- * somebody opens its dashboard, and a network whose subsites are front-end only
- * never does.
+ * deleted once it has been folded in, and the init hook runs the same routine
+ * on each site's next request -- which is precisely why it went unnoticed:
+ * every site heals the moment anything loads it, and a site nobody visits
+ * shows its stale front end to nobody.
  *
  * @package WP-PageNavi
  */

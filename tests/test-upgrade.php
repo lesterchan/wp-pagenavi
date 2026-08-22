@@ -187,7 +187,7 @@ class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 	}
 
 	/**
-	 * Running twice changes nothing, which is what lets it hang off admin_init.
+	 * Running twice changes nothing, which is what lets it hang off init.
 	 *
 	 * @return void
 	 */
@@ -204,7 +204,7 @@ class WP_PageNavi_Upgrade_Test extends WP_PageNavi_TestCase {
 
 	/**
 	 * An install already stamped at this version does no work at all, so the
-	 * admin_init hook costs one option read on every request and nothing more.
+	 * init hook costs one option read on every request and nothing more.
 	 *
 	 * @return void
 	 */

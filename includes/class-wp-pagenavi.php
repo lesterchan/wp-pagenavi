@@ -29,6 +29,10 @@ class WP_PageNavi {
 		// Must be registered at file-load time, which is when this runs.
 		register_activation_hook( WP_PAGENAVI_MAIN_FILE, array( __CLASS__, 'activate' ) );
 
+		// Activation does not fire on a plugin update, which is the single most
+		// common reason a migration never runs.
+		add_action( 'init', array( 'WP_PageNavi_Options', 'maybe_upgrade' ), 5 );
+
 		WP_PageNavi_Core::init();
 
 		if ( is_admin() ) {
