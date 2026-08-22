@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 class WP_PageNavi_Core {
 
 	/**
-	 * Hook the plugin into WordPress.
+	 * Hook registration.
 	 *
 	 * @return void
 	 */

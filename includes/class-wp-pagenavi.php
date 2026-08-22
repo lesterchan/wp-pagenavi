@@ -52,17 +52,15 @@ class WP_PageNavi {
 	 *
 	 * The network branch matters because the settings live per site. Without it a
 	 * network activation upgrades only whichever site happened to be current, and
-	 * every other site serves its front end with the defaults until somebody loads
-	 * its admin -- which is the only other thing that runs the upgrade.
-	 * 'number' => 0 lifts WP_Site_Query's default cap of 100, and
-	 * restore_current_blog() runs inside the loop because switch_to_blog() pushes
-	 * onto a stack.
+	 * every other site serves its front end with the defaults until its own next
+	 * request runs the upgrade.
 	 *
 	 * @param bool $network_wide Whether the plugin is being activated network-wide.
 	 * @return void
 	 */
 	public static function activate( $network_wide = false ) {
 		if ( is_multisite() && $network_wide ) {
+			// 'number' => 0 lifts WP_Site_Query's default cap of 100, which would otherwise skip every site past the hundredth while reporting success.
 			$site_ids = get_sites(
 				array(
 					'fields' => 'ids',
@@ -73,6 +71,7 @@ class WP_PageNavi {
 			foreach ( $site_ids as $site_id ) {
 				switch_to_blog( (int) $site_id );
 				WP_PageNavi_Options::maybe_upgrade();
+				// Inside the loop: switch_to_blog() pushes onto a stack, so restoring once after the loop unwinds it by exactly one.
 				restore_current_blog();
 			}
 
