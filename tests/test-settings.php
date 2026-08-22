@@ -1,15 +1,254 @@
 <?php
 /**
- * Settings screen rendering tests.
- *
- * These cover the half of WP_PageNavi_Settings that draws the form, as opposed to
- * test-admin.php which covers the sanitise callback.
+ * Settings screen tests: the sanitise callback the save runs, and the
+ * rendering of the form it saves.
  *
  * @package WP-PageNavi
  */
 
 /**
- * Covers the markup and the Settings API wiring of Settings -> PageNavi.
+ * Covers WP_PageNavi_Settings, in particular the sanitize callback the Settings API
+ * runs on save.
+ */
+class WP_PageNavi_Settings_Test extends WP_PageNavi_TestCase {
+
+	/**
+	 * Numeric settings are coerced to non-negative integers.
+	 *
+	 * @return void
+	 */
+	public function test_numeric_settings_are_absinted() {
+		$clean = WP_PageNavi_Options::sanitize(
+			array(
+				'num_pages'                    => '5abc',
+				'num_larger_page_numbers'      => '-3',
+				'larger_page_numbers_multiple' => '10.9',
+				'style'                        => '2',
+			)
+		);
+
+		$this->assertSame( 5, $clean['num_pages'], 'A numeric setting is cast to a non-negative integer.' );
+		$this->assertSame( 3, $clean['num_larger_page_numbers'], 'Every numeric setting, not only the first.' );
+		$this->assertSame( 10, $clean['larger_page_numbers_multiple'], 'Including the multiple.' );
+		$this->assertSame( 2, $clean['style'], 'And the style.' );
+	}
+
+	/**
+	 * Toggles are stored as integers.
+	 *
+	 * @return void
+	 */
+	public function test_toggles_are_integers() {
+		$clean = WP_PageNavi_Options::sanitize(
+			array(
+				'always_show'      => '1',
+				'use_pagenavi_css' => '0',
+			)
+		);
+
+		$this->assertSame( 1, $clean['always_show'], 'A ticked toggle stores as one.' );
+		$this->assertSame( 0, $clean['use_pagenavi_css'], 'And an unticked one as zero, rather than as a string.' );
+	}
+
+	/**
+	 * Text settings are filtered through kses but keep their tokens and their
+	 * permitted markup.
+	 *
+	 * @return void
+	 */
+	public function test_text_settings_are_ksesed() {
+		$clean = WP_PageNavi_Options::sanitize(
+			array(
+				'pages_text'   => 'Page %CURRENT_PAGE% of %TOTAL_PAGES% <script>bad()</script>',
+				'current_text' => '<strong>%PAGE_NUMBER%</strong>',
+			)
+		);
+
+		$this->assertStringNotContainsString( '<script>', $clean['pages_text'], 'A script is filtered out of a text setting.' );
+		$this->assertStringContainsString( '%CURRENT_PAGE%', $clean['pages_text'], 'While the token it carries survives.' );
+		$this->assertSame( '<strong>%PAGE_NUMBER%</strong>', $clean['current_text'], 'And the markup a site is allowed to use is kept exactly.' );
+	}
+
+	/**
+	 * An empty text value is legitimate: it hides that part of the navigation.
+	 *
+	 * @return void
+	 */
+	public function test_empty_text_is_preserved() {
+		$clean = WP_PageNavi_Options::sanitize(
+			array(
+				'prev_text' => '',
+				'next_text' => '',
+			)
+		);
+
+		$this->assertSame( '', $clean['prev_text'], 'An emptied text setting stays empty; blank is how a part is hidden.' );
+		$this->assertSame( '', $clean['next_text'], 'For every text setting, not only the first.' );
+	}
+
+	/**
+	 * Keys absent from the submission fall back to their defaults, and the
+	 * sanitiser never reads the row it is about to replace.
+	 *
+	 * Every field on the screen posts on every save, so this only differs from
+	 * the stored value for a hand-crafted request. Reading the stored row here is
+	 * what made a sanitiser have to rescue the version markers out of it, which
+	 * is the whole reason those markers now live in a row of their own.
+	 *
+	 * @return void
+	 */
+	public function test_missing_keys_fall_back_to_defaults() {
+		$options              = WP_PageNavi_Options::get_defaults();
+		$options['num_pages'] = 9;
+		$options['prev_text'] = 'KEEPME';
+		WP_PageNavi_Options::update( $options );
+
+		$clean = WP_PageNavi_Options::sanitize( array( 'style' => '1' ) );
+
+		$this->assertSame( 5, $clean['num_pages'], 'A key the submission omitted falls back to its default.' );
+		$this->assertSame( '&laquo;', $clean['prev_text'], 'Including the text defaults.' );
+	}
+
+	/**
+	 * A non-array submission does not fatal.
+	 *
+	 * @return void
+	 */
+	public function test_non_array_input_is_survivable() {
+		$clean = WP_PageNavi_Options::sanitize( 'garbage' );
+
+		$this->assertIsArray( $clean, 'A non-array posted value comes back an array rather than propagating.' );
+		$this->assertSame( 5, $clean['num_pages'], 'A non-array posted value falls back to the defaults rather than propagating.' );
+	}
+
+	/**
+	 * Keys the plugin does not define are dropped rather than stored forever.
+	 *
+	 * @return void
+	 */
+	public function test_unknown_keys_are_discarded() {
+		$clean = WP_PageNavi_Options::sanitize(
+			array(
+				'style'    => '1',
+				'evil_key' => 'x',
+				'another'  => array( 1, 2 ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'evil_key', $clean, 'A key the sanitiser does not know is discarded.' );
+		$this->assertArrayNotHasKey( 'another', $clean, 'Every unknown key is discarded, not only the first.' );
+		$this->assertSame(
+			array_keys( WP_PageNavi_Options::get_defaults() ),
+			array_keys( $clean ),
+			'Only the plugin\'s own option keys may be stored.'
+		);
+	}
+
+	/**
+	 * An array posted where a scalar belongs is handled without a PHP 8 notice.
+	 *
+	 * @return void
+	 */
+	public function test_array_values_do_not_raise_a_notice() {
+		$raised = null;
+
+		// Capturing the notice is the assertion here, not leftover debug code. The
+		// shared phpcs.xml excuses set_error_handler() for tests/, so this needs no
+		// suppression of its own.
+		set_error_handler(
+			static function ( $errno, $errstr ) use ( &$raised ) {
+				$raised = $errstr;
+				return true;
+			}
+		);
+
+		$clean = WP_PageNavi_Options::sanitize(
+			array(
+				'prev_text' => array( 'a' => 'b' ),
+				'num_pages' => array( 5 ),
+			)
+		);
+
+		restore_error_handler();
+
+		$this->assertNull( $raised, "Sanitising raised: {$raised}" );
+		$this->assertSame( '', $clean['prev_text'], 'An array posted into a text setting becomes an empty string.' );
+		$this->assertSame( 0, $clean['num_pages'], 'And into a numeric one, zero.' );
+		$this->assertStringNotContainsString( 'Array', (string) $clean['prev_text'], 'Rather than the literal Array, which is what casting one would produce.' );
+	}
+
+	/**
+	 * The settings page is registered under Settings, at the slug it has always
+	 * used, so existing bookmarks keep working.
+	 *
+	 * @return void
+	 */
+	public function test_settings_page_is_registered_at_the_same_slug() {
+		global $submenu;
+
+		wp_set_current_user( $this->create_admin() );
+		set_current_screen( 'dashboard' );
+
+		WP_PageNavi_Settings::add_page();
+
+		$slugs = wp_list_pluck( $submenu['options-general.php'], 2 );
+		$this->assertContains( 'wp-pagenavi', $slugs, 'The screen is registered at the slug the plugin has always used.' );
+	}
+
+	/**
+	 * The capability constant and its accessor agree on manage_options.
+	 *
+	 * @return void
+	 */
+	public function test_capability_defaults_to_manage_options() {
+		$this->assertSame( 'manage_options', WP_PageNavi_Settings::CAPABILITY, 'The capability constant is manage_options.' );
+		$this->assertSame( 'manage_options', WP_PageNavi_Settings::capability(), 'And the accessor answers with it, so the two cannot drift.' );
+	}
+
+	/**
+	 * Every capability check goes through one filter, which is handed the
+	 * context it is being asked about.
+	 *
+	 * @return void
+	 */
+	public function test_capability_filter_is_honoured() {
+		$seen = null;
+
+		$replace = static function ( $capability, $context ) use ( &$seen ) {
+			$seen = $context;
+			return 'edit_pages';
+		};
+		add_filter( 'wp_pagenavi_capability', $replace, 10, 2 );
+
+		$capability = WP_PageNavi_Settings::capability();
+
+		remove_filter( 'wp_pagenavi_capability', $replace, 10 );
+
+		$this->assertSame( 'edit_pages', $capability, 'A filter can replace the capability the screen requires.' );
+		$this->assertSame( 'settings', $seen, 'the filter was not told which context it was being asked about.' );
+	}
+
+	/**
+	 * A Settings link is added to the plugin row, and a non-array input from
+	 * another plugin's bad filter does not break it.
+	 *
+	 * @return void
+	 */
+	public function test_action_links() {
+		$links = WP_PageNavi_Settings::action_links( array( '<a href="#">Deactivate</a>' ) );
+		$this->assertCount( 2, $links, 'The Settings link is added to the link passed in, not instead of it.' );
+		$this->assertStringContainsString( 'page=wp-pagenavi', $links[0], 'And the Settings link points at it.' );
+
+		$this->assertIsArray( WP_PageNavi_Settings::action_links( null ), 'A null links list is survivable rather than fatal.' );
+	}
+}
+
+// phpcs:disable Generic.Files.OneObjectStructurePerFile.MultipleFound -- the screen tests share the file with the sanitise tests they mirror.
+
+/**
+ * Covers the markup and the Settings API wiring of Settings -> PageNavi --
+ * the half of WP_PageNavi_Settings that draws the form, where
+ * WP_PageNavi_Settings_Test above covers the sanitise callback.
  */
 class WP_PageNavi_Settings_Screen_Test extends WP_PageNavi_TestCase {
 
