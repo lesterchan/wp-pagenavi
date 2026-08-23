@@ -43,10 +43,11 @@ const LEGACY_OPTION = 'pagenavi_options';
  * arrives at the other end subtly different, and a fixture that is not the
  * payload byte for byte proves nothing about sanitising it.
  *
- * @param {string} code PHP to evaluate, without an opening tag.
+ * @param {string}  code    PHP to evaluate, without an opening tag.
+ * @param {boolean} plugins Whether to load the plugins first.
  * @return {string} Whatever the code echoed between its markers.
  */
-function wpEval( code ) {
+function wpEval( code, plugins = true ) {
 	const encoded = Buffer.from( code, 'utf8' ).toString( 'base64' );
 
 	const output = execFileSync(
@@ -59,6 +60,9 @@ function wpEval( code ) {
 			'wp',
 			'eval',
 			`eval( base64_decode( '${ encoded }' ) );`,
+			// After a bare `--`, which is how wp-env passes a flag through to the
+			// command rather than reading it as one of its own.
+			...( plugins ? [] : [ '--', '--skip-plugins' ] ),
 		],
 		{ cwd: PLUGIN_ROOT, encoding: 'utf8', stdio: [ 'ignore', 'pipe', 'pipe' ] },
 	);
@@ -72,6 +76,20 @@ function wpEval( code ) {
 }
 
 /**
+ * Read or write an option row with the plugin switched off for the request.
+ *
+ * maybe_upgrade() hangs off init, so an ordinary `wp eval` migrates the site
+ * before the code inside it gets to look: the helper asking whether the legacy
+ * row is still there would be the thing that deleted it.
+ *
+ * @param {string} code PHP to evaluate, without an opening tag.
+ * @return {string} Whatever the code echoed between its markers.
+ */
+function rowEval( code ) {
+	return wpEval( code, false );
+}
+
+/**
  * Store a value in an option row exactly as given, sanitizer untouched.
  *
  * @param {string} option Option name.
@@ -81,7 +99,7 @@ function wpEval( code ) {
 function setRow( option, value ) {
 	const data = Buffer.from( JSON.stringify( value ), 'utf8' ).toString( 'base64' );
 
-	wpEval(
+	rowEval(
 		`update_option( '${ option }', json_decode( base64_decode( '${ data }' ), true ) );
 		echo '<<<done>>>';`,
 	);
@@ -94,7 +112,7 @@ function setRow( option, value ) {
  * @return {*} The stored value, or false when there is no row.
  */
 function getRow( option ) {
-	return JSON.parse( wpEval( `echo '<<<' . wp_json_encode( get_option( '${ option }' ) ) . '>>>';` ) );
+	return JSON.parse( rowEval( `echo '<<<' . wp_json_encode( get_option( '${ option }' ) ) . '>>>';` ) );
 }
 
 /**
@@ -122,7 +140,7 @@ function getStoredOptions() {
  * @return {void}
  */
 function deleteOptions() {
-	wpEval( `delete_option( '${ OPTION }' ); echo '<<<done>>>';` );
+	rowEval( `delete_option( '${ OPTION }' ); echo '<<<done>>>';` );
 }
 
 /**
@@ -174,7 +192,7 @@ function stockLegacyOptions( overrides = {} ) {
 function installLegacyRow( legacy ) {
 	const data = Buffer.from( JSON.stringify( legacy ), 'utf8' ).toString( 'base64' );
 
-	wpEval(
+	rowEval(
 		`delete_option( '${ OPTION }' );
 		delete_option( '${ VERSION_OPTION }' );
 		update_option( '${ LEGACY_OPTION }', json_decode( base64_decode( '${ data }' ), true ) );
@@ -197,7 +215,7 @@ function getLegacyRow() {
  * @return {void}
  */
 function deleteLegacyRow() {
-	wpEval( `delete_option( '${ LEGACY_OPTION }' ); echo '<<<done>>>';` );
+	rowEval( `delete_option( '${ LEGACY_OPTION }' ); echo '<<<done>>>';` );
 }
 
 /**
@@ -225,7 +243,7 @@ function setVersionRow( versions ) {
  * @return {void}
  */
 function deleteVersionRow() {
-	wpEval( `delete_option( '${ VERSION_OPTION }' ); echo '<<<done>>>';` );
+	rowEval( `delete_option( '${ VERSION_OPTION }' ); echo '<<<done>>>';` );
 }
 
 /**
