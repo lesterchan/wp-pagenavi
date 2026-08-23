@@ -23,9 +23,8 @@ function wp_pagenavi_uninstall_site() {
 }
 
 if ( is_multisite() ) {
-	// 'number' => 0 is required: WP_Site_Query defaults to 100, so without it a
-	// network larger than that would leave the options behind on every site past
-	// the hundredth.
+	// 'number' => 0 lifts WP_Site_Query's default cap of 100, which would
+	// otherwise skip every site past the hundredth while reporting success.
 	$site_ids = get_sites(
 		array(
 			'fields' => 'ids',
