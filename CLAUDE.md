@@ -70,6 +70,17 @@ from the Plugins screen never calls `activate()`, so `maybe_upgrade()` also
 hangs off `init` at priority 5 — which fires on every request, front end
 included, so a site whose admin is never opened still upgrades.
 
+**It takes no lock, and does not need one — leave it that way.** Running on
+`init` means two visitors can be inside `migrate()` at once, which for some
+migrations would be a problem. Not this one: the branch that carries the legacy
+row across is guarded on the current row being absent, so a second request that
+arrives after the first has written it skips the write entirely, and if both see
+it absent they compute the same sanitised value from the same source. The
+re-sanitise below reads the row immediately before writing it, so it never
+writes from a stale read, and `sanitize()` is idempotent. Every ordering
+converges on the same stored value. Adding a lock here would buy nothing and
+cost two option writes on the one request that runs the upgrade.
+
 That path is what `tests/e2e/upgrade.spec.js` exists for, and it is worth
 understanding before changing either the migration or that file:
 
