@@ -112,6 +112,17 @@ understanding before changing either the migration or that file:
 `bin/test-e2e.sh` the Playwright suite. **Run them rather than trusting a note
 about their last result** — CI is the authority, and this file cannot be.
 
+**Static analysis.** `composer analyse` runs PHPStan at level 8 over the main
+file, `uninstall.php` and `includes/`, and CI fails on anything it reports.
+`phpstan-baseline.neon` holds the errors that already existed when the analysis
+was switched on -- a new one fails the build, and a fixed one leaves a stale
+entry that PHPStan names and that gets deleted rather than regenerated around.
+Regenerating the whole baseline to make a run green is the one thing the file
+exists to prevent. `phpstan-stubs/constants.stub` declares only the constants
+the main file computes with a function call, which PHPStan will not call to
+find out; never a literal it already defines, because that is a second copy of
+the version string.
+
 `tests/test-escaping.php` is the file to read first — ten tests over the SVG
 allow-list, the `xlink:href` scoping and hostile input. `test-call.php` covers
 the three pagination types, `test-upgrade.php` the `pagenavi_options` migration.
