@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type string       $type          One of 'posts', 'multipart' or 'users'. Default 'posts'.
  *     @type bool         $echo          Whether to print the markup. Default true.
  * }
- * @return string|void The markup when 'echo' is false, otherwise nothing.
+ * @return string|null The markup when 'echo' is false, otherwise null.
  */
 function wp_pagenavi( $args = array() ) {
 	if ( ! is_array( $args ) ) {

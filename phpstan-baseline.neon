@@ -1,0 +1,205 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property WP_PageNavi_Call\:\:\$query\.$#'
+			identifier: property.notFound
+			count: 1
+			path: includes/class-wp-pagenavi-call.php
+
+		-
+			message: '#^Access to an undefined property WP_PageNavi_Call\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 2
+			path: includes/class-wp-pagenavi-call.php
+
+		-
+			message: '#^Method WP_PageNavi_Call\:\:__construct\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-call.php
+
+		-
+			message: '#^Method WP_PageNavi_Call\:\:anchor\(\) has parameter \$attr with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-call.php
+
+		-
+			message: '#^Method WP_PageNavi_Call\:\:get_pagination_args\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-call.php
+
+		-
+			message: '#^Method WP_PageNavi_Call\:\:get_single\(\) has parameter \$attr with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-call.php
+
+		-
+			message: '#^Property WP_PageNavi_Call\:\:\$args type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-call.php
+
+		-
+			message: '#^Method WP_PageNavi_Core\:\:class_names\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-core.php
+
+		-
+			message: '#^Method WP_PageNavi_Core\:\:render\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-core.php
+
+		-
+			message: '#^Method WP_PageNavi_Core\:\:render_dropdown\(\) has parameter \$class_names with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-core.php
+
+		-
+			message: '#^Method WP_PageNavi_Core\:\:render_dropdown\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-core.php
+
+		-
+			message: '#^Method WP_PageNavi_Core\:\:render_normal\(\) has parameter \$class_names with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-core.php
+
+		-
+			message: '#^Method WP_PageNavi_Core\:\:render_normal\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-core.php
+
+		-
+			message: '#^Method WP_PageNavi_Options\:\:allowed_html\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-options.php
+
+		-
+			message: '#^Method WP_PageNavi_Options\:\:bool_keys\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-options.php
+
+		-
+			message: '#^Method WP_PageNavi_Options\:\:defaults\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-options.php
+
+		-
+			message: '#^Method WP_PageNavi_Options\:\:int_keys\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-options.php
+
+		-
+			message: '#^Method WP_PageNavi_Options\:\:markers\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-options.php
+
+		-
+			message: '#^Method WP_PageNavi_Options\:\:sanitize\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-options.php
+
+		-
+			message: '#^Method WP_PageNavi_Options\:\:text_keys\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-options.php
+
+		-
+			message: '#^Method WP_PageNavi_Options\:\:update\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-options.php
+
+		-
+			message: '#^Method WP_PageNavi_Options\:\:write\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-options.php
+
+		-
+			message: '#^Method WP_PageNavi_Settings\:\:action_links\(\) has parameter \$links with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-settings.php
+
+		-
+			message: '#^Method WP_PageNavi_Settings\:\:action_links\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-settings.php
+
+		-
+			message: '#^Method WP_PageNavi_Settings\:\:fields\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-settings.php
+
+		-
+			message: '#^Method WP_PageNavi_Settings\:\:radio\(\) has parameter \$choices with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-settings.php
+
+		-
+			message: '#^Method WP_PageNavi_Settings\:\:select\(\) has parameter \$choices with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-settings.php
+
+		-
+			message: '#^Method WP_PageNavi_Settings\:\:tokens\(\) has parameter \$tokens with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-settings.php
+
+		-
+			message: '#^Method WP_PageNavi_Settings\:\:yes_no\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-pagenavi-settings.php
+
+		-
+			message: '#^Parameter \#3 \$callback of function add_settings_field expects callable\(\)\: mixed, array\{''WP_PageNavi_Settings'', non\-falsy\-string\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: includes/class-wp-pagenavi-settings.php
+
+		-
+			message: '#^Function get_multipage_link\(\) should return string but returns string\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: includes/template-tags.php
+
+		-
+			message: '#^Function wp_pagenavi\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/template-tags.php
+
+		-
+			message: '#^Parameter \#1 \$url of function user_trailingslashit expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: includes/template-tags.php
+
+		-
+			message: '#^Parameter \#1 \$value of function trailingslashit expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 2
+			path: includes/template-tags.php
